@@ -1,17 +1,78 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import type { Screen } from '../content.config';
+import { stepHref, workshopHref } from './url';
 
-export async function getTopics(): Promise<CollectionEntry<'topics'>[]> {
-  const topics = await getCollection('topics');
-  return topics.sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title, 'cs'));
+/** Adresy, které nesmí být použity jako id workshopu (kolidovaly by s jinými stránkami). */
+const RESERVED_IDS = ['materialy', 'soubory', 'pro-lektory', 'o-projektu', '_astro', '404'];
+
+export type Workshop = CollectionEntry<'workshops'>;
+export type Stop = CollectionEntry<'stops'>;
+
+export async function getWorkshops(): Promise<Workshop[]> {
+  const workshops = await getCollection('workshops');
+  for (const w of workshops) {
+    if (RESERVED_IDS.includes(w.id)) {
+      throw new Error(`Workshop nesmí mít název souboru "${w.id}.yaml" – tato adresa je vyhrazená. Přejmenujte soubor.`);
+    }
+  }
+  return workshops.sort((a, b) => a.data.order - b.data.order);
 }
 
-/** Materiály seřazené podle pořadí témat a pak abecedně. */
-export async function getResources(): Promise<CollectionEntry<'resources'>[]> {
-  const [topics, resources] = await Promise.all([getTopics(), getCollection('resources')]);
-  const topicOrder = new Map(topics.map((t, i) => [t.id, i]));
-  return resources.sort(
-    (a, b) =>
-      (topicOrder.get(a.data.topic.id) ?? 0) - (topicOrder.get(b.data.topic.id) ?? 0) ||
-      a.data.title.localeCompare(b.data.title, 'cs'),
+/** Zastávky workshopu seřazené podle pořadí. */
+export async function getStops(workshopId: string): Promise<Stop[]> {
+  const stops = await getCollection('stops', (s) => s.data.workshop.id === workshopId);
+  return stops.sort((a, b) => a.data.order - b.data.order);
+}
+
+export interface StepLink {
+  href: string;
+  label: string;
+}
+
+/** Jedna obrazovka workshopu se vším, co potřebuje šablona. */
+export interface StepContext {
+  workshop: Workshop;
+  stop: Stop;
+  screen: Screen;
+  stopNumber: number;
+  stopCount: number;
+  stepNumber: number;
+  stepCount: number;
+  href: string;
+  prev: StepLink;
+  next: StepLink;
+}
+
+/** Projde všechny obrazovky workshopu za sebou a ke každé spočítá předchozí a další krok. */
+export function buildSteps(workshop: Workshop, stops: Stop[]): StepContext[] {
+  const flat = stops.flatMap((stop, si) =>
+    stop.data.screens.map((screen, ki) => ({
+      workshop,
+      stop,
+      screen,
+      stopNumber: si + 1,
+      stopCount: stops.length,
+      stepNumber: ki + 1,
+      stepCount: stop.data.screens.length,
+      href: stepHref(workshop.id, si + 1, ki + 1),
+    })),
   );
+  const overview = workshopHref(workshop.id);
+
+  return flat.map((step, i) => {
+    const before = flat[i - 1];
+    const after = flat[i + 1];
+    const prev: StepLink = before
+      ? { href: before.href, label: 'Zpět' }
+      : { href: overview, label: 'Zpět na přehled workshopu' };
+    let next: StepLink;
+    if (!after) {
+      next = { href: overview, label: 'Dokončit workshop' };
+    } else if (after.stopNumber !== step.stopNumber) {
+      next = { href: after.href, label: `Pokračovat na zastávku ${after.stopNumber}` };
+    } else {
+      next = { href: after.href, label: 'Pokračovat' };
+    }
+    return { ...step, prev, next };
+  });
 }

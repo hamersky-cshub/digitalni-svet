@@ -1,0 +1,112 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 5
+title: Tlak podvodníka
+summary: Na jaké pocity podvodníci působí.
+lecturer:
+  time: 15 minut
+  goal: Pojmenovat manipulační triky, aby je účastníci příště poznali. Zprávy často kombinují více triků najednou.
+  discussion: Který trik by na vás nejvíc zapůsobil?
+  transition: Shrňme si vše do jednoho jednoduchého pravidla.
+screens:
+  - kind: vyklad
+    title: Jak podvodníci manipulují
+    text:
+      - Podvodníci často nepotřebují žádnou techniku. Spoléhají na naše pocity. Odborně se tomu říká **sociální inženýrství** – jednoduše řečeno **manipulace**.
+      - 'Nejčastěji působí na:'
+    points:
+      - 😟 **Strach** – „Váš účet je ohrožen.“
+      - ⏱️ **Časový tlak** – „Jednejte do 10 minut.“
+      - 👮 **Autoritu** – „Volá policie, banka nebo úřad.“
+      - 🔍 **Zvědavost** – „Podívejte se, kdo vás natočil.“
+      - 🎁 **Odměnu** – „Vyhráli jste tablet.“
+      - ❤️ **Pomoc blízkému** – „Babi, potřebuji rychle peníze.“
+  - kind: aktivita
+    title: Na co se zpráva snaží působit?
+    text:
+      - Přečtěte si zprávu a zvolte, na jaký pocit nejvíc míří. Často jich je víc najednou.
+    activity:
+      type: choices
+      itemLabel: Zpráva
+      question: Na co se tato zpráva snaží působit?
+      options:
+        - id: strach
+          label: 😟 Strach
+        - id: cas
+          label: ⏱️ Časový tlak
+        - id: autorita
+          label: 👮 Autorita
+        - id: zvedavost
+          label: 🔍 Zvědavost
+        - id: odmena
+          label: 🎁 Odměna
+        - id: blizky
+          label: ❤️ Pomoc blízkému
+      items:
+        - message:
+            medium: sms
+            sender: Neznámé číslo
+            lines:
+              - 'Gratulujeme! Byli jste vylosováni a vyhráli jste nový tablet. Pro převzetí uhraďte poštovné 49 Kč: {{vyhra-tablet.test}}'
+          recommended:
+            - odmena
+          explanation: Hlavně na **odměnu**. Pokud jste se žádné soutěže neúčastnili, nemohli jste nic vyhrát. „Poštovné“ je jen záminka, jak získat údaje z karty.
+        - message:
+            medium: chat
+            sender: Neznámé číslo
+            lines:
+              - Babi, mám průšvih, naboural jsem auto a teď nemůžu volat. Potřebuju dnes poslat 15 000 Kč. Prosím, neříkej to rodičům.
+          recommended:
+            - blizky
+            - cas
+          explanation: Na **pomoc blízkému** a **časový tlak**. Prosba „neříkej to nikomu“ má zabránit tomu, abyste si to ověřili. Zavolejte vnukovi nebo jeho rodičům na číslo, které znáte.
+        - message:
+            medium: email
+            sender: Oznámení o přestupku <oznameni@pokuty-online.test>
+            subject: Výzva k úhradě pokuty
+            lines:
+              - Byl jste zachycen radarem při překročení rychlosti. Pokutu 1 500 Kč uhraďte do 24 hodin, jinak bude případ předán soudu.
+          recommended:
+            - autorita
+            - strach
+            - cas
+          explanation: Na **autoritu** a **strach**, k tomu **časový tlak**. Úřady ani policie nevybírají pokuty přes odkaz v e-mailu.
+        - message:
+            medium: sms
+            sender: Neznámé číslo
+            lines:
+              - 'Někdo vás natočil na video a sdílí ho na internetu! Podívejte se: {{video-sdileni.test/vy}}'
+          recommended:
+            - zvedavost
+            - strach
+          explanation: Hlavně na **zvědavost** a trochu i na strach. Odkaz vede na falešnou stránku, která chce vaše přihlašovací údaje nebo instalaci aplikace.
+        - message:
+            medium: sms
+            sender: Vaše banka
+            lines:
+              - Na vašem účtu jsme zablokovali podezřelou platbu. Pokud jste ji neprováděli, ihned volejte na číslo +420 000 000 000.
+          recommended:
+            - strach
+            - autorita
+          explanation: Na **strach** a **autoritu** banky. Pokud máte obavy, volejte bance na číslo z platební karty – ne na číslo ze zprávy.
+        - message:
+            medium: email
+            sender: Správce pošty <admin@sprava-posty.test>
+            subject: Platnost hesla vyprší
+            lines:
+              - 'Platnost vašeho hesla k e-mailu vyprší za 10 minut. Klikněte zde a zachovejte si své heslo: {{sprava-posty.test/heslo}}'
+          recommended:
+            - cas
+          explanation: Hlavně na **časový tlak**. Heslo nikdy „nevyprší“ tak, že byste ho museli zadat přes odkaz v e-mailu.
+  - kind: reflexe
+    title: Když cítíte tlak
+    activity:
+      type: reflection
+      question: Co můžete udělat, když cítíte, že na vás někdo tlačí?
+      ideas:
+        - 'Říct si: „Nemusím reagovat hned.“'
+        - Zavolat někomu, komu věřím.
+        - Ukázat zprávu někomu blízkému nebo v bance.
+        - Ukončit hovor – je to v pořádku.

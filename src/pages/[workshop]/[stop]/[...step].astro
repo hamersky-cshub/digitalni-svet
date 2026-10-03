@@ -1,0 +1,95 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ActivityBlock from '../../../components/activities/ActivityBlock.astro';
+import LecturerNote from '../../../components/LecturerNote.astro';
+import Progress from '../../../components/Progress.astro';
+import ScreenKind from '../../../components/ScreenKind.astro';
+import StepNav from '../../../components/StepNav.astro';
+import { buildSteps, getStops, getWorkshops } from '../../../lib/content';
+import { formatText, plainText } from '../../../lib/text';
+
+export const getStaticPaths = (async () => {
+  const workshops = await getWorkshops();
+  const paths = [];
+  for (const workshop of workshops) {
+    const steps = buildSteps(workshop, await getStops(workshop.id));
+    for (const step of steps) {
+      paths.push({
+        params: {
+          workshop: workshop.id,
+          stop: `zastavka-${step.stopNumber}`,
+          step: step.stepNumber === 1 ? undefined : `krok-${step.stepNumber}`,
+        },
+        props: { step },
+      });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+const { step } = Astro.props;
+const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, prev, next } = step;
+const stepLabel = `Zastávka ${stopNumber}, ${stop.data.title}${stepCount > 1 ? ` – krok ${stepNumber}` : ''}`;
+---
+
+<BaseLayout
+  title={`${plainText(screen.title)} – ${workshop.data.title}`}
+  description={stop.data.summary}
+  workshop={workshop.id}
+  stop={stopNumber}
+  stepLabel={stepLabel}
+>
+  <Progress
+    workshopId={workshop.id}
+    workshopTitle={workshop.data.title}
+    stopTitle={stop.data.title}
+    stopNumber={stopNumber}
+    stopCount={stopCount}
+    stepNumber={stepNumber}
+    stepCount={stepCount}
+  />
+
+  <article class="screen">
+    <ScreenKind kind={screen.kind} />
+    <h1 set:html={formatText(screen.title)} />
+    {
+      screen.text.length > 0 && (
+        <div class="prose screen__text">
+          {screen.text.map((p) => (
+            <p set:html={formatText(p)} />
+          ))}
+        </div>
+      )
+    }
+    {
+      screen.points && (
+        <ul class="points screen__points">
+          {screen.points.map((point) => (
+            <li set:html={formatText(point)} />
+          ))}
+        </ul>
+      )
+    }
+    {screen.activity && <ActivityBlock activity={screen.activity} nextLabel={next.label} />}
+  </article>
+
+  {stepNumber === 1 && <LecturerNote note={stop.data.lecturer} title={`Lektor: zastávka ${stopNumber}`} />}
+  <LecturerNote note={screen.lecturer} title="Lektor: tento krok" />
+
+  <StepNav prev={prev} next={next} workshopId={workshop.id} />
+</BaseLayout>
+
+<style>
+  .screen h1 {
+    margin-top: var(--space-2);
+  }
+
+  .screen__text {
+    font-size: 1.1rem;
+  }
+
+  .screen__points {
+    font-size: 1.1rem;
+  }
+</style>

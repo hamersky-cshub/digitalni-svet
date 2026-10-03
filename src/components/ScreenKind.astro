@@ -1,0 +1,40 @@
+---
+/** Štítek „co se teď děje“ – pomáhá účastníkovi zorientovat se. */
+import type { ScreenKind } from '../content.config';
+
+interface Props {
+  kind: ScreenKind;
+}
+
+const KINDS: Record<ScreenKind, { icon: string; label: string }> = {
+  vyklad: { icon: '💬', label: 'Povídání' },
+  diskuse: { icon: '👥', label: 'Společná diskuse' },
+  aktivita: { icon: '👆', label: 'Aktivita' },
+  prakticky: { icon: '📱', label: 'Na vašem zařízení' },
+  reflexe: { icon: '💭', label: 'K zamyšlení' },
+  shrnuti: { icon: '📌', label: 'Shrnutí' },
+};
+
+const { kind } = Astro.props;
+---
+
+<p class="screen-kind">
+  <span aria-hidden="true">{KINDS[kind].icon}</span>
+  {KINDS[kind].label}
+</p>
+
+<style>
+  .screen-kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: var(--space-2) 0 0;
+    padding: 0.2rem 0.9rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+</style>

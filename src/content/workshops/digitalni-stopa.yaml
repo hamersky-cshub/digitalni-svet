@@ -1,0 +1,12 @@
+# Workshop. Zastávky jsou ve složce src/content/stops/<název tohoto souboru>/.
+
+title: Digitální stopa
+subtitle: Co vše o nás internet ví
+cardText: Zjistíme, jaké informace při používání internetu zanecháváme a co můžeme udělat pro větší soukromí.
+order: 1
+icon: 👣
+annotation:
+  - Internet si pamatuje víc, než si většina lidí uvědomuje. Každé hledání, každý klik, každá fotografie nebo návštěva webové stránky za sebou zanechává digitální stopu.
+  - Některé informace sdílíme vědomě, jiné vznikají zcela automaticky a často ani netušíme, kdo k nim může mít přístup a jak jsou využívány.
+  - Na workshopu společně odhalíme, jak digitální stopa vzniká, co znamená aktivní a pasivní sdílení informací a proč jsou naše data pro internetové služby cenná.
+  - Ukážeme si, jak lépe chránit soukromí, jak omezit zbytečné sdílení osobních údajů a jak získat větší kontrolu nad tím, co o nás internet prozrazuje.

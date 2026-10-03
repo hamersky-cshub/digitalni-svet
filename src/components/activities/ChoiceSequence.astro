@@ -1,0 +1,213 @@
+---
+/**
+ * Scenario / ChoiceCard / Feedback – řada situací, u každé několik velkých tlačítek.
+ * Po volbě zůstane otázka viditelná, vybraná možnost se označí, zobrazí se vysvětlení
+ * a tlačítko „Další …“. Nic se neposouvá automaticky a nic se neukládá.
+ * Bez JavaScriptu se zobrazí všechny situace a vysvětlení v rozbalovacích částech.
+ */
+import type { TONES } from '../../content.config';
+import { formatText, zOrZe } from '../../lib/text';
+import ToneLabel from '../ToneLabel.astro';
+import MessageMock from './MessageMock.astro';
+
+export interface SequenceItem {
+  text?: string;
+  message?: { medium: 'sms' | 'email' | 'chat' | 'call' | 'notification'; sender: string; subject?: string; time?: string; lines: string[] };
+  question: string;
+  options: { id: string; label: string; tone: (typeof TONES)[number]; response?: string }[];
+  explanation?: string;
+}
+
+interface Props {
+  items: SequenceItem[];
+  itemLabel: string;
+  /** Text tlačítka v dolní navigaci (pro větu „Pokračujte tlačítkem …“). */
+  nextLabel: string;
+}
+
+const { items, itemLabel, nextLabel } = Astro.props;
+const count = items.length;
+const labelLower = itemLabel.toLocaleLowerCase('cs');
+const uid = `seq-${Math.random().toString(36).slice(2, 8)}`;
+// Dvě krátké možnosti vedle sebe, jinak velká tlačítka pod sebou (přehlednější).
+const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.options.every((o) => o.label.length <= 24);
+---
+
+<choice-sequence class="sequence">
+  {
+    items.map((item, i) => (
+      <section class="sequence__item" data-item={i} aria-labelledby={`${uid}-${i}-q`}>
+        {count > 1 && (
+          <p class="sequence__counter" tabindex="-1" data-counter>
+            {itemLabel} {i + 1} {zOrZe(count)} {count}
+          </p>
+        )}
+        {item.text && <p class="sequence__text" set:html={formatText(item.text)} />}
+        {item.message && <MessageMock {...item.message} />}
+        <p class="sequence__question" id={`${uid}-${i}-q`}>
+          {item.question}
+        </p>
+
+        <ul class:list={['choice-list', { 'choice-list--row': rowLayout(item) }]} data-options hidden>
+          {item.options.map((option) => (
+            <li>
+              <button type="button" class="choice-card" data-option={option.id} aria-pressed="false">
+                <span>{option.label}</span>
+                <span class="choice-card__mark">✓ Vaše volba</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <div class="sequence__feedback" role="status">
+          <details class="disclosure" data-explanations>
+            <summary>Zobrazit vysvětlení</summary>
+            <div class="disclosure__body">
+              {item.options.map((option) => (
+                <div class:list={['feedback', `feedback--${option.tone}`]} data-feedback={option.id}>
+                  <p class="feedback__choice">
+                    <span data-choice-prefix>Když zvolíte:</span> <strong>{option.label}</strong>
+                  </p>
+                  <ToneLabel tone={option.tone} />
+                  {option.response && <p set:html={formatText(option.response)} />}
+                  {item.explanation && <p set:html={formatText(item.explanation)} />}
+                </div>
+              ))}
+            </div>
+          </details>
+        </div>
+
+        <div class="sequence__controls" data-controls hidden>
+          {i < count - 1 ? (
+            <button type="button" class="button button--large" data-next hidden>
+              Další {labelLower} <span aria-hidden="true">→</span>
+            </button>
+          ) : (
+            count > 1 && (
+              <p class="sequence__done" data-done hidden>
+                To byla poslední {labelLower}. Až budete připraveni, pokračujte tlačítkem „{nextLabel}“ dole.
+              </p>
+            )
+          )}
+          {i > 0 && (
+            <button type="button" class="button button--secondary" data-prev>
+              <span aria-hidden="true">←</span> Předchozí {labelLower}
+            </button>
+          )}
+        </div>
+      </section>
+    ))
+  }
+</choice-sequence>
+
+<script>
+  class ChoiceSequence extends HTMLElement {
+    items: HTMLElement[] = [];
+
+    connectedCallback() {
+      this.items = Array.from(this.querySelectorAll<HTMLElement>(':scope > [data-item]'));
+      this.items.forEach((item, index) => this.enhance(item, index));
+      this.show(0, false);
+      this.classList.add('is-enhanced');
+    }
+
+    enhance(item: HTMLElement, index: number) {
+      item.querySelector<HTMLElement>('[data-options]')!.hidden = false;
+      item.querySelector<HTMLElement>('[data-controls]')!.hidden = false;
+
+      // Vysvětlení: místo rozbalovací části se ukáže jen to k vybrané možnosti.
+      const details = item.querySelector<HTMLDetailsElement>('[data-explanations]')!;
+      details.open = true;
+      details.querySelector('summary')!.hidden = true;
+      details.classList.remove('disclosure');
+      item.querySelectorAll<HTMLElement>('[data-feedback]').forEach((panel) => (panel.hidden = true));
+      item.querySelectorAll<HTMLElement>('[data-choice-prefix]').forEach((el) => (el.textContent = 'Vaše volba:'));
+
+      item.querySelectorAll<HTMLButtonElement>('[data-option]').forEach((button) => {
+        button.addEventListener('click', () => this.choose(item, button.dataset.option!));
+      });
+      item.querySelector<HTMLButtonElement>('[data-next]')?.addEventListener('click', () => this.show(index + 1, true));
+      item.querySelector<HTMLButtonElement>('[data-prev]')?.addEventListener('click', () => this.show(index - 1, true));
+    }
+
+    choose(item: HTMLElement, option: string) {
+      item.querySelectorAll<HTMLButtonElement>('[data-option]').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.option === option));
+      });
+      item.querySelectorAll<HTMLElement>('[data-feedback]').forEach((panel) => {
+        panel.hidden = panel.dataset.feedback !== option;
+      });
+      const next = item.querySelector<HTMLElement>('[data-next]');
+      const done = item.querySelector<HTMLElement>('[data-done]');
+      if (next) next.hidden = false;
+      if (done) done.hidden = false;
+    }
+
+    show(index: number, moveFocus: boolean) {
+      this.items.forEach((item, i) => (item.hidden = i !== index));
+      if (!moveFocus) return;
+      const target = this.items[index].querySelector<HTMLElement>('[data-counter]') ?? this.items[index];
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ block: 'start' });
+    }
+  }
+
+  customElements.define('choice-sequence', ChoiceSequence);
+</script>
+
+<style>
+  .sequence {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .sequence__item {
+    padding: var(--space-3);
+    border: 2px solid var(--color-border-light);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .sequence__item + .sequence__item {
+    margin-top: var(--space-3);
+  }
+
+  .sequence__counter {
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    padding: 0.15rem 0.8rem;
+    border-radius: 999px;
+    background: var(--color-surface-alt);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    font-weight: 700;
+    scroll-margin-top: var(--space-3);
+  }
+
+  .sequence__text {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .sequence__question {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .sequence__feedback :global(.feedback) {
+    margin-bottom: var(--space-2);
+  }
+
+  .sequence__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .sequence__done {
+    margin: 0;
+    font-weight: 600;
+  }
+</style>

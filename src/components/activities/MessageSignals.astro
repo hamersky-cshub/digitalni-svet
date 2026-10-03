@@ -1,0 +1,68 @@
+---
+/**
+ * MessageSignals – zpráva, ve které účastník hledá varovné signály.
+ * Podezřelá místa jsou tlačítka (podtržená tečkovaně), vysvětlení se zobrazí pod zprávou.
+ */
+import { formatSignals, formatText } from '../../lib/text';
+import MessageMock from './MessageMock.astro';
+
+interface Props {
+  instruction: string;
+  medium: 'sms' | 'email' | 'chat';
+  sender: string;
+  subject?: string;
+  time?: string;
+  body: string[];
+  attachment?: string;
+  signals: Record<string, { label: string; text: string }>;
+  note?: string;
+}
+
+const { instruction, medium, sender, subject, time, body, attachment, signals, note } = Astro.props;
+const labels = Object.fromEntries(Object.entries(signals).map(([id, s]) => [id, s.label]));
+const fmt = (t: string) => formatSignals(t, labels);
+// Pořadí vysvětlení podle výskytu v textu.
+const order = [...[sender, subject ?? '', ...body, attachment ?? ''].join('\n').matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)].map((m) => m[1]);
+const ids = [...new Set(order)];
+---
+
+<spot-explorer class="signals" data-noun="signálu">
+  <p class="signals__instruction"><strong>{instruction}</strong></p>
+  <MessageMock
+    medium={medium}
+    sender={sender}
+    time={time}
+    senderHtml={fmt(sender)}
+    subjectHtml={subject ? fmt(subject) : undefined}
+    linesHtml={body.map(fmt)}
+    attachmentHtml={attachment ? fmt(attachment) : undefined}
+  />
+  <p class="spot-status" data-status role="status" hidden></p>
+  <ul class="spot-list spot-list--plain" data-list>
+    {
+      ids.map((id) => (
+        <li class="spot-explain" data-explain={id}>
+          <p class="spot-explain__title">
+            <span aria-hidden="true">⚠</span> {signals[id].label}
+          </p>
+          <p set:html={formatText(signals[id].text)} />
+        </li>
+      ))
+    }
+  </ul>
+  <p data-controls hidden>
+    <button type="button" class="button button--secondary" data-show-all>Ukázat všechny varovné signály</button>
+  </p>
+  {note && <p class="notice" set:html={formatText(note)} />}
+</spot-explorer>
+
+<script>
+  import './spot-explorer';
+</script>
+
+<style>
+  .signals {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+</style>

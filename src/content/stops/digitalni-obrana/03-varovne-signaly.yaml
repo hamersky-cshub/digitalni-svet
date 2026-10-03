@@ -1,0 +1,87 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 3
+title: Najděte varovné signály
+summary: Prohlédneme si podvodnou SMS a e-mail zblízka.
+lecturer:
+  time: 15 minut
+  goal: Účastníci poznají typické varovné signály. Zdůrazněte, že podvod může vypadat bezchybně – pravopis nic nezaručuje.
+  discussion: Který signál byste nejspíš přehlédli?
+  transition: Podvody nepřicházejí jen písemně. Co když zavolá „banka“?
+screens:
+  - kind: aktivita
+    title: Podezřelá SMS
+    activity:
+      type: signals
+      instruction: Klepněte na podtržené části zprávy, které vám připadají podezřelé.
+      medium: sms
+      sender: '[[+44 7700 900 123|cislo]]'
+      time: '7:12'
+      body:
+        - Dobrý den, [[vaše zásilka|obecne]] nemohla být doručena kvůli neúplné adrese.
+        - '[[Do 12 hodin|nalehavost]] prosím doplňte adresu a [[uhraďte poplatek 39 Kč|penize]]:'
+        - '[[{{dorucovaci-sluzba.zasilky-cz.test/adresa}}|odkaz]]'
+      signals:
+        cislo:
+          label: Neznámé zahraniční číslo
+          text: 'Zpráva přišla ze zahraničního čísla, i když jde o „českou“ zásilku. Pozor: podvodníci umějí zobrazit i důvěryhodně vypadajícího odesílatele.'
+        obecne:
+          label: Obecné oslovení
+          text: Zpráva neuvádí vaše jméno, číslo zásilky ani název firmy. Stejná zpráva totiž odešla tisícům lidí.
+        nalehavost:
+          label: Časový tlak
+          text: Krátká lhůta má zabránit tomu, abyste si to v klidu promysleli nebo se někoho zeptali.
+        penize:
+          label: Požadavek na peníze
+          text: Malý poplatek nevypadá podezřele. Na falešné stránce byste ale zadali údaje z platební karty.
+        odkaz:
+          label: Podivná adresa odkazu
+          text: Adresa jen připomíná doručovací službu, ale patří někomu jinému. Podvodné adresy často obsahují známé slovo doplněné dalšími částmi. Na odkazy v nečekaných zprávách raději neklepejte.
+      note: Tato SMS je napsaná bez chyb. Podvodné zprávy dnes často vypadají profesionálně, proto pravopis nic nezaručuje. Důležitější je, **co po vás zpráva chce**.
+  - kind: aktivita
+    title: Podezřelý e-mail
+    activity:
+      type: signals
+      instruction: Klepněte na podtržené části e-mailu, které vám připadají podezřelé.
+      medium: email
+      sender: Zákaznická podpora <[[podpora@vase-banka.bezpecnost-overeni.test|adresa]]>
+      subject: '[[Okamžitá akce nutná: váš účet byl omezen|predmet]]'
+      body:
+        - '[[Vážený kliente,|osloveni]]'
+        - z bezpečnostních důvodů jsme dočasně omezili přístup k vašemu účtu.
+        - Pro obnovení přístupu prosím v přiloženém formuláři [[potvrďte své přihlašovací jméno a heslo|heslo]] [[do 24 hodin, jinak bude účet trvale zrušen|hrozba]].
+        - Děkujeme za pochopení. Váš tým zákaznické podpory
+      attachment: '[[Formular_overeni.html|priloha]]'
+      signals:
+        adresa:
+          label: Podivná adresa odesílatele
+          text: Jméno odesílatele vypadá důvěryhodně, ale skutečná adresa za ním je dlouhá a zvláštní. Na tabletu ji často uvidíte až po klepnutí na jméno.
+        predmet:
+          label: Naléhavý předmět
+          text: „Okamžitá akce nutná“ – cílem je vyvolat strach a spěch.
+        osloveni:
+          label: Neosobní oslovení
+          text: Vaše banka vás obvykle oslovuje jménem. Ani oslovení jménem ale není záruka – podvodníci ho mohou znát.
+        heslo:
+          label: Žádost o heslo
+          text: Žádná banka ani jiná služba po vás nikdy nebude chtít heslo e-mailem, zprávou nebo po telefonu.
+        hrozba:
+          label: Výhrůžka a krátká lhůta
+          text: Hrozba zrušením účtu má vyvolat strach, abyste jednali hned a nepřemýšleli.
+        priloha:
+          label: Nečekaná příloha
+          text: Nečekané přílohy neotevírejte. Mohou obsahovat falešný formulář nebo škodlivý program.
+      note: 'I tento e-mail je napsaný bez chyb. Zaměřte se na to, **co po vás zpráva chce**: heslo, peníze, kód nebo klepnutí na odkaz jsou vždy důvod zpozornět.'
+  - kind: shrnuti
+    title: Tři otázky ke každé zprávě
+    activity:
+      type: rules
+      items:
+        - title: Co po mně zpráva chce?
+          text: Peníze, heslo, kód nebo klepnutí na odkaz jsou vždy důvod zpozornět.
+        - title: Spěchá na mě?
+          text: Naléhavost je jeden z nejčastějších triků.
+        - title: Čekal(a) jsem ji?
+          text: Nečekanou zprávu si ověřte jinou cestou.

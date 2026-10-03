@@ -1,0 +1,195 @@
+---
+/**
+ * „Jeden klíč ke všem dveřím“ – co se stane, když heslo z jedné služby unikne.
+ * Účastník přepíná mezi „stejné heslo všude“ a „každá služba má své heslo“.
+ */
+import { formatText } from '../../lib/text';
+import ToneLabel from '../ToneLabel.astro';
+
+interface Props {
+  services: { name: string; icon: string }[];
+  leaked: number;
+  question: string;
+  sameKey: { label: string; result: string };
+  uniqueKeys: { label: string; result: string };
+}
+
+const { services, leaked, question, sameKey, uniqueKeys } = Astro.props;
+const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
+---
+
+<key-reuse class="keys" data-leaked={leaked}>
+  <p class="keys__label" id="keys-mode"><strong>Vyberte, jak hesla používáte:</strong></p>
+  <ul class="choice-list choice-list--row" aria-labelledby="keys-mode" data-options hidden>
+    <li>
+      <button type="button" class="choice-card" data-mode="same" aria-pressed="true">
+        <span>🔑 {sameKey.label}</span>
+        <span class="choice-card__mark">✓ Vybráno</span>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="choice-card" data-mode="unique" aria-pressed="false">
+        <span>🗝️ {uniqueKeys.label}</span>
+        <span class="choice-card__mark">✓ Vybráno</span>
+      </button>
+    </li>
+  </ul>
+
+  <ul class="keys__doors">
+    {
+      services.map((service, i) => (
+        <li class:list={['keys__door', { 'is-leaked': i === leaked }]} data-door={i}>
+          <span class="keys__icon" aria-hidden="true">
+            {service.icon}
+          </span>
+          <span class="keys__name">{service.name}</span>
+          <span class="keys__key">
+            Heslo: <strong data-key data-same="A" data-unique={keyNames[i]}>A</strong>
+          </span>
+          <span class="keys__state" data-state>
+            <span aria-hidden="true">🔒</span> Zamčeno
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p data-controls hidden>
+    <button type="button" class="button button--large" data-leak>
+      {question}
+    </button>
+    <button type="button" class="button button--secondary" data-reset hidden>Začít znovu</button>
+  </p>
+
+  <div role="status" class="keys__result">
+    <div class="feedback feedback--risk" data-result="same">
+      <ToneLabel tone="risk" />
+      <p><strong>{sameKey.label}:</strong> <span set:html={formatText(sameKey.result)} /></p>
+    </div>
+    <div class="feedback feedback--ok" data-result="unique">
+      <ToneLabel tone="ok" />
+      <p><strong>{uniqueKeys.label}:</strong> <span set:html={formatText(uniqueKeys.result)} /></p>
+    </div>
+  </div>
+</key-reuse>
+
+<script>
+  class KeyReuse extends HTMLElement {
+    connectedCallback() {
+      const leaked = Number(this.dataset.leaked);
+      const modes = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-mode]'));
+      const doors = Array.from(this.querySelectorAll<HTMLElement>('[data-door]'));
+      const results = Array.from(this.querySelectorAll<HTMLElement>('[data-result]'));
+      const leakButton = this.querySelector<HTMLButtonElement>('[data-leak]')!;
+      const resetButton = this.querySelector<HTMLButtonElement>('[data-reset]')!;
+      let mode: 'same' | 'unique' = 'same';
+      let isLeaked = false;
+
+      const render = () => {
+        modes.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+        doors.forEach((door, i) => {
+          const key = door.querySelector<HTMLElement>('[data-key]')!;
+          key.textContent = mode === 'same' ? key.dataset.same! : key.dataset.unique!;
+          const open = isLeaked && (mode === 'same' || i === leaked);
+          door.classList.toggle('is-open', open);
+          door.querySelector<HTMLElement>('[data-state]')!.innerHTML = open
+            ? '<span aria-hidden="true">⚠</span> Otevřeno – útočník se dostal dovnitř'
+            : '<span aria-hidden="true">🔒</span> Zamčeno';
+        });
+        results.forEach((r) => (r.hidden = !isLeaked || r.dataset.result !== mode));
+        leakButton.hidden = isLeaked;
+        resetButton.hidden = !isLeaked;
+      };
+
+      modes.forEach((b) =>
+        b.addEventListener('click', () => {
+          mode = b.dataset.mode as 'same' | 'unique';
+          render();
+        }),
+      );
+      leakButton.addEventListener('click', () => {
+        isLeaked = true;
+        render();
+      });
+      resetButton.addEventListener('click', () => {
+        isLeaked = false;
+        render();
+        leakButton.focus();
+      });
+
+      this.querySelector<HTMLElement>('[data-options]')!.hidden = false;
+      this.querySelector<HTMLElement>('[data-controls]')!.hidden = false;
+      render();
+    }
+  }
+  customElements.define('key-reuse', KeyReuse);
+</script>
+
+<style>
+  .keys {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .keys__doors {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+    max-width: none;
+  }
+
+  .keys__door {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0;
+    padding: var(--space-2);
+    border: 3px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    text-align: center;
+  }
+
+  .keys__door + .keys__door {
+    margin-top: 0;
+  }
+
+  .keys__door.is-open {
+    border-color: var(--color-risk);
+    background: var(--color-risk-bg);
+  }
+
+  .keys__icon {
+    font-size: 2.2rem;
+    line-height: 1;
+  }
+
+  .keys__name {
+    font-weight: 700;
+  }
+
+  .keys__key {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .keys__state {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .keys__door.is-open .keys__state {
+    color: var(--color-risk);
+  }
+
+  .keys [data-controls] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    max-width: none;
+  }
+</style>

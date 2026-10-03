@@ -1,0 +1,61 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-stopa
+order: 4
+title: Co může prozradit fotografie
+summary: Na co se podívat, než fotografii pošlete nebo zveřejníte.
+lecturer:
+  time: 15 minut
+  goal: Účastníci si zvyknou prohlédnout si celou fotografii, než ji sdílejí.
+  discussion: Stalo se vám, že jste na fotografii něco přehlédli?
+  transition: Shrňme si, co si z dnešního setkání odneseme.
+screens:
+  - kind: aktivita
+    title: Prohlédněte si fotografii
+    text:
+      - Jana se balí na dovolenou. Chce fotografii stolu poslat přátelům a dát ji na sociální síť.
+    activity:
+      type: hotspots
+      scene: dovolena
+      instruction: Klepněte na čísla v obrázku. Ukážou místa, která byste před zveřejněním zkontrolovali.
+      alt: Ilustrace stolu při balení na dovolenou. Na stole leží obálka s adresou, palubní vstupenka, klíče se štítkem, občanský průkaz a kufr. Stojí tam tablet s rozepsaným příspěvkem. Na zdi visí rodinná fotografie a za oknem stojí auto s viditelnou registrační značkou. Všechny údaje jsou smyšlené.
+      spots:
+        - x: 36
+          y: 34
+          label: Registrační značka auta
+          text: Podle registrační značky (SPZ) lze auto spojit s místem, kde bydlíte. Před zveřejněním ji můžete na fotografii zakrýt.
+        - x: 67
+          y: 10.5
+          label: Rodinná fotografie
+          text: Na fotografii jsou další lidé. Zeptejte se jich, zda souhlasí se zveřejněním – u dětí jejich rodičů.
+        - x: 70.5
+          y: 31
+          label: Obrazovka tabletu
+          text: Na displeji je rozepsaný příspěvek „Celé dva týdny pryč“ nastavený jako veřejný. Kdokoli by se dozvěděl, že nebudete doma.
+        - x: 6.5
+          y: 59
+          label: Obálka s adresou
+          text: Jméno a adresa jsou čitelné. Spolu s informací o dovolené prozrazují, který byt bude prázdný.
+        - x: 68.5
+          y: 57
+          label: Palubní vstupenka
+          text: Na vstupence je jméno, datum a kód. Z kódu lze někdy zjistit rezervaci a dokonce ji změnit.
+        - x: 49
+          y: 90
+          label: Klíče se štítkem
+          text: Štítek s adresou prozradí, ke kterým dveřím klíče patří. Klíče na fotografiích raději nefoťte zblízka.
+        - x: 73.5
+          y: 77.5
+          label: Občanský průkaz
+          text: Osobní doklad na fotografii nepatří. Údaje z něj mohou podvodníci zneužít, například k uzavření smlouvy na vaše jméno.
+  - kind: reflexe
+    title: Než fotografii zveřejníte
+    activity:
+      type: reflection
+      question: Co uděláte příště, než fotografii pošlete nebo zveřejníte?
+      ideas:
+        - Prohlédnu si celou fotografii, nejen to hlavní.
+        - Doklady, adresy a SPZ zakryji nebo ořežu.
+        - Fotografie z dovolené zveřejním až po návratu.
+        - Zeptám se lidí na fotografii, zda souhlasí.

@@ -1,0 +1,108 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-klice
+order: 2
+title: Jaké heslo je lepší?
+summary: Délka a jedinečnost jsou důležitější než složité znaky.
+lecturer:
+  time: 25 minut
+  goal: Ukázat, že bezpečné heslo nemusí být nezapamatovatelný chaos. Rozhoduje délka a jedinečnost.
+  discussion: Jak si hesla pamatujete vy? Co vám pomáhá?
+  transition: I nejlepší heslo přestane chránit, když ho používáte všude. Podívejme se proč.
+screens:
+  - kind: aktivita
+    title: Které heslo je lepší?
+    text:
+      - Porovnáme různé způsoby, jak lidé vytvářejí hesla. Jde o postup, ne o konkrétní hesla.
+    activity:
+      type: scenarios
+      itemLabel: Porovnání
+      items:
+        - text: Paní Marie si vybírá heslo k e-mailu.
+          question: Který způsob je bezpečnější?
+          options:
+            - label: Krátké známé slovo, například „kocicka“.
+              tone: risk
+              feedback: Krátká a běžná slova vyzkouší počítač útočníka během okamžiku. Útočníci mají seznamy nejčastějších hesel.
+            - label: Dlouhá heslová fráze ze čtyř nesouvisejících slov.
+              tone: ok
+              feedback: Ano. Čtyři nesouvisející slova dohromady jsou dlouhá a pro počítač velmi těžko uhodnutelná – a přitom se dají zapamatovat.
+        - text: Pan Josef chce heslo, které nezapomene.
+          question: Co byste mu doporučili?
+          options:
+            - label: Jméno vnučky a rok jejího narození.
+              tone: risk
+              feedback: Osobní údaje se dají často zjistit ze sociálních sítí nebo z rozhovoru. Útočníci je zkoušejí jako první.
+            - label: Větu, kterou si snadno představí, například „ranní káva na balkóně v létě“.
+              tone: ok
+              feedback: Ano. Představitelná věta se snadno pamatuje, je dlouhá a nesouvisí s údaji, které se dají dohledat.
+        - text: Paní Věra má jedno dobré a dlouhé heslo. Používá ho všude – k e-mailu, bance i do obchodu.
+          question: Je to dobrý nápad?
+          options:
+            - label: Ano, když je heslo silné, může být všude stejné.
+              tone: risk
+              feedback: I silné heslo může uniknout – třeba když někdo napadne internetový obchod. Útočník pak stejné heslo zkusí i k e-mailu a bance.
+            - label: Ne, každý důležitý účet by měl mít jiné heslo.
+              tone: ok
+              feedback: Správně. Když jedno heslo unikne, ostatní účty zůstanou v bezpečí. Pomoci může správce hesel – o něm za chvíli.
+        - text: Porovnejte dvě hesla.
+          question: Které je lepší?
+          options:
+            - label: 'Krátké se zvláštními znaky: „X7!fK9#“'
+              tone: info
+              feedback: Je lepší než běžné slovo, ale je krátké a velmi těžko zapamatovatelné. Lidé si takové heslo pak často zapisují nebo ho používají všude.
+            - label: 'Dlouhá fráze: „ještěrka pod starým mostem zpívá“'
+              tone: ok
+              feedback: Ano. Délka je pro bezpečnost důležitější než složité znaky. A tuto frázi si snadno zapamatujete.
+          lesson: 'Pravidlo: **dlouhé** a **jedinečné** heslo je lepší než krátké a složité.'
+  - kind: aktivita
+    title: Postavte si heslovou frázi
+    text:
+      - 'Vyzkoušejte si, jak vzniká heslová fráze: několik náhodných slov, která spolu nesouvisejí.'
+    activity:
+      type: passphrase
+      warning: Nevytvářejte zde skutečné heslo, které používáte. Tato aktivita je jen na vyzkoušení – nic se neukládá ani neodesílá.
+      count: 4
+      words:
+        - tramvaj
+        - meruňka
+        - maják
+        - zahrada
+        - kopretina
+        - deštník
+        - harmonika
+        - rybník
+        - sešit
+        - vánočka
+        - komín
+        - hruška
+        - loďka
+        - kytara
+        - polštář
+        - pampeliška
+        - budík
+        - vlak
+        - houba
+        - svetr
+        - mrkev
+        - lucerna
+        - sněhulák
+        - kopec
+        - hrnek
+        - žirafa
+        - konvice
+        - rozhledna
+        - jablko
+        - motýl
+        - kolotoč
+        - perník
+        - hodiny
+        - sklenice
+        - větrník
+        - kaštan
+        - lavička
+        - trumpeta
+        - oblak
+        - rohlík
+      explanation: Čtyři náhodná slova tvoří heslo, které je dlouhé a pro počítač velmi těžko uhodnutelné. Pro skutečné heslo si vymyslete **vlastní** slova – ne ta z tohoto webu.

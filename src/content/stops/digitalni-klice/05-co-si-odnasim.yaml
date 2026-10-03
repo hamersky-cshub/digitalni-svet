@@ -1,0 +1,39 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-klice
+order: 5
+title: Co si odnáším
+summary: Čtyři návyky pro bezpečné účty.
+lecturer:
+  time: 10 minut
+  goal: Shrnout čtyři návyky a domluvit si jeden konkrétní krok, který účastníci udělají doma.
+  discussion: Který návyk zkusíte jako první?
+  transition: Poděkujte za účast v celé sérii a připomeňte, že web zůstává dostupný.
+screens:
+  - kind: shrnuti
+    title: Čtyři návyky pro bezpečné účty
+    activity:
+      type: rules
+      items:
+        - title: Používejte dlouhá hesla nebo heslové fráze.
+          text: Délka je důležitější než složité znaky.
+        - title: Nepoužívejte stejné heslo všude.
+          text: Hlavně e-mail a banka by měly mít vlastní heslo.
+        - title: Zapněte dvoufázové ověření tam, kde je dostupné.
+          text: A nepotvrzujte přihlášení, které jste nezahájili.
+        - title: Zvažte správce hesel nebo přístupové klíče.
+          text: Usnadní vám přihlašování a jsou bezpečné.
+  - kind: reflexe
+    title: Děkujeme za celou sérii
+    text:
+      - 'Prošli jste všechna tři setkání: digitální stopu, digitální obranu i digitální klíče. Digitální svět teď máte víc pod kontrolou.'
+      - K tomuto webu se můžete kdykoli vrátit.
+    activity:
+      type: reflection
+      question: Jaký jeden krok uděláte doma jako první?
+      ideas:
+        - Změním heslo k e-mailu na dlouhou heslovou frázi.
+        - Zapnu dvoufázové ověření v e-mailu.
+        - Zjistím, kde mám stejné heslo.
+        - Zeptám se blízkých na správce hesel.

@@ -1,8 +1,8 @@
 /**
  * Přidá k cestě základní adresu webu (BASE_URL), aby odkazy fungovaly
- * i na adrese https://hamersky-cshub.github.io/digitalni-kompas/.
+ * i na adrese https://hamersky-cshub.github.io/digitalni-svet/.
  *
- * withBase('temata/autentizace/') → '/digitalni-kompas/temata/autentizace/'
+ * withBase('digitalni-stopa/') → '/digitalni-svet/digitalni-stopa/'
  */
 export function withBase(path = ''): string {
   const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
@@ -10,9 +10,13 @@ export function withBase(path = ''): string {
   return clean ? `${base}/${clean}` : `${base}/`;
 }
 
-/** Porovná aktuální cestu s cestou odkazu (pro zvýraznění v menu). */
-export function isCurrent(pathname: string, path: string, exact = false): boolean {
-  const target = withBase(path);
-  const current = pathname.endsWith('/') ? pathname : `${pathname}/`;
-  return exact ? current === target : current.startsWith(target);
+/** Adresa přehledu workshopu. */
+export function workshopHref(workshopId: string): string {
+  return withBase(`${workshopId}/`);
+}
+
+/** Adresa kroku: 1. krok zastávky je přímo na adrese zastávky. Čísla začínají od 1. */
+export function stepHref(workshopId: string, stopNumber: number, stepNumber = 1): string {
+  const stop = `${workshopId}/zastavka-${stopNumber}/`;
+  return withBase(stepNumber === 1 ? stop : `${stop}krok-${stepNumber}/`);
 }

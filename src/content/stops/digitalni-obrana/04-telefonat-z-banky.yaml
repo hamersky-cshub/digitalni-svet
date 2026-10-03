@@ -1,0 +1,85 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 4
+title: Telefonát z banky
+summary: Simulace rozhovoru s falešným pracovníkem banky.
+lecturer:
+  time: 15 minut
+  goal: Nacvičit ukončení hovoru a ověření na známém čísle. Posílit pocit, že zavěsit je slušné a v pořádku.
+  discussion: Proč je těžké hovor ukončit? Co vám může pomoci?
+  transition: Proč na takové triky lidé reagují? Podívejme se na tlak, který podvodníci používají.
+  tips:
+    - 'Rozhovor si můžete zahrát ve dvojicích: jeden je „bankéř“, druhý trénuje ukončení hovoru.'
+screens:
+  - kind: vyklad
+    title: Zvoní telefon
+    text:
+      - Představte si, že vám zavolá neznámé číslo. Volající mluví zdvořile, klidně a profesionálně.
+      - Projdeme rozhovor krok za krokem. V každém kroku zvolte, co byste udělali.
+  - kind: aktivita
+    title: Telefonát z „banky“
+    activity:
+      type: scenarios
+      itemLabel: Část hovoru
+      items:
+        - message:
+            medium: call
+            sender: Neznámé číslo
+            lines:
+              - Dobrý den, voláme z bezpečnostního oddělení vaší banky. Zaznamenali jsme podezřelou platbu z vašeho účtu ve výši 18 500 Kč.
+          question: Co uděláte?
+          options:
+            - label: Pokračuji v hovoru a zeptám se, co mám dělat.
+              tone: info
+              feedback: Je přirozené chtít to vyřešit. Volající ale zatím ničím nedoložil, že je z banky. Buďte opatrní, co mu řeknete.
+            - label: Řeknu, že si to ověřím, a hovor ukončím.
+              tone: ok
+              feedback: Výborně. Ukončit hovor je v pořádku a slušné. Pak zavolejte bance sami na číslo, které znáte.
+            - label: Nadiktuji číslo účtu a datum narození, aby mě ověřil.
+              tone: risk
+              feedback: Své údaje volajícímu nesdělujte. Skutečná banka je zná a nepotřebuje je od vás po telefonu.
+        - message:
+            medium: call
+            sender: Neznámé číslo
+            lines:
+              - Musíte jednat rychle. Pokud do pěti minut nepřevedete peníze na bezpečný účet, o úspory přijdete.
+          question: Operátor říká, že musíte jednat během pěti minut. Co uděláte?
+          options:
+            - label: Pokračuji v hovoru.
+              tone: risk
+              feedback: Spěch a strach jsou hlavní nástroje podvodníka. Žádná banka nemá „bezpečný účet“, na který byste měli převádět peníze.
+            - label: Sdělím požadované informace.
+              tone: risk
+              feedback: Peníze převedené podvodníkovi se většinou nedají vrátit. Banka po vás nikdy nebude chtít převod na jiný účet.
+            - label: Hovor ukončím a zavolám své bance na číslo, které znám.
+              tone: ok
+              feedback: Přesně tak. Číslo najdete na platební kartě nebo ve smlouvě. Pokud se s účtem opravdu něco děje, banka vám to potvrdí.
+        - message:
+            medium: call
+            sender: Neznámé číslo
+            lines:
+              - Abych platbu zastavil, nadiktujte mi prosím kód, který vám právě přišel v SMS. A nainstalujte si aplikaci, přes kterou vám pomůžu.
+          question: Co uděláte?
+          options:
+            - label: Kód nadiktuji – chce přece platbu zastavit.
+              tone: risk
+              feedback: Kód z SMS slouží k potvrzení platby nebo přihlášení. Kdo ho zná, může jednat vaším jménem. Nikomu ho neříkejte.
+            - label: Aplikaci nainstaluji, ať mi může pomoct.
+              tone: risk
+              feedback: Aplikace pro „vzdálenou pomoc“ umožní podvodníkovi vidět a ovládat vaše zařízení – včetně bankovnictví.
+            - label: Nic nenadiktuji ani neinstaluji a hovor ukončím.
+              tone: ok
+              feedback: Správně. Žádný pracovník banky po vás nebude chtít kód z SMS ani instalaci aplikace.
+          lesson: Podvodníci umějí zfalšovat i číslo, ze kterého volají. Na displeji se může zobrazit i skutečné číslo banky. Proto vždy zavolejte zpět sami.
+  - kind: shrnuti
+    title: Bezpečné ověření
+    activity:
+      type: rules
+      items:
+        - title: Hovor můžete kdykoli ukončit.
+          text: Je to v pořádku a slušné.
+        - title: Zavolejte bance sami.
+          text: Na číslo z platební karty, ze smlouvy nebo z oficiálního webu.
+        - title: Banka nikdy nechce PIN, heslo, kód z SMS ani převod na „bezpečný účet“.

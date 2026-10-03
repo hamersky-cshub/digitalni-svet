@@ -1,0 +1,333 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LecturerNote from '../../components/LecturerNote.astro';
+import ResourceCard from '../../components/ResourceCard.astro';
+import { buildSteps, getStops, getWorkshops } from '../../lib/content';
+import { formatText, plural } from '../../lib/text';
+import { stepHref, withBase } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const workshops = await getWorkshops();
+  return workshops.map((workshop) => ({ params: { workshop: workshop.id }, props: { workshop } }));
+}) satisfies GetStaticPaths;
+
+const { workshop } = Astro.props;
+const stops = await getStops(workshop.id);
+const steps = buildSteps(workshop, stops);
+const resources = (await getCollection('resources', (r) => r.data.workshop.id === workshop.id)).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title, 'cs'),
+);
+const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
+// Seznam všech obrazovek pro offline režim (service worker si je stáhne předem).
+const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
+---
+
+<BaseLayout title={workshop.data.title} description={workshop.data.cardText}>
+  <p class="back-link"><a href={withBase()}>← Úvodní stránka</a></p>
+
+  <header class="workshop-header">
+    <p class="workshop-header__icon" aria-hidden="true">{workshop.data.icon}</p>
+    <h1>{workshop.data.title}</h1>
+    <p class="workshop-header__subtitle">{workshop.data.subtitle}</p>
+    <p class="lead" set:html={formatText(firstParagraph)} />
+    {
+      moreParagraphs.length > 0 && (
+        <details class="disclosure">
+          <summary>Více o workshopu</summary>
+          <div class="disclosure__body">
+            {moreParagraphs.map((p) => (
+              <p set:html={formatText(p)} />
+            ))}
+          </div>
+        </details>
+      )
+    }
+  </header>
+
+  <div class="resume" data-resume={workshop.id} hidden>
+    <p><strong>Pokračovat tam, kde jste skončili:</strong></p>
+    <p><a class="button button--large" data-resume-link href="#">Pokračovat</a></p>
+  </div>
+
+  <section aria-labelledby="zastavky">
+    <h2 id="zastavky">Zastávky workshopu</h2>
+    <p>Lektor vám řekne, kterou zastávku otevřít. Klepněte na její číslo nebo název.</p>
+    <ol class="route">
+      {
+        stops.map((stop, i) => (
+          <li class="route__stop" data-stop-card={i + 1}>
+            <span class="route__number" aria-hidden="true">
+              {i + 1}
+            </span>
+            <div class="route__body">
+              <h3 class="route__title">
+                <a href={stepHref(workshop.id, i + 1)}>
+                  <span class="visually-hidden">Zastávka {i + 1}: </span>
+                  {stop.data.title}
+                </a>
+              </h3>
+              <p class="route__summary">{stop.data.summary}</p>
+              <p class="route__meta">
+                {stop.data.screens.length} {plural(stop.data.screens.length, ['krok', 'kroky', 'kroků'])}
+                <span class="route__visited" data-visited hidden>
+                  <span aria-hidden="true">✓</span> Navštíveno
+                </span>
+              </p>
+              <LecturerNote note={stop.data.lecturer} title={`Lektor: zastávka ${i + 1}`} />
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  {
+    resources.length > 0 && (
+      <section aria-labelledby="materialy">
+        <h2 id="materialy">Materiály ke stažení</h2>
+        <p>Návody a materiály, ke kterým se můžete vrátit i po workshopu.</p>
+        <ul class="resource-list">
+          {resources.map((resource) => (
+            <ResourceCard resource={resource} />
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="restart" data-restart-box hidden aria-labelledby="znovu">
+    <h2 id="znovu">Začít workshop znovu</h2>
+    <p>Web si v tomto zařízení pamatuje jen to, kde jste skončili. Tlačítkem to smažete.</p>
+    <p>
+      <button type="button" class="button button--secondary" data-restart={workshop.id}>Začít workshop znovu</button>
+    </p>
+    <p class="restart__done" data-restart-done role="status"></p>
+  </section>
+
+  <script type="application/json" id="offline-urls" set:html={JSON.stringify(offlineUrls)} />
+</BaseLayout>
+
+<script>
+  import { progress } from '../../scripts/storage';
+
+  const resume = document.querySelector<HTMLElement>('[data-resume]');
+  const workshop = resume?.dataset.resume;
+
+  function render() {
+    if (!resume || !workshop) return;
+    const position = progress.getPosition(workshop);
+    const visited = progress.getVisited(workshop);
+    resume.hidden = !position;
+    if (position) {
+      const link = resume.querySelector<HTMLAnchorElement>('[data-resume-link]')!;
+      link.href = position.href;
+      link.textContent = `Pokračovat: ${position.label} →`;
+    }
+    document.querySelectorAll<HTMLElement>('[data-stop-card]').forEach((card) => {
+      const done = visited.includes(Number(card.dataset.stopCard));
+      card.classList.toggle('is-visited', done);
+      card.querySelector<HTMLElement>('[data-visited]')!.hidden = !done;
+    });
+  }
+
+  if (workshop) {
+    document.querySelector<HTMLElement>('[data-restart-box]')!.hidden = false;
+    document.querySelector('[data-restart]')!.addEventListener('click', () => {
+      progress.reset(workshop);
+      render();
+      document.querySelector('[data-restart-done]')!.textContent = 'Hotovo. Workshop můžete začít od první zastávky.';
+    });
+    render();
+  }
+
+  // Offline režim: požádá service worker, aby si stáhl všechny obrazovky workshopu.
+  const urls = JSON.parse(document.getElementById('offline-urls')?.textContent ?? '[]');
+  if ('serviceWorker' in navigator && urls.length) {
+    navigator.serviceWorker.ready
+      .then((registration) => registration.active?.postMessage({ type: 'precache', urls }))
+      .catch(() => {});
+  }
+</script>
+
+<style>
+  .back-link {
+    margin: var(--space-2) 0 0;
+  }
+
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-size);
+  }
+
+  .workshop-header__icon {
+    margin: var(--space-1) 0 0;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .workshop-header h1 {
+    margin-top: var(--space-1);
+    margin-bottom: 0;
+  }
+
+  .workshop-header__subtitle {
+    margin-bottom: var(--space-2);
+    color: var(--color-primary);
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .resume {
+    margin: var(--space-3) 0;
+    padding: var(--space-2) var(--space-3);
+    border: 3px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: var(--color-accent-soft);
+  }
+
+  .resume p:last-child {
+    margin-bottom: 0;
+  }
+
+  .route {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: none;
+  }
+
+  .route__stop {
+    position: relative;
+    display: flex;
+    gap: var(--space-2);
+    margin: 0;
+    padding-bottom: var(--space-3);
+  }
+
+  /* Cesta mezi zastávkami */
+  .route__stop:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: calc(2rem - 2px);
+    top: 4rem;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-border-light);
+  }
+
+  .route__number {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 4rem;
+    height: 4rem;
+    border: 4px solid var(--color-primary);
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-primary);
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  .route__stop.is-visited .route__number {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .route__body {
+    position: relative;
+    flex: 1;
+    padding: var(--space-2) var(--space-3);
+    border: 3px solid var(--color-border-light);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .route__body:hover {
+    border-color: var(--color-primary);
+  }
+
+  .route__title {
+    margin: 0;
+    font-size: 1.35rem;
+  }
+
+  .route__title a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-size);
+  }
+
+  /* Celá karta zastávky je klikací (i číslo vlevo). */
+  .route__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    left: calc(-4rem - var(--space-2) - 3px);
+  }
+
+  .route__summary {
+    margin-bottom: 0.25rem;
+  }
+
+  .route__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-2);
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .route__visited {
+    color: var(--color-ok);
+    font-weight: 700;
+  }
+
+  .route__body :global(.lecturer-note) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .restart {
+    margin-top: var(--space-5);
+    padding-top: var(--space-2);
+    border-top: 2px solid var(--color-border-light);
+  }
+
+  .restart h2 {
+    margin-top: var(--space-2);
+    font-size: 1.2rem;
+  }
+
+  .restart__done {
+    font-weight: 700;
+    color: var(--color-ok);
+  }
+
+  @media (max-width: 40rem) {
+    .route__number {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.3rem;
+    }
+
+    .route__stop:not(:last-child)::before {
+      left: calc(1.5rem - 2px);
+      top: 3rem;
+    }
+
+    .route__title a::after {
+      left: calc(-3rem - var(--space-2) - 3px);
+    }
+
+    .route__body {
+      padding: var(--space-2);
+    }
+  }
+</style>

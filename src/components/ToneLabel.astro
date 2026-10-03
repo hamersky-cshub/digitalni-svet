@@ -1,0 +1,21 @@
+---
+/** ✓ Vhodná možnost / i K zamyšlení / ⚠ Pozor, riziko – ikona je vždy doplněna textem. */
+import type { TONES } from '../content.config';
+
+interface Props {
+  tone: (typeof TONES)[number];
+}
+
+const TONE = {
+  ok: { icon: '✓', label: 'Vhodná možnost' },
+  info: { icon: 'i', label: 'K zamyšlení' },
+  risk: { icon: '!', label: 'Pozor, riziko' },
+} as const;
+
+const { tone } = Astro.props;
+---
+
+<p class:list={['tone', `tone--${tone}`]}>
+  <span class="tone__icon" aria-hidden="true">{TONE[tone].icon}</span>
+  {TONE[tone].label}
+</p>

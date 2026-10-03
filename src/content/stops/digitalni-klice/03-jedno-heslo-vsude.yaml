@@ -1,0 +1,49 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-klice
+order: 3
+title: Jedno heslo všude
+summary: Proč je riskantní mít jeden klíč ke všem dveřím.
+lecturer:
+  time: 20 minut
+  goal: Pochopit řetězovou reakci při úniku hesla a představit správce hesel jako pomůcku.
+  discussion: Kde by vám únik hesla vadil nejvíc?
+  transition: Co když heslo přece jen unikne? Pomůže druhý zámek.
+screens:
+  - kind: vyklad
+    title: Jeden klíč ke všem dveřím
+    text:
+      - Představte si, že jedním klíčem odemykáte byt, chatu, auto i sklep. Je to pohodlné. Když ale klíč ztratíte, zloděj otevře všechno.
+      - S hesly je to stejné. Internetové obchody a jiné služby jsou občas napadeny a hesla z nich uniknou. Útočník je pak zkouší i jinde.
+  - kind: aktivita
+    title: Co se stane, když heslo unikne?
+    text:
+      - Vyberte, jak hesla používáte, a pak klepněte na velké tlačítko. Potom zkuste i druhou možnost.
+    activity:
+      type: keyReuse
+      services:
+        - name: E-mail
+          icon: ✉️
+        - name: Banka
+          icon: 🏦
+        - name: Sociální síť
+          icon: 👥
+        - name: Internetový obchod
+          icon: 🛒
+      leaked: 3
+      question: Heslo z internetového obchodu uniklo. Co se stane?
+      sameKey:
+        label: Stejné heslo všude
+        result: Útočník vyzkoušel uniklé heslo i jinde a otevřel všechny účty. Přes e-mail navíc může měnit hesla k dalším službám.
+      uniqueKeys:
+        label: Každý účet má jiné heslo
+        result: Útočník se dostal jen do internetového obchodu. E-mail, banka i sociální síť zůstaly zamčené. Stačí změnit jedno heslo.
+  - kind: vyklad
+    title: Jak si zapamatovat víc hesel?
+    text:
+      - Nikdo si nepamatuje desítky hesel. Pomoci může **správce hesel** – aplikace, která hesla bezpečně uloží a při přihlášení je sama vyplní. Vy si pamatujete jen jedno hlavní heslo.
+      - Správce hesel bývá součástí tabletu i telefonu (v nastavení pod názvem „Hesla“). Poraďte se s lektorem nebo s někým blízkým.
+    points:
+      - Nejdůležitější je mít **vlastní heslo k e-mailu** – přes e-mail se dají obnovit hesla k ostatním účtům.
+      - Pokud si hesla zapisujete na papír, uložte ho doma na bezpečném místě – ne u počítače ani v peněžence.

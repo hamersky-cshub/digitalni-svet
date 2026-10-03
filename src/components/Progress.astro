@@ -1,0 +1,121 @@
+---
+/** „Zastávka 2 z 5 · Co sdílím“ a „Krok 1 ze 3“ – bez procent a skóre. */
+import { workshopHref } from '../lib/url';
+import { zOrZe } from '../lib/text';
+
+interface Props {
+  workshopId: string;
+  workshopTitle: string;
+  stopTitle: string;
+  stopNumber: number;
+  stopCount: number;
+  stepNumber: number;
+  stepCount: number;
+}
+
+const { workshopId, workshopTitle, stopTitle, stopNumber, stopCount, stepNumber, stepCount } = Astro.props;
+const stopDots = Array.from({ length: stopCount }, (_, i) => i + 1);
+---
+
+<nav class="progress" aria-label="Kde se nacházíte">
+  <p class="progress__workshop">
+    <a href={workshopHref(workshopId)}>{workshopTitle}</a>
+  </p>
+  <p class="progress__stop">
+    <span class="progress__stop-number">Zastávka {stopNumber} {zOrZe(stopCount)} {stopCount}</span>
+    <span aria-hidden="true"> · </span>
+    <span class="progress__stop-title">{stopTitle}</span>
+  </p>
+  <ol class="progress__route" aria-hidden="true">
+    {
+      stopDots.map((n) => (
+        <li class:list={['progress__dot', { 'is-done': n < stopNumber, 'is-current': n === stopNumber }]}>{n}</li>
+      ))
+    }
+  </ol>
+  {stepCount > 1 && <p class="progress__step">Krok {stepNumber} {zOrZe(stepCount)} {stepCount}</p>}
+</nav>
+
+<style>
+  .progress {
+    margin: var(--space-3) 0 var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    background: var(--color-surface-alt);
+  }
+
+  .progress p {
+    margin: 0;
+    max-width: none;
+  }
+
+  .progress__workshop {
+    font-size: 0.9rem;
+  }
+
+  .progress__workshop a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  .progress__stop {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .progress__route {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: var(--space-1) 0;
+    padding: 0;
+    list-style: none;
+    max-width: none;
+  }
+
+  .progress__dot {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    margin: 0 0.9rem 0 0;
+    border: 2px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .progress__dot + .progress__dot {
+    margin-top: 0;
+  }
+
+  .progress__dot:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    width: 0.9rem;
+    height: 2px;
+    background: var(--color-border);
+  }
+
+  .progress__dot.is-done {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .progress__dot.is-current {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    box-shadow: 0 0 0 3px var(--color-accent);
+  }
+
+  .progress__step {
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,104 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 2
+title: Co byste udělali?
+summary: Čtyři modelové situace a bezpečné reakce na ně.
+lecturer:
+  time: 25 minut
+  goal: 'Procvičit volbu bezpečné reakce: neklepat na odkaz, neplatit, ověřit jinou cestou.'
+  discussion: Jak byste ověřili, že vám opravdu jde balík?
+  transition: Teď se na podvodné zprávy podíváme zblízka – co nás na nich může varovat.
+screens:
+  - kind: aktivita
+    title: Co byste udělali?
+    text:
+      - Všechny zprávy jsou smyšlené ukázky a odkazy v nich nikam nevedou. Zvolte, jak byste reagovali.
+    activity:
+      type: scenarios
+      items:
+        - message:
+            medium: sms
+            sender: Neznámé číslo
+            time: '9:41'
+            lines:
+              - 'Vaše zásilka nemohla být doručena. Doplňte adresu a uhraďte poplatek 39 Kč: {{expres-balik.doruceni.test/platba}}'
+          question: Co uděláte?
+          options:
+            - label: Zaplatím, je to jen 39 Kč.
+              tone: risk
+              feedback: Částka je malá schválně, abyste nad ní nepřemýšleli. Na falešné stránce ale zadáte údaje z platební karty a podvodník pak může zaplatit mnohem víc.
+            - label: Otevřu odkaz a podívám se.
+              tone: risk
+              feedback: Odkaz vás zavede na stránku podvodníka, která vypadá jako skutečná. Je pak snadné tam omylem něco vyplnit.
+            - label: Nic nevyplním a zásilku ověřím jinou cestou.
+              tone: ok
+              feedback: Výborně. Pokud nějakou zásilku čekáte, ověřte ji v aplikaci nebo na webu dopravce, který sami znáte – ne přes odkaz ve zprávě.
+          lesson: Doručovací služby po vás nechtějí doplácet malé poplatky přes odkaz v SMS.
+        - message:
+            medium: email
+            sender: Bezpečnost účtu <podpora@vase-banka.overeni.test>
+            subject: Váš účet bude zablokován
+            lines:
+              - Vážený kliente,
+              - zaznamenali jsme neobvyklou aktivitu. Pokud do 24 hodin neověříte svou totožnost, váš účet bude zablokován.
+              - 'Ověřit účet: {{vase-banka.overeni.test/prihlaseni}}'
+          question: Co uděláte?
+          options:
+            - label: Přihlásím se přes odkaz, ať o účet nepřijdu.
+              tone: risk
+              feedback: Přesně na to podvodník spoléhá. Na falešné stránce by získal vaše přihlašovací údaje.
+            - label: Zavolám do banky na číslo, které znám.
+              tone: ok
+              feedback: Správně. Číslo najdete na platební kartě nebo ve smlouvě. Banka vám řekne, zda se s účtem opravdu něco děje.
+            - label: Odpovím na e-mail a zeptám se, jestli je to pravda.
+              tone: info
+              feedback: Odpověď dostane podvodník a samozřejmě vám potvrdí, že je vše pravda. Ověřujte vždy jinou cestou.
+          lesson: Banka vás nikdy nežádá o přihlášení přes odkaz v e-mailu nebo SMS.
+        - message:
+            medium: chat
+            sender: Neznámé číslo
+            time: '18:05'
+            lines:
+              - Ahoj mami, rozbil se mi telefon, tohle je moje nové číslo. Můžeš mi rychle pomoct zaplatit fakturu? Pošlu ti číslo účtu, zítra ti to vrátím.
+          question: Co uděláte?
+          options:
+            - label: Pošlu peníze, dítě potřebuje pomoc.
+              tone: risk
+              feedback: Podvodníci hrají na city a spěch. Peníze poslané na cizí účet se většinou nedají vrátit.
+            - label: Zavolám na staré číslo, které znám, nebo se zeptám v rodině.
+              tone: ok
+              feedback: Správně. Stačí krátký telefonát a víte, na čem jste. Pokud je to opravdu vaše dítě, rádo vám to potvrdí.
+            - label: Napíšu otázku, na kterou zná odpověď jen moje dítě.
+              tone: info
+              feedback: Je to lepší než hned platit. Podvodník ale může odpověď uhodnout nebo najít na sociálních sítích. Nejjistější je zavolat.
+          lesson: Kdo píše z neznámého čísla, nemusí být tím, za koho se vydává. Ověřte si to hlasem.
+        - text: 'Prodáváte na internetovém bazaru starou lampu. Ozve se kupující:'
+          message:
+            medium: chat
+            sender: Kupující z bazaru
+            lines:
+              - 'Dobrý den, lampu beru. Peníze vám pošlu přes kurýra. Klikněte na odkaz a zadejte údaje z karty, abyste platbu mohl(a) přijmout: {{bazar-platba.kuryr.test}}'
+          question: Co uděláte?
+          options:
+            - label: Zadám údaje z karty, abych dostal(a) peníze.
+              tone: risk
+              feedback: K přijetí peněz nikdy nepotřebujete zadávat údaje z karty. Právě takto podvodníci získávají přístup k penězům na kartě.
+            - label: Navrhnu osobní předání nebo převod na můj účet.
+              tone: ok
+              feedback: Správně. K přijetí peněz stačí číslo účtu. Údaje z karty, PIN ani kódy z SMS nikdo nepotřebuje.
+            - label: Zeptám se bazaru, jestli je to v pořádku.
+              tone: info
+              feedback: Dobrý nápad – ale přes oficiální kontakt bazaru, ne přes odkaz od kupujícího.
+          lesson: Pro přijetí platby nikdy nezadávejte údaje z karty.
+  - kind: reflexe
+    title: Co měly zprávy společného?
+    activity:
+      type: reflection
+      question: Co měly všechny čtyři zprávy společného?
+      ideas:
+        - Chtěly, abyste jednali rychle.
+        - Obsahovaly odkaz nebo žádost o peníze.
+        - Přišly nečekaně.
+        - 'Bezpečné řešení bylo pokaždé stejné: ověřit jinou cestou.'

@@ -1,0 +1,84 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-stopa
+order: 1
+title: Co po mně zůstává
+summary: Co je digitální stopa a kdy vzniká.
+lecturer:
+  time: 20 minut
+  goal: Účastníci pochopí, že digitální stopa vzniká vědomě i automaticky. Bez strašení – stopa sama o sobě není nic špatného.
+  discussion: Co jste dnes už dělali na telefonu nebo tabletu?
+  transition: 'Víme, že stopa vzniká. Teď se podívejme na tu část, kterou máme nejvíc v rukou: co sdílíme my sami.'
+screens:
+  - kind: diskuse
+    title: Co jste dnes dělali na internetu?
+    text:
+      - Každý den děláme na telefonu, tabletu nebo počítači spoustu drobných věcí. Často si je ani neuvědomujeme.
+    activity:
+      type: reflection
+      question: 'Vzpomeňte si: co jste dnes nebo včera na internetu dělali?'
+      hint: Nic nepište. Stačí si to promyslet, nebo to říct nahlas ve skupině.
+      ideas:
+        - Přečetl(a) jsem si zprávy.
+        - Podíval(a) jsem se na počasí.
+        - Napsal(a) jsem rodině.
+        - Zaplatil(a) jsem kartou nebo v aplikaci.
+  - kind: vyklad
+    title: Co je digitální stopa?
+    text:
+      - 'Když jdete po sněhu, zůstávají za vámi stopy. Podobně je to na internetu: když ho používáte, zůstávají po vás informace. Říkáme jim **digitální stopa**.'
+      - 'Digitální stopa vzniká dvěma způsoby:'
+    points:
+      - '**Sdílíte ji sami** – napíšete komentář, pošlete fotografii, vyplníte své jméno.'
+      - '**Vzniká sama** – služby si automaticky zaznamenávají, co hledáte, kde jste nebo na co se díváte.'
+  - kind: aktivita
+    title: Vznikla digitální stopa?
+    text:
+      - U každé situace zvolte odpověď. Nejde o test – po každé volbě se dozvíte, jak to je.
+    activity:
+      type: choices
+      question: Vznikla při tom digitální stopa?
+      options:
+        - id: ano
+          label: ANO
+        - id: ne
+          label: NE
+        - id: nevim
+          label: NEJSEM SI JISTÝ/Á
+      items:
+        - text: Vyhledám si na internetu předpověď počasí.
+          recommended:
+            - ano
+          explanation: Ano – i při běžném hledání mohou vznikat informace o naší aktivitě. Vyhledávač si může zapamatovat, co jste hledali, a stránka s počasím může zjistit, ve kterém městě přibližně jste.
+        - text: Podívám se na video na internetu.
+          recommended:
+            - ano
+          explanation: Ano – služba s videi si obvykle pamatuje, co jste si pustili a jak dlouho jste se dívali. Podle toho vám pak nabízí další videa.
+        - text: Napíšu komentář pod článek.
+          recommended:
+            - ano
+          explanation: Ano – tentokrát je to stopa, kterou vytváříte vědomě. Komentář si mohou přečíst i lidé, které neznáte, a na internetu často zůstane dlouho.
+        - text: Použiji navigaci v telefonu.
+          recommended:
+            - ano
+          explanation: Ano – navigace potřebuje vědět, kde právě jste. Některé služby si polohu ukládají do historie, pokud to v nastavení nevypnete.
+        - text: Pošlu fotografii známému ve zprávě.
+          recommended:
+            - ano
+            - nevim
+          explanation: Je to trochu složitější… Fotografie je hlavně u vás a u vašeho známého. Ten ji ale může poslat dál. A v samotné fotografii bývá uloženo, kdy a kde vznikla.
+        - text: Navštívím internetový obchod, ale nic nekoupím.
+          recommended:
+            - ano
+          explanation: Ano – obchod si může zapamatovat, na co jste se dívali. Proto se vám pak stejné zboží může objevovat v reklamách i na jiných stránkách.
+    lecturer:
+      goal: U každé situace nechte chvíli na reakce. Odpověď „nejsem si jistý/á“ je v pořádku a stojí za diskusi.
+  - kind: reflexe
+    title: Co vás překvapilo?
+    text:
+      - Digitální stopa není nic špatného – bez ní by řada služeb nefungovala. Je ale dobré vědět, že existuje, a rozhodovat se s rozmyslem.
+    activity:
+      type: reflection
+      question: Která situace vás nejvíc překvapila?
+      hint: Můžete to říct ostatním, nebo si to jen promyslet.

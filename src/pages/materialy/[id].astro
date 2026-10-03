@@ -1,34 +1,26 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { getEntry, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ActionButton from '../../components/ActionButton.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getResources } from '../../lib/content';
 import { TYPE_ICONS, TYPE_LABELS, formatDate, resourceAction } from '../../lib/resources';
-import { withBase } from '../../lib/url';
+import { workshopHref } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
-  const resources = await getResources();
+  const resources = await getCollection('resources');
   return resources.map((resource) => ({ params: { id: resource.id }, props: { resource } }));
 }) satisfies GetStaticPaths;
 
 const { resource } = Astro.props;
 const { title, description, type, source, updated } = resource.data;
-const topic = await getEntry(resource.data.topic);
+const workshop = await getEntry(resource.data.workshop);
 const { Content } = await render(resource);
 const action = resourceAction(resource);
-const topicPath = `temata/${topic.id}/`;
+const backHref = workshopHref(workshop.id);
 ---
 
 <BaseLayout title={title} description={description}>
-  <Breadcrumbs
-    items={[
-      { label: 'Témata', path: 'temata/' },
-      { label: topic.data.title, path: topicPath },
-    ]}
-    current={title}
-  />
+  <p class="back"><a href={backHref}>← Zpět na workshop {workshop.data.title}</a></p>
 
   <article>
     <p class="meta">
@@ -39,8 +31,8 @@ const topicPath = `temata/${topic.id}/`;
 
     <dl class="details">
       <div>
-        <dt>Téma</dt>
-        <dd><a href={withBase(topicPath)}>{topic.data.title}</a></dd>
+        <dt>Workshop</dt>
+        <dd><a href={backHref}>{workshop.data.title}</a></dd>
       </div>
       {
         source && (
@@ -76,7 +68,7 @@ const topicPath = `temata/${topic.id}/`;
   </article>
 
   <p class="back">
-    <a href={withBase(topicPath)}>← Zpět na téma {topic.data.title}</a>
+    <a href={backHref}>← Zpět na workshop {workshop.data.title}</a>
   </p>
 </BaseLayout>
 
@@ -121,7 +113,7 @@ const topicPath = `temata/${topic.id}/`;
   }
 
   .back {
-    margin-top: var(--space-4);
+    margin-top: var(--space-3);
   }
 
   .back a {

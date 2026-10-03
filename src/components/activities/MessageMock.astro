@@ -1,0 +1,197 @@
+---
+/**
+ * Simulovaná zpráva (SMS, e-mail, chat, telefonát, oznámení).
+ * Je vždy označená jako ukázka a neobsahuje žádné funkční odkazy.
+ */
+import type { MEDIA } from '../../content.config';
+import { formatText } from '../../lib/text';
+
+interface Props {
+  medium: (typeof MEDIA)[number];
+  sender: string;
+  subject?: string;
+  time?: string;
+  /** Řádky zprávy jako hotové HTML (už prošlé formatText/formatSignals). */
+  linesHtml?: string[];
+  lines?: string[];
+  /** Hotové HTML odesílatele / předmětu (pro aktivitu s varovnými signály). */
+  senderHtml?: string;
+  subjectHtml?: string;
+  attachmentHtml?: string;
+}
+
+const MEDIUM_LABELS = {
+  sms: 'Ukázková SMS zpráva',
+  email: 'Ukázkový e-mail',
+  chat: 'Ukázková zpráva v chatu',
+  call: 'Ukázkový telefonát',
+  notification: 'Ukázkové oznámení v telefonu',
+} as const;
+const MEDIUM_ICONS = { sms: '💬', email: '✉️', chat: '💬', call: '📞', notification: '🔔' } as const;
+
+const { medium, sender, subject, time, lines = [], linesHtml, senderHtml, subjectHtml, attachmentHtml } = Astro.props;
+const body = linesHtml ?? lines.map(formatText);
+const senderOut = senderHtml ?? formatText(sender);
+const subjectOut = subjectHtml ?? (subject ? formatText(subject) : undefined);
+---
+
+<figure class:list={['message', `message--${medium}`]}>
+  <figcaption class="message__label">
+    <span aria-hidden="true">{MEDIUM_ICONS[medium]}</span>
+    {MEDIUM_LABELS[medium]}
+  </figcaption>
+  <div class="message__frame">
+    {
+      medium === 'email' ? (
+        <>
+          <p class="message__meta">
+            <span class="message__key">Od:</span> <span set:html={senderOut} />
+          </p>
+          {subjectOut && (
+            <p class="message__meta">
+              <span class="message__key">Předmět:</span> <strong set:html={subjectOut} />
+            </p>
+          )}
+          <div class="message__body">
+            {body.map((line) => (
+              <p set:html={line} />
+            ))}
+          </div>
+          {attachmentHtml && (
+            <p class="message__attachment">
+              <span aria-hidden="true">📎</span> Příloha: <span set:html={attachmentHtml} />
+            </p>
+          )}
+        </>
+      ) : medium === 'call' ? (
+        <>
+          <p class="message__caller">
+            <span class="message__key">Volá:</span> <strong set:html={senderOut} />
+          </p>
+          <div class="message__speech">
+            {body.map((line) => (
+              <p set:html={`„${line}“`} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <p class="message__sender">
+            <strong set:html={senderOut} />
+            {time && <span class="message__time">{time}</span>}
+          </p>
+          <div class="message__bubble">
+            {body.map((line) => (
+              <p set:html={line} />
+            ))}
+          </div>
+          {attachmentHtml && (
+            <p class="message__attachment">
+              <span aria-hidden="true">📎</span> <span set:html={attachmentHtml} />
+            </p>
+          )}
+        </>
+      )
+    }
+  </div>
+</figure>
+
+<style>
+  .message {
+    margin: 0 0 var(--space-3);
+    max-width: 34rem;
+  }
+
+  .message__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.4rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .message__frame {
+    padding: var(--space-2) var(--space-3);
+    border: 3px solid var(--color-border);
+    border-radius: 1.25rem;
+    background: var(--color-surface);
+  }
+
+  .message p {
+    max-width: none;
+  }
+
+  .message__sender {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .message__time {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .message__bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 1rem 1rem 1rem 0.25rem;
+    background: var(--color-surface-alt);
+  }
+
+  .message--chat .message__bubble {
+    background: var(--color-ok-bg);
+  }
+
+  .message__bubble > :last-child,
+  .message__body > :last-child,
+  .message__speech > :last-child {
+    margin-bottom: 0;
+  }
+
+  .message__meta {
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--color-border-light);
+    word-break: break-word;
+  }
+
+  .message__key {
+    color: var(--color-text-muted);
+  }
+
+  .message__body {
+    margin-top: var(--space-2);
+  }
+
+  .message__attachment {
+    margin: var(--space-2) 0 0;
+    padding: 0.5rem 0.75rem;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-small);
+  }
+
+  .message--call .message__frame,
+  .message--notification .message__frame {
+    border-color: var(--color-primary);
+  }
+
+  .message--notification .message__frame {
+    background: var(--color-info-bg);
+  }
+
+  .message__caller {
+    margin-bottom: var(--space-1);
+  }
+
+  .message__speech p {
+    padding-left: var(--space-2);
+    border-left: 4px solid var(--color-accent);
+    font-style: italic;
+  }
+</style>

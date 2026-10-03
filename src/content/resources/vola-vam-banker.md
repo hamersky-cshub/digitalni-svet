@@ -1,9 +1,9 @@
 ---
 title: Volá vám „bankéř“? Co dělat
 description: Ukázkový návod. Jak se zachovat, když vám volá někdo, kdo se vydává za pracovníka banky nebo policie.
-topic: socialni-inzenyrstvi
+workshop: digitalni-obrana
 type: navod
-source: Digitální kompas
+source: Digitální svět pod kontrolou
 updated: 2026-10-01
 ---
 

@@ -1,33 +1,48 @@
 /*
- * Digitální kompas – základní styly.
- * Navrženo pro seniory: velké písmo, vysoký kontrast (WCAG AAA),
- * velké klikací plochy a jasně viditelné zaměření klávesnicí.
+ * Digitální svět pod kontrolou – design systém.
+ *
+ * Navrženo pro seniory na tabletech: velké písmo (20 px), vysoký kontrast
+ * (WCAG AAA), velké dotykové plochy (min. 56 px), klidné barvy, žádné animace.
+ * Barvy a rozměry upravujte jen v :root.
  */
 
 :root {
-  --color-text: #1a1a1a;
-  --color-text-muted: #3d3d3d;
-  --color-bg: #ffffff;
-  --color-surface: #f5f2eb;
-  --color-border: #5c5c5c;
-  --color-primary: #0b4a8f;
-  --color-primary-dark: #07325f;
+  /* Barvy */
+  --color-text: #1b1f23;
+  --color-text-muted: #3d4650;
+  --color-bg: #fbfaf7;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f0ede6;
+  --color-border: #6b7280;
+  --color-border-light: #d6d2c8;
+  --color-primary: #0b4566;
+  --color-primary-dark: #062f47;
   --color-on-primary: #ffffff;
-  --color-focus: #ffdd00;
+  --color-accent: #e3a33b;
+  --color-accent-soft: #fbf0dc;
+  --color-focus: #ffd33d;
   --color-focus-text: #0b0c0c;
-  --color-notice-bg: #fff4d6;
-  --color-notice-border: #8a5a00;
 
+  /* Tóny zpětné vazby – vždy doplněné ikonou a textem */
+  --color-ok: #1b5e32;
+  --color-ok-bg: #e5f2e8;
+  --color-info: #1d4a80;
+  --color-info-bg: #e6edf7;
+  --color-risk: #84390a;
+  --color-risk-bg: #fbece0;
+
+  /* Písmo a rozměry */
   --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --radius: 0.5rem;
+  --radius: 0.75rem;
+  --radius-small: 0.5rem;
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2rem;
   --space-5: 3rem;
-  --content-width: 70rem;
-  --text-width: 42rem;
-  --tap-size: 3rem;
+  --content-width: 52rem;
+  --text-width: 40rem;
+  --tap-size: 3.5rem;
 
   color-scheme: light;
 }
@@ -55,6 +70,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
 }
 
 main {
@@ -72,19 +88,20 @@ h2,
 h3 {
   line-height: 1.25;
   margin: var(--space-4) 0 var(--space-2);
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: 2rem;
-  margin-top: var(--space-3);
+  font-size: 1.9rem;
+  margin-top: var(--space-2);
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
 }
 
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 p,
@@ -96,6 +113,10 @@ ol {
 
 li + li {
   margin-top: var(--space-1);
+}
+
+strong {
+  font-weight: 700;
 }
 
 /* Odkazy jsou vždy podtržené, aby byly poznat i bez barvy. */
@@ -111,24 +132,42 @@ a:hover {
   text-decoration-thickness: 0.2em;
 }
 
-/* Výrazné zaměření klávesnicí (žluté pozadí, černý text). */
+/* Výrazné zaměření klávesnicí (žluté pozadí, černý rámeček). */
 a:focus-visible,
 button:focus-visible,
-select:focus-visible,
-input:focus-visible,
-summary:focus-visible {
+summary:focus-visible,
+[tabindex]:focus-visible {
   outline: 4px solid var(--color-focus-text);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 7px var(--color-focus);
+}
+
+a:focus-visible {
   background-color: var(--color-focus);
   color: var(--color-focus-text);
-  box-shadow: 0 0 0 8px var(--color-focus);
+}
+
+[tabindex='-1']:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 .container {
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 0 var(--space-2);
+  padding: 0 var(--space-3);
 }
 
 .visually-hidden {
@@ -148,20 +187,25 @@ summary:focus-visible {
   color: var(--color-text-muted);
 }
 
-/* Tlačítko – hlavní akce (stáhnout, otevřít, přečíst). */
+/* ---------------------------------------------------------------------------
+ * Tlačítka
+ * ------------------------------------------------------------------------ */
+
 .button {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  justify-content: center;
+  gap: 0.6rem;
   min-height: var(--tap-size);
-  padding: 0.6rem 1.25rem;
+  padding: 0.7rem 1.4rem;
   border: 3px solid var(--color-primary);
   border-radius: var(--radius);
   background: var(--color-primary);
   color: var(--color-on-primary);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.3;
+  text-align: center;
   text-decoration: none;
 }
 
@@ -169,50 +213,287 @@ summary:focus-visible {
   background: var(--color-primary-dark);
   border-color: var(--color-primary-dark);
   color: var(--color-on-primary);
+  text-decoration: none;
 }
 
 .button--secondary {
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-primary);
 }
 
 .button--secondary:hover {
-  background: var(--color-surface);
+  background: var(--color-surface-alt);
   color: var(--color-primary-dark);
+}
+
+.button--large {
+  min-height: 4rem;
+  padding: 0.9rem 1.8rem;
+  font-size: 1.15rem;
+}
+
+.button:focus-visible {
+  background: var(--color-focus);
+  border-color: var(--color-focus-text);
+  color: var(--color-focus-text);
+}
+
+/* ---------------------------------------------------------------------------
+ * ChoiceCard – velké tlačítko jedné odpovědi
+ * ------------------------------------------------------------------------ */
+
+.choice-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+  max-width: none;
+}
+
+.choice-list > li + li {
+  margin-top: 0;
+}
+
+@media (min-width: 46rem) {
+  .choice-list--row {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+}
+
+.choice-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  width: 100%;
+  min-height: 4rem;
+  padding: 0.85rem 1.25rem;
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.choice-card:hover {
+  border-color: var(--color-primary);
+  background: var(--color-surface-alt);
+}
+
+.choice-card[aria-pressed='true'] {
+  border-color: var(--color-primary);
+  border-width: 4px;
+  background: var(--color-info-bg);
+  box-shadow: inset 0 0 0 2px var(--color-primary);
+}
+
+.choice-card > span:first-child {
+  flex: 1 1 10rem;
+}
+
+.choice-card__mark {
+  display: none;
+  flex: none;
+  margin-left: auto;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.choice-card[aria-pressed='true'] .choice-card__mark {
+  display: inline-block;
+}
+
+/* ---------------------------------------------------------------------------
+ * Feedback – zpětná vazba po volbě (ikona + text, nikdy jen barva)
+ * ------------------------------------------------------------------------ */
+
+.feedback {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-left: 8px solid var(--color-info);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--color-info-bg);
+  max-width: var(--text-width);
+}
+
+.feedback > :last-child {
+  margin-bottom: 0;
+}
+
+.feedback--ok {
+  border-color: var(--color-ok);
+  background: var(--color-ok-bg);
+}
+
+.feedback--risk {
+  border-color: var(--color-risk);
+  background: var(--color-risk-bg);
+}
+
+.tone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 var(--space-1);
+  font-weight: 700;
+}
+
+.tone__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  flex: none;
+}
+
+.tone--ok {
+  color: var(--color-ok);
+}
+
+.tone--ok .tone__icon {
+  background: var(--color-ok);
+}
+
+.tone--info {
+  color: var(--color-info);
+}
+
+.tone--info .tone__icon {
+  background: var(--color-info);
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.tone--risk {
+  color: var(--color-risk);
+}
+
+.tone--risk .tone__icon {
+  background: var(--color-risk);
+}
+
+.feedback__choice {
+  margin-bottom: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Karty, upozornění, simulované zprávy
+ * ------------------------------------------------------------------------ */
+
+.card {
+  padding: var(--space-3);
+  border: 2px solid var(--color-border-light);
+  border-radius: var(--radius);
+  background: var(--color-surface);
 }
 
 .notice {
   max-width: var(--text-width);
-  padding: var(--space-2) var(--space-3);
-  border-left: 6px solid var(--color-notice-border);
-  background: var(--color-notice-bg);
-  border-radius: 0 var(--radius) var(--radius) 0;
   margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 3px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: var(--color-accent-soft);
 }
 
 .notice > :last-child {
   margin-bottom: 0;
 }
 
-/* Text psaný v Markdownu (úvody témat, návody). */
+.notice--warning {
+  border-color: var(--color-risk);
+  background: var(--color-risk-bg);
+}
+
+/* Ukázková adresa v simulaci – vypadá jako odkaz, ale není klikací. */
+.fake-link {
+  color: var(--color-info);
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  word-break: break-all;
+}
+
 .prose {
   max-width: var(--text-width);
 }
 
-.prose ol,
-.prose ul {
-  padding-left: 1.5em;
-}
-
-.prose blockquote {
-  margin: var(--space-3) 0;
-  padding: var(--space-2) var(--space-3);
-  border-left: 6px solid var(--color-primary);
-  background: var(--color-surface);
-}
-
-.prose blockquote > :last-child {
+.prose > :last-child {
   margin-bottom: 0;
+}
+
+.points {
+  padding-left: 0;
+  list-style: none;
+}
+
+.points li {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.points li::before {
+  content: '';
+  position: absolute;
+  left: 0.35rem;
+  top: 0.55em;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid var(--color-primary);
+}
+
+/* Rozbalovací části (<details>) */
+details.disclosure {
+  margin: 0 0 var(--space-3);
+  border: 2px solid var(--color-border-light);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  max-width: var(--text-width);
+}
+
+details.disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--tap-size);
+  padding: 0.6rem var(--space-3);
+  font-weight: 700;
+  color: var(--color-primary);
+  cursor: pointer;
+  list-style: none;
+}
+
+details.disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.disclosure > summary::before {
+  content: '▸';
+  font-size: 1.2rem;
+}
+
+details.disclosure[open] > summary::before {
+  content: '▾';
+}
+
+details.disclosure > .disclosure__body {
+  padding: 0 var(--space-3) var(--space-2);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -231,15 +512,112 @@ summary:focus-visible {
     font-size: 112.5%;
   }
 
+  .container {
+    padding: 0 var(--space-2);
+  }
+
   h1 {
-    font-size: 1.75rem;
+    font-size: 1.65rem;
   }
 }
 
-/* Seznam materiálů (karty v mřížce). */
+@media print {
+  .site-header,
+  .site-footer,
+  .step-nav,
+  .lecturer-bar {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Místa k prohlédnutí (HotspotImage, MessageSignals)
+ * ------------------------------------------------------------------------ */
+
+.spot-status {
+  margin: 0 0 var(--space-2);
+  font-weight: 700;
+}
+
+.spot-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  padding-left: 2rem;
+  max-width: var(--text-width);
+}
+
+.spot-list--plain {
+  padding-left: 0;
+  list-style: none;
+}
+
+.spot-list > li + li {
+  margin-top: 0;
+}
+
+.spot-explain {
+  padding: var(--space-2);
+  border: 2px solid var(--color-border-light);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.spot-explain.is-current {
+  border-color: var(--color-primary);
+  border-width: 3px;
+  background: var(--color-info-bg);
+}
+
+.spot-explain::marker {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.spot-explain > p:last-child {
+  margin-bottom: 0;
+}
+
+.spot-explain__title {
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+/* Podezřelé místo ve zprávě – je to tlačítko, ale čte se jako součást textu. */
+.signal {
+  display: inline;
+  margin: 0;
+  padding: 0.1em 0.15em;
+  border: 0;
+  border-bottom: 3px dotted var(--color-risk);
+  border-radius: 0.2em;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1.9;
+  text-align: inherit;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.signal:hover {
+  background: var(--color-risk-bg);
+}
+
+.signal[aria-pressed='true'] {
+  border-bottom-style: solid;
+  background: var(--color-risk-bg);
+}
+
+.signal[aria-pressed='true']::before {
+  content: '⚠ ';
+  color: var(--color-risk);
+}
+
+/* Seznam materiálů ke stažení (karty v mřížce). */
 .resource-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
   gap: var(--space-3);
   max-width: none;
   margin: 0 0 var(--space-3);

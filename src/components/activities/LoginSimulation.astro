@@ -1,0 +1,164 @@
+---
+/**
+ * „Druhý zámek“ – simulace přihlášení s potvrzením v telefonu.
+ * Nejsou zde žádná skutečná pole pro heslo; vše je jen ukázka.
+ */
+import { formatText } from '../../lib/text';
+import ToneLabel from '../ToneLabel.astro';
+
+interface Props {
+  service: string;
+  password: string;
+  request: string;
+  done: string;
+  denied: string;
+}
+
+const { service, password, request, done, denied } = Astro.props;
+---
+
+<login-sim class="login">
+  <ol class="login__stages">
+    <li class="login__stage" data-stage="1">
+      <p class="login__step">1. zámek: heslo</p>
+      <div class="login__screen">
+        <p class="login__service"><span aria-hidden="true">✉️</span> {service} – přihlášení</p>
+        <p class="login__field-label">Heslo</p>
+        <p class="login__field" aria-label="Ukázkové heslo, skryté tečkami">●●●●●●●●●●●●●●●●</p>
+        <p set:html={formatText(password)} />
+        <button type="button" class="button button--large" data-go="2" hidden>Přihlásit se</button>
+      </div>
+    </li>
+
+    <li class="login__stage" data-stage="2">
+      <p class="login__step">2. zámek: potvrzení v telefonu</p>
+      <div class="login__phone">
+        <p class="login__notification-title"><span aria-hidden="true">🔔</span> Žádost o přihlášení</p>
+        <p set:html={formatText(request)} />
+        <div class="login__actions" data-actions hidden>
+          <button type="button" class="button" data-go="3">Ano, jsem to já</button>
+          <button type="button" class="button button--secondary" data-go="deny">Ne, nejsem to já</button>
+        </div>
+      </div>
+    </li>
+
+    <li class="login__stage" data-stage="3">
+      <p class="login__step">Hotovo</p>
+      <div class="feedback feedback--ok">
+        <ToneLabel tone="ok" />
+        <p set:html={formatText(done)} />
+      </div>
+    </li>
+
+    <li class="login__stage" data-stage="deny" hidden>
+      <p class="login__step">Přihlášení zastaveno</p>
+      <div class="feedback feedback--info">
+        <ToneLabel tone="info" />
+        <p set:html={formatText(denied)} />
+      </div>
+    </li>
+  </ol>
+  <p data-restart hidden>
+    <button type="button" class="button button--secondary" data-go="1">Vyzkoušet znovu</button>
+  </p>
+</login-sim>
+
+<script>
+  class LoginSim extends HTMLElement {
+    connectedCallback() {
+      const stages = Array.from(this.querySelectorAll<HTMLElement>('[data-stage]'));
+      const restart = this.querySelector<HTMLElement>('[data-restart]')!;
+      this.querySelectorAll<HTMLElement>('[data-go="2"], [data-actions]').forEach((el) => (el.hidden = false));
+
+      const show = (stage: string, moveFocus: boolean) => {
+        // Předchozí kroky zůstávají vidět, aby bylo jasné, co se stalo.
+        const order = stage === 'deny' ? ['1', '2', 'deny'] : ['1', '2', '3'].slice(0, Number(stage));
+        stages.forEach((s) => (s.hidden = !order.includes(s.dataset.stage!)));
+        restart.hidden = stage !== '3' && stage !== 'deny';
+        const current = stages.find((s) => s.dataset.stage === stage);
+        if (moveFocus && current) {
+          const label = current.querySelector<HTMLElement>('.login__step')!;
+          label.tabIndex = -1;
+          label.focus({ preventScroll: true });
+          label.scrollIntoView({ block: 'nearest' });
+        }
+      };
+
+      this.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((button) =>
+        button.addEventListener('click', () => show(button.dataset.go!, true)),
+      );
+      show('1', false);
+    }
+  }
+  customElements.define('login-sim', LoginSim);
+</script>
+
+<style>
+  .login {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .login__stages {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    list-style: none;
+    max-width: 34rem;
+  }
+
+  .login__stage + .login__stage {
+    margin-top: 0;
+  }
+
+  .login__step {
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.9rem;
+  }
+
+  .login__screen,
+  .login__phone {
+    padding: var(--space-3);
+    border: 3px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .login__phone {
+    max-width: 24rem;
+    border-radius: 1.75rem;
+    border-width: 6px;
+    border-color: var(--color-text);
+    background: var(--color-info-bg);
+  }
+
+  .login__service,
+  .login__notification-title {
+    font-weight: 700;
+  }
+
+  .login__field-label {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+
+  .login__field {
+    padding: 0.6rem 0.9rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-surface-alt);
+    letter-spacing: 0.1em;
+    overflow: hidden;
+  }
+
+  .login__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+</style>

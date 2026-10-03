@@ -1,0 +1,41 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 6
+title: STOP – co si odnáším
+summary: Jednoduchý postup pro chvíle, kdy si nejste jistí.
+lecturer:
+  time: 10 minut
+  goal: Ukotvit pomůcku STOP. Doporučte účastníkům napsat si ji na lísteček k telefonu.
+  discussion: Kde si STOP připomenete? Třeba na lístečku u telefonu?
+  transition: 'Pozvěte účastníky na třetí setkání: Digitální klíče – jak ochránit své účty.'
+screens:
+  - kind: shrnuti
+    title: Pamatujte si STOP
+    text:
+      - 'Když vás zpráva nebo telefonát znejistí, vzpomeňte si na čtyři písmena:'
+    activity:
+      type: rules
+      items:
+        - key: S
+          title: Stůjte.
+          text: Nemusíte reagovat okamžitě.
+        - key: T
+          title: Tlak je varování.
+          text: Pozor, pokud vás někdo nutí jednat rychle.
+        - key: O
+          title: Ověřte.
+          text: Použijte jiný kontakt nebo jinou cestu.
+        - key: P
+          title: Ptejte se.
+          text: Když si nejste jistí, požádejte někoho o pomoc.
+  - kind: reflexe
+    title: Děkujeme
+    text:
+      - Dnes jste si vyzkoušeli, jak poznat podvodné zprávy a telefonáty. Nemusíte poznat každý podvod – stačí se zastavit a ověřit si to.
+      - Když se něco stane, hned volejte své bance a pak Policii ČR na čísle **158**.
+    activity:
+      type: reflection
+      question: Komu zavoláte, když si nebudete jistí?
+      hint: Myslete na někoho, komu důvěřujete – třeba na člena rodiny nebo souseda. Jeho číslo si můžete napsat na lísteček ke STOP.

@@ -1,0 +1,89 @@
+---
+/** Shrnutí – několik pravidel k zapamatování (např. STOP). */
+import { formatText } from '../../lib/text';
+
+interface Props {
+  title?: string;
+  items: { key?: string; title: string; text?: string }[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<div class="rules">
+  {title && <p class="rules__title">{title}</p>}
+  <ol class="rules__list">
+    {
+      items.map((item, i) => (
+        <li class="rules__item">
+          <span class="rules__key" aria-hidden="true">
+            {item.key ?? i + 1}
+          </span>
+          <div>
+            <p class="rules__item-title" set:html={formatText(item.title)} />
+            {item.text && <p set:html={formatText(item.text)} />}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .rules {
+    margin: var(--space-3) 0;
+  }
+
+  .rules__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .rules__list {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: var(--text-width);
+  }
+
+  .rules__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-border-light);
+    border-left: 8px solid var(--color-accent);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .rules__item + .rules__item {
+    margin-top: 0;
+  }
+
+  .rules__key {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--radius-small);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  .rules__item-title {
+    margin-bottom: 0.25rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .rules__item p:last-child {
+    margin-bottom: 0;
+  }
+</style>

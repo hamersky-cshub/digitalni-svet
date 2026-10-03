@@ -1,0 +1,100 @@
+---
+/**
+ * Modelová scéna „balení na dovolenou“. Všechny údaje jsou smyšlené.
+ * Souřadnice míst k prohlédnutí jsou v obsahu (stops/…/04-fotografie.yaml) v procentech
+ * – při úpravě obrázku je upravte také. viewBox 800 × 600.
+ */
+---
+
+<svg viewBox="0 0 800 600" role="presentation" aria-hidden="true" focusable="false" class="scene">
+  <!-- Stěna a stůl -->
+  <rect width="800" height="330" fill="#efe9dd"></rect>
+  <rect y="320" width="800" height="280" fill="#cfae84"></rect>
+  <rect y="320" width="800" height="10" fill="#b8936a"></rect>
+
+  <!-- Okno s autem -->
+  <rect x="40" y="36" width="290" height="226" rx="6" fill="#ffffff" stroke="#8a8f98" stroke-width="6"></rect>
+  <rect x="49" y="45" width="272" height="208" fill="#cfe5f3"></rect>
+  <rect x="49" y="200" width="272" height="53" fill="#9fb3a1"></rect>
+  <g>
+    <rect x="95" y="160" width="170" height="62" rx="18" fill="#3f6d9b"></rect>
+    <path d="M125 160 L150 128 H215 L240 160 Z" fill="#3f6d9b"></path>
+    <path d="M140 158 L157 136 H182 V158 Z M190 158 V136 H210 L227 158 Z" fill="#d9ecf7"></path>
+    <circle cx="130" cy="224" r="15" fill="#2b2f36"></circle>
+    <circle cx="232" cy="224" r="15" fill="#2b2f36"></circle>
+    <rect x="140" y="196" width="80" height="22" rx="3" fill="#ffffff" stroke="#1b1f23" stroke-width="2"></rect>
+    <rect x="140" y="196" width="10" height="22" fill="#2a4fa0"></rect>
+    <text x="186" y="212" font-size="13" font-family="system-ui, sans-serif" font-weight="700" text-anchor="middle" fill="#1b1f23">1AB 2345</text>
+  </g>
+  <line x1="185" y1="45" x2="185" y2="253" stroke="#8a8f98" stroke-width="5"></line>
+
+  <!-- Rodinná fotografie na zdi -->
+  <rect x="380" y="58" width="150" height="116" rx="4" fill="#7a5a3a"></rect>
+  <rect x="390" y="68" width="130" height="96" fill="#fdf6e8"></rect>
+  <circle cx="425" cy="102" r="13" fill="#e2b48f"></circle>
+  <rect x="410" y="117" width="30" height="40" rx="10" fill="#c0504d"></rect>
+  <circle cx="462" cy="110" r="10" fill="#e2b48f"></circle>
+  <rect x="451" y="122" width="22" height="34" rx="8" fill="#4f81bd"></rect>
+  <circle cx="494" cy="100" r="13" fill="#c9966b"></circle>
+  <rect x="479" y="115" width="30" height="42" rx="10" fill="#6aa84f"></rect>
+
+  <!-- Tablet s rozepsaným příspěvkem -->
+  <rect x="590" y="186" width="180" height="128" rx="12" fill="#2b2f36"></rect>
+  <rect x="600" y="196" width="160" height="108" rx="4" fill="#ffffff"></rect>
+  <text x="610" y="218" font-size="12" font-family="system-ui, sans-serif" font-weight="700" fill="#1b1f23">Nový příspěvek</text>
+  <text x="610" y="240" font-size="12" font-family="system-ui, sans-serif" fill="#1b1f23">Zítra letíme k moři!</text>
+  <text x="610" y="257" font-size="12" font-family="system-ui, sans-serif" fill="#1b1f23">Celé dva týdny pryč.</text>
+  <rect x="610" y="270" width="80" height="24" rx="12" fill="#0b4566"></rect>
+  <text x="650" y="286" font-size="11" font-family="system-ui, sans-serif" font-weight="700" text-anchor="middle" fill="#ffffff">Veřejně</text>
+  <path d="M660 314 L700 314 L690 326 L670 326 Z" fill="#2b2f36"></path>
+
+  <!-- Obálka s adresou -->
+  <g transform="rotate(-3 160 417)">
+    <rect x="40" y="350" width="245" height="135" rx="4" fill="#ffffff" stroke="#9aa0a6" stroke-width="2"></rect>
+    <rect x="232" y="362" width="38" height="44" fill="#e8c46a" stroke="#b48c2b" stroke-width="2"></rect>
+    <text x="60" y="420" font-size="14" font-family="system-ui, sans-serif" fill="#1b1f23">Jana Ukázková</text>
+    <text x="60" y="440" font-size="14" font-family="system-ui, sans-serif" fill="#1b1f23">Vzorová 12</text>
+    <text x="60" y="460" font-size="14" font-family="system-ui, sans-serif" fill="#1b1f23">123 45 Městečko</text>
+  </g>
+
+  <!-- Palubní vstupenka -->
+  <g transform="rotate(4 425 395)">
+    <rect x="310" y="345" width="235" height="100" rx="8" fill="#ffffff" stroke="#3f6d9b" stroke-width="3"></rect>
+    <rect x="310" y="345" width="235" height="24" rx="8" fill="#3f6d9b"></rect>
+    <text x="322" y="362" font-size="12" font-family="system-ui, sans-serif" font-weight="700" fill="#ffffff">PALUBNÍ VSTUPENKA</text>
+    <text x="322" y="390" font-size="15" font-family="system-ui, sans-serif" font-weight="700" fill="#1b1f23">PRAHA → MÁLAGA</text>
+    <text x="322" y="410" font-size="12" font-family="system-ui, sans-serif" fill="#1b1f23">UKÁZKOVÁ JANA · 14. 7.</text>
+    <g fill="#1b1f23">
+      <rect x="322" y="420" width="3" height="16"></rect><rect x="328" y="420" width="1.5" height="16"></rect>
+      <rect x="333" y="420" width="4" height="16"></rect><rect x="341" y="420" width="2" height="16"></rect>
+      <rect x="346" y="420" width="3" height="16"></rect><rect x="353" y="420" width="1.5" height="16"></rect>
+      <rect x="358" y="420" width="4" height="16"></rect><rect x="366" y="420" width="2" height="16"></rect>
+      <rect x="371" y="420" width="3" height="16"></rect><rect x="378" y="420" width="1.5" height="16"></rect>
+      <rect x="383" y="420" width="4" height="16"></rect><rect x="391" y="420" width="2" height="16"></rect>
+    </g>
+  </g>
+
+  <!-- Kufr -->
+  <rect x="585" y="360" width="190" height="130" rx="14" fill="#5b7f6e"></rect>
+  <rect x="655" y="345" width="50" height="18" rx="6" fill="none" stroke="#3d5a4c" stroke-width="6"></rect>
+  <line x1="610" y1="360" x2="610" y2="490" stroke="#4a6a5b" stroke-width="5"></line>
+  <line x1="750" y1="360" x2="750" y2="490" stroke="#4a6a5b" stroke-width="5"></line>
+
+  <!-- Klíče se štítkem -->
+  <circle cx="330" cy="515" r="16" fill="none" stroke="#8a8f98" stroke-width="5"></circle>
+  <path d="M342 525 L372 548 L366 556 L360 551 L356 556 L350 551 L336 535 Z" fill="#c9a227"></path>
+  <path d="M316 527 L300 560 L309 563 L313 555 L319 557 L323 549 L325 533 Z" fill="#b0b5bc"></path>
+  <rect x="258" y="494" width="58" height="28" rx="4" fill="#fdf6e8" stroke="#8a8f98" stroke-width="2"></rect>
+  <text x="287" y="512" font-size="10" font-family="system-ui, sans-serif" text-anchor="middle" fill="#1b1f23">Vzorová 12</text>
+
+  <!-- Občanský průkaz -->
+  <g transform="rotate(-5 505 517)">
+    <rect x="430" y="470" width="150" height="95" rx="8" fill="#e7eef7" stroke="#3f6d9b" stroke-width="2"></rect>
+    <text x="440" y="488" font-size="10" font-family="system-ui, sans-serif" font-weight="700" fill="#1b1f23">OBČANSKÝ PRŮKAZ</text>
+    <rect x="440" y="496" width="38" height="48" fill="#c7d3e3"></rect>
+    <circle cx="459" cy="512" r="9" fill="#9fb0c8"></circle>
+    <text x="486" y="510" font-size="10" font-family="system-ui, sans-serif" fill="#1b1f23">UKÁZKOVÁ</text>
+    <text x="486" y="524" font-size="10" font-family="system-ui, sans-serif" fill="#1b1f23">Jana</text>
+    <text x="486" y="538" font-size="10" font-family="system-ui, sans-serif" fill="#1b1f23">č. 000000000</text>
+  </g>
+</svg>

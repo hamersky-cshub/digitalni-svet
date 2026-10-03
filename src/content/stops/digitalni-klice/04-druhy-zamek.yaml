@@ -1,0 +1,63 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-klice
+order: 4
+title: Druhý zámek
+summary: Dvoufázové ověření a novější způsoby přihlašování.
+lecturer:
+  time: 25 minut
+  goal: Vysvětlit dvoufázové (vícefaktorové) ověření a zásadu nepotvrzovat přihlášení, které jsem sám/sama nezahájil(a). Krátce zmínit přístupové klíče (passkeys).
+  discussion: Potvrzujete už něco v telefonu, třeba platby v bankovnictví?
+  transition: Shrňme si čtyři návyky, které vaše účty ochrání.
+screens:
+  - kind: vyklad
+    title: Dva zámky jsou víc než jeden
+    text:
+      - '**Dvoufázové ověření** (někdy také vícefaktorové) znamená, že k přihlášení nestačí jen heslo.'
+    points:
+      - 🔑 **První zámek:** heslo, které znáte.
+      - 📱 **Druhý zámek:** potvrzení v telefonu nebo kód z SMS.
+      - 🛡️ I když někdo zjistí vaše heslo, bez vašeho telefonu se dovnitř nedostane.
+  - kind: aktivita
+    title: Vyzkoušejte si přihlášení
+    text:
+      - Projděte si, jak takové přihlášení vypadá. Je to jen ukázka – nic skutečného se nezadává.
+    activity:
+      type: login
+      service: E-mail
+      password: Heslo je zadané. To je první zámek.
+      request: 'Přihlašujete se do e-mailu? Zařízení: tablet, právě teď. Potvrďte jen tehdy, když se přihlašujete vy.'
+      done: 'Přístup je povolen. Prošli jste oběma zámky: heslem i potvrzením v telefonu.'
+      denied: Přihlášení je zastavené. Odmítnout je správné vždy, když se nepřihlašujete vy. Tady jste se ale přihlašovali sami, takže jste mohli potvrdit.
+  - kind: aktivita
+    title: Žádost, kterou jste nečekali
+    activity:
+      type: scenarios
+      items:
+        - text: 'Večer se díváte na televizi a na e-mail se nepřihlašujete. Najednou vám v telefonu přijde tato žádost:'
+          message:
+            medium: notification
+            sender: Žádost o přihlášení
+            lines:
+              - 'Přihlašujete se do e-mailu? Zařízení: neznámý počítač, právě teď. Potvrdit?'
+          question: Co uděláte?
+          options:
+            - label: Potvrdím, asi je to nějaká aktualizace.
+              tone: risk
+              feedback: Pokud jste přihlášení nezahájili, potvrzením byste pustili dovnitř někoho cizího – nejspíš někoho, kdo zná vaše heslo.
+            - label: Odmítnu a pak si změním heslo.
+              tone: ok
+              feedback: Správně. Žádost znamená, že někdo zná vaše heslo – a druhý zámek ho zastavil. Heslo si změňte, případně požádejte o pomoc.
+            - label: Žádost budu ignorovat.
+              tone: info
+              feedback: Je to lepší než potvrdit. Jistější je ale žádost odmítnout a změnit heslo – útočník to může zkoušet znovu.
+          lesson: '**Nikdy nepotvrzujte přihlášení, které jste sami nezahájili.**'
+  - kind: vyklad
+    title: Přihlášení bez hesla
+    text:
+      - Novější služby někdy umožňují přihlášení **otiskem prstu, obličejem nebo PINem zařízení** místo klasického hesla. Říká se tomu **přístupový klíč** (anglicky passkey).
+      - Váš tablet nebo telefon sám potvrdí, že jste to vy. Takové přihlášení podvodník nemůže vylákat přes falešnou stránku.
+    points:
+      - Když vám služba přístupový klíč nabídne, můžete ho klidně vyzkoušet.
+      - Nemusíte nic nastavovat hned – stačí vědět, že tato možnost existuje.

@@ -1,0 +1,155 @@
+---
+/**
+ * StepGuide – praktický úkol krok za krokem. U každého kroku lze klepnout „Mám hotovo“,
+ * aby účastník po návratu z Nastavení věděl, kde skončil (nic se neukládá).
+ */
+import { formatText } from '../../lib/text';
+
+interface Props {
+  intro?: string;
+  steps: { text: string; question?: string }[];
+  outro?: string;
+}
+
+const { intro, steps, outro } = Astro.props;
+---
+
+<step-guide class="step-guide">
+  {intro && <p set:html={formatText(intro)} />}
+  <ol class="step-guide__list">
+    {
+      steps.map((step, i) => (
+        <li class="step-guide__step">
+          <span class="step-guide__number" aria-hidden="true">
+            {i + 1}
+          </span>
+          <div class="step-guide__content">
+            <p class="visually-hidden">Krok {i + 1}</p>
+            <p set:html={formatText(step.text)} />
+            {step.question && (
+              <p class="step-guide__question">
+                <span aria-hidden="true">💭</span> <span set:html={formatText(step.question)} />
+              </p>
+            )}
+            <button type="button" class="step-guide__done" aria-pressed="false" data-done hidden>
+              <span class="step-guide__box" aria-hidden="true" />
+              Mám hotovo
+            </button>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+  {outro && <p class="notice" set:html={formatText(outro)} />}
+</step-guide>
+
+<script>
+  class StepGuide extends HTMLElement {
+    connectedCallback() {
+      this.querySelectorAll<HTMLButtonElement>('[data-done]').forEach((button) => {
+        button.hidden = false;
+        button.addEventListener('click', () => {
+          const done = button.getAttribute('aria-pressed') !== 'true';
+          button.setAttribute('aria-pressed', String(done));
+          button.closest('li')?.classList.toggle('is-done', done);
+        });
+      });
+    }
+  }
+  customElements.define('step-guide', StepGuide);
+</script>
+
+<style>
+  .step-guide {
+    display: block;
+  }
+
+  .step-guide__list {
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+    max-width: var(--text-width);
+  }
+
+  .step-guide__step {
+    display: flex;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    border-bottom: 2px solid var(--color-border-light);
+  }
+
+  .step-guide__step + .step-guide__step {
+    margin-top: 0;
+  }
+
+  .step-guide__number {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-weight: 700;
+  }
+
+  .step-guide__step.is-done .step-guide__number {
+    background: var(--color-ok);
+  }
+
+  .step-guide__content {
+    flex: 1;
+  }
+
+  .step-guide__content p {
+    margin-bottom: var(--space-1);
+  }
+
+  .step-guide__question {
+    padding: 0.5rem 0.9rem;
+    border-radius: var(--radius-small);
+    background: var(--color-accent-soft);
+    font-weight: 600;
+  }
+
+  .step-guide__done {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0.4rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-surface);
+    font-weight: 700;
+  }
+
+  .step-guide__box {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid var(--color-border);
+    border-radius: 0.3rem;
+    background: var(--color-surface);
+  }
+
+  .step-guide__done[aria-pressed='true'] {
+    border-color: var(--color-ok);
+    background: var(--color-ok-bg);
+    color: var(--color-ok);
+  }
+
+  .step-guide__done[aria-pressed='true'] .step-guide__box {
+    border-color: var(--color-ok);
+    background: var(--color-ok);
+  }
+
+  .step-guide__done[aria-pressed='true'] .step-guide__box::after {
+    content: '✓';
+    color: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+</style>

@@ -1,0 +1,106 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-stopa
+order: 2
+title: Co sdílím
+summary: Komu svěřujeme jaké informace a proč na tom záleží.
+lecturer:
+  time: 20 minut
+  goal: Účastníci rozliší, že u informací rozhoduje komu, proč a zda je nutné je zveřejnit. U řady otázek neexistuje jediná správná odpověď.
+  discussion: Kdy jste naposledy něco sdíleli a komu to bylo určené?
+  transition: Informace sdílíme nejen my – někdy si o ně říkají i aplikace. Podívejme se, co jim dovolujeme.
+screens:
+  - kind: vyklad
+    title: Záleží na tom, komu to říkáte
+    text:
+      - Informace nejsou samy o sobě dobré ani špatné. Stejná věc může být v pořádku v rodině a riskantní na internetu.
+      - 'Než něco sdílíte, zeptejte se:'
+    points:
+      - '**Komu** to říkám? Rodině, známým, nebo všem na internetu?'
+      - '**Proč** to sdílím? Potřebuje to druhý vědět?'
+      - '**Musím** to zveřejnit? Nestačí to poslat jen jednomu člověku?'
+  - kind: aktivita
+    title: Komu byste to řekli?
+    text:
+      - U každé informace zvolte, komu byste ji svěřili. Správná odpověď často závisí na situaci.
+    activity:
+      type: choices
+      question: Komu byste to řekli?
+      itemLabel: Informace
+      options:
+        - id: blizkym
+          label: JEN BLÍZKÝM
+        - id: znamym
+          label: ZNÁMÝM
+        - id: verejne
+          label: KLIDNĚ VEŘEJNĚ
+      items:
+        - text: Kdy jedu na dovolenou.
+          recommended:
+            - blizkym
+          responses:
+            verejne:
+              tone: risk
+              text: Veřejná informace, že nejste doma, může zajímat i zloděje.
+          explanation: O dovolené je dobré vědět jen blízkým. Fotografie z cest můžete klidně zveřejnit až po návratu.
+        - text: Moje telefonní číslo.
+          recommended:
+            - blizkym
+            - znamym
+          responses:
+            verejne:
+              tone: risk
+              text: Veřejně dostupné číslo mohou zneužít podvodníci k falešným telefonátům a SMS.
+          explanation: Telefonní číslo dáváme lidem a firmám, které ho opravdu potřebují. Na internetu ho zveřejňovat nemusíte.
+        - text: Fotografie vnoučete.
+          recommended:
+            - blizkym
+          responses:
+            verejne:
+              tone: risk
+              text: Fotografii na veřejném profilu může vidět kdokoli – a dítě o tom samo rozhodnout nemůže.
+          explanation: U fotografií dětí se nejdřív zeptejte rodičů, zda se sdílením souhlasí. Nejbezpečnější je posílat je jen rodině.
+        - text: Fotografie narozeninového dortu.
+          recommended:
+            - blizkym
+            - znamym
+            - verejne
+          explanation: Tady je to v pořádku téměř kdekoli. Jen se podívejte, co je na fotografii kolem dortu – třeba přáníčko s celým jménem a datem narození.
+        - text: Adresa bydliště.
+          recommended:
+            - blizkym
+          responses:
+            znamym:
+              tone: info
+              text: Známým ji říct můžete, pokud ji potřebují – třeba když vás jdou navštívit.
+            verejne:
+              tone: risk
+              text: Veřejná adresa spolu s informací, že nejste doma, je pro zloděje cenná.
+          explanation: Adresu potřebují blízcí, lékař nebo doručovací služba. Na sociálních sítích ji zveřejňovat nemusíte.
+        - text: Hodnocení knihy, kterou jsem přečetl(a).
+          recommended:
+            - blizkym
+            - znamym
+            - verejne
+          explanation: Hodnocení knihy je běžná veřejná informace a může pomoci dalším čtenářům. Stačí, když v něm nebudou osobní údaje.
+        - text: Fotografie letenky nebo palubní vstupenky.
+          responses:
+            blizkym:
+              tone: info
+              text: 'Blízkým v soukromé zprávě to riziko není velké. Přesto: zakryjte jméno a kód.'
+            znamym:
+              tone: risk
+              text: Čím víc lidí fotografii uvidí, tím větší je riziko zneužití.
+            verejne:
+              tone: risk
+              text: Na vstupence je kód, ze kterého lze zjistit jméno a rezervaci – a někdy dokonce let změnit nebo zrušit.
+          explanation: Palubní vstupenky raději nefoťte. Pro radost z cesty stačí fotografie z letiště nebo z okna letadla.
+    lecturer:
+      goal: Zdůrazněte, že u dortu nebo knihy je v pořádku jakákoli odpověď. Cílem je přemýšlet o kontextu, ne „trefit se“.
+  - kind: reflexe
+    title: Udělal(a) bych to dnes jinak?
+    activity:
+      type: reflection
+      question: Vzpomenete si na něco, co jste v minulosti sdíleli a dnes byste to udělali jinak?
+      hint: Nemusíte to nikomu říkat. Stačí, když si to promyslíte.

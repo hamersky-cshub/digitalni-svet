@@ -1,0 +1,80 @@
+---
+/** Jednotná navigace na konci každé obrazovky: Zpět / Pokračovat + přehled a úvod. */
+import type { StepLink } from '../lib/content';
+import { withBase, workshopHref } from '../lib/url';
+
+interface Props {
+  prev: StepLink;
+  next: StepLink;
+  workshopId: string;
+}
+
+const { prev, next, workshopId } = Astro.props;
+---
+
+<nav class="step-nav" aria-label="Pohyb mezi kroky">
+  <div class="step-nav__main">
+    <a class="button button--secondary button--large step-nav__prev" href={prev.href}>
+      <span aria-hidden="true">←</span>
+      {prev.label}
+    </a>
+    <a class="button button--large step-nav__next" href={next.href}>
+      {next.label}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+  <ul class="step-nav__more">
+    <li><a href={workshopHref(workshopId)}>Přehled workshopu</a></li>
+    <li><a href={withBase()}>Úvodní stránka</a></li>
+  </ul>
+</nav>
+
+<style>
+  .step-nav {
+    margin-top: var(--space-5);
+    padding-top: var(--space-3);
+    border-top: 2px solid var(--color-border-light);
+  }
+
+  .step-nav__main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: space-between;
+  }
+
+  .step-nav__next {
+    margin-left: auto;
+  }
+
+  @media (max-width: 34rem) {
+    .step-nav__main {
+      flex-direction: column-reverse;
+    }
+
+    .step-nav__main .button {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
+  .step-nav__more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-3);
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+    max-width: none;
+  }
+
+  .step-nav__more li {
+    margin: 0;
+  }
+
+  .step-nav__more a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-size);
+  }
+</style>

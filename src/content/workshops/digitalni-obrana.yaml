@@ -1,0 +1,12 @@
+# Workshop. Zastávky jsou ve složce src/content/stops/<název tohoto souboru>/.
+
+title: Digitální obrana
+subtitle: Jak se nenechat nachytat
+cardText: Vyzkoušíme si, jak rozpoznat podvodné zprávy, telefonáty a další pokusy o manipulaci.
+order: 2
+icon: 🛡️
+annotation:
+  - Internetoví podvodníci jsou stále vynalézavější. Dokážou napodobit banku, poštu, státní úřad i známého člověka tak věrohodně, že jejich zprávám snadno uvěří i zkušení uživatelé.
+  - Stačí chvilka nepozornosti a následky mohou být nepříjemné.
+  - Na příkladech workshop ukazuje podvodné e-maily a SMS zprávy, falešné telefonáty a další triky. Naučíte se rozpoznat varovné signály, ověřovat důležité informace a zachovat klid, když vás někdo tlačí k rychlému rozhodnutí.
+  - 'Hlavní princip zní: **zastavit se – zkontrolovat – ověřit jinou cestou**.'

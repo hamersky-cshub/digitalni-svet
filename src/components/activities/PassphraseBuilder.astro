@@ -1,0 +1,174 @@
+---
+/**
+ * PassphraseBuilder – skládání MODELOVÉ heslové fráze z náhodných slov.
+ * Vše běží jen v prohlížeči: nic se neukládá, neodesílá ani nekopíruje.
+ */
+import { formatText } from '../../lib/text';
+
+interface Props {
+  warning: string;
+  words: string[];
+  count: number;
+  explanation: string;
+}
+
+const { warning, words, count, explanation } = Astro.props;
+const example = words.slice(0, count);
+---
+
+<passphrase-builder class="passphrase" data-words={JSON.stringify(words)} data-count={count}>
+  <div class="notice notice--warning passphrase__warning">
+    <p><strong><span aria-hidden="true">⚠ </span><span set:html={formatText(warning)} /></strong></p>
+  </div>
+
+  <p class="passphrase__label" id="passphrase-label">Modelová heslová fráze:</p>
+  <ol class="passphrase__slots" aria-labelledby="passphrase-label">
+    {
+      example.map((word, i) => (
+        <li class="passphrase__slot">
+          <span class="passphrase__word" data-word={i}>
+            {word}
+          </span>
+          <button type="button" class="passphrase__swap" data-swap={i} hidden>
+            Vyměnit<span class="visually-hidden"> {i + 1}. slovo</span>
+          </button>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="passphrase__result">
+    <span class="passphrase__phrase" data-phrase>{example.join('-')}</span>
+  </p>
+  <p class="passphrase__length" data-length role="status">
+    Délka: {example.join('-').length} znaků
+  </p>
+
+  <p data-controls hidden>
+    <button type="button" class="button" data-shuffle>Nabídnout jiná slova</button>
+  </p>
+
+  <div class="feedback feedback--info">
+    <p set:html={formatText(explanation)} />
+  </div>
+</passphrase-builder>
+
+<script>
+  /** Náhodné číslo 0…max-1 z kryptograficky bezpečného generátoru prohlížeče. */
+  function randomIndex(max: number): number {
+    const buf = new Uint32Array(1);
+    crypto.getRandomValues(buf);
+    return buf[0] % max;
+  }
+
+  class PassphraseBuilder extends HTMLElement {
+    connectedCallback() {
+      const words: string[] = JSON.parse(this.dataset.words ?? '[]');
+      const count = Number(this.dataset.count ?? 4);
+      const slots = Array.from(this.querySelectorAll<HTMLElement>('[data-word]'));
+      const phrase = this.querySelector<HTMLElement>('[data-phrase]')!;
+      const length = this.querySelector<HTMLElement>('[data-length]')!;
+      let current: string[] = [];
+
+      const pick = (exclude: string[]) => {
+        const pool = words.filter((w) => !exclude.includes(w));
+        return pool[randomIndex(pool.length)];
+      };
+
+      const render = () => {
+        slots.forEach((slot, i) => (slot.textContent = current[i]));
+        const text = current.join('-');
+        phrase.textContent = text;
+        length.textContent = `Délka: ${text.length} znaků`;
+      };
+
+      const shuffle = () => {
+        current = [];
+        for (let i = 0; i < count; i++) current.push(pick(current));
+        render();
+      };
+
+      this.querySelectorAll<HTMLButtonElement>('[data-swap]').forEach((button) => {
+        button.hidden = false;
+        button.addEventListener('click', () => {
+          const i = Number(button.dataset.swap);
+          current[i] = pick(current);
+          render();
+        });
+      });
+      this.querySelector<HTMLElement>('[data-controls]')!.hidden = false;
+      this.querySelector('[data-shuffle]')!.addEventListener('click', shuffle);
+      shuffle();
+    }
+  }
+  customElements.define('passphrase-builder', PassphraseBuilder);
+</script>
+
+<style>
+  .passphrase {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .passphrase__label {
+    font-weight: 700;
+  }
+
+  .passphrase__slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: var(--space-2);
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    list-style: none;
+    max-width: none;
+  }
+
+  .passphrase__slot {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+    padding: var(--space-2);
+    border: 3px solid var(--color-primary);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    text-align: center;
+  }
+
+  .passphrase__word {
+    font-size: 1.3rem;
+    font-weight: 700;
+    word-break: break-word;
+  }
+
+  .passphrase__swap {
+    min-height: 3rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-surface-alt);
+    font-weight: 700;
+  }
+
+  .passphrase__result {
+    max-width: none;
+    margin-bottom: var(--space-1);
+    padding: var(--space-2);
+    border-radius: var(--radius);
+    background: var(--color-surface-alt);
+    text-align: center;
+  }
+
+  .passphrase__phrase {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    word-break: break-all;
+  }
+
+  .passphrase__length {
+    font-weight: 700;
+    text-align: center;
+    max-width: none;
+  }
+</style>

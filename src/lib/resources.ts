@@ -25,6 +25,10 @@ export interface ResourceAction {
   download: boolean;
 }
 
+export function detailHref(resource: CollectionEntry<'resources'>): string {
+  return withBase(`materialy/${resource.id}/`);
+}
+
 /** Vrátí hlavní akci materiálu: stažení souboru, otevření odkazu, nebo přečtení návodu. */
 export function resourceAction(resource: CollectionEntry<'resources'>): ResourceAction {
   const { file, url, type, fileSize } = resource.data;
@@ -39,10 +43,6 @@ export function resourceAction(resource: CollectionEntry<'resources'>): Resource
     return { href: url, label, external: true, download: false };
   }
   return { href: detailHref(resource), label: 'Přečíst návod', external: false, download: false };
-}
-
-export function detailHref(resource: CollectionEntry<'resources'>): string {
-  return withBase(`materialy/${resource.id}/`);
 }
 
 export function formatDate(date: Date): string {

@@ -1,0 +1,88 @@
+---
+/** Poznámka pro lektora – skrytá, dokud lektor nezapne režim lektora (stránka Pro lektory). */
+interface Props {
+  note?: {
+    time?: string;
+    goal?: string;
+    discussion?: string;
+    transition?: string;
+    tips?: string[];
+  };
+  title?: string;
+}
+
+const { note, title = 'Poznámka pro lektora' } = Astro.props;
+const rows = note
+  ? ([
+      ['Čas', note.time],
+      ['Cíl', note.goal],
+      ['Otázka do diskuse', note.discussion],
+      ['Přechod dál', note.transition],
+    ].filter(([, v]) => v) as [string, string][])
+  : [];
+---
+
+{
+  note && (rows.length > 0 || note.tips?.length) && (
+    <aside class="lecturer-note" data-lecturer hidden aria-label={title}>
+      <p class="lecturer-note__title">
+        <span aria-hidden="true">🧭</span> {title}
+      </p>
+      {rows.length > 0 && (
+        <dl>
+          {rows.map(([label, value]) => (
+            <div>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+      {note.tips && (
+        <ul>
+          {note.tips.map((tip) => (
+            <li>{tip}</li>
+          ))}
+        </ul>
+      )}
+    </aside>
+  )
+}
+
+<style>
+  .lecturer-note {
+    margin: var(--space-3) 0;
+    padding: var(--space-2) var(--space-3);
+    border: 2px dashed var(--color-accent);
+    border-radius: var(--radius);
+    background: var(--color-accent-soft);
+    font-size: 0.9rem;
+    max-width: var(--text-width);
+  }
+
+  .lecturer-note__title {
+    margin-bottom: var(--space-1);
+    font-weight: 700;
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  dl > div + div {
+    margin-top: 0.4rem;
+  }
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  ul {
+    margin: var(--space-1) 0 0;
+    padding-left: 1.2rem;
+  }
+</style>

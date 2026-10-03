@@ -1,0 +1,37 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-klice
+order: 1
+title: Klíče k digitálnímu životu
+summary: Proč jsou hesla jako klíče od bytu.
+lecturer:
+  time: 10 minut
+  goal: Navázat na zkušenost účastníků a zavést přirovnání heslo = klíč.
+  discussion: Kolik různých hesel přibližně používáte? Jak si je pamatujete?
+  transition: Jaké heslo je tedy dobré? Porovnejme si několik způsobů.
+  tips:
+    - Nikdo nemusí říkat svá skutečná hesla – ani na workshopu.
+screens:
+  - kind: diskuse
+    title: Kolik klíčů nosíte?
+    activity:
+      type: reflection
+      question: Kolik účtů s heslem používáte?
+      hint: Nic nepište. Stačí si to v duchu spočítat.
+      ideas:
+        - E-mail
+        - Internetové bankovnictví
+        - Sociální síť nebo chat
+        - Internetový obchod
+        - Portál zdravotní pojišťovny nebo úřadu
+  - kind: vyklad
+    title: Heslo je klíč
+    text:
+      - Heslo chrání váš účet podobně jako klíč chrání byt. Kdo zná heslo, dostane se dovnitř.
+      - 'Dobrá zpráva: k větší bezpečnosti stačí několik jednoduchých návyků. Dnes si vyzkoušíme:'
+    points:
+      - jaké heslo je dobré,
+      - proč nemít stejné heslo všude,
+      - jak funguje druhý zámek,
+      - jak si přihlašování zjednodušit.

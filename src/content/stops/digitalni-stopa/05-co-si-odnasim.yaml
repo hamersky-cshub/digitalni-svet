@@ -1,0 +1,33 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-stopa
+order: 5
+title: Co si odnáším
+summary: Tři otázky, které si položit, než něco zveřejníte nebo povolíte.
+lecturer:
+  time: 10 minut
+  goal: Shrnout setkání do tří otázek, které si účastníci zapamatují.
+  discussion: Kterou z otázek si položíte jako první?
+  transition: 'Pozvěte účastníky na další setkání: Digitální obrana – jak se nenechat nachytat.'
+screens:
+  - kind: shrnuti
+    title: Než něco zveřejním nebo povolím…
+    activity:
+      type: rules
+      items:
+        - title: Kdo tuto informaci uvidí?
+          text: Rodina, známí, nebo kdokoli na internetu?
+        - title: Potřebuje aplikace tento údaj?
+          text: Když ne, oprávnění klidně vypněte.
+        - title: Vadilo by mi, kdyby tato informace zůstala dostupná i později?
+          text: Co je jednou na internetu, se těžko maže.
+  - kind: reflexe
+    title: Děkujeme
+    text:
+      - Dnes jste zjistili, jak vzniká digitální stopa a kde si v zařízení nastavíte soukromí.
+      - Návody ke stažení najdete na přehledu workshopu.
+    activity:
+      type: reflection
+      question: Co si z dnešního setkání odnášíte?
+      hint: Stačí jedna věc, kterou si zapamatujete.

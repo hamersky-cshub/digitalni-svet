@@ -1,74 +1,141 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import TopicCard from '../components/TopicCard.astro';
-import { getResources, getTopics } from '../lib/content';
-import { withBase } from '../lib/url';
+import CompassIcon from '../components/CompassIcon.astro';
+import { getStops, getWorkshops } from '../lib/content';
+import { plural } from '../lib/text';
+import { workshopHref, withBase } from '../lib/url';
 
-const topics = await getTopics();
-const resources = await getResources();
-const countFor = (id: string) => resources.filter((r) => r.data.topic.id === id).length;
+const workshops = await getWorkshops();
+const stopCounts = Object.fromEntries(await Promise.all(workshops.map(async (w) => [w.id, (await getStops(w.id)).length])));
 ---
 
-<BaseLayout title="Digitální kompas">
+<BaseLayout title="Digitální svět pod kontrolou">
   <section class="hero">
-    <h1>Bezpečně na internetu – krok za krokem</h1>
-    <p class="lead">
-      Vítejte na webu <strong>Digitální kompas</strong>. Najdete tu materiály z našich workshopů o bezpečnosti na
-      internetu: návody, prezentace, videa a odkazy na užitečné stránky.
-    </p>
+    <CompassIcon size={72} />
+    <h1>Digitální svět pod kontrolou</h1>
+    <p class="lead">Tři praktická setkání o bezpečnějším používání digitálního světa.</p>
+  </section>
+
+  <h2 class="visually-hidden">Workshopy</h2>
+  <ol class="workshop-list">
+    {
+      workshops.map((workshop, i) => (
+        <li class="workshop-card">
+          <p class="workshop-card__number">
+            <span aria-hidden="true">{workshop.data.icon}</span> {i + 1}. setkání
+          </p>
+          <h3 class="workshop-card__title">{workshop.data.title}</h3>
+          <p class="workshop-card__subtitle">{workshop.data.subtitle}</p>
+          <p>{workshop.data.cardText}</p>
+          <p class="workshop-card__meta">
+            {stopCounts[workshop.id]} {plural(stopCounts[workshop.id], ['zastávka', 'zastávky', 'zastávek'])} · {workshop.data.duration}
+          </p>
+          <a class="button button--large workshop-card__cta" href={workshopHref(workshop.id)}>
+            Otevřít workshop<span class="visually-hidden"> {workshop.data.title}</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+
+  <section class="howto" aria-labelledby="jak-to-funguje">
+    <h2 id="jak-to-funguje">Jak tento web funguje</h2>
+    <ul class="points">
+      <li>Lektor vám řekne, který workshop a kterou zastávku otevřít.</li>
+      <li>Na každé obrazovce je jedna věc: krátké povídání, otázka nebo aktivita.</li>
+      <li>Dál se dostanete tlačítkem <strong>Pokračovat</strong> dole na stránce. Nikam nespěchejte.</li>
+      <li>Nejde o test. Žádné odpovědi se nehodnotí, neukládají ani neodesílají.</li>
+    </ul>
     <p>
-      <a class="button" href={withBase('materialy/')}>Prohlédnout všechny materiály</a>
+      Písmo je příliš malé? Na tabletu roztáhněte obrazovku dvěma prsty. Na počítači podržte klávesu
+      <kbd>Ctrl</kbd> a stiskněte <kbd>+</kbd>.
     </p>
-  </section>
-
-  <section aria-labelledby="temata">
-    <h2 id="temata">Vyberte si téma</h2>
-    <div class="topic-grid">
-      {topics.map((topic) => <TopicCard topic={topic} count={countFor(topic.id)} headingLevel="h3" />)}
-    </div>
-  </section>
-
-  <section aria-labelledby="jak-pouzivat" class="howto">
-    <h2 id="jak-pouzivat">Jak tento web používat</h2>
-    <ol>
-      <li><strong>Vyberte si téma</strong>, které vás zajímá, nebo otevřete stránku Všechny materiály.</li>
-      <li>
-        <strong>Klikněte na název materiálu.</strong> Uvidíte, o čem je, a tlačítko pro stažení nebo otevření.
-      </li>
-      <li>
-        <strong>Písmo je příliš malé?</strong> Podržte klávesu <kbd>Ctrl</kbd> a stiskněte <kbd>+</kbd>. Na telefonu
-        roztáhněte obrazovku dvěma prsty.
-      </li>
-      <li>
-        <strong>Nevíte si rady?</strong> Nebojte se zeptat lektora na workshopu. Žádná otázka není hloupá.
-      </li>
-    </ol>
+    <p><a href={withBase('o-projektu/')}>Více o projektu a o tom, jak web chrání vaše soukromí</a></p>
   </section>
 </BaseLayout>
 
 <style>
   .hero {
-    padding: var(--space-3) 0 var(--space-2);
+    padding: var(--space-4) 0 var(--space-2);
   }
 
-  .topic-grid {
+  .hero h1 {
+    margin-top: var(--space-2);
+  }
+
+  .workshop-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
     gap: var(--space-3);
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+    max-width: none;
+  }
+
+  .workshop-card {
+    position: relative;
+    margin: 0;
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    border: 3px solid var(--color-border-light);
+    border-top: 10px solid var(--color-primary);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .workshop-card + .workshop-card {
+    margin-top: 0;
+  }
+
+  .workshop-card__number {
+    margin-bottom: 0;
+    color: var(--color-text-muted);
+    font-weight: 700;
+  }
+
+  .workshop-card__title {
+    margin: var(--space-1) 0 0;
+    font-size: 1.75rem;
+  }
+
+  .workshop-card__subtitle {
+    margin-bottom: var(--space-2);
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .workshop-card__meta {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .workshop-card__cta {
+    margin-top: var(--space-1);
+  }
+
+  @media (max-width: 40rem) {
+    .workshop-card {
+      padding: var(--space-3) var(--space-2);
+    }
+
+    .workshop-card__cta {
+      width: 100%;
+    }
   }
 
   .howto {
     margin-top: var(--space-5);
     padding: var(--space-1) var(--space-3) var(--space-3);
     border-radius: var(--radius);
-    background: var(--color-surface);
+    background: var(--color-surface-alt);
   }
 
   kbd {
     padding: 0.05rem 0.4rem;
     border: 2px solid var(--color-border);
     border-radius: 0.3rem;
-    background: var(--color-bg);
+    background: var(--color-surface);
     font-family: inherit;
     font-weight: 700;
   }

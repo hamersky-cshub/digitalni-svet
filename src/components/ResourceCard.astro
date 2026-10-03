@@ -5,23 +5,20 @@ import { TYPE_ICONS, TYPE_LABELS, detailHref, resourceAction } from '../lib/reso
 
 interface Props {
   resource: CollectionEntry<'resources'>;
-  /** Název tématu; zobrazí se, pokud je uveden (na stránce všech materiálů). */
-  topicTitle?: string;
   headingLevel?: 'h2' | 'h3';
 }
 
-const { resource, topicTitle, headingLevel: Heading = 'h3' } = Astro.props;
+const { resource, headingLevel: Heading = 'h3' } = Astro.props;
 const { title, description, type, source } = resource.data;
 const action = resourceAction(resource);
 ---
 
-<li class="resource-card" data-topic={resource.data.topic.id} data-type={type}>
+<li class="resource-card">
   <p class="resource-card__meta">
     <span class="badge">
       <span aria-hidden="true">{TYPE_ICONS[type]}</span>
       {TYPE_LABELS[type]}
     </span>
-    {topicTitle && <span class="resource-card__topic">Téma: {topicTitle}</span>}
   </p>
   <Heading class="resource-card__title">
     <a href={detailHref(resource)}>{title}</a>
@@ -42,10 +39,6 @@ const action = resourceAction(resource);
     border: 2px solid var(--color-border);
     border-radius: var(--radius);
     background: var(--color-bg);
-  }
-
-  .resource-card[hidden] {
-    display: none;
   }
 
   .resource-card p {
@@ -71,7 +64,6 @@ const action = resourceAction(resource);
     font-weight: 600;
   }
 
-  .resource-card__topic,
   .resource-card__source {
     color: var(--color-text-muted);
   }

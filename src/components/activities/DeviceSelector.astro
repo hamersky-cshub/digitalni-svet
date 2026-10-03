@@ -1,0 +1,128 @@
+---
+/**
+ * DeviceSelector – „Jaké zařízení používáte?“ Android / iPad, iPhone / Nejsem si jistý/á.
+ * Podle volby se zobrazí odpovídající StepGuide. Bez JavaScriptu jsou vidět všechny návody.
+ */
+import StepGuide from './StepGuide.astro';
+
+type Guide = { intro?: string; steps: { text: string; question?: string }[]; outro?: string };
+
+interface Props {
+  question: string;
+  android: Guide;
+  apple: Guide;
+  unsure: Guide;
+}
+
+const { question, android, apple, unsure } = Astro.props;
+const devices = [
+  { id: 'android', label: 'Android', hint: 'např. Samsung, Lenovo, Xiaomi', heading: 'Návod pro Android', guide: android },
+  { id: 'apple', label: 'iPad / iPhone', hint: 'zařízení Apple', heading: 'Návod pro iPad a iPhone', guide: apple },
+  { id: 'unsure', label: 'Nejsem si jistý/á', hint: 'pomůžeme vám to zjistit', heading: 'Jak poznat, jaké zařízení máte', guide: unsure },
+];
+---
+
+<device-selector class="device">
+  <p class="device__question" id="device-question"><strong>{question}</strong></p>
+  <ul class="choice-list" data-options hidden aria-labelledby="device-question">
+    {
+      devices.map((d) => (
+        <li>
+          <button type="button" class="choice-card device__choice" data-device={d.id} aria-pressed="false">
+            <span>
+              {d.label}
+              <span class="device__hint">{d.hint}</span>
+            </span>
+            <span class="choice-card__mark">✓ Vaše volba</span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    devices.map((d) => (
+      <section class="device__panel" data-panel={d.id} aria-label={d.heading}>
+        <h3 class="device__heading" tabindex="-1">
+          {d.heading}
+        </h3>
+        <StepGuide {...d.guide} />
+        {d.id === 'unsure' && (
+          <p class="device__switch" data-switch-row hidden>
+            <button type="button" class="button button--secondary" data-switch="android">
+              Mám Android
+            </button>
+            <button type="button" class="button button--secondary" data-switch="apple">
+              Mám iPad / iPhone
+            </button>
+          </p>
+        )}
+      </section>
+    ))
+  }
+</device-selector>
+
+<script>
+  class DeviceSelector extends HTMLElement {
+    connectedCallback() {
+      const buttons = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-device]'));
+      const panels = Array.from(this.querySelectorAll<HTMLElement>('[data-panel]'));
+      this.querySelector<HTMLElement>('[data-options]')!.hidden = false;
+      this.querySelector<HTMLElement>('[data-switch-row]')!.hidden = false;
+      panels.forEach((p) => (p.hidden = true));
+
+      const select = (id: string, moveFocus: boolean) => {
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.device === id)));
+        panels.forEach((p) => (p.hidden = p.dataset.panel !== id));
+        if (moveFocus) {
+          const heading = panels.find((p) => p.dataset.panel === id)?.querySelector<HTMLElement>('h3');
+          heading?.focus({ preventScroll: true });
+          heading?.scrollIntoView({ block: 'start' });
+        }
+      };
+
+      buttons.forEach((b) => b.addEventListener('click', () => select(b.dataset.device!, false)));
+      this.querySelectorAll<HTMLButtonElement>('[data-switch]').forEach((b) =>
+        b.addEventListener('click', () => select(b.dataset.switch!, true)),
+      );
+    }
+  }
+  customElements.define('device-selector', DeviceSelector);
+</script>
+
+<style>
+  .device {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .device__choice > span:first-child {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .device__hint {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .device__panel {
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-border-light);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .device__heading {
+    margin-top: var(--space-1);
+    scroll-margin-top: var(--space-3);
+  }
+
+  .device__switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+</style>

@@ -1,43 +1,64 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { withBase } from '../lib/url';
 ---
 
-<BaseLayout title="O projektu" description="Co je Digitální kompas a pro koho jsou workshopy určeny.">
-  <Breadcrumbs items={[]} current="O projektu" />
+<BaseLayout title="O projektu a soukromí" description="Co je Digitální svět pod kontrolou a jak web chrání vaše soukromí.">
   <div class="prose">
-    <h1>O projektu</h1>
+    <h1>O projektu a soukromí</h1>
     <p class="lead">
-      Digitální kompas pořádá workshopy pro seniory o tom, jak se bezpečně pohybovat na internetu.
+      <strong>Digitální svět pod kontrolou</strong> je série tří prezenčních setkání o bezpečnějším používání internetu.
+      Tento web je průvodcem, který na workshopu používáte společně s lektorem.
+    </p>
+
+    <h2>Pro koho jsou workshopy</h2>
+    <p>
+      Pro každého, kdo chce s větší jistotou používat tablet, telefon nebo počítač. Nepotřebujete žádné předchozí
+      znalosti. Na nic se nespěchá a žádná otázka není hloupá.
+    </p>
+
+    <h2>Jak web chrání vaše soukromí</h2>
+    <ul class="points">
+      <li>Nemusíte se registrovat ani přihlašovat.</li>
+      <li>Web nepoužívá žádné měřicí ani reklamní nástroje a nesleduje vás.</li>
+      <li>Vaše odpovědi v aktivitách se nikam neodesílají a neukládají. Po zavření stránky zmizí.</li>
+      <li>
+        Do vašeho zařízení si web uloží jen to, na které zastávce jste skončili, abyste mohli snadno pokračovat. Smazat
+        to můžete tlačítkem „Začít workshop znovu“ na přehledu workshopu.
+      </li>
+      <li>
+        Aby web fungoval i při výpadku Wi-Fi, uloží si do zařízení kopii svých stránek. Neobsahuje žádné vaše údaje.
+      </li>
+    </ul>
+
+    <h2>Ukázky podvodů jsou jen simulace</h2>
+    <p>
+      Všechny zprávy, telefonáty a adresy v aktivitách jsou smyšlené. Odkazy v ukázkách nikam nevedou a nikde nejsou
+      formuláře na skutečné údaje.
+    </p>
+
+    <h2>Když se něco stane</h2>
+    <p>
+      Pokud máte podezření, že vás někdo podvedl, <strong>hned zavolejte své bance</strong>. Číslo najdete na zadní straně
+      platební karty nebo ve smlouvě. Událost pak oznamte <strong>Policii ČR na čísle 158</strong>.
     </p>
 
     <div class="notice">
       <p>
-        <strong>Ukázkový text.</strong> Tuto stránku nahraďte skutečnými informacemi o projektu, pořadateli a
-        kontaktech.
+        <strong>Kontakt na pořadatele:</strong> doplňte prosím jméno organizace a kontakt (soubor
+        <code>src/pages/o-projektu.astro</code>).
       </p>
     </div>
 
-    <h2>Pro koho jsou workshopy</h2>
-    <p>
-      Pro každého, kdo chce s jistotou používat počítač, tablet nebo chytrý telefon. Nepotřebujete žádné předchozí
-      znalosti.
-    </p>
-
-    <h2>Co se na workshopech naučíte</h2>
-    <ul>
-      <li>Jak poznat podvodný e-mail, SMS nebo telefonát.</li>
-      <li>Jak si vytvořit bezpečné heslo a jak si ho zapamatovat.</li>
-      <li>Jaké stopy po sobě na internetu zanecháváte a jak je omezit.</li>
-    </ul>
-
-    <h2>Kontakt</h2>
-    <p>Doplňte kontaktní e-mail nebo telefon pořadatele workshopů.</p>
-
-    <h2>Když se něco stane</h2>
-    <p>
-      Pokud máte podezření, že vás někdo podvedl, <strong>hned zavolejte své bance</strong> (číslo najdete na zadní
-      straně platební karty) a případně <strong>Policii ČR na čísle 158</strong>.
-    </p>
+    <p><a href={withBase()}>← Zpět na úvodní stránku</a></p>
   </div>
 </BaseLayout>
+
+<style>
+  code {
+    padding: 0.05rem 0.3rem;
+    border-radius: 0.25rem;
+    background: var(--color-surface);
+    font-size: 0.9em;
+  }
+</style>

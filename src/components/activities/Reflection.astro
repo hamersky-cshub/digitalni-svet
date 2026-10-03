@@ -1,0 +1,56 @@
+---
+/** Reflection – otázka k osobnímu zamyšlení. Nic se nepíše, neukládá ani neodesílá. */
+import { formatText } from '../../lib/text';
+
+interface Props {
+  question: string;
+  hint?: string;
+  ideas?: string[];
+}
+
+const { question, hint, ideas } = Astro.props;
+---
+
+<div class="reflection">
+  <p class="reflection__question" set:html={formatText(question)} />
+  {hint && <p class="reflection__hint" set:html={formatText(hint)} />}
+  {
+    ideas && ideas.length > 0 && (
+      <details class="disclosure">
+        <summary>Ukázat inspiraci</summary>
+        <div class="disclosure__body">
+          <ul class="points">
+            {ideas.map((idea) => (
+              <li set:html={formatText(idea)} />
+            ))}
+          </ul>
+        </div>
+      </details>
+    )
+  }
+</div>
+
+<style>
+  .reflection {
+    margin: var(--space-3) 0;
+    padding: var(--space-3);
+    border-left: 8px solid var(--color-accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--color-surface);
+    max-width: var(--text-width);
+  }
+
+  .reflection__question {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .reflection__hint {
+    color: var(--color-text-muted);
+  }
+
+  .reflection :global(details) {
+    margin-bottom: 0;
+  }
+</style>

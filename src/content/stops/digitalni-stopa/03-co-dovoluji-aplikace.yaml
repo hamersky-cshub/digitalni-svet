@@ -1,0 +1,76 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-stopa
+order: 3
+title: Co dovolují aplikace
+summary: Kde zkontrolovat, co smějí aplikace v tabletu používat.
+lecturer:
+  time: 25 minut
+  goal: Účastníci vědí, kde v zařízení najdou oprávnění aplikací. Cílem není všechno zakázat.
+  discussion: Používá některá vaše aplikace polohu? Potřebuje ji?
+  transition: Informace o nás neprozrazují jen aplikace, ale i fotografie, které sdílíme.
+  tips:
+    - Nastavení se liší podle výrobce a verze systému – projděte místností a pomozte těm, kdo se ztratí.
+    - Nikoho nenuťte nic vypínat. Úspěch je, když účastník ví, kde nastavení najde.
+screens:
+  - kind: vyklad
+    title: Co mohou aplikace používat
+    text:
+      - Aplikace se vás mohou zeptat, zda smějí používat některé části zařízení. Tomuto svolení se říká **oprávnění**.
+    points:
+      - 📍 **Poloha** – kde se právě nacházíte.
+      - 🎤 **Mikrofon** – co se kolem vás říká.
+      - 📷 **Fotoaparát** – co je před tabletem.
+      - 🖼️ **Fotografie** – snímky, které máte uložené.
+  - kind: vyklad
+    title: Stačí jedna otázka
+    text:
+      - 'Nemusíte rozumět technice. U každého oprávnění se stačí zeptat:'
+    activity:
+      type: reflection
+      question: Potřebuje tato aplikace tuto informaci ke svému fungování?
+      hint: Navigace polohu potřebuje. Svítilna nebo hra s kartami ji ke svému fungování nepotřebuje. Když aplikace oprávnění nepotřebuje, můžete ho vypnout – obvykle bude fungovat dál.
+  - kind: prakticky
+    title: Kontrola mého tabletu
+    text:
+      - Teď se společně podíváme do nastavení vašeho zařízení. Tento web nechte otevřený – vrátíte se k němu.
+    activity:
+      type: device
+      question: Jaké zařízení používáte?
+      android:
+        intro: Názvy se mohou lišit podle výrobce a verze systému. Když něco nenajdete, nevadí – zvedněte ruku a lektor vám pomůže.
+        steps:
+          - text: Najděte a otevřete aplikaci **Nastavení**. Obvykle má ikonu ozubeného kolečka ⚙️.
+          - text: Najděte položku **Zabezpečení a soukromí** nebo jen **Soukromí**. Pokud ji nevidíte, zkuste **Aplikace**.
+          - text: Klepněte na **Správce oprávnění** (někdy **Oprávnění aplikací**).
+          - text: Klepněte na **Poloha**. Uvidíte seznam aplikací, které polohu smějí používat.
+            question: Najdete aplikaci, která používá vaši polohu? Potřebuje ji podle vás?
+          - text: Vraťte se zpět a stejně se podívejte na **Mikrofon**.
+            question: Používá některá aplikace mikrofon? Víte proč?
+          - text: Chcete-li oprávnění změnit, klepněte na aplikaci a vyberte například **Povolit jen při používání aplikace** nebo **Nepovolovat**.
+        outro: Nemusíte nic měnit. Důležité je, že teď víte, kde oprávnění najdete. Pak se vraťte do tohoto webu.
+      apple:
+        intro: Názvy se mohou mírně lišit podle verze systému. Když něco nenajdete, nevadí – zvedněte ruku a lektor vám pomůže.
+        steps:
+          - text: Otevřete aplikaci **Nastavení**. Má šedou ikonu s ozubeným kolečkem ⚙️.
+          - text: Najděte **Soukromí a zabezpečení** a klepněte na ni. Na iPadu je seznam vlevo.
+          - text: Klepněte na **Polohové služby**. U každé aplikace uvidíte, kdy smí polohu používat.
+            question: Najdete aplikaci, která používá vaši polohu? Potřebuje ji podle vás?
+          - text: Vraťte se zpět a klepněte na **Mikrofon**.
+            question: Používá některá aplikace mikrofon? Víte proč?
+          - text: Stejně se můžete podívat na **Fotoaparát** a **Fotky**.
+          - text: U polohy můžete zvolit například **Při používání aplikace** nebo **Nikdy**. U mikrofonu a fotoaparátu stačí vypnout přepínač.
+        outro: Nemusíte nic měnit. Důležité je, že teď víte, kde oprávnění najdete. Pak se vraťte do tohoto webu.
+      unsure:
+        intro: Nevadí. Zkusme to zjistit společně.
+        steps:
+          - text: Otočte zařízení a podívejte se na zadní stranu. Je tam **nakousnuté jablko**? Pak máte iPad nebo iPhone.
+          - text: Je tam jiný nápis, například **Samsung**, **Lenovo**, **Xiaomi** nebo **Motorola**? Pak máte nejspíš zařízení se systémem **Android**.
+          - text: Stále si nejste jistí? Zvedněte ruku – lektor vám pomůže.
+  - kind: reflexe
+    title: Co jste zjistili?
+    activity:
+      type: reflection
+      question: Našli jste aplikaci, která má oprávnění, které podle vás nepotřebuje?
+      hint: Nevadí, pokud ne. Důležité je, že teď víte, kde se oprávnění kontrolují. Můžete se tam kdykoli vrátit.

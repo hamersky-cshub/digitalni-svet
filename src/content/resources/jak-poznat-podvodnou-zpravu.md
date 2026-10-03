@@ -1,10 +1,10 @@
 ---
 title: Jak poznat podvodnou zprávu – prezentace z workshopu
 description: Ukázkový materiál. Prezentace s příklady podvodných e-mailů a SMS a s tím, čeho si na nich všimnout.
-topic: socialni-inzenyrstvi
+workshop: digitalni-obrana
 type: prezentace
-file: soubory/socialni-inzenyrstvi/jak-poznat-podvodnou-zpravu.pdf
+file: soubory/digitalni-obrana/jak-poznat-podvodnou-zpravu.pdf
 fileSize: 30 kB
-source: Digitální kompas
+source: Digitální svět pod kontrolou
 updated: 2026-10-01
 ---

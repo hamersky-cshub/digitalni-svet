@@ -1,0 +1,35 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 1
+title: Proč to na nás zkoušejí
+summary: Jak podvodníci pracují a jaký je hlavní princip obrany.
+lecturer:
+  time: 10 minut
+  goal: Navodit klidnou atmosféru, nechat sdílet zkušenosti a představit princip zastavit se – zkontrolovat – ověřit.
+  discussion: Přišla vám někdy zpráva nebo telefonát, který vám nebyl příjemný?
+  transition: Vyzkoušejme si několik situací, které se mohou stát komukoli.
+  tips:
+    - Oceňte každou sdílenou zkušenost. Kdo o pokusu o podvod mluví, pomáhá ostatním.
+screens:
+  - kind: diskuse
+    title: Setkali jste se s podvodem?
+    activity:
+      type: reflection
+      question: Přišla vám někdy podezřelá zpráva, e-mail nebo telefonát?
+      hint: Pokud chcete, podělte se o zkušenost se skupinou. Není se za co stydět – podvodníci zkoušejí štěstí u každého.
+  - kind: vyklad
+    title: Nemusíte poznat každý podvod
+    text:
+      - Podvodníci umějí napodobit banku, doručovací službu, úřad i vašeho známého. Jejich zprávy mohou vypadat úplně profesionálně.
+      - 'Nemusíte poznat každý podvod. Stačí jeden jednoduchý postup:'
+    activity:
+      type: rules
+      items:
+        - title: Zastavit se
+          text: Nemusíte reagovat hned.
+        - title: Zkontrolovat
+          text: Je na zprávě nebo telefonátu něco zvláštního?
+        - title: Ověřit jinou cestou
+          text: Zavolejte na číslo, které znáte, nebo se zeptejte někoho blízkého.
