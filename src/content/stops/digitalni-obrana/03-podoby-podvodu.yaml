@@ -1,0 +1,103 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 3
+title: Podvody mají mnoho podob
+summary: QR kódy, vyskakovací okna, falešná Wi-Fi i napodobený hlas.
+lecturer:
+  time: 15 minut
+  goal: 'Ukázat, že podvod nepřichází jen e-mailem. Kanál se mění, princip obrany zůstává stejný: zastavit se a ověřit jinou cestou.'
+  discussion: Setkali jste se s některou z těchto podob?
+  transition: Vraťme se ke zprávám a podívejme se, podle čeho podvod poznat.
+  tips:
+    - 'Odborné názvy (pro lektora): phishing – e-mail, smishing – SMS, vishing – telefon, evil twin – falešná Wi-Fi, quishing – QR kód, pop-up phishing, deepfake.'
+    - Tip na tajné rodinné slovo si účastníci obvykle oblíbí – nechte je ho promyslet.
+screens:
+  - kind: vyklad
+    title: Podvod může přijít odkudkoli
+    text:
+      - 'Podvodníci nepoužívají jen e-mail. Zkoušejí to všude, kde vás mohou zastihnout:'
+    points:
+      - ✉️ **E-mail** – falešná faktura, „ověření účtu“.
+      - 💬 **SMS a chat** – nezaplacená zásilka, „nové číslo“ dítěte.
+      - 📞 **Telefonát** – falešný bankéř nebo policista.
+      - 📶 **Falešná Wi-Fi** – síť s názvem kavárny, kterou ale vytvořil podvodník.
+      - 🔳 **QR kód** – nálepka přes skutečný kód, třeba na parkovacím automatu.
+      - ⚠️ **Vyskakovací okno** – „Váš počítač je napaden, volejte podporu!“
+      - 🎙️ **Napodobený hlas nebo video** – umělá inteligence dokáže napodobit hlas blízkého člověka.
+  - kind: aktivita
+    title: Co byste udělali tentokrát?
+    text:
+      - Čtyři méně známé podoby podvodu. Zvolte, jak byste reagovali.
+    activity:
+      type: scenarios
+      items:
+        - text: 'Chcete zaplatit parkovné. Na automatu je nálepka: „Plaťte rychle a bez drobných – naskenujte QR kód.“ Vypadá, jako by byla nalepená přes původní nápis.'
+          question: Co uděláte?
+          options:
+            - label: Naskenuji kód a zaplatím kartou.
+              tone: risk
+              feedback: Nálepka může vést na falešnou platební stránku. Podvodník tak získá údaje z vaší karty.
+            - label: Zaplatím přímo u automatu nebo v oficiální aplikaci.
+              tone: ok
+              feedback: Správně. Nálepka přes původní kód nebo nápis je varovný signál.
+            - label: Kód naskenuji, ale nic nevyplním.
+              tone: info
+              feedback: Lepší než platit, ale i otevřít podvodnou stránku je zbytečné riziko. Bezpečnější je kód nepoužít.
+          lesson: Než naskenujete QR kód na veřejném místě, podívejte se, zda není přelepený.
+        - text: 'Prohlížíte si na tabletu recepty. Najednou se přes celou obrazovku objeví okno:'
+          message:
+            medium: popup
+            sender: Upozornění zabezpečení
+            lines:
+              - 'VAROVÁNÍ! Vaše zařízení je napadeno virem. Nezavírejte toto okno! Ihned volejte technickou podporu: +420 000 000 000'
+          question: Co uděláte?
+          options:
+            - label: Zavolám na uvedené číslo, ať mi pomohou.
+              tone: risk
+              feedback: Na druhé straně je podvodník. Bude chtít peníze za „opravu“ nebo přístup do vašeho zařízení.
+            - label: Okno zavřu, a když to nejde, zavřu celý prohlížeč.
+              tone: ok
+              feedback: Správně. Skutečné firmy takto nevarují. Když okno nejde zavřít, zavřete prohlížeč nebo zařízení restartujte.
+            - label: Klepnu do okna, aby zmizelo.
+              tone: info
+              feedback: Klepnutí do okna může otevřít další podvodnou stránku. Zavřete raději celý prohlížeč.
+          lesson: Žádný antivirus ani výrobce zařízení vás nevyzve, abyste volali na číslo z vyskakovacího okna.
+        - text: 'Jste v kavárně a chcete se připojit k Wi-Fi. V nabídce vidíte dvě sítě: „Kavarna_U_Lipy“ a „Kavarna_Zdarma“.'
+          question: Co uděláte?
+          options:
+            - label: Připojím se ke „Kavarna_Zdarma“, zní to lákavě.
+              tone: risk
+              feedback: Takovou síť může vytvořit podvodník a vidět, co přes ni posíláte.
+            - label: Zeptám se obsluhy na přesný název sítě.
+              tone: ok
+              feedback: Správně. Obsluha vám řekne, která síť je skutečná.
+            - label: Připojím se a přihlásím se do bankovnictví.
+              tone: risk
+              feedback: Na veřejné Wi-Fi se do bankovnictví raději nepřihlašujte. Pro důležité věci použijte mobilní data.
+          lesson: Na veřejné Wi-Fi si klidně čtěte zprávy. Bankovnictví a nákupy nechte na doma nebo na mobilní data.
+        - text: 'Zvoní telefon. Hlas zní úplně jako váš vnuk:'
+          message:
+            medium: call
+            sender: Neznámé číslo
+            lines:
+              - Babi, to jsem já. Mám problém, potřebuju rychle poslat peníze. Prosím, nikomu to neříkej.
+          question: Co uděláte?
+          options:
+            - label: Je to jeho hlas, peníze pošlu.
+              tone: risk
+              feedback: Umělá inteligence dokáže napodobit hlas podle krátké nahrávky, třeba z videa na sociální síti. Hlas už není důkaz.
+            - label: Hovor ukončím a zavolám vnukovi nebo jeho rodičům na známé číslo.
+              tone: ok
+              feedback: Správně. Ověřit si to jinou cestou je nejjistější.
+            - label: Zeptám se na naše tajné rodinné slovo.
+              tone: ok
+              feedback: Výborně. Tajné slovo, které zná jen rodina, podvodník nezná.
+          lesson: Domluvte si s rodinou **tajné slovo** pro případ, že by někdo naléhavě žádal o peníze.
+  - kind: reflexe
+    title: Tajné rodinné slovo
+    activity:
+      type: reflection
+      question: S kým si domluvíte tajné rodinné slovo?
+      hint: Zvolte slovo, které nikde nezveřejníte. Jméno domácího mazlíčka bývá na sociálních sítích – raději něco vymyšleného.

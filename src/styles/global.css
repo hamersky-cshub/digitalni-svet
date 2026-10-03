@@ -425,7 +425,8 @@ button {
   color: var(--color-info);
   text-decoration: underline dotted;
   text-underline-offset: 0.2em;
-  word-break: break-all;
+  /* Adresa se zalomí jen tehdy, když se nevejde ani na samostatný řádek. */
+  overflow-wrap: anywhere;
 }
 
 .prose {

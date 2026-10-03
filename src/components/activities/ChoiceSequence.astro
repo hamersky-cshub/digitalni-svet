@@ -5,14 +5,14 @@
  * a tlačítko „Další …“. Nic se neposouvá automaticky a nic se neukládá.
  * Bez JavaScriptu se zobrazí všechny situace a vysvětlení v rozbalovacích částech.
  */
-import type { TONES } from '../../content.config';
+import type { MEDIA, TONES } from '../../content.config';
 import { formatText, zOrZe } from '../../lib/text';
 import ToneLabel from '../ToneLabel.astro';
 import MessageMock from './MessageMock.astro';
 
 export interface SequenceItem {
   text?: string;
-  message?: { medium: 'sms' | 'email' | 'chat' | 'call' | 'notification'; sender: string; subject?: string; time?: string; lines: string[] };
+  message?: { medium: (typeof MEDIA)[number]; sender: string; subject?: string; time?: string; lines: string[] };
   question: string;
   options: { id: string; label: string; tone: (typeof TONES)[number]; response?: string }[];
   explanation?: string;

@@ -2,15 +2,28 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-obrana
-order: 5
+order: 6
 title: Tlak podvodníka
 summary: Na jaké pocity podvodníci působí.
 lecturer:
-  time: 15 minut
+  time: 10 minut
   goal: Pojmenovat manipulační triky, aby je účastníci příště poznali. Zprávy často kombinují více triků najednou.
   discussion: Který trik by na vás nejvíc zapůsobil?
   transition: Shrňme si vše do jednoho jednoduchého pravidla.
 screens:
+  - kind: vyklad
+    title: Rychlé a pomalé myšlení
+    text:
+      - 'Psycholog Daniel Kahneman popsal, že náš mozek myslí dvěma způsoby:'
+    points:
+      - ⚡ **Rychlé myšlení** – automatické, podle prvního dojmu. Šetří čas, ale snadno se nechá ošálit.
+      - 🐢 **Pomalé myšlení** – klidné, kontroluje a přemýšlí. Stojí víc úsilí, ale chrání nás.
+      - Podvodníci chtějí, abyste jednali **rychle**. Proto spěchají, straší nebo lákají.
+      - Pravidlo STOP vám pomůže přepnout na **pomalé** myšlení.
+    lecturer:
+      tips:
+        - 'Kahneman: Myšlení rychlé a pomalé (Systém 1 a Systém 2).'
+        - 'Cialdini popisuje 7 principů ovlivňování: autorita, závazek, sympatie, vjemový kontrast, vzájemnost, vzácnost, společenský důkaz. V aktivitě používáme zjednodušené pocity, které jsou pro účastníky srozumitelnější.'
   - kind: vyklad
     title: Jak podvodníci manipulují
     text:

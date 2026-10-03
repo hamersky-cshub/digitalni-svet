@@ -6,10 +6,10 @@ order: 4
 title: Co může prozradit fotografie
 summary: Na co se podívat, než fotografii pošlete nebo zveřejníte.
 lecturer:
-  time: 15 minut
+  time: 10 minut
   goal: Účastníci si zvyknou prohlédnout si celou fotografii, než ji sdílejí.
   discussion: Stalo se vám, že jste na fotografii něco přehlédli?
-  transition: Shrňme si, co si z dnešního setkání odneseme.
+  transition: Některé údaje ale uniknou i bez našeho přičinění. Podívejme se na úniky dat.
 screens:
   - kind: aktivita
     title: Prohlédněte si fotografii

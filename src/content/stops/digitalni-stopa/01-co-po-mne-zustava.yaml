@@ -74,6 +74,40 @@ screens:
           explanation: Ano – obchod si může zapamatovat, na co jste se dívali. Proto se vám pak stejné zboží může objevovat v reklamách i na jiných stránkách.
     lecturer:
       goal: U každé situace nechte chvíli na reakce. Odpověď „nejsem si jistý/á“ je v pořádku a stojí za diskusi.
+  - kind: vyklad
+    title: Jak nás web sleduje
+    text:
+      - 'Část stopy vzniká automaticky, aniž byste cokoli napsali. Weby a reklamní firmy k tomu používají několik nástrojů:'
+    points:
+      - 🏠 **IP adresa** – něco jako adresa domu pro vaše připojení. Prozradí přibližně, odkud se připojujete.
+      - 🍪 **Cookies** – malé lístečky, které si web uloží do prohlížeče. Některé jsou potřeba (třeba košík v obchodě), jiné slouží reklamním firmám ke sledování napříč weby.
+      - 👁️ **Neviditelný obrázek v e-mailu** – drobný obrázek, který odesílateli prozradí, že a kdy jste e-mail otevřeli.
+      - 🔍 **Otisk prohlížeče** – kombinace údajů o vašem zařízení (model, jazyk, nastavení). Je tak jedinečná, že vás web pozná i bez cookies.
+      - 💡 Méně stop zanecháte s vyhledávačem, který si nepamatuje, co hledáte – například **Startpage** nebo **DuckDuckGo**.
+    lecturer:
+      goal: Stačí pochopit, že sledování existuje a dá se omezit. Technické detaily nejsou cílem.
+      tips:
+        - 'Zdroj: Minikurz kyberbezpečnosti pro uživatele – kapitola Trasování na webu.'
+  - kind: aktivita
+    title: Lišta s cookies
+    text:
+      - Na mnoha webech se objeví lišta s dotazem na cookies. Co s ní?
+    activity:
+      type: scenarios
+      items:
+        - text: 'Otevřete zpravodajský web a dole se objeví lišta: „Tento web používá cookies ke zlepšení služeb a k zobrazování reklamy.“ Pod ní jsou tři tlačítka.'
+          question: Na co klepnete?
+          options:
+            - label: Přijmout vše – ať lišta zmizí.
+              tone: info
+              feedback: Je to nejrychlejší. Web a jeho reklamní partneři pak ale mohou sledovat, co si prohlížíte. Nic hrozného se nestane, jen sdílíte víc, než je nutné.
+            - label: Odmítnout vše.
+              tone: ok
+              feedback: Výborně. Web bude fungovat dál a nebude sbírat údaje pro reklamu. Nezbytné cookies, třeba pro nákupní košík, zůstanou.
+            - label: Nastavení – a nechám jen nezbytné.
+              tone: ok
+              feedback: Také dobrá volba. V nastavení obvykle stačí ponechat jen „nezbytné“ a volbu uložit.
+          lesson: Hledejte tlačítko **Odmítnout vše** nebo **Pouze nezbytné**. Bývá méně nápadné – nespěchejte.
   - kind: reflexe
     title: Co vás překvapilo?
     text:

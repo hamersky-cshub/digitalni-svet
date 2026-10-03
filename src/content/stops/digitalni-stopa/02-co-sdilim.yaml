@@ -6,7 +6,7 @@ order: 2
 title: Co sdílím
 summary: Komu svěřujeme jaké informace a proč na tom záleží.
 lecturer:
-  time: 20 minut
+  time: 15 minut
   goal: Účastníci rozliší, že u informací rozhoduje komu, proč a zda je nutné je zveřejnit. U řady otázek neexistuje jediná správná odpověď.
   discussion: Kdy jste naposledy něco sdíleli a komu to bylo určené?
   transition: Informace sdílíme nejen my – někdy si o ně říkají i aplikace. Podívejme se, co jim dovolujeme.
@@ -98,6 +98,20 @@ screens:
           explanation: Palubní vstupenky raději nefoťte. Pro radost z cesty stačí fotografie z letiště nebo z okna letadla.
     lecturer:
       goal: Zdůrazněte, že u dortu nebo knihy je v pořádku jakákoli odpověď. Cílem je přemýšlet o kontextu, ne „trefit se“.
+  - kind: vyklad
+    title: Kdo ještě tvoří vaši stopu?
+    text:
+      - Vaši digitální stopu netvoříte jen vy. Rodina a přátelé mohou sdílet vaše fotografie, označit vás na nich nebo prozradit, kde zrovna jste – většinou v dobré víře.
+      - 'Na sociálních sítích pomáhá:'
+    points:
+      - Uvádějte jen nezbytné údaje.
+      - Nezveřejňujte fotografie svého domova a jeho okolí.
+      - Nastavte si účet jako soukromý a nastavení občas zkontrolujte.
+      - Rozmyslete si, zda sdílet svou polohu.
+      - Na zprávy od neznámých účtů neodpovídejte hned.
+      - Zapněte dvoufázové ověření (více na setkání Digitální klíče).
+    lecturer:
+      discussion: Požádali jste někdy blízké, aby vaši fotografii nesdíleli? Jak to přijali?
   - kind: reflexe
     title: Udělal(a) bych to dnes jinak?
     activity:

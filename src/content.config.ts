@@ -34,8 +34,8 @@ const lecturerNote = z.object({
   tips: z.array(z.string()).optional(),
 });
 
-/** Simulovaná zpráva (SMS, e-mail, chat, telefonát, oznámení v telefonu). */
-export const MEDIA = ['sms', 'email', 'chat', 'call', 'notification'] as const;
+/** Simulovaná zpráva (SMS, e-mail, chat, telefonát, oznámení v telefonu, vyskakovací okno na webu). */
+export const MEDIA = ['sms', 'email', 'chat', 'call', 'notification', 'popup'] as const;
 const message = z.object({
   medium: z.enum(MEDIA),
   sender: z.string(),
@@ -172,6 +172,14 @@ const deviceActivity = z.object({
   unsure: guide,
 });
 
+/** Návod krok za krokem (praktický úkol na vlastním zařízení), bez výběru zařízení. */
+const guideActivity = z.object({
+  type: z.literal('guide'),
+  intro: z.string().optional(),
+  steps: z.array(z.object({ text: z.string(), question: z.string().optional() })).min(1),
+  outro: z.string().optional(),
+});
+
 /** Otázka k zamyšlení. Nic se nikam nezapisuje ani neodesílá. */
 const reflectionActivity = z.object({
   type: z.literal('reflection'),
@@ -225,6 +233,7 @@ const activity = z.discriminatedUnion('type', [
   hotspotsActivity,
   signalsActivity,
   deviceActivity,
+  guideActivity,
   reflectionActivity,
   passphraseActivity,
   keyReuseActivity,

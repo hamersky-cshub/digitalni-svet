@@ -6,10 +6,10 @@ order: 2
 title: Co byste udělali?
 summary: Čtyři modelové situace a bezpečné reakce na ně.
 lecturer:
-  time: 25 minut
+  time: 15 minut
   goal: 'Procvičit volbu bezpečné reakce: neklepat na odkaz, neplatit, ověřit jinou cestou.'
   discussion: Jak byste ověřili, že vám opravdu jde balík?
-  transition: Teď se na podvodné zprávy podíváme zblízka – co nás na nich může varovat.
+  transition: Podvod ale nemusí přijít jen zprávou. Podívejme se na další podoby.
 screens:
   - kind: aktivita
     title: Co byste udělali?

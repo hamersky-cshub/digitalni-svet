@@ -10,6 +10,7 @@ import MessageSignals from './MessageSignals.astro';
 import PassphraseBuilder from './PassphraseBuilder.astro';
 import Reflection from './Reflection.astro';
 import Rules from './Rules.astro';
+import StepGuide from './StepGuide.astro';
 
 interface Props {
   activity: Activity;
@@ -46,6 +47,7 @@ if (activity.type === 'choices') {
 {activity.type === 'hotspots' && <HotspotImage {...activity} />}
 {activity.type === 'signals' && <MessageSignals {...activity} />}
 {activity.type === 'device' && <DeviceSelector {...activity} />}
+{activity.type === 'guide' && <StepGuide intro={activity.intro} steps={activity.steps} outro={activity.outro} />}
 {activity.type === 'reflection' && <Reflection {...activity} />}
 {activity.type === 'passphrase' && <PassphraseBuilder {...activity} />}
 {activity.type === 'keyReuse' && <KeyReuse {...activity} />}

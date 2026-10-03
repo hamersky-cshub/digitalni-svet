@@ -1,0 +1,53 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-stopa
+order: 5
+title: Unikly mé údaje?
+summary: Jak zjistit, zda váš e-mail unikl, a co pak dělat.
+lecturer:
+  time: 15 minut
+  goal: 'Účastníci si ověří, zda jejich e-mail unikl, a vědí, co dělat. Zdůrazněte: zadává se jen e-mail, nikdy heslo.'
+  discussion: Jak se cítíte, když zjistíte, že váš e-mail unikl? Je to běžné – nejste v tom sami.
+  transition: Shrňme si, co si z dnešního setkání odnášíme.
+  tips:
+    - V roce 2024 uniklo přes 1 miliardu záznamů s údaji uživatelů (TechCrunch, 2024).
+    - Stránka Have I Been Pwned je v angličtině – výsledky vysvětlete nahlas.
+    - 'Kdo nechce svůj e-mail zadávat, nemusí – může jen sledovat. Alternativa: monitor.mozilla.org.'
+screens:
+  - kind: vyklad
+    title: Co je únik dat?
+    text:
+      - Služby, které používáte, ukládají vaše údaje – e-mail, jméno, někdy i heslo. Když se do jejich systémů dostane útočník, údaje mohou uniknout na internet. Říká se tomu **únik dat**.
+      - Za únik většinou nemůžete vy. Můžete ale zjistit, zda se vás týká, a zařídit se podle toho.
+    points:
+      - Na uniklé e-maily chodí víc podvodných zpráv.
+      - Uniklá hesla útočníci zkoušejí i u jiných služeb.
+  - kind: prakticky
+    title: Unikl můj e-mail?
+    text:
+      - Bezplatná stránka **Have I Been Pwned** zjistí, zda se vaše e-mailová adresa objevila v některém známém úniku. Provozuje ji uznávaný bezpečnostní odborník.
+    activity:
+      type: guide
+      intro: '**Zadejte jen svou e-mailovou adresu. Heslo nikdy nikam nezadávejte.**'
+      steps:
+        - text: Otevřete internetový prohlížeč, například Chrome nebo Safari.
+        - text: Do řádku s adresou nahoře napište **haveibeenpwned.com** a potvrďte.
+        - text: Do velkého políčka uprostřed stránky napište svou e-mailovou adresu a klepněte na tlačítko vedle něj.
+        - text: Objeví se **zelená** zpráva (anglicky „Good news“ = dobrá zpráva)? Váš e-mail v žádném známém úniku není.
+        - text: Objeví se **červená** zpráva (anglicky „pwned“ = prolomeno)? E-mail unikl. Níže uvidíte, ze kterých služeb a kdy.
+          question: Znáte službu, ze které e-mail unikl? Nepoužíváte tam stejné heslo jako jinde?
+      outro: Stránka je v angličtině. Když si nebudete jistí, co čtete, zvedněte ruku.
+  - kind: shrnuti
+    title: Co dělat, když e-mail unikl
+    activity:
+      type: rules
+      items:
+        - title: Nepanikařte.
+          text: Úniky jsou bohužel běžné a týkají se velké části lidí.
+        - title: Změňte heslo u služby, odkud údaje unikly.
+          text: A také všude, kde jste používali stejné nebo podobné heslo.
+        - title: Zapněte dvoufázové ověření.
+          text: I s uniklým heslem se pak útočník dovnitř nedostane.
+        - title: Zpozorněte u nečekaných zpráv.
+          text: Na uniklý e-mail mohou chodit podvodné zprávy.

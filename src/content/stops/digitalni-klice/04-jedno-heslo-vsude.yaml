@@ -2,11 +2,11 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-klice
-order: 3
+order: 4
 title: Jedno heslo všude
 summary: Proč je riskantní mít jeden klíč ke všem dveřím.
 lecturer:
-  time: 20 minut
+  time: 15 minut
   goal: Pochopit řetězovou reakci při úniku hesla a představit správce hesel jako pomůcku.
   discussion: Kde by vám únik hesla vadil nejvíc?
   transition: Co když heslo přece jen unikne? Pomůže druhý zámek.
@@ -42,8 +42,14 @@ screens:
   - kind: vyklad
     title: Jak si zapamatovat víc hesel?
     text:
-      - Nikdo si nepamatuje desítky hesel. Pomoci může **správce hesel** – aplikace, která hesla bezpečně uloží a při přihlášení je sama vyplní. Vy si pamatujete jen jedno hlavní heslo.
-      - Správce hesel bývá součástí tabletu i telefonu (v nastavení pod názvem „Hesla“). Poraďte se s lektorem nebo s někým blízkým.
+      - Nikdo si nepamatuje desítky hesel. Pomůže **správce hesel** – aplikace, která hesla bezpečně uloží, sama vytvoří silná hesla a při přihlášení je vyplní. Vy si pamatujete jen **jedno hlavní heslo**.
+      - Doporučujeme samostatného správce hesel, například **Bitwarden** (je i v češtině), Proton Pass nebo KeePassXC. Jednodušším začátkem může být funkce „Hesla“ přímo v tabletu nebo telefonu.
     points:
-      - Nejdůležitější je mít **vlastní heslo k e-mailu** – přes e-mail se dají obnovit hesla k ostatním účtům.
-      - Pokud si hesla zapisujete na papír, uložte ho doma na bezpečném místě – ne u počítače ani v peněžence.
+      - 🛡️ Správce **pozná falešnou stránku** – na podvodné adrese heslo nevyplní.
+      - 🔔 Upozorní, když máte **stejné heslo** na více místech nebo když heslo **uniklo**.
+      - 🔑 **Hlavní heslo si dobře zapamatujte** – nedá se obnovit. Zvolte dlouhou heslovou frázi.
+      - Nejdůležitější je vlastní heslo k **e-mailu** – přes e-mail se dají obnovit hesla k ostatním účtům.
+    lecturer:
+      tips:
+        - Podklady doporučují neukládat hesla jen do prohlížeče a používat samostatného správce hesel.
+        - 'Při výběru správce: poskytovatel nemá přístup k heslům (zero-knowledge), silné šifrování, veřejné bezpečnostní audity, podpora dvoufázového ověření.'

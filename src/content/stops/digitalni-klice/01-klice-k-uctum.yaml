@@ -9,9 +9,10 @@ lecturer:
   time: 10 minut
   goal: Navázat na zkušenost účastníků a zavést přirovnání heslo = klíč.
   discussion: Kolik různých hesel přibližně používáte? Jak si je pamatujete?
-  transition: Jaké heslo je tedy dobré? Porovnejme si několik způsobů.
+  transition: Jak se útočníci k heslům vůbec dostanou? To si ukážeme na další zastávce.
   tips:
     - Nikdo nemusí říkat svá skutečná hesla – ani na workshopu.
+    - Průměrný člověk má 87 hesel k osobním a 168 k pracovním účtům (NordPass Password Survey 2024).
 screens:
   - kind: diskuse
     title: Kolik klíčů nosíte?
@@ -26,9 +27,19 @@ screens:
         - Internetový obchod
         - Portál zdravotní pojišťovny nebo úřadu
   - kind: vyklad
+    title: Hesla nejsou nic nového
+    text:
+      - 'Hesla lidé používají už tisíce let:'
+    points:
+      - 🏛️ **Starověký Řím** – vojáci si heslo na noc předávali na dřevěné destičce.
+      - 🥃 **Prohibice v USA** – do tajných barů se vcházelo jen se správným heslem.
+      - ⚙️ **Druhá světová válka** – zprávy chránil šifrovací stroj Enigma.
+      - 💻 **Rok 1961** – první počítačová hesla na univerzitě MIT.
+  - kind: vyklad
     title: Heslo je klíč
     text:
       - Heslo chrání váš účet podobně jako klíč chrání byt. Kdo zná heslo, dostane se dovnitř.
+      - Dnes má průměrný člověk kolem **87 hesel** k osobním účtům. Není divu, že je těžké si je pamatovat.
       - 'Dobrá zpráva: k větší bezpečnosti stačí několik jednoduchých návyků. Dnes si vyzkoušíme:'
     points:
       - jaké heslo je dobré,

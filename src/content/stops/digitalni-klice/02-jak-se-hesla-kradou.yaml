@@ -1,0 +1,70 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-klice
+order: 2
+title: Jak se hesla kradou
+summary: Proč se běžná hesla uhodnou za pár vteřin.
+lecturer:
+  time: 15 minut
+  goal: 'Pochopit, že hesla se většinou nehádají naslepo: vylákají se, zkoušejí z úniků nebo hádají ze seznamů běžných hesel.'
+  discussion: Které heslo z ukázky by vás nenapadlo jako slabé?
+  transition: Jak tedy vytvořit heslo, které odolá? Porovnejme si několik způsobů.
+  tips:
+    - Časy uhodnutí pocházejí z podkladů (Top 10 českých hesel). Jsou orientační – závisí na vybavení útočníka a na tom, jak služba heslo ukládá.
+    - 'Typy útoků podle podkladů: phishing, hrubá síla (brute force), password spraying, credential stuffing, keylogging.'
+screens:
+  - kind: vyklad
+    title: Jak se k heslům dostávají
+    text:
+      - 'Útočníci obvykle nehádají heslo naslepo. Nejčastěji ho:'
+    points:
+      - 🎣 **Vylákají** – falešnou stránkou nebo zprávou (o tom bylo setkání Digitální obrana).
+      - 📋 **Hádají z běžných hesel** – zkoušejí seznamy nejčastějších hesel, jako „123456“ nebo „heslo“.
+      - 🔁 **Zkoušejí uniklá hesla jinde** – heslo z jednoho úniku vyzkoušejí u e-mailu, banky i obchodu.
+      - 🖥️ **Zkoušejí všechny kombinace** – počítač zkouší „aaaa“, „aaab“… Krátká hesla tak padnou rychle.
+  - kind: aktivita
+    title: Jak rychle se heslo uhodne?
+    text:
+      - Tato hesla patří mezi nejčastější v Česku. Odhadněte, jak dlouho by útočníkovi trvalo je uhodnout.
+    activity:
+      type: choices
+      itemLabel: Heslo
+      question: Jak dlouho by trvalo heslo uhodnout?
+      options:
+        - id: hned
+          label: Okamžitě nebo za pár vteřin
+        - id: minuty
+          label: Do několika minut
+        - id: hodiny
+          label: Několik hodin
+        - id: roky
+          label: Roky a déle
+      items:
+        - text: „123456“
+          recommended:
+            - hned
+          explanation: '**Okamžitě.** Patří k nejpoužívanějším heslům na světě – útočníci ho zkoušejí jako první.'
+        - text: „heslo“
+          recommended:
+            - hned
+          explanation: '**Přibližně za 2 vteřiny.** Běžné slovo najdete v každém seznamu hesel.'
+        - text: „Heslo1234“
+          recommended:
+            - minuty
+          explanation: '**Přibližně za minutu.** Velké písmeno na začátku a čísla na konci jsou tak obvyklé, že je útočníci zkoušejí automaticky.'
+        - text: „maminka123“
+          recommended:
+            - hodiny
+          explanation: '**Přibližně za 6 hodin.** Zní to jako dlouho, ale pro počítač je to krátká doba. Slova z rodiny a čísla na konci se hádají mezi prvními.'
+  - kind: shrnuti
+    title: Co z toho plyne
+    activity:
+      type: rules
+      items:
+        - title: Žádná jména, data narození ani běžná slova.
+          text: Útočníci je zkoušejí jako první.
+        - title: Čím delší heslo, tím lépe.
+          text: Každý znak navíc hádání výrazně prodlouží.
+        - title: Každý účet vlastní heslo.
+          text: Uniklé heslo pak nikde jinde nepoužijí.

@@ -2,11 +2,11 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-obrana
-order: 4
+order: 5
 title: Telefonát z banky
 summary: Simulace rozhovoru s falešným pracovníkem banky.
 lecturer:
-  time: 15 minut
+  time: 10 minut
   goal: Nacvičit ukončení hovoru a ověření na známém čísle. Posílit pocit, že zavěsit je slušné a v pořádku.
   discussion: Proč je těžké hovor ukončit? Co vám může pomoci?
   transition: Proč na takové triky lidé reagují? Podívejme se na tlak, který podvodníci používají.

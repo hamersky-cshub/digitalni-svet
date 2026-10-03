@@ -2,15 +2,28 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-obrana
-order: 3
+order: 4
 title: Najděte varovné signály
 summary: Prohlédneme si podvodnou SMS a e-mail zblízka.
 lecturer:
-  time: 15 minut
+  time: 20 minut
   goal: Účastníci poznají typické varovné signály. Zdůrazněte, že podvod může vypadat bezchybně – pravopis nic nezaručuje.
   discussion: Který signál byste nejspíš přehlédli?
   transition: Podvody nepřicházejí jen písemně. Co když zavolá „banka“?
 screens:
+  - kind: vyklad
+    title: Za koho se podvodníci vydávají
+    text:
+      - 'Podvodníci se nejčastěji vydávají za firmy, které zná každý. Zpráva pak vypadá důvěryhodně:'
+    points:
+      - 📦 **Doručovací služby** – „zásilka čeká na doplatek“.
+      - 💻 **Technologické firmy** – „váš účet bude zablokován“.
+      - 👥 **Sociální sítě a chaty** – „máte novou zprávu“.
+      - 🏦 **Banky a úřady** – „ověřte svou totožnost“.
+      - 'Často se opakují slova: **faktura, nová zpráva, ověření, dokument, žádost, akce**.'
+    lecturer:
+      tips:
+        - 'Nejčastěji napodobované značky podle podkladů: LinkedIn, Facebook, Google, DHL, Microsoft, WhatsApp, Amazon, Apple (Hoxhunt Phishing Trends Report 2025, VIPRE 2024).'
   - kind: aktivita
     title: Podezřelá SMS
     activity:
@@ -74,6 +87,61 @@ screens:
           label: Nečekaná příloha
           text: Nečekané přílohy neotevírejte. Mohou obsahovat falešný formulář nebo škodlivý program.
       note: 'I tento e-mail je napsaný bez chyb. Zaměřte se na to, **co po vás zpráva chce**: heslo, peníze, kód nebo klepnutí na odkaz jsou vždy důvod zpozornět.'
+  - kind: aktivita
+    title: Která adresa je pravá?
+    text:
+      - Podvodníci si registrují adresy, které se od skutečných liší jen nepatrně. Písmeno navíc nebo „rn“ místo „m“ se snadno přehlédne.
+      - Představte si, že vaše banka se jmenuje **Modrá banka** a její skutečná adresa je **modrabanka.test**.
+    activity:
+      type: scenarios
+      itemLabel: Adresa
+      items:
+        - text: 'Přišel e-mail s odkazem na adresu: {{modrabanka.test}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: ok
+              feedback: Ano, přesně odpovídá skutečné adrese. Přesto je bezpečnější psát adresu banky sami než klepat na odkaz.
+            - label: Ne, je podvržená
+              tone: info
+              feedback: Tentokrát je adresa pravá – shoduje se písmeno po písmenu. Opatrnost je ale na místě vždy.
+        - text: 'Přišel e-mail s odkazem na adresu: {{rnodrabanka.test}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: risk
+              feedback: 'Podívejte se pozorně na začátek: místo „m“ jsou tam dvě písmena „r“ a „n“. Na malém displeji vypadají skoro stejně.'
+            - label: Ne, je podvržená
+              tone: ok
+              feedback: Správně. Místo „m“ jsou na začátku písmena „r“ a „n“.
+        - text: 'Přišel e-mail s odkazem na adresu: {{modrabankka.test}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: risk
+              feedback: 'V adrese je zdvojené „k“: „bankka“. Jediné písmeno navíc znamená úplně jinou adresu.'
+            - label: Ne, je podvržená
+              tone: ok
+              feedback: Správně. Zdvojené „k“ z adresy dělá jinou adresu, která bance nepatří.
+        - text: 'Přišel e-mail s odkazem na adresu: {{modrabanka-overeni.test}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: risk
+              feedback: Slovo navíc („-overeni“) vytváří úplně jinou adresu. Patří někomu jinému než bance.
+            - label: Ne, je podvržená
+              tone: ok
+              feedback: Správně. I slovo, které zní důvěryhodně, z adresy dělá jinou adresu.
+        - text: 'Přišel e-mail s odkazem na adresu: {{modrabanka.test.prihlaseni-klient.test}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: risk
+              feedback: Rozhoduje konec adresy. Tato končí „prihlaseni-klient.test“ – název banky na začátku je jen převlek.
+            - label: Ne, je podvržená
+              tone: ok
+              feedback: Správně. Rozhoduje konec adresy, ne to, co je na začátku.
+          lesson: Nejjistější je adresu banky psát sami nebo použít její aplikaci – ne klepat na odkazy ve zprávách.
   - kind: shrnuti
     title: Tři otázky ke každé zprávě
     activity:

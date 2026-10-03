@@ -20,6 +20,18 @@ screens:
       question: Přišla vám někdy podezřelá zpráva, e-mail nebo telefonát?
       hint: Pokud chcete, podělte se o zkušenost se skupinou. Není se za co stydět – podvodníci zkoušejí štěstí u každého.
   - kind: vyklad
+    title: Proč zrovna já?
+    text:
+      - 'Mnoho lidí si říká: „Proč by podvodník psal zrovna mně? Nejsem nikdo důležitý.“'
+      - Většina útoků ale **není nic osobního**. Podvodníci rozesílají tisíce stejných zpráv najednou a čekají, kdo odpoví. Jde jim hlavně o peníze – podle studií zhruba v **86 %** případů.
+    points:
+      - Hromadné podvody jsou levné – stačí, když se nachytá pár lidí z tisíce.
+      - Útoky na konkrétního člověka jsou vzácnější a pracnější.
+    lecturer:
+      tips:
+        - 'Zdroj: Verizon Data Breach Investigations Report 2020 – 86 % případů je finančně motivovaných.'
+        - Phishing zůstává nejčastějším typem útoku – kolem 60 % (ENISA Threat Landscape 2025).
+  - kind: vyklad
     title: Nemusíte poznat každý podvod
     text:
       - Podvodníci umějí napodobit banku, doručovací službu, úřad i vašeho známého. Jejich zprávy mohou vypadat úplně profesionálně.

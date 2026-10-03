@@ -2,11 +2,11 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-klice
-order: 4
+order: 5
 title: Druhý zámek
 summary: Dvoufázové ověření a novější způsoby přihlašování.
 lecturer:
-  time: 25 minut
+  time: 20 minut
   goal: Vysvětlit dvoufázové (vícefaktorové) ověření a zásadu nepotvrzovat přihlášení, které jsem sám/sama nezahájil(a). Krátce zmínit přístupové klíče (passkeys).
   discussion: Potvrzujete už něco v telefonu, třeba platby v bankovnictví?
   transition: Shrňme si čtyři návyky, které vaše účty ochrání.
@@ -19,6 +19,50 @@ screens:
       - 🔑 **První zámek:** heslo, které znáte.
       - 📱 **Druhý zámek:** potvrzení v telefonu nebo kód z SMS.
       - 🛡️ I když někdo zjistí vaše heslo, bez vašeho telefonu se dovnitř nedostane.
+      - ✅ Jakékoli druhé ověření je lepší než žádné.
+  - kind: aktivita
+    title: Něco víte, něco máte, něco jste
+    text:
+      - 'Ověřit, že jste to vy, lze třemi způsoby: něčím, co **víte**, něčím, co **máte**, a něčím, co **jste**. Dvoufázové ověření kombinuje dva z nich.'
+    activity:
+      type: choices
+      itemLabel: Položka
+      question: Do které skupiny to patří?
+      options:
+        - id: vite
+          label: 🧠 Něco, co VÍTE
+        - id: mate
+          label: 📱 Něco, co MÁTE
+        - id: jste
+          label: 👤 Něco, co JSTE
+      items:
+        - text: PIN
+          recommended:
+            - vite
+          explanation: PIN je **něco, co víte** – máte ho v hlavě, stejně jako heslo.
+        - text: Heslo
+          recommended:
+            - vite
+          explanation: Heslo je **něco, co víte**. Proto ho nikomu neříkejte.
+        - text: Telefon, do kterého přijde žádost o potvrzení
+          recommended:
+            - mate
+          explanation: Telefon je **něco, co máte** u sebe. Útočník ho nemá, i když zná vaše heslo.
+        - text: Kód z SMS
+          recommended:
+            - mate
+          explanation: Kód přijde do telefonu, který **máte** u sebe. Proto ho nikomu nesdělujte – tím byste „půjčili“ svůj telefon.
+        - text: Otisk prstu
+          recommended:
+            - jste
+          explanation: Otisk prstu je **něco, co jste** – část vás samých.
+        - text: Obličej
+          recommended:
+            - jste
+          explanation: Rozpoznání obličeje je také **něco, co jste**.
+    lecturer:
+      tips:
+        - 'V podkladech: Knowledge (něco víte), Possession (něco máte), Inherence (něco jste).'
   - kind: aktivita
     title: Vyzkoušejte si přihlášení
     text:

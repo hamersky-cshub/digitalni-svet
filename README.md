@@ -8,9 +8,9 @@ Nejde o e-learning: obrazovky jsou krátké a podporují práci lektora, nenahra
 
 | Workshop | Adresa | Zastávky |
 | --- | --- | --- |
-| 👣 Digitální stopa – Co vše o nás internet ví | `/digitalni-stopa/` | 5 |
-| 🛡️ Digitální obrana – Jak se nenechat nachytat | `/digitalni-obrana/` | 6 |
-| 🔑 Digitální klíče – Jak ochránit své účty | `/digitalni-klice/` | 5 |
+| 👣 Digitální stopa – Co vše o nás internet ví | `/digitalni-stopa/` | 6 |
+| 🛡️ Digitální obrana – Jak se nenechat nachytat | `/digitalni-obrana/` | 7 |
+| 🔑 Digitální klíče – Jak ochránit své účty | `/digitalni-klice/` | 6 |
 
 ## Hlavní principy
 
@@ -140,10 +140,11 @@ zastávkách.
 | `type` | Co dělá | Příklad v obsahu |
 | --- | --- | --- |
 | `choices` | Řada situací se stejnými možnostmi (ANO / NE / NEJSEM SI JISTÝ/Á). U situace: `recommended` (vhodné možnosti), `explanation`, volitelně `responses` pro konkrétní volbu. | `digitalni-stopa/01-…`, `02-…` |
-| `scenarios` | Modelové situace, každá s vlastními možnostmi (`label`, `tone`, `feedback`) a volitelným `lesson`. Volitelně `message` = simulovaná zpráva (`sms`, `email`, `chat`, `call`, `notification`). | `digitalni-obrana/02-…`, `04-…` |
+| `scenarios` | Modelové situace, každá s vlastními možnostmi (`label`, `tone`, `feedback`) a volitelným `lesson`. Volitelně `message` = simulovaná zpráva (`sms`, `email`, `chat`, `call`, `notification`, `popup` = vyskakovací okno). | `digitalni-obrana/02-…`, `04-…` |
 | `signals` | Zpráva, ve které se hledají varovné signály. Podezřelé místo označte `[[text\|id]]` a vysvětlení napište do `signals.id`. | `digitalni-obrana/03-…` |
 | `hotspots` | Ilustrace s čísly, na která lze klepnout (`x`, `y` v procentech). Dostupná scéna: `dovolena`. | `digitalni-stopa/04-…` |
 | `device` | Výběr Android / iPad, iPhone / Nejsem si jistý/á a návod krok za krokem (`steps` s volitelnou `question`). | `digitalni-stopa/03-…` |
+| `guide` | Návod krok za krokem bez výběru zařízení (`intro`, `steps`, `outro`), u každého kroku tlačítko „Mám hotovo“. | `digitalni-stopa/05-…`, `digitalni-klice/03-…` |
 | `reflection` | Otázka k zamyšlení, volitelně `ideas` za tlačítkem „Ukázat inspiraci“. Nic se nezapisuje. | v každém workshopu |
 | `rules` | Shrnutí – pravidla k zapamatování (volitelné `key`, např. písmena STOP). | `digitalni-obrana/06-stop.yaml` |
 | `passphrase` | Skládání modelové heslové fráze z náhodných slov (`words`, `count`, `warning`). | `digitalni-klice/02-…` |
@@ -189,6 +190,12 @@ Pro jednoduché otázky s volbou ale většinou stačí stávající `choices` n
    s `workshop: novy-workshop`.
 3. Hotovo. Karta na úvodní stránce, přehled workshopu, navigace, počítadla i offline režim vzniknou automaticky.
    Obsah ověříte příkazem `npm run check` nebo v náhledu `npm run dev`.
+
+## Zdroje obsahu
+
+Obsah workshopů vychází z podkladů Vojtěcha Hamerského: prezentací *Osobní bezpečnostní strategie*, *Phishing*,
+*Hesla a autentizace*, *Minikurz kyberbezpečnosti pro uživatele* a letáku *Digitální kompas*. Pro seniory jsou texty
+zjednodušené. Statistiky a odborné pojmy (Kahneman, Cialdini, typy útoků) jsou uvedené v poznámkách pro lektora.
 
 ## Režim pro lektora
 

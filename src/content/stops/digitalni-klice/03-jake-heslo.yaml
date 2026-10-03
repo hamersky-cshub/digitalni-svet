@@ -2,11 +2,11 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-klice
-order: 2
+order: 3
 title: Jaké heslo je lepší?
 summary: Délka a jedinečnost jsou důležitější než složité znaky.
 lecturer:
-  time: 25 minut
+  time: 20 minut
   goal: Ukázat, že bezpečné heslo nemusí být nezapamatovatelný chaos. Rozhoduje délka a jedinečnost.
   discussion: Jak si hesla pamatujete vy? Co vám pomáhá?
   transition: I nejlepší heslo přestane chránit, když ho používáte všude. Podívejme se proč.
@@ -34,9 +34,9 @@ screens:
             - label: Jméno vnučky a rok jejího narození.
               tone: risk
               feedback: Osobní údaje se dají často zjistit ze sociálních sítí nebo z rozhovoru. Útočníci je zkoušejí jako první.
-            - label: Větu, kterou si snadno představí, například „ranní káva na balkóně v létě“.
+            - label: Čtyři náhodná slova, například „deštník kaštan rozhledna svetr“.
               tone: ok
-              feedback: Ano. Představitelná věta se snadno pamatuje, je dlouhá a nesouvisí s údaji, které se dají dohledat.
+              feedback: Ano. Náhodná slova jsou dlouhá a nesouvisejí s ničím, co se dá dohledat. Zapamatovat si je pomůže krátký příběh, který si k nim vymyslíte.
         - text: Paní Věra má jedno dobré a dlouhé heslo. Používá ho všude – k e-mailu, bance i do obchodu.
           question: Je to dobrý nápad?
           options:
@@ -52,7 +52,7 @@ screens:
             - label: 'Krátké se zvláštními znaky: „X7!fK9#“'
               tone: info
               feedback: Je lepší než běžné slovo, ale je krátké a velmi těžko zapamatovatelné. Lidé si takové heslo pak často zapisují nebo ho používají všude.
-            - label: 'Dlouhá fráze: „ještěrka pod starým mostem zpívá“'
+            - label: 'Dlouhá fráze z náhodných slov: „kavárna-manažer-šťastný-den“'
               tone: ok
               feedback: Ano. Délka je pro bezpečnost důležitější než složité znaky. A tuto frázi si snadno zapamatujete.
           lesson: 'Pravidlo: **dlouhé** a **jedinečné** heslo je lepší než krátké a složité.'
@@ -105,4 +105,21 @@ screens:
         - trumpeta
         - oblak
         - rohlík
-      explanation: Čtyři náhodná slova tvoří heslo, které je dlouhé a pro počítač velmi těžko uhodnutelné. Pro skutečné heslo si vymyslete **vlastní** slova – ne ta z tohoto webu.
+      explanation: Čtyři náhodná slova tvoří heslo, které je dlouhé a pro počítač velmi těžko uhodnutelné. Pro skutečné heslo si vymyslete **vlastní** slova – ne ta z tohoto webu. Nepoužívejte citáty, texty písní ani známá rčení – útočníci je zkoušejí.
+  - kind: prakticky
+    title: Kostková metoda
+    text:
+      - Opravdu náhodná slova vyberete hodem kostkou. Metodě se říká **Diceware** (kostková metoda). Potřebujete hrací kostky a seznam slov.
+    activity:
+      type: guide
+      steps:
+        - text: Hoďte pěti kostkami (nebo jednou kostkou pětkrát) a zapište si čísla, například **3-1-4-2-6**.
+        - text: Číslo najděte v seznamu slov pro kostkovou metodu. Každé pětici čísel odpovídá jedno slovo.
+        - text: Opakujte, dokud nemáte alespoň **5 slov**.
+        - text: Slova spojte dohromady, třeba pomlčkou. Heslová fráze je hotová.
+          question: Vymyslíte si k slovům krátký příběh, který vám je připomene?
+      outro: Český seznam slov najdete v Materiálech ke stažení na přehledu workshopu.
+    lecturer:
+      tips:
+        - Přineste na workshop několik hracích kostek a vytištěný český seznam slov.
+        - 'Seznam: theworld.com/~reinhold/diceware_wordlist_cz.pdf'

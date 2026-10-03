@@ -26,8 +26,9 @@ const MEDIUM_LABELS = {
   chat: 'Ukázková zpráva v chatu',
   call: 'Ukázkový telefonát',
   notification: 'Ukázkové oznámení v telefonu',
+  popup: 'Ukázkové vyskakovací okno na webu',
 } as const;
-const MEDIUM_ICONS = { sms: '💬', email: '✉️', chat: '💬', call: '📞', notification: '🔔' } as const;
+const MEDIUM_ICONS = { sms: '💬', email: '✉️', chat: '💬', call: '📞', notification: '🔔', popup: '⚠️' } as const;
 
 const { medium, sender, subject, time, lines = [], linesHtml, senderHtml, subjectHtml, attachmentHtml } = Astro.props;
 const body = linesHtml ?? lines.map(formatText);
@@ -183,6 +184,12 @@ const subjectOut = subjectHtml ?? (subject ? formatText(subject) : undefined);
 
   .message--notification .message__frame {
     background: var(--color-info-bg);
+  }
+
+  .message--popup .message__frame {
+    border-color: var(--color-risk);
+    border-radius: var(--radius-small);
+    background: var(--color-risk-bg);
   }
 
   .message__caller {

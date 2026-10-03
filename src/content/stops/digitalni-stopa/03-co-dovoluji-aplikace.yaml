@@ -6,7 +6,7 @@ order: 3
 title: Co dovolují aplikace
 summary: Kde zkontrolovat, co smějí aplikace v tabletu používat.
 lecturer:
-  time: 25 minut
+  time: 20 minut
   goal: Účastníci vědí, kde v zařízení najdou oprávnění aplikací. Cílem není všechno zakázat.
   discussion: Používá některá vaše aplikace polohu? Potřebuje ji?
   transition: Informace o nás neprozrazují jen aplikace, ale i fotografie, které sdílíme.
@@ -70,6 +70,11 @@ screens:
           - text: Stále si nejste jistí? Zvedněte ruku – lektor vám pomůže.
   - kind: reflexe
     title: Co jste zjistili?
+    text:
+      - 'Dva tipy na závěr:'
+    points:
+      - Aplikace stahujte jen z oficiálního obchodu – **Google Play** nebo **App Store**.
+      - Aplikace, které nepoužíváte, smažte. Nebudou mít přístup k vašim údajům.
     activity:
       type: reflection
       question: Našli jste aplikaci, která má oprávnění, které podle vás nepotřebuje?
