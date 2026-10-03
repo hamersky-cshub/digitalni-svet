@@ -1,0 +1,88 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ActionButton from './ActionButton.astro';
+import { TYPE_ICONS, TYPE_LABELS, detailHref, resourceAction } from '../lib/resources';
+
+interface Props {
+  resource: CollectionEntry<'resources'>;
+  /** Název tématu; zobrazí se, pokud je uveden (na stránce všech materiálů). */
+  topicTitle?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { resource, topicTitle, headingLevel: Heading = 'h3' } = Astro.props;
+const { title, description, type, source } = resource.data;
+const action = resourceAction(resource);
+---
+
+<li class="resource-card" data-topic={resource.data.topic.id} data-type={type}>
+  <p class="resource-card__meta">
+    <span class="badge">
+      <span aria-hidden="true">{TYPE_ICONS[type]}</span>
+      {TYPE_LABELS[type]}
+    </span>
+    {topicTitle && <span class="resource-card__topic">Téma: {topicTitle}</span>}
+  </p>
+  <Heading class="resource-card__title">
+    <a href={detailHref(resource)}>{title}</a>
+  </Heading>
+  <p>{description}</p>
+  {source && <p class="resource-card__source">Zdroj: {source}</p>}
+  <p class="resource-card__action">
+    <ActionButton action={action} variant="secondary" />
+  </p>
+</li>
+
+<style>
+  .resource-card {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: var(--space-3);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+  }
+
+  .resource-card[hidden] {
+    display: none;
+  }
+
+  .resource-card p {
+    margin-bottom: var(--space-1);
+  }
+
+  .resource-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    font-size: 0.9rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0.6rem;
+    border: 2px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    font-weight: 600;
+  }
+
+  .resource-card__topic,
+  .resource-card__source {
+    color: var(--color-text-muted);
+  }
+
+  .resource-card__title {
+    margin: var(--space-1) 0;
+    font-size: 1.25rem;
+  }
+
+  .resource-card__action {
+    margin-top: auto;
+    padding-top: var(--space-1);
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import type { ResourceAction } from '../lib/resources';
+
+interface Props {
+  action: ResourceAction;
+  variant?: 'primary' | 'secondary';
+}
+
+const { action, variant = 'primary' } = Astro.props;
+---
+
+<a
+  class:list={['button', { 'button--secondary': variant === 'secondary' }]}
+  href={action.href}
+  download={action.download ? '' : undefined}
+  target={action.external ? '_blank' : undefined}
+  rel={action.external ? 'noopener noreferrer' : undefined}
+>
+  {action.label}
+  {action.external && <span aria-hidden="true">↗</span>}
+  {action.external && <span class="visually-hidden">(otevře se jiný web v novém okně)</span>}
+</a>

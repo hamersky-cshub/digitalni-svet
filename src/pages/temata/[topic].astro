@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ResourceCard from '../../components/ResourceCard.astro';
+import ResourceFilter from '../../components/ResourceFilter.astro';
+import { getResources, getTopics } from '../../lib/content';
+import { RESOURCE_TYPES } from '../../content.config';
+
+export const getStaticPaths = (async () => {
+  const [topics, resources] = await Promise.all([getTopics(), getResources()]);
+  return topics.map((topic) => ({
+    params: { topic: topic.id },
+    props: { topic, resources: resources.filter((r) => r.data.topic.id === topic.id) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { topic, resources } = Astro.props;
+const { Content } = await render(topic);
+const types = RESOURCE_TYPES.filter((t) => resources.some((r) => r.data.type === t));
+const listId = 'materialy-tematu';
+---
+
+<BaseLayout title={topic.data.title} description={topic.data.description}>
+  <Breadcrumbs items={[{ label: 'Témata', path: 'temata/' }]} current={topic.data.title} />
+  <h1>
+    {topic.data.icon && <span aria-hidden="true">{topic.data.icon} </span>}
+    {topic.data.title}
+  </h1>
+  <p class="lead">{topic.data.description}</p>
+  <div class="prose">
+    <Content />
+  </div>
+
+  <h2>Materiály k tématu</h2>
+  {
+    resources.length === 0 ? (
+      <p>K tomuto tématu zatím nejsou žádné materiály.</p>
+    ) : (
+      <>
+        {types.length > 1 && <ResourceFilter listId={listId} types={types} />}
+        <ul class="resource-list" id={listId}>
+          {resources.map((resource) => (
+            <ResourceCard resource={resource} />
+          ))}
+        </ul>
+        <p id={`${listId}-empty`} hidden>
+          Tomuto výběru neodpovídá žádný materiál.
+        </p>
+      </>
+    )
+  }
+</BaseLayout>

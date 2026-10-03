@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ResourceCard from '../../components/ResourceCard.astro';
+import ResourceFilter from '../../components/ResourceFilter.astro';
+import { getResources, getTopics } from '../../lib/content';
+import { RESOURCE_TYPES } from '../../content.config';
+
+const [topics, resources] = await Promise.all([getTopics(), getResources()]);
+const topicTitles = new Map(topics.map((t) => [t.id, t.data.title]));
+const types = RESOURCE_TYPES.filter((t) => resources.some((r) => r.data.type === t));
+const listId = 'vsechny-materialy';
+---
+
+<BaseLayout title="Všechny materiály" description="Všechny materiály z workshopů o bezpečnosti na internetu na jednom místě.">
+  <Breadcrumbs items={[]} current="Všechny materiály" />
+  <h1>Všechny materiály</h1>
+  <p class="lead">
+    Tady najdete všechny materiály na jednom místě. Pomocí výběru níže si můžete zobrazit jen jedno téma nebo jen
+    určitý druh materiálu.
+  </p>
+
+  <ResourceFilter listId={listId} topics={topics.map((t) => ({ id: t.id, title: t.data.title }))} types={types} />
+
+  <ul class="resource-list" id={listId}>
+    {
+      resources.map((resource) => (
+        <ResourceCard resource={resource} topicTitle={topicTitles.get(resource.data.topic.id)} headingLevel="h2" />
+      ))
+    }
+  </ul>
+  <p id={`${listId}-empty`} hidden>Tomuto výběru neodpovídá žádný materiál. Zkuste vybrat jiné téma nebo druh.</p>
+</BaseLayout>

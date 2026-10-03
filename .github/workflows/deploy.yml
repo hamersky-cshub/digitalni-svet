@@ -1,0 +1,43 @@
+name: Nasazení na GitHub Pages
+
+on:
+  # Po každém pushi do větve main se web sestaví a zveřejní.
+  push:
+    branches: [main]
+  # U pull requestů se web jen sestaví (kontrola, že je vše v pořádku), nezveřejní se.
+  pull_request:
+  # Ruční spuštění ze záložky Actions na GitHubu.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stažení repozitáře
+        uses: actions/checkout@v7
+      - name: Instalace, kontrola a sestavení webu
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+          build-cmd: npm run check && npm run build
+
+  deploy:
+    needs: build
+    # Zveřejňuje se jen z větve main (ne z pull requestů ani jiných větví).
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Zveřejnění na GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

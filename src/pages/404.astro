@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
+---
+
+<BaseLayout title="Stránka nenalezena">
+  <div class="prose">
+    <h1>Tuto stránku jsme nenašli</h1>
+    <p class="lead">Omlouváme se, stránka na této adrese neexistuje. Možná byla přesunuta nebo je v adrese překlep.</p>
+    <p>
+      <a class="button" href={withBase()}>Přejít na úvodní stránku</a>
+    </p>
+  </div>
+</BaseLayout>

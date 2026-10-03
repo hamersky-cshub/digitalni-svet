@@ -1,0 +1,132 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ActionButton from '../../components/ActionButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getResources } from '../../lib/content';
+import { TYPE_ICONS, TYPE_LABELS, formatDate, resourceAction } from '../../lib/resources';
+import { withBase } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const resources = await getResources();
+  return resources.map((resource) => ({ params: { id: resource.id }, props: { resource } }));
+}) satisfies GetStaticPaths;
+
+const { resource } = Astro.props;
+const { title, description, type, source, updated } = resource.data;
+const topic = await getEntry(resource.data.topic);
+const { Content } = await render(resource);
+const action = resourceAction(resource);
+const topicPath = `temata/${topic.id}/`;
+---
+
+<BaseLayout title={title} description={description}>
+  <Breadcrumbs
+    items={[
+      { label: 'Témata', path: 'temata/' },
+      { label: topic.data.title, path: topicPath },
+    ]}
+    current={title}
+  />
+
+  <article>
+    <p class="meta">
+      <span class="badge"><span aria-hidden="true">{TYPE_ICONS[type]}</span> {TYPE_LABELS[type]}</span>
+    </p>
+    <h1>{title}</h1>
+    <p class="lead">{description}</p>
+
+    <dl class="details">
+      <div>
+        <dt>Téma</dt>
+        <dd><a href={withBase(topicPath)}>{topic.data.title}</a></dd>
+      </div>
+      {
+        source && (
+          <div>
+            <dt>Zdroj</dt>
+            <dd>{source}</dd>
+          </div>
+        )
+      }
+      {
+        updated && (
+          <div>
+            <dt>Aktualizováno</dt>
+            <dd>
+              <time datetime={updated.toISOString().slice(0, 10)}>{formatDate(updated)}</time>
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+
+    {
+      type !== 'navod' && (
+        <p class="action">
+          <ActionButton action={action} />
+        </p>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+
+  <p class="back">
+    <a href={withBase(topicPath)}>← Zpět na téma {topic.data.title}</a>
+  </p>
+</BaseLayout>
+
+<style>
+  .meta {
+    margin: var(--space-3) 0 0;
+  }
+
+  .meta + h1 {
+    margin-top: var(--space-1);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0.6rem;
+    border: 2px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: 0 0 var(--space-3);
+  }
+
+  .details dt {
+    font-weight: 700;
+  }
+
+  .details dd {
+    margin: 0;
+  }
+
+  .action {
+    margin: var(--space-3) 0 var(--space-4);
+  }
+
+  .back {
+    margin-top: var(--space-4);
+  }
+
+  .back a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-size);
+  }
+</style>

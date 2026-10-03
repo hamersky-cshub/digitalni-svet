@@ -1,0 +1,68 @@
+---
+import { withBase } from '../lib/url';
+
+interface Props {
+  /** Položky před aktuální stránkou; úvod se přidá automaticky. */
+  items: { label: string; path: string }[];
+  current: string;
+}
+
+const { items, current } = Astro.props;
+const crumbs = [{ label: 'Úvod', path: '' }, ...items];
+---
+
+<nav class="breadcrumbs" aria-label="Kde se nacházíte">
+  <ol>
+    {
+      crumbs.map((crumb) => (
+        <li>
+          <a href={withBase(crumb.path)}>{crumb.label}</a>
+        </li>
+      ))
+    }
+    <li aria-current="page">{current}</li>
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs {
+    margin-top: var(--space-3);
+  }
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: none;
+    font-size: 0.9rem;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  li + li {
+    margin-top: 0;
+  }
+
+  li + li::before {
+    content: '›';
+    padding: 0 0.6rem;
+    color: var(--color-text-muted);
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-size);
+  }
+
+  [aria-current='page'] {
+    color: var(--color-text-muted);
+  }
+</style>

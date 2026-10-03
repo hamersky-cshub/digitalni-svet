@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TopicCard from '../../components/TopicCard.astro';
+import { getResources, getTopics } from '../../lib/content';
+
+const topics = await getTopics();
+const resources = await getResources();
+const countFor = (id: string) => resources.filter((r) => r.data.topic.id === id).length;
+---
+
+<BaseLayout title="Témata" description="Přehled témat workshopů o bezpečnosti na internetu.">
+  <Breadcrumbs items={[]} current="Témata" />
+  <h1>Témata</h1>
+  <p class="lead">Materiály jsou rozdělené do témat. Klikněte na téma, které vás zajímá.</p>
+  <div class="topic-grid">
+    {topics.map((topic) => <TopicCard topic={topic} count={countFor(topic.id)} />)}
+  </div>
+</BaseLayout>
+
+<style>
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-3);
+  }
+</style>

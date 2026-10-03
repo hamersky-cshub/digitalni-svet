@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopicCard from '../components/TopicCard.astro';
+import { getResources, getTopics } from '../lib/content';
+import { withBase } from '../lib/url';
+
+const topics = await getTopics();
+const resources = await getResources();
+const countFor = (id: string) => resources.filter((r) => r.data.topic.id === id).length;
+---
+
+<BaseLayout title="Digitální kompas">
+  <section class="hero">
+    <h1>Bezpečně na internetu – krok za krokem</h1>
+    <p class="lead">
+      Vítejte na webu <strong>Digitální kompas</strong>. Najdete tu materiály z našich workshopů o bezpečnosti na
+      internetu: návody, prezentace, videa a odkazy na užitečné stránky.
+    </p>
+    <p>
+      <a class="button" href={withBase('materialy/')}>Prohlédnout všechny materiály</a>
+    </p>
+  </section>
+
+  <section aria-labelledby="temata">
+    <h2 id="temata">Vyberte si téma</h2>
+    <div class="topic-grid">
+      {topics.map((topic) => <TopicCard topic={topic} count={countFor(topic.id)} headingLevel="h3" />)}
+    </div>
+  </section>
+
+  <section aria-labelledby="jak-pouzivat" class="howto">
+    <h2 id="jak-pouzivat">Jak tento web používat</h2>
+    <ol>
+      <li><strong>Vyberte si téma</strong>, které vás zajímá, nebo otevřete stránku Všechny materiály.</li>
+      <li>
+        <strong>Klikněte na název materiálu.</strong> Uvidíte, o čem je, a tlačítko pro stažení nebo otevření.
+      </li>
+      <li>
+        <strong>Písmo je příliš malé?</strong> Podržte klávesu <kbd>Ctrl</kbd> a stiskněte <kbd>+</kbd>. Na telefonu
+        roztáhněte obrazovku dvěma prsty.
+      </li>
+      <li>
+        <strong>Nevíte si rady?</strong> Nebojte se zeptat lektora na workshopu. Žádná otázka není hloupá.
+      </li>
+    </ol>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: var(--space-3) 0 var(--space-2);
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-3);
+  }
+
+  .howto {
+    margin-top: var(--space-5);
+    padding: var(--space-1) var(--space-3) var(--space-3);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  kbd {
+    padding: 0.05rem 0.4rem;
+    border: 2px solid var(--color-border);
+    border-radius: 0.3rem;
+    background: var(--color-bg);
+    font-family: inherit;
+    font-weight: 700;
+  }
+</style>

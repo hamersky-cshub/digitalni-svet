@@ -1,0 +1,180 @@
+---
+import '../styles/global.css';
+import { isCurrent, withBase } from '../lib/url';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Materiály a návody k workshopům o bezpečnosti na internetu pro seniory.' } = Astro.props;
+const siteName = 'Digitální kompas';
+const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const pathname = Astro.url.pathname;
+
+const nav = [
+  { path: '', label: 'Úvod', exact: true },
+  { path: 'temata/', label: 'Témata', exact: false },
+  { path: 'materialy/', label: 'Všechny materiály', exact: false },
+  { path: 'o-projektu/', label: 'O projektu', exact: false },
+];
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <link rel="canonical" href={new URL(pathname, Astro.site)} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="cs_CZ" />
+  </head>
+  <body>
+    <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="site-logo" href={withBase()}>
+          <span class="site-logo__icon" aria-hidden="true">🧭</span>
+          <span>{siteName}</span>
+        </a>
+        <nav aria-label="Hlavní menu">
+          <ul class="site-nav">
+            {
+              nav.map((item) => {
+                const current = isCurrent(pathname, item.path, item.exact);
+                return (
+                  <li>
+                    <a href={withBase(item.path)} aria-current={current ? 'page' : undefined}>
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="obsah" tabindex="-1">
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          <strong>{siteName}</strong> – materiály k workshopům o bezpečnosti na internetu pro seniory.
+        </p>
+        <p>
+          Potřebujete poradit? Zeptejte se lektora na workshopu, nebo se podívejte na stránku{' '}
+          <a href={withBase('o-projektu/')}>O projektu</a>.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: var(--space-2);
+    top: -10rem;
+    z-index: 10;
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-focus);
+    color: var(--color-focus-text);
+    font-weight: 700;
+  }
+
+  .skip-link:focus {
+    top: var(--space-1);
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  .site-header {
+    background: var(--color-primary-dark);
+    color: var(--color-on-primary);
+    border-bottom: 6px solid var(--color-focus);
+  }
+
+  .site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-3);
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
+  }
+
+  .site-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--tap-size);
+    color: var(--color-on-primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .site-logo__icon {
+    font-size: 1.75rem;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: none;
+  }
+
+  .site-nav li + li {
+    margin-top: 0;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-size);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius);
+    color: var(--color-on-primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .site-nav a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 0.15em;
+  }
+
+  .site-nav a[aria-current='page'] {
+    background: var(--color-bg);
+    color: var(--color-primary-dark);
+  }
+
+  .site-footer {
+    margin-top: var(--space-5);
+    padding: var(--space-4) 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .site-footer p:last-child {
+    margin-bottom: 0;
+  }
+</style>

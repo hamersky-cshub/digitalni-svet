@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout title="O projektu" description="Co je Digitální kompas a pro koho jsou workshopy určeny.">
+  <Breadcrumbs items={[]} current="O projektu" />
+  <div class="prose">
+    <h1>O projektu</h1>
+    <p class="lead">
+      Digitální kompas pořádá workshopy pro seniory o tom, jak se bezpečně pohybovat na internetu.
+    </p>
+
+    <div class="notice">
+      <p>
+        <strong>Ukázkový text.</strong> Tuto stránku nahraďte skutečnými informacemi o projektu, pořadateli a
+        kontaktech.
+      </p>
+    </div>
+
+    <h2>Pro koho jsou workshopy</h2>
+    <p>
+      Pro každého, kdo chce s jistotou používat počítač, tablet nebo chytrý telefon. Nepotřebujete žádné předchozí
+      znalosti.
+    </p>
+
+    <h2>Co se na workshopech naučíte</h2>
+    <ul>
+      <li>Jak poznat podvodný e-mail, SMS nebo telefonát.</li>
+      <li>Jak si vytvořit bezpečné heslo a jak si ho zapamatovat.</li>
+      <li>Jaké stopy po sobě na internetu zanecháváte a jak je omezit.</li>
+    </ul>
+
+    <h2>Kontakt</h2>
+    <p>Doplňte kontaktní e-mail nebo telefon pořadatele workshopů.</p>
+
+    <h2>Když se něco stane</h2>
+    <p>
+      Pokud máte podezření, že vás někdo podvedl, <strong>hned zavolejte své bance</strong> (číslo najdete na zadní
+      straně platební karty) a případně <strong>Policii ČR na čísle 158</strong>.
+    </p>
+  </div>
+</BaseLayout>
