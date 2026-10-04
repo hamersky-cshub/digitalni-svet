@@ -38,6 +38,13 @@ export function plural(n: number, forms: [string, string, string]): string {
   return forms[2];
 }
 
+const ORDINALS = ['První', 'Druhý', 'Třetí', 'Čtvrtý', 'Pátý', 'Šestý', 'Sedmý', 'Osmý', 'Devátý', 'Desátý'];
+
+/** Řadová číslovka slovem v mužském rodě: ordinalWord(2) → 'Druhý' (nad 10 číslicí: '11.'). */
+export function ordinalWord(n: number): string {
+  return ORDINALS[n - 1] ?? `${n}.`;
+}
+
 /** Předložka před číslovkou: „ze 3“, „z 5“ (ze dvou, tří, čtyř, šesti, sedmi). */
 export function zOrZe(n: number): 'z' | 'ze' {
   return [2, 3, 4, 6, 7].includes(n) ? 'ze' : 'z';
