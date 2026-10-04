@@ -3,6 +3,7 @@
 import type { Activity } from '../../content.config';
 import ChoiceSequence, { type SequenceItem } from './ChoiceSequence.astro';
 import DeviceSelector from './DeviceSelector.astro';
+import DiceRoller from './DiceRoller.astro';
 import HotspotImage from './HotspotImage.astro';
 import KeyReuse from './KeyReuse.astro';
 import LoginSimulation from './LoginSimulation.astro';
@@ -10,6 +11,7 @@ import MessageSignals from './MessageSignals.astro';
 import PassphraseBuilder from './PassphraseBuilder.astro';
 import Reflection from './Reflection.astro';
 import Rules from './Rules.astro';
+import SettingsSim from './SettingsSim.astro';
 import StepGuide from './StepGuide.astro';
 
 interface Props {
@@ -50,6 +52,8 @@ if (activity.type === 'choices') {
 {activity.type === 'guide' && <StepGuide intro={activity.intro} steps={activity.steps} outro={activity.outro} />}
 {activity.type === 'reflection' && <Reflection {...activity} />}
 {activity.type === 'passphrase' && <PassphraseBuilder {...activity} />}
+{activity.type === 'dice' && <DiceRoller {...activity} />}
+{activity.type === 'settings' && <SettingsSim {...activity} />}
 {activity.type === 'keyReuse' && <KeyReuse {...activity} />}
 {activity.type === 'login' && <LoginSimulation {...activity} />}
 {activity.type === 'rules' && <Rules {...activity} />}

@@ -197,6 +197,38 @@ const passphraseActivity = z.object({
   explanation: z.string(),
 });
 
+/** Kostková metoda s virtuálními kostkami: dvě kostky vyberou slovo z ukázkové tabulky 6 × 6. */
+const diceActivity = z.object({
+  type: z.literal('dice'),
+  warning: z.string(),
+  /** Přesně 36 slov v pořadí 1-1, 1-2 … 1-6, 2-1 … 6-6. */
+  words: z.array(z.string()).length(36),
+  count: z.number().int().min(3).max(6).default(4),
+  explanation: z.string(),
+});
+
+/** Proklikání nastavení účtu nanečisto (např. kde najít dvoufázové ověření). */
+const settingsActivity = z.object({
+  type: z.literal('settings'),
+  /** Úkol, např. „Najděte, kde se zapíná dvoufázové ověření.“ */
+  task: z.string(),
+  screens: z
+    .array(
+      z
+        .object({
+          title: z.string(),
+          items: z.array(z.string()).min(2).max(6),
+          /** Položka, na kterou se má klepnout (musí být v "items"). */
+          correct: z.string(),
+          /** Nápověda po klepnutí na jinou položku. */
+          hint: z.string(),
+        })
+        .refine((s) => s.items.includes(s.correct), { message: '"correct" musí být jedna z položek v "items".' }),
+    )
+    .min(1),
+  final: z.object({ title: z.string(), label: z.string(), status: z.string(), action: z.string(), text: z.string() }),
+});
+
 /** Ukázka, co se stane, když je jedno heslo všude. */
 const keyReuseActivity = z
   .object({
@@ -236,6 +268,8 @@ const activity = z.discriminatedUnion('type', [
   guideActivity,
   reflectionActivity,
   passphraseActivity,
+  diceActivity,
+  settingsActivity,
   keyReuseActivity,
   loginActivity,
   rulesActivity,
@@ -251,7 +285,7 @@ export const SCREEN_KINDS = ['vyklad', 'diskuse', 'aktivita', 'prakticky', 'refl
 export type ScreenKind = (typeof SCREEN_KINDS)[number];
 
 /** Ilustrace, které lze vložit k obrazovce (src/components/illustrations/). */
-export const ILLUSTRATIONS = ['lista-cookies', 'svitilna-poloha', 'foto-bezpecna', 'foto-prozrazujici'] as const;
+export const ILLUSTRATIONS = ['lista-cookies', 'svitilna-poloha', 'foto-bezpecna', 'foto-prozrazujici', 'qr-nalepka', 'wifi-site'] as const;
 export type IllustrationName = (typeof ILLUSTRATIONS)[number];
 
 const figure = z.object({

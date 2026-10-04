@@ -9,6 +9,8 @@ import CookieBanner from './illustrations/CookieBanner.astro';
 import FlashlightPermission from './illustrations/FlashlightPermission.astro';
 import PhotoSafe from './illustrations/PhotoSafe.astro';
 import PhotoRevealing from './illustrations/PhotoRevealing.astro';
+import QrSticker from './illustrations/QrSticker.astro';
+import WifiList from './illustrations/WifiList.astro';
 
 interface Props {
   figures: { illustration: IllustrationName; alt: string; caption?: string }[];
@@ -19,6 +21,8 @@ const COMPONENTS = {
   'svitilna-poloha': FlashlightPermission,
   'foto-bezpecna': PhotoSafe,
   'foto-prozrazujici': PhotoRevealing,
+  'qr-nalepka': QrSticker,
+  'wifi-site': WifiList,
 } as const;
 
 // Úzké (na výšku) ilustrace se nezvětšují přes celou šířku stránky.

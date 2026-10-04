@@ -1,0 +1,266 @@
+---
+/**
+ * DiceRoller – ukázka kostkové metody (Diceware) s virtuálními kostkami.
+ * Dvě kostky vyberou slovo z malé ukázkové tabulky 6 × 6.
+ * Vše běží jen v prohlížeči: nic se neukládá ani neodesílá.
+ * Bez JavaScriptu zůstane vidět tabulka a návod pro skutečné kostky.
+ */
+import { formatText } from '../../lib/text';
+
+interface Props {
+  warning: string;
+  /** 36 slov v pořadí 1-1, 1-2 … 1-6, 2-1 … 6-6. */
+  words: string[];
+  count: number;
+  explanation: string;
+}
+
+const { warning, words, count, explanation } = Astro.props;
+const rows = [0, 1, 2, 3, 4, 5].map((r) => words.slice(r * 6, r * 6 + 6));
+const uid = `dice-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<dice-roller class="dice" data-words={JSON.stringify(words)} data-count={count}>
+  <div class="notice notice--warning">
+    <p><strong><span aria-hidden="true">⚠ </span><span set:html={formatText(warning)} /></strong></p>
+  </div>
+
+  <p data-nojs>Hoďte dvěma kostkami. První kostka určí řádek, druhá sloupec tabulky. Slovo si zapamatujte a hoďte znovu.</p>
+
+  <div class="dice__stage" data-stage hidden>
+    <div class="dice__dice" aria-hidden="true">
+      <svg class="dice__die" viewBox="0 0 64 64" data-die="0"><rect x="2" y="2" width="60" height="60" rx="12"></rect></svg>
+      <svg class="dice__die" viewBox="0 0 64 64" data-die="1"><rect x="2" y="2" width="60" height="60" rx="12"></rect></svg>
+    </div>
+    <p class="dice__roll" data-roll>Hod 1 z {count}</p>
+    <p><button type="button" class="button button--large" data-throw>Hodit kostkami</button></p>
+    <p class="dice__status" role="status" data-status></p>
+
+    <p class="dice__label" id={`${uid}-label`}>Vaše ukázková heslová fráze:</p>
+    <p class="dice__result" aria-labelledby={`${uid}-label`}><span class="dice__phrase" data-phrase>…</span></p>
+  </div>
+
+  <div class="dice__table-wrap" tabindex="0" role="region" aria-labelledby={`${uid}-caption`}>
+    <table class="dice__table">
+      <caption id={`${uid}-caption`}>Ukázková tabulka: první kostka = řádek, druhá kostka = sloupec</caption>
+      <thead>
+        <tr>
+          <th scope="col"><span class="visually-hidden">První kostka</span></th>
+          {[1, 2, 3, 4, 5, 6].map((n) => <th scope="col">{n}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row, r) => (
+            <tr>
+              <th scope="row">{r + 1}</th>
+              {row.map((word, c) => (
+                <td data-cell={`${r + 1}-${c + 1}`}>{word}</td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="feedback feedback--info">
+    <p set:html={formatText(explanation)} />
+  </div>
+</dice-roller>
+
+<script>
+  /** Rozmístění teček na kostce (souřadnice v rámci 64 × 64). */
+  const PIPS: Record<number, [number, number][]> = {
+    1: [[32, 32]],
+    2: [[18, 18], [46, 46]],
+    3: [[18, 18], [32, 32], [46, 46]],
+    4: [[18, 18], [46, 18], [18, 46], [46, 46]],
+    5: [[18, 18], [46, 18], [32, 32], [18, 46], [46, 46]],
+    6: [[18, 16], [46, 16], [18, 32], [46, 32], [18, 48], [46, 48]],
+  };
+
+  /** Hod kostkou 1–6 z kryptograficky bezpečného generátoru prohlížeče. */
+  function roll(): number {
+    const buf = new Uint8Array(1);
+    // Hodnoty 252–255 zahodíme, aby byla všechna čísla stejně pravděpodobná.
+    do crypto.getRandomValues(buf);
+    while (buf[0] >= 252);
+    return (buf[0] % 6) + 1;
+  }
+
+  class DiceRoller extends HTMLElement {
+    connectedCallback() {
+      const words: string[] = JSON.parse(this.dataset.words ?? '[]');
+      const count = Number(this.dataset.count ?? 4);
+      const dice = Array.from(this.querySelectorAll<SVGSVGElement>('[data-die]'));
+      const button = this.querySelector<HTMLButtonElement>('[data-throw]')!;
+      const status = this.querySelector<HTMLElement>('[data-status]')!;
+      const rollLabel = this.querySelector<HTMLElement>('[data-roll]')!;
+      const phrase = this.querySelector<HTMLElement>('[data-phrase]')!;
+      const cells = Array.from(this.querySelectorAll<HTMLElement>('[data-cell]'));
+      let picked: string[] = [];
+
+      const draw = (die: SVGSVGElement, value: number) => {
+        die.querySelectorAll('circle').forEach((c) => c.remove());
+        for (const [cx, cy] of PIPS[value]) {
+          const pip = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          pip.setAttribute('cx', String(cx));
+          pip.setAttribute('cy', String(cy));
+          pip.setAttribute('r', '6');
+          die.appendChild(pip);
+        }
+      };
+
+      const reset = () => {
+        picked = [];
+        cells.forEach((c) => c.classList.remove('is-hit', 'is-used'));
+        dice.forEach((d) => draw(d, 6));
+        phrase.textContent = '…';
+        status.textContent = '';
+        rollLabel.textContent = `Hod 1 z ${count}`;
+        button.textContent = 'Hodit kostkami';
+      };
+
+      button.addEventListener('click', () => {
+        if (picked.length >= count) {
+          reset();
+          return;
+        }
+        const a = roll();
+        const b = roll();
+        draw(dice[0], a);
+        draw(dice[1], b);
+        const word = words[(a - 1) * 6 + (b - 1)];
+        picked.push(word);
+        cells.forEach((c) => {
+          if (c.classList.contains('is-hit')) c.classList.replace('is-hit', 'is-used');
+        });
+        cells.find((c) => c.dataset.cell === `${a}-${b}`)?.classList.add('is-hit');
+        phrase.textContent = picked.join('-');
+        status.textContent = `Padlo ${a} a ${b}: řádek ${a}, sloupec ${b} – slovo „${word}“.`;
+        if (picked.length >= count) {
+          rollLabel.textContent = `Hotovo – ${count} slova`;
+          button.textContent = 'Začít znovu';
+        } else {
+          rollLabel.textContent = `Hod ${picked.length + 1} z ${count}`;
+        }
+      });
+
+      this.querySelector<HTMLElement>('[data-stage]')!.hidden = false;
+      this.querySelector<HTMLElement>('[data-nojs]')!.hidden = true;
+      reset();
+    }
+  }
+  customElements.define('dice-roller', DiceRoller);
+</script>
+
+<style>
+  .dice {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .dice__stage {
+    text-align: center;
+  }
+
+  .dice__dice {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .dice__die {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .dice__die rect {
+    fill: var(--color-surface);
+    stroke: var(--color-text);
+    stroke-width: 3;
+  }
+
+  .dice__die :global(circle) {
+    fill: var(--color-text);
+  }
+
+  .dice__roll {
+    max-width: none;
+    margin-bottom: var(--space-1);
+    color: var(--module-color, var(--color-primary));
+    font-weight: 700;
+  }
+
+  .dice__status {
+    max-width: none;
+    min-height: 1.6em;
+    font-weight: 700;
+  }
+
+  .dice__label {
+    max-width: none;
+    margin-bottom: var(--space-1);
+    font-weight: 700;
+  }
+
+  .dice__result {
+    max-width: none;
+    padding: var(--space-2);
+    border-radius: var(--radius);
+    background: var(--color-surface-alt);
+  }
+
+  .dice__phrase {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    word-break: break-all;
+  }
+
+  .dice__table-wrap {
+    max-width: 100%;
+    margin: var(--space-3) 0;
+    overflow-x: auto;
+  }
+
+  .dice__table-wrap:focus-visible {
+    outline: 3px solid var(--color-focus, var(--color-primary));
+    outline-offset: 2px;
+  }
+
+  .dice__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .dice__table caption {
+    margin-bottom: var(--space-1);
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .dice__table th,
+  .dice__table td {
+    padding: 0.45rem 0.3rem;
+    border: 1px solid var(--color-border-light);
+    text-align: center;
+  }
+
+  .dice__table th {
+    background: var(--color-surface-alt);
+  }
+
+  .dice__table td.is-used {
+    background: var(--color-info-bg);
+  }
+
+  .dice__table td.is-hit {
+    background: var(--module-color, var(--color-primary));
+    color: #ffffff;
+    font-weight: 700;
+  }
+</style>

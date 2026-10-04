@@ -43,15 +43,6 @@ screens:
           text: Blízkému člověku, v bance, nebo tlačítkem „Nahlásit spam“ v e-mailové schránce.
         - title: Smažte ji.
           text: Pak ji klidně vymažte.
-  - kind: reflexe
-    title: Děkujeme
-    text:
-      - Dnes jste si vyzkoušeli, jak poznat podvodné zprávy a telefonáty. Nemusíte poznat každý podvod – stačí se zastavit a ověřit si to.
-      - Když se něco stane, hned volejte své bance a pak Policii ČR na čísle **158**.
-    activity:
-      type: reflection
-      question: Komu zavoláte, když si nebudete jistí?
-      hint: Myslete na někoho, komu důvěřujete – třeba na člena rodiny nebo souseda. Jeho číslo si můžete napsat na lísteček ke STOP.
   - kind: prakticky
     title: Připravte si svůj kontakt pro pomoc
     text:
@@ -64,3 +55,12 @@ screens:
         - text: Připomeňte si postup **zastavit se – nic nepotvrzovat – ověřit jinou cestou**. Nikomu neposílejte PIN, heslo ani potvrzovací kód.
         - text: Pokud už odešly peníze nebo jste sdělili údaje ke kartě, kontaktujte banku ihned. Při podezření na podvod se obraťte také na **Policii ČR na čísle 158**.
       outro: Svá čísla ani osobní údaje do tohoto webu nezadávejte. Cílem je mít pomoc po ruce.
+  - kind: reflexe
+    title: Děkuji
+    text:
+      - Dnes jste si vyzkoušeli, jak poznat podvodné zprávy a telefonáty. Nemusíte poznat každý podvod – stačí se zastavit a ověřit si to.
+      - Když se něco stane, hned volejte své bance a pak Policii ČR na čísle **158**.
+    activity:
+      type: reflection
+      question: Komu zavoláte, když si nebudete jistí?
+      hint: Myslete na někoho, komu důvěřujete – třeba na člena rodiny nebo souseda. Jeho číslo si můžete napsat na lísteček ke STOP.

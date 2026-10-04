@@ -56,12 +56,13 @@ screens:
   - kind: prakticky
     title: Udělejte si přehled důležitých účtů
     text:
-      - Na vlastní papír si napište jen názvy služeb. **Skutečná hesla nikam nezapisujte ani je neříkejte lektorovi.**
+      - Stačí si to v klidu promyslet – nic nepište ani nezadávejte. **Skutečná hesla nikomu neříkejte, ani lektorovi.**
     activity:
       type: guide
       steps:
-        - text: Napište si názvy účtů, které běžně používáte. Například e-mail, banka, obchod a sociální síť.
-        - text: V duchu zkontrolujte, zda někde používáte stejné heslo. U názvů těchto služeb si udělejte tečku. Heslo samotné nezapisujte.
+        - text: Vzpomeňte si na účty, které běžně používáte. Například e-mail, banka, obchod a sociální síť.
+        - text: V duchu zkontrolujte, zda někde používáte stejné heslo.
+          question: U kolika účtů máte stejné nebo hodně podobné heslo?
         - text: Vyberte účet, který ochráníte jako první. Začněte e-mailem, přes který se často obnovují ostatní účty.
-        - text: Domluvte si s důvěryhodným člověkem nebo lektorem postup změny. Připravte si přístup k obnovovacímu telefonu nebo e-mailu. Teď žádné heslo měnit nemusíte.
-      outro: Máte konkrétní plán. Pro každý důležitý účet zvolte jiné dlouhé heslo.
+        - text: Rozmyslete si, kdo vám se změnou hesla může pomoci, a ověřte si, že máte přístup k obnovovacímu telefonu nebo e-mailu. Teď žádné heslo měnit nemusíte.
+      outro: Máte konkrétní plán. Pro každý důležitý účet zvolte jiné dlouhé heslo. Postup najdete i v návodu „Proč mít pro každý účet jiné heslo“ v části Zdroje a materiály.

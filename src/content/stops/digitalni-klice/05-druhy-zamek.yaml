@@ -6,7 +6,7 @@ order: 5
 title: Druhý zámek
 summary: Dvoufázové ověření a novější způsoby přihlašování.
 lecturer:
-  time: 20 minut
+  time: 25 minut
   goal: Vysvětlit dvoufázové (vícefaktorové) ověření a zásadu nepotvrzovat přihlášení, které jsem sám/sama nezahájil(a). Krátce zmínit přístupové klíče (passkeys).
   discussion: Potvrzujete už něco v telefonu, třeba platby v bankovnictví?
   transition: Shrňme si čtyři návyky, které vaše účty ochrání.
@@ -40,26 +40,50 @@ screens:
           recommended:
             - vite
           explanation: PIN je **něco, co víte** – máte ho v hlavě, stejně jako heslo.
-        - text: Heslo
-          recommended:
-            - vite
-          explanation: Heslo je **něco, co víte**. Proto ho nikomu neříkejte.
         - text: Telefon, do kterého přijde žádost o potvrzení
           recommended:
             - mate
           explanation: Telefon je **něco, co máte** u sebe. Útočník ho nemá, i když zná vaše heslo.
-        - text: Kód z SMS
-          recommended:
-            - mate
-          explanation: Kód přijde do telefonu, který **máte** u sebe. Proto ho nikomu nesdělujte – tím byste „půjčili“ svůj telefon.
         - text: Otisk prstu
           recommended:
             - jste
           explanation: Otisk prstu je **něco, co jste** – část vás samých.
+        - text: Odpověď na kontrolní otázku, třeba „Jméno vaší první učitelky“
+          recommended:
+            - vite
+          explanation: Je to **něco, co víte**. Pozor ale – odpověď může znát i někdo jiný nebo ji najde na internetu. Klidně si vymyslete odpověď, kterou zná jen vy.
+        - text: Platební karta
+          recommended:
+            - mate
+          explanation: Karta je **něco, co máte**. Proto se k platbě kartou přidává ještě PIN – tedy něco, co víte.
+        - text: Heslo
+          recommended:
+            - vite
+          explanation: Heslo je **něco, co víte**. Proto ho nikomu neříkejte.
         - text: Obličej
           recommended:
             - jste
           explanation: Rozpoznání obličeje je také **něco, co jste**.
+        - text: Kód z SMS
+          recommended:
+            - mate
+          explanation: Kód přijde do telefonu, který **máte** u sebe. Proto ho nikomu nesdělujte – tím byste „půjčili“ svůj telefon.
+        - text: Gesto (obrazec), kterým odemykáte telefon
+          recommended:
+            - vite
+          explanation: Gesto je **něco, co víte** – podobně jako PIN, jen ho kreslíte prstem. Při zadávání se rozhlédněte, ať vám nikdo nekouká přes rameno.
+        - text: Hlas
+          recommended:
+            - jste
+          explanation: Hlas je **něco, co jste**. Umělá inteligence ho ale dokáže napodobit – proto banky na ověření hlasem samotným nespoléhají.
+        - text: Aplikace v telefonu, která ukazuje měnící se kód
+          recommended:
+            - mate
+          explanation: Je to **něco, co máte** – kód se ukáže jen v telefonu, který držíte v ruce. Říká se jí ověřovací aplikace.
+        - text: Bezpečnostní klíč – malé zařízení na klíčence
+          recommended:
+            - mate
+          explanation: Je to **něco, co máte**. Přikládá se k telefonu nebo zasouvá do počítače. Pro běžné použití ho nepotřebujete, ale je velmi bezpečný.
     lecturer:
       tips:
         - 'V podkladech: Knowledge (něco víte), Possession (něco máte), Inherence (něco jste).'
@@ -106,19 +130,64 @@ screens:
       - Když vám služba přístupový klíč nabídne, můžete ho klidně vyzkoušet.
       - Nemusíte nic nastavovat hned – stačí vědět, že tato možnost existuje.
   - kind: prakticky
-    title: Najděte druhé ověření ve svém e-mailu
+    title: Najděte druhé ověření – nanečisto
     text:
-      - Na svém zařízení otevřete e-mail tak, jak to děláte běžně. Hesla ani kódy nikomu neukazujte. Nastavení zatím jen prohlédněte.
+      - Kde se dvoufázové ověření zapíná? Vyzkoušejte si to na ukázce e-mailu. Žádný skutečný účet ani heslo nepotřebujete.
+    activity:
+      type: settings
+      task: 'Úkol: najděte v nastavení e-mailu, kde se zapíná dvoufázové ověření.'
+      screens:
+        - title: Můj e-mail
+          items:
+            - Doručená pošta
+            - Odeslané
+            - Koš
+            - ⚙️ Nastavení
+          correct: ⚙️ Nastavení
+          hint: Tady jsou zprávy. Nastavení účtu bývá schované pod ikonou **ozubeného kola ⚙️** nebo pod vaším jménem či fotkou.
+        - title: Nastavení
+          items:
+            - Vzhled a velikost písma
+            - Oznámení
+            - Podpis ve zprávách
+            - 🔒 Zabezpečení a přihlášení
+          correct: 🔒 Zabezpečení a přihlášení
+          hint: Tohle nastavení s přihlášením nesouvisí. Hledejte slovo **Zabezpečení**, **Bezpečnost** nebo **Přihlášení** – často u ikony zámku 🔒.
+        - title: Zabezpečení a přihlášení
+          items:
+            - Změnit heslo
+            - Zařízení, na kterých jste přihlášeni
+            - Dvoufázové ověření
+            - Obnovení účtu – telefon a e-mail
+          correct: Dvoufázové ověření
+          hint: I to je užitečné místo – ale teď hledáme druhý zámek. Hledejte **Dvoufázové ověření**, **Dvoufaktorové ověření** nebo **Ověření ve dvou krocích**.
+      final:
+        title: Dvoufázové ověření
+        label: Dvoufázové ověření
+        status: Vypnuto
+        action: Zapnout
+        text: 'Našli jste ho! Ve skutečné službě by vás teď provedla krátkým postupem – obvykle zadáte své telefonní číslo a opíšete kód z SMS, nebo potvrdíte přihlášení v telefonu. V ukázce se nic nezapíná. Názvy položek se v různých službách mohou trochu lišit.'
+    lecturer:
+      time: 5 minut
+      goal: Najít cestu k dvoufázovému ověření bez skutečného účtu a bez rizika ztráty přístupu.
+      tips:
+        - Pokud účastník klepne jinam, ukáže se mu nápověda. Ukázka se dá projít znovu.
+  - kind: prakticky
+    title: Na vlastním telefonu (nepovinné)
+    text:
+      - Máte s sebou vlastní telefon s e-mailem? Zkuste stejnou cestu najít ve svém účtu. Na workshopových tabletech se do svého e-mailu nepřihlašujte.
+      - Hesla ani kódy nikomu neukazujte. Nastavení zatím jen prohlédněte.
     activity:
       type: guide
       steps:
         - text: Otevřete nastavení svého účtu. Hledejte část **Zabezpečení**, **Přihlášení** nebo **Bezpečnost účtu**. Názvy se liší podle služby.
         - text: Najděte položku **Dvoufázové ověření**, **Dvoufaktorové ověření** nebo **Ověření ve dvou krocích**. Pokud ji nevidíte, požádejte o pomoc.
-        - text: Podívejte se, zda je ověření zapnuté. Pokud ano, nic měnit nemusíte. Pokud ne, společně si přečtěte, jaké možnosti služba nabízí.
+        - text: Podívejte se, zda je ověření zapnuté. Pokud ano, nic měnit nemusíte. Pokud ne, přečtěte si, jaké možnosti služba nabízí.
         - text: Před zapnutím si ověřte, že máte dostupný telefon a způsob obnovení účtu. Postup dokončete jen tehdy, když mu rozumíte; jinak si domluvte pomoc. Záložní kódy si uschovejte v soukromí.
-      outro: I nalezení správného nastavení je pokrok. Nikdy nepotvrzujte přihlášení, které jste sami nezahájili.
+      outro: I nalezení správného nastavení je pokrok. Doma vám pomůže návod „Dvoufázové ověření krok za krokem“ v části Zdroje a materiály. Nikdy nepotvrzujte přihlášení, které jste sami nezahájili.
     lecturer:
-      time: 10 minut
-      goal: Najít stav druhého ověření bez rizika ztráty přístupu k účtu.
+      time: 5 minut
+      goal: Kdo má vlastní telefon, zjistí stav druhého ověření ve svém účtu.
       tips:
         - Každý účastník může používat jinou službu. Nevyžadujte zapnutí během skupinového setkání.
+        - Účastníci bez vlastního telefonu si zatím mohou ukázku nanečisto projít znovu nebo si přečíst návod ve Zdrojích a materiálech.

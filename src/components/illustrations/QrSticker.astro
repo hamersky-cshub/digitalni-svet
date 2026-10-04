@@ -1,0 +1,87 @@
+---
+/** Parkovací automat s nálepkou QR kódu přelepenou přes původní nápis. Vše je smyšlené. viewBox 800 × 560. */
+
+// Jednoduchý „QR kód“ – jen dekorace, nic nekóduje.
+const pattern = [
+  '1110111', '1001001', '1011101', '0110110', '1101011', '1000101', '1110111',
+];
+const cells: { x: number; y: number }[] = [];
+pattern.forEach((row, r) => [...row].forEach((c, col) => c === '1' && cells.push({ x: col, y: r })));
+---
+
+<svg viewBox="0 0 800 560" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="qr-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe3f3"></stop>
+      <stop offset="1" stop-color="#eef4f8"></stop>
+    </linearGradient>
+    <linearGradient id="qr-body" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2f6f9e"></stop>
+      <stop offset="0.5" stop-color="#3b84b8"></stop>
+      <stop offset="1" stop-color="#2a6390"></stop>
+    </linearGradient>
+    <filter id="qr-shadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0b1a33" flood-opacity="0.25"></feDropShadow>
+    </filter>
+    <filter id="qr-sticker-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="4" stdDeviation="3" flood-color="#0b1a33" flood-opacity="0.35"></feDropShadow>
+    </filter>
+  </defs>
+
+  <!-- Pozadí: ulice -->
+  <rect width="800" height="560" fill="url(#qr-sky)"></rect>
+  <rect x="0" y="420" width="800" height="140" fill="#c9cdd3"></rect>
+  <rect x="0" y="414" width="800" height="10" fill="#aab0b8"></rect>
+  <rect x="40" y="120" width="170" height="294" fill="#e6dccb"></rect>
+  <rect x="62" y="150" width="50" height="70" fill="#9fb9cf"></rect>
+  <rect x="138" y="150" width="50" height="70" fill="#9fb9cf"></rect>
+  <rect x="62" y="250" width="50" height="70" fill="#9fb9cf"></rect>
+  <rect x="138" y="250" width="50" height="70" fill="#9fb9cf"></rect>
+  <rect x="600" y="160" width="170" height="254" fill="#d9cfe0"></rect>
+  <rect x="624" y="190" width="50" height="70" fill="#9fb9cf"></rect>
+  <rect x="696" y="190" width="50" height="70" fill="#9fb9cf"></rect>
+  <rect x="624" y="290" width="50" height="70" fill="#9fb9cf"></rect>
+
+  <!-- Automat -->
+  <rect x="384" y="440" width="32" height="70" fill="#5b6475"></rect>
+  <rect x="352" y="500" width="96" height="16" rx="4" fill="#4a5262"></rect>
+  <g filter="url(#qr-shadow)">
+    <rect x="270" y="40" width="260" height="410" rx="22" fill="url(#qr-body)"></rect>
+  </g>
+  <rect x="292" y="58" width="216" height="44" rx="8" fill="#ffffff"></rect>
+  <text x="400" y="89" font-size="26" font-weight="700" text-anchor="middle" fill="#1d4f91">P  PARKOVNÉ</text>
+
+  <!-- Displej -->
+  <rect x="300" y="116" width="200" height="64" rx="8" fill="#14303f"></rect>
+  <text x="400" y="145" font-size="17" text-anchor="middle" fill="#9df0c4">Zóna B · 30 Kč/h</text>
+  <text x="400" y="168" font-size="15" text-anchor="middle" fill="#9df0c4">Vložte minci nebo kartu</text>
+
+  <!-- Tlačítka a čtečka karet -->
+  <circle cx="320" cy="210" r="13" fill="#e9eef4"></circle>
+  <circle cx="356" cy="210" r="13" fill="#e9eef4"></circle>
+  <rect x="404" y="198" width="96" height="26" rx="6" fill="#1f2a36"></rect>
+  <text x="452" y="216" font-size="12" text-anchor="middle" fill="#cbd5e1">KARTA</text>
+
+  <!-- Původní nápis s oficiální aplikací (částečně přelepený) -->
+  <rect x="292" y="246" width="216" height="150" rx="10" fill="#ffffff"></rect>
+  <text x="400" y="274" font-size="16" font-weight="700" text-anchor="middle" fill="#1d4f91">Plaťte v aplikaci</text>
+  <text x="400" y="296" font-size="16" font-weight="700" text-anchor="middle" fill="#1d4f91">Parkování Město</text>
+
+  <!-- Přelepená nálepka -->
+  <g transform="rotate(-4 400 330)" filter="url(#qr-sticker-shadow)">
+    <rect x="316" y="262" width="168" height="150" rx="6" fill="#fff6c9" stroke="#e0b93b" stroke-width="2"></rect>
+    <text x="400" y="286" font-size="15" font-weight="700" text-anchor="middle" fill="#7a2e0e">PLAŤTE RYCHLE</text>
+    <text x="400" y="304" font-size="13" text-anchor="middle" fill="#7a2e0e">bez drobných – naskenujte</text>
+    <g transform="translate(358 314)">
+      <rect x="-6" y="-6" width="96" height="96" fill="#ffffff"></rect>
+      {cells.map((c) => <rect x={c.x * 12} y={c.y * 12} width="12" height="12" fill="#1b1f23" />)}
+    </g>
+  </g>
+
+  <!-- Upozornění na přelepený okraj -->
+  <circle cx="470" cy="270" r="36" fill="none" stroke="#e3a33b" stroke-width="5" stroke-dasharray="10 7"></circle>
+  <rect x="548" y="226" width="200" height="76" rx="12" fill="#ffffff" stroke="#e3a33b" stroke-width="3"></rect>
+  <text x="648" y="258" font-size="17" font-weight="700" text-anchor="middle" fill="#7a2e0e">Nálepka přes</text>
+  <text x="648" y="282" font-size="17" font-weight="700" text-anchor="middle" fill="#7a2e0e">původní nápis</text>
+  <path d="M548 266 L508 268" stroke="#e3a33b" stroke-width="4" stroke-linecap="round"></path>
+</svg>

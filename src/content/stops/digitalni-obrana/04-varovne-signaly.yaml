@@ -4,9 +4,9 @@
 workshop: digitalni-obrana
 order: 4
 title: Najděte varovné signály
-summary: Prohlédneme si podvodnou SMS a e-mail zblízka.
+summary: Varovné signály ve zprávách i v adresách – a jak poznat zprávu, která je v pořádku.
 lecturer:
-  time: 20 minut
+  time: 25 minut
   goal: Účastníci poznají typické varovné signály. Zdůrazněte, že podvod může vypadat bezchybně – pravopis nic nezaručuje.
   discussion: Který signál byste nejspíš přehlédli?
   transition: Podvody nepřicházejí jen písemně. Co když zavolá „banka“?
@@ -91,7 +91,7 @@ screens:
     title: Která adresa je pravá?
     text:
       - Podvodníci si registrují adresy, které se od skutečných liší jen nepatrně. Písmeno navíc nebo „rn“ místo „m“ se snadno přehlédne.
-      - Představte si, že vaše banka se jmenuje **Modrá banka** a její skutečná adresa je **modrabanka.test**.
+      - Představte si, že vaše banka se jmenuje **Modrá banka** a její skutečná adresa je **modrabanka.test**. Rozhoduje, čím adresa končí před prvním lomítkem „/“. Některé adresy jsou pravé, jiné podvržené.
     activity:
       type: scenarios
       itemLabel: Adresa
@@ -114,6 +114,15 @@ screens:
             - label: Ne, je podvržená
               tone: ok
               feedback: Správně. Místo „m“ jsou na začátku písmena „r“ a „n“.
+        - text: 'Přišel e-mail s odkazem na adresu: {{ib.modrabanka.test}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: ok
+              feedback: Ano. Adresa končí „modrabanka.test“ a část „ib.“ na začátku patří bance – takhle mívají banky adresu internetového bankovnictví.
+            - label: Ne, je podvržená
+              tone: info
+              feedback: Tentokrát je pravá. Rozhoduje konec adresy – „modrabanka.test“. Část „ib.“ (internetové bankovnictví) před ním si může nastavit jen sama banka.
         - text: 'Přišel e-mail s odkazem na adresu: {{modrabankka.test}}'
           question: Je to adresa vaší banky?
           options:
@@ -132,6 +141,24 @@ screens:
             - label: Ne, je podvržená
               tone: ok
               feedback: Správně. I slovo, které zní důvěryhodně, z adresy dělá jinou adresu.
+        - text: 'Přišel e-mail s odkazem na adresu: {{modrabanka.test/kontakty}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: ok
+              feedback: Ano. Před lomítkem je přesně „modrabanka.test“. Část za lomítkem jen ukazuje konkrétní stránku na webu banky.
+            - label: Ne, je podvržená
+              tone: info
+              feedback: Tentokrát je pravá. Za lomítkem „/“ je jen název stránky – důležité je, že před ním stojí přesně „modrabanka.test“.
+        - text: 'Přišel e-mail s odkazem na adresu: {{modra-banka.test}}'
+          question: Je to adresa vaší banky?
+          options:
+            - label: Ano, je pravá
+              tone: risk
+              feedback: Pomlčka uprostřed z adresy dělá jinou adresu. „modra-banka.test“ může patřit komukoli.
+            - label: Ne, je podvržená
+              tone: ok
+              feedback: Správně. I jediná pomlčka navíc znamená jinou adresu.
         - text: 'Přišel e-mail s odkazem na adresu: {{modrabanka.test.prihlaseni-klient.test}}'
           question: Je to adresa vaší banky?
           options:
@@ -142,6 +169,9 @@ screens:
               tone: ok
               feedback: Správně. Rozhoduje konec adresy, ne to, co je na začátku.
           lesson: Nejjistější je adresu banky psát sami nebo použít její aplikaci – ne klepat na odkazy ve zprávách.
+    lecturer:
+      tips:
+        - Tři adresy jsou pravé (modrabanka.test, ib.modrabanka.test a modrabanka.test/kontakty), pět je podvržených. Cílem není strach z každé adresy, ale návyk podívat se na konec adresy před prvním lomítkem.
   - kind: shrnuti
     title: Tři otázky ke každé zprávě
     activity:
@@ -153,3 +183,133 @@ screens:
           text: Naléhavost je jeden z nejčastějších triků.
         - title: Čekal(a) jsem ji?
           text: Nečekanou zprávu si ověřte jinou cestou.
+  - kind: aktivita
+    title: Podvod, nebo ne?
+    text:
+      - Vyzkoušejte si tři otázky na dvanácti zprávách. Některé jsou podvodné, jiné úplně v pořádku. Když si nejste jistí, je to v pořádku – stačí si zprávu ověřit jinou cestou.
+    activity:
+      type: choices
+      itemLabel: Zpráva
+      question: Je tato zpráva podvodná?
+      options:
+        - id: podvod
+          label: PODVOD
+        - id: v-poradku
+          label: V POŘÁDKU
+        - id: overim
+          label: NEJSEM SI JISTÝ/Á – OVĚŘÍM SI TO
+      items:
+        - message:
+            medium: sms
+            sender: Lékárna U Lípy
+            time: '10:15'
+            lines:
+              - Dobrý den, váš lék je připraven k vyzvednutí. Těšíme se na vás. Lékárna U Lípy
+          recommended:
+            - v-poradku
+            - overim
+          explanation: 'Nejspíš v pořádku. Zpráva po vás nic nechce – žádný odkaz, peníze ani údaje. Pokud jste lék objednávali, je to obyčejné upozornění.'
+        - message:
+            medium: sms
+            sender: Neznámé číslo
+            time: '8:02'
+            lines:
+              - 'Vaše zásilka čeká na doplacení cla 52 Kč. Jinak bude vrácena odesílateli: {{celni-platby.zasilky-cz.test}}'
+          recommended:
+            - podvod
+          explanation: '**Podvod.** Malý poplatek, krátká lhůta a odkaz na podivnou adresu. Clo se neplatí přes odkaz v SMS od neznámého čísla.'
+        - message:
+            medium: sms
+            sender: Modrá banka
+            time: '12:40'
+            lines:
+              - Platba kartou 349 Kč v obchodě Potraviny Novák byla provedena. Modrá banka
+          recommended:
+            - v-poradku
+            - overim
+          explanation: 'Pokud jste právě nakupovali, je to běžné **upozornění na platbu**. Zpráva nic nechce. Kdybyste ale platbu neprovedli, zavolejte bance na číslo z platební karty – ne na číslo ze zprávy.'
+        - message:
+            medium: email
+            sender: Výherní oddělení <vyhry@super-losovani.test>
+            subject: Gratulujeme, vyhráli jste!
+            lines:
+              - Byli jste vylosováni jako výherce nového telefonu. Pro převzetí výhry vyplňte své údaje a číslo karty do 2 hodin.
+          recommended:
+            - podvod
+          explanation: '**Podvod.** Výhra v soutěži, do které jste se nepřihlásili, a k tomu číslo karty a krátká lhůta. Skutečná výhra nikdy nevyžaduje údaje z platební karty.'
+        - message:
+            medium: chat
+            sender: Dcera Jana
+            time: '19:20'
+            lines:
+              - Mami, v neděli přijedeme na oběd kolem dvanácté, jestli to platí 🙂
+          recommended:
+            - v-poradku
+          explanation: '**V pořádku.** Zpráva přišla od uloženého kontaktu, který znáte, a nic po vás nechce. Takové zprávy jsou většina toho, co dostáváme.'
+        - message:
+            medium: chat
+            sender: Neznámé číslo
+            time: '21:03'
+            lines:
+              - Ahoj, tady Petra, mám nové číslo. Omylem jsem poslala ověřovací kód na tvůj telefon. Můžeš mi ho prosím přeposlat?
+          recommended:
+            - podvod
+          explanation: '**Podvod.** Kód z SMS je klíč k vašemu účtu – třeba k chatu. Kdo ho získá, může váš účet ovládnout a psát vaším jménem dalším lidem. Kód nikomu neposílejte.'
+        - message:
+            medium: sms
+            sender: Doručovací služba
+            time: '7:45'
+            lines:
+              - 'Zásilku č. 4471 2086 doručíme dnes mezi 13:00 a 15:00. Sledování: {{zasilky.dorucovatel.test/4471}}'
+          recommended:
+            - overim
+          explanation: '**Může být pravá – ale ověřte si to.** Zpráva nechce peníze a uvádí číslo zásilky. Pokud nějakou čekáte, sledujte ji raději v aplikaci dopravce nebo přes e-mail z obchodu, ne přes odkaz v SMS.'
+        - message:
+            medium: email
+            sender: Městská knihovna <info@knihovna-mesto.test>
+            subject: Připomínka vrácení knihy
+            lines:
+              - Dobrý den, výpůjční lhůta knihy „Babička“ končí 15. října. Knihu můžete vrátit nebo prodloužit při příští návštěvě.
+          recommended:
+            - v-poradku
+            - overim
+          explanation: 'Nejspíš **v pořádku.** Zpráva uvádí konkrétní knihu, nic nechce a nikam vás nepopohání. Pokud jste si knihu půjčili, je to obyčejná připomínka.'
+        - message:
+            medium: sms
+            sender: Zdravotní pojišťovna
+            time: '11:30'
+            lines:
+              - 'Máte nárok na vrácení přeplatku 2 380 Kč. Pro vyplacení zadejte číslo své platební karty: {{pojistovna-vratky.test}}'
+          recommended:
+            - podvod
+          explanation: '**Podvod.** K tomu, abyste peníze dostali, nikdy nepotřebujete zadávat číslo karty. Pojišťovna vás v takovém případě kontaktuje dopisem nebo přes svůj oficiální portál.'
+        - message:
+            medium: popup
+            sender: Upozornění prohlížeče
+            lines:
+              - 'Váš prohlížeč je zastaralý a nebezpečný! Klepněte sem a ihned stáhněte aktualizaci.'
+          recommended:
+            - podvod
+          explanation: '**Podvod.** Aktualizace se stahují přes Nastavení nebo obchod s aplikacemi, ne přes vyskakovací okno na webu. Okno zavřete, a když to nejde, zavřete celý prohlížeč.'
+        - message:
+            medium: email
+            sender: Bazar <info@bazar-inzerce.test>
+            subject: Váš inzerát byl zveřejněn
+            lines:
+              - Váš inzerát „Stará lampa“ je zveřejněn. Upravit nebo smazat ho můžete po přihlášení na webu bazaru.
+          recommended:
+            - v-poradku
+            - overim
+          explanation: 'Pokud jste inzerát opravdu podávali, je to **běžné potvrzení**. Nechce peníze ani údaje. Přihlaste se ale raději přes web nebo aplikaci bazaru, kterou znáte.'
+        - message:
+            medium: call
+            sender: Neznámé číslo
+            lines:
+              - Dobrý den, tady kriminální policie. Váš účet je předmětem vyšetřování. Abyste o peníze nepřišli, musíte je dnes převést na zabezpečený účet.
+          recommended:
+            - podvod
+          explanation: '**Podvod.** Policie ani banka nikdy nechtějí, abyste převáděli peníze na „zabezpečený“ účet. Hovor ukončete. Pokud máte obavy, zavolejte na linku **158** sami.'
+    lecturer:
+      tips:
+        - 'Šest zpráv je podvodných, pět je nejspíš v pořádku a jednu je dobré ověřit (zásilka). U zpráv „v pořádku“ je volba „ověřím si to“ vždy také správná. Cílem je, aby účastníci neviděli podvod úplně všude: většina zpráv, které dostávají, je v pořádku.'
+        - Pokud nestíháte, projděte společně jen část zpráv a zbytek nechte na doma.

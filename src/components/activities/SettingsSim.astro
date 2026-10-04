@@ -1,0 +1,223 @@
+---
+/**
+ * SettingsSim – proklikání nastavení účtu nanečisto (např. kde najít dvoufázové ověření).
+ * Žádný skutečný účet ani údaje; vše je jen ukázka v prohlížeči.
+ * Bez JavaScriptu se zobrazí celá cesta najednou se zvýrazněnými položkami.
+ */
+import { formatText } from '../../lib/text';
+import ToneLabel from '../ToneLabel.astro';
+
+interface Props {
+  task: string;
+  screens: { title: string; items: string[]; correct: string; hint: string }[];
+  final: { title: string; label: string; status: string; action: string; text: string };
+}
+
+const { task, screens, final } = Astro.props;
+---
+
+<settings-sim class="settings">
+  <p class="settings__task"><strong set:html={formatText(task)} /></p>
+
+  <ol class="settings__screens">
+    {
+      screens.map((screen, i) => (
+        <li class="settings__screen" data-screen={i}>
+          <div class="settings__phone">
+            <p class="settings__title" data-title>
+              {i > 0 && <span aria-hidden="true">‹ </span>}
+              {screen.title}
+            </p>
+            <ul class="settings__list">
+              {screen.items.map((item) => (
+                <li>
+                  <button type="button" class:list={['settings__item', { 'is-correct': item === screen.correct }]} data-item data-correct={item === screen.correct ? 'true' : undefined}>
+                    <span>{item}</span>
+                    <span class="settings__chevron" aria-hidden="true">›</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="feedback feedback--info settings__hint" data-hint hidden>
+            <ToneLabel tone="info" />
+            <p set:html={formatText(screen.hint)} />
+          </div>
+        </li>
+      ))
+    }
+    <li class="settings__screen" data-screen={screens.length}>
+      <div class="settings__phone">
+        <p class="settings__title" data-title><span aria-hidden="true">‹ </span>{final.title}</p>
+        <div class="settings__row">
+          <span>{final.label}</span>
+          <strong class="settings__status">{final.status}</strong>
+        </div>
+        <p class="settings__action"><button type="button" class="button" data-final>{final.action}</button></p>
+      </div>
+      <div class="feedback feedback--ok" data-done hidden>
+        <ToneLabel tone="ok" />
+        <p set:html={formatText(final.text)} />
+      </div>
+    </li>
+  </ol>
+
+  <p data-restart hidden>
+    <button type="button" class="button button--secondary">Vyzkoušet znovu</button>
+  </p>
+</settings-sim>
+
+<script>
+  class SettingsSim extends HTMLElement {
+    connectedCallback() {
+      const screens = Array.from(this.querySelectorAll<HTMLElement>('[data-screen]'));
+      const restart = this.querySelector<HTMLElement>('[data-restart]')!;
+      const done = this.querySelector<HTMLElement>('[data-done]')!;
+
+      const show = (index: number, moveFocus: boolean) => {
+        screens.forEach((s, i) => (s.hidden = i !== index));
+        screens.forEach((s) => s.querySelector<HTMLElement>('[data-hint]')?.setAttribute('hidden', ''));
+        done.hidden = true;
+        restart.hidden = true;
+        if (moveFocus) {
+          const title = screens[index].querySelector<HTMLElement>('[data-title]')!;
+          title.tabIndex = -1;
+          title.focus({ preventScroll: true });
+          title.scrollIntoView({ block: 'nearest' });
+        }
+      };
+
+      screens.forEach((screen, index) => {
+        screen.querySelectorAll<HTMLButtonElement>('[data-item]').forEach((button) =>
+          button.addEventListener('click', () => {
+            if (button.dataset.correct) {
+              show(index + 1, true);
+            } else {
+              const hint = screen.querySelector<HTMLElement>('[data-hint]')!;
+              hint.hidden = false;
+              hint.scrollIntoView({ block: 'nearest' });
+            }
+          }),
+        );
+      });
+
+      this.querySelector('[data-final]')!.addEventListener('click', () => {
+        done.hidden = false;
+        restart.hidden = false;
+        done.scrollIntoView({ block: 'nearest' });
+      });
+      restart.querySelector('button')!.addEventListener('click', () => show(0, true));
+      show(0, false);
+    }
+  }
+  customElements.define('settings-sim', SettingsSim);
+</script>
+
+<style>
+  .settings {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .settings__screens {
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    list-style: none;
+    max-width: 30rem;
+  }
+
+  .settings__screen + .settings__screen {
+    margin-top: var(--space-3);
+  }
+
+  .settings__phone {
+    overflow: hidden;
+    border: 6px solid var(--color-text);
+    border-radius: 1.75rem;
+    background: var(--color-surface-alt);
+  }
+
+  .settings__title {
+    max-width: none;
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border-light);
+    background: var(--color-surface);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .settings__list {
+    margin: var(--space-2);
+    padding: 0;
+    list-style: none;
+    max-width: none;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .settings__list li {
+    margin: 0;
+  }
+
+  .settings__list li + li {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .settings__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 3.5rem;
+    padding: 0.75rem var(--space-3);
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .settings__item:hover {
+    background: var(--color-info-bg);
+  }
+
+  .settings__chevron {
+    color: var(--color-text-muted);
+    font-size: 1.4rem;
+  }
+
+  /* Bez JavaScriptu: ukázat celou cestu se zvýrazněnými položkami. */
+  settings-sim:not(:defined) .is-correct {
+    outline: 4px solid var(--module-color, var(--color-primary));
+    outline-offset: -4px;
+    font-weight: 700;
+  }
+
+  .settings__row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .settings__status {
+    color: var(--color-risk, #8a1c1c);
+  }
+
+  .settings__action {
+    max-width: none;
+    margin: 0 var(--space-2) var(--space-2);
+  }
+
+  .settings__hint,
+  .settings .feedback--ok {
+    margin-top: var(--space-2);
+  }
+</style>

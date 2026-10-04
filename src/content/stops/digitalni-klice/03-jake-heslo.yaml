@@ -109,17 +109,51 @@ screens:
   - kind: prakticky
     title: Kostková metoda
     text:
-      - Opravdu náhodná slova vyberete hodem kostkou. Metodě se říká **Diceware** (kostková metoda). Potřebujete hrací kostky a seznam slov.
+      - Opravdu náhodná slova vybere hod kostkou. Metodě se říká **Diceware** (kostková metoda). Vyzkoušejte si ji s virtuálními kostkami a malou ukázkovou tabulkou.
+      - Klepněte na tlačítko. První kostka určí řádek tabulky, druhá sloupec. Po čtyřech hodech máte heslovou frázi ze čtyř slov.
     activity:
-      type: guide
-      steps:
-        - text: Hoďte pěti kostkami (nebo jednou kostkou pětkrát) a zapište si čísla, například **3-1-4-2-6**.
-        - text: Číslo najděte v seznamu slov pro kostkovou metodu. Každé pětici čísel odpovídá jedno slovo.
-        - text: Opakujte, dokud nemáte alespoň **5 slov**.
-        - text: Slova spojte dohromady, třeba pomlčkou. Heslová fráze je hotová.
-          question: Vymyslíte si k slovům krátký příběh, který vám je připomene?
-      outro: Český seznam slov najdete v části Zdroje a materiály na přehledu modulu.
+      type: dice
+      warning: Tabulka je jen ukázková a krátká. Takto vytvořenou frázi nepoužívejte jako skutečné heslo.
+      count: 4
+      words:
+        - jablko
+        - kytara
+        - maják
+        - rohlík
+        - sova
+        - deštník
+        - zahrada
+        - komín
+        - houba
+        - vlak
+        - svíčka
+        - hruška
+        - motýl
+        - lavička
+        - polštář
+        - perník
+        - trubka
+        - kaštan
+        - loďka
+        - budík
+        - kopec
+        - lucerna
+        - žirafa
+        - rybník
+        - sešit
+        - konvice
+        - meruňka
+        - svetr
+        - oblak
+        - tramvaj
+        - kapr
+        - kolotoč
+        - hrnek
+        - větrník
+        - mrkev
+        - sněhulák
+      explanation: 'Skutečný seznam má **7 776 slov** a hází se **pěti kostkami** najednou – proto je výsledek tak těžké uhodnout. Pro skutečné heslo si doma hoďte skutečnými kostkami alespoň pětkrát, ať máte **5 slov**. Český seznam slov najdete v části Zdroje a materiály na přehledu modulu.'
     lecturer:
       tips:
-        - Přineste na workshop několik hracích kostek a vytištěný český seznam slov.
-        - 'Seznam: theworld.com/~reinhold/diceware_wordlist_cz.pdf'
+        - Kostky ani vytištěný seznam nejsou potřeba – vše proběhne v tabletu. Kdo chce, může si metodu doma vyzkoušet se skutečnými kostkami podle návodu ve Zdrojích a materiálech.
+        - Virtuální kostky používají náhodný generátor prohlížeče. Nic se neukládá ani neodesílá.

@@ -26,6 +26,13 @@ screens:
       - 🔳 **QR kód** – nálepka přes skutečný kód, třeba na parkovacím automatu.
       - ⚠️ **Vyskakovací okno** – „Váš počítač je napaden, volejte podporu!“
       - 🎙️ **Napodobený hlas nebo video** – umělá inteligence dokáže napodobit hlas blízkého člověka.
+    figures:
+      - illustration: qr-nalepka
+        alt: 'Parkovací automat na ulici. Přes původní nápis „Plaťte v aplikaci Parkování Město“ je nakřivo nalepená žlutá nálepka „Plaťte rychle bez drobných – naskenujte“ s QR kódem. Okraj nálepky je zvýrazněný s popiskem „Nálepka přes původní nápis“.'
+        caption: '**Přelepený QR kód.** Nálepka nalepená nakřivo přes původní nápis je varovný signál.'
+      - illustration: wifi-site
+        alt: 'Tablet s nabídkou sítí Wi-Fi. Dostupné jsou sítě Kavarna_U_Lipy zabezpečená heslem, Kavarna_Zdarma bez hesla a Byt_Novakovi. Síť Kavarna_Zdarma je zvýrazněná s otázkou „Která je pravá?“.'
+        caption: '**Dvě sítě s názvem kavárny.** Kterou z nich provozuje kavárna, vám řekne obsluha.'
   - kind: aktivita
     title: Co byste udělali tentokrát?
     text:

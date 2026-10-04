@@ -6,7 +6,7 @@ order: 6
 title: Tlak podvodníka
 summary: Na jaké pocity podvodníci působí.
 lecturer:
-  time: 10 minut
+  time: 15 minut
   goal: Pojmenovat manipulační triky, aby je účastníci příště poznali. Zprávy často kombinují více triků najednou.
   discussion: Který trik by na vás nejvíc zapůsobil?
   transition: Shrňme si vše do jednoho jednoduchého pravidla.
@@ -67,6 +67,15 @@ screens:
             - odmena
           explanation: Hlavně na **odměnu**. Pokud jste se žádné soutěže neúčastnili, nemohli jste nic vyhrát. „Poštovné“ je jen záminka, jak získat údaje z karty.
         - message:
+            medium: sms
+            sender: Exekutorský úřad
+            lines:
+              - 'Na váš majetek bude zahájena exekuce pro dluh 8 900 Kč. Abyste jí předešli, uhraďte dluh ještě dnes: {{exekuce-uhrada.test}}'
+          recommended:
+            - autorita
+            - strach
+          explanation: Na **autoritu** a **strach**. Exekuce se neoznamuje SMS s odkazem k platbě. Pokud máte obavu, ověřte si to u úřadu nebo exekutora přes kontakt, který si sami dohledáte.
+        - message:
             medium: chat
             sender: Neznámé číslo
             lines:
@@ -75,6 +84,14 @@ screens:
             - blizky
             - cas
           explanation: Na **pomoc blízkému** a **časový tlak**. Prosba „neříkej to nikomu“ má zabránit tomu, abyste si to ověřili. Zavolejte vnukovi nebo jeho rodičům na číslo, které znáte.
+        - message:
+            medium: chat
+            sender: Neznámé číslo
+            lines:
+              - 'Ahoj, jsi to ty na té fotce? 😮 Podívej: {{fotky-sdileni.test/a8x}}'
+          recommended:
+            - zvedavost
+          explanation: Na **zvědavost**. Kdo by se nepodíval? Odkaz ale často vede na falešné přihlášení, které chce vaše heslo, nebo na stažení škodlivé aplikace.
         - message:
             medium: email
             sender: Oznámení o přestupku <oznameni@pokuty-online.test>
@@ -87,6 +104,16 @@ screens:
             - cas
           explanation: Na **autoritu** a **strach**, k tomu **časový tlak**. Úřady ani policie nevybírají pokuty přes odkaz v e-mailu.
         - message:
+            medium: email
+            sender: Zdravé klouby <akce@zdrave-klouby.test>
+            subject: Poslední šance – sleva 90 %
+            lines:
+              - Jen dnes do půlnoci! Zázračný přípravek na klouby se slevou 90 %. Zbývají poslední 3 balení.
+          recommended:
+            - odmena
+            - cas
+          explanation: Na **odměnu** (obrovská sleva) a **časový tlak** („jen dnes“, „poslední 3 balení“). Takové nabídky často vedou na falešné e-shopy, kde zaplatíte a nic nedostanete.
+        - message:
             medium: sms
             sender: Neznámé číslo
             lines:
@@ -95,6 +122,16 @@ screens:
             - zvedavost
             - strach
           explanation: Hlavně na **zvědavost** a trochu i na strach. Odkaz vede na falešnou stránku, která chce vaše přihlašovací údaje nebo instalaci aplikace.
+        - message:
+            medium: call
+            sender: Neznámé číslo
+            lines:
+              - Babi, to jsem já, Tomáš. Jsem v nemocnici po nehodě a potřebuju hned zaplatit léčbu. Za hodinu si pro peníze přijde můj kamarád.
+          recommended:
+            - blizky
+            - strach
+            - cas
+          explanation: Na **pomoc blízkému**, **strach** i **časový tlak** zároveň. Hovor ukončete a zavolejte vnukovi nebo jeho rodičům na číslo, které znáte. Nemocnice po vás peníze v hotovosti přes „kamaráda“ nikdy nechce.
         - message:
             medium: sms
             sender: Vaše banka
@@ -106,6 +143,17 @@ screens:
           explanation: Na **strach** a **autoritu** banky. Pokud máte obavy, volejte bance na číslo z platební karty – ne na číslo ze zprávy.
         - message:
             medium: email
+            sender: Finanční úřad <vratky@financni-urad-cz.test>
+            subject: Vratka daně
+            lines:
+              - Máte nárok na vrácení daně 4 200 Kč. Pro vyplacení vyplňte do 48 hodin formulář s údaji z platební karty.
+          recommended:
+            - autorita
+            - odmena
+            - cas
+          explanation: Na **autoritu** úřadu, **odměnu** a **časový tlak**. Finanční úřad peníze posílá na účet, nikdy nechce údaje z platební karty přes formulář v e-mailu.
+        - message:
+            medium: email
             sender: Správce pošty <admin@sprava-posty.test>
             subject: Platnost hesla vyprší
             lines:
@@ -113,6 +161,9 @@ screens:
           recommended:
             - cas
           explanation: Hlavně na **časový tlak**. Heslo nikdy „nevyprší“ tak, že byste ho museli zadat přes odkaz v e-mailu.
+    lecturer:
+      tips:
+        - Pokud nestíháte, není nutné projít všech jedenáct zpráv – stačí polovina a zbytek si účastníci mohou projít doma.
   - kind: reflexe
     title: Když cítíte tlak
     activity:
