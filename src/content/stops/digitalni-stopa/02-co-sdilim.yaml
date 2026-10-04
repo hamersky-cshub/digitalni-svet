@@ -227,24 +227,26 @@ screens:
   - kind: prakticky
     title: Než pošlu fotografii dál
     text:
-      - 'Teď si to vyzkoušíte sami: vyfotíte zkušební fotografii, prohlédnete si ji jako fotografii B a oříznete, co by na ní být nemělo. Fotografii nikam neposíláte a na konci ji smažete.'
+      - 'Teď si to vyzkoušíte sami: vyfotíte cokoli kolem sebe, fotografii si prohlédnete jako fotografii B a upravíte ji tak, aby na ní zůstalo jen to, co chcete ukázat. Fotografii nikam neposíláte a na konci ji smažete.'
     activity:
       type: guide
-      intro: Na stole máte připravené ukázkové předměty, třeba obálku nebo vstupenku. Všechny údaje na nich jsou smyšlené.
+      intro: Nic si nemusíte připravovat – stačí to, co máte kolem sebe.
       steps:
         - text: Otevřete aplikaci **Fotoaparát** – má ikonu fotoaparátu 📷.
-        - text: Namiřte tablet na stůl tak, aby byl vidět hrnek, květina nebo jiný předmět a vedle něj i ukázková obálka či vstupenka. Klepněte na velké kulaté tlačítko. Fotografie je hotová.
+        - text: Vyfoťte, co máte před sebou – stůl, okno, svou tašku nebo vlastní ruku. Ostatní účastníky bez jejich souhlasu nefoťte. Klepněte na velké kulaté tlačítko. Fotografie je hotová.
         - text: Klepněte na malý náhled fotografie v rohu obrazovky. Fotografii si zvětšete roztažením dvěma prsty a prohlédněte si i okraje a pozadí.
-          question: Je na fotografii vidět adresa, jméno, kód nebo něco, co by o vás prozradilo víc, než chcete?
-        - text: Klepněte na **Upravit** (na tabletu s Androidem často ikona tužky) a vyberte **Oříznout**. Posuňte rohy rámečku tak, aby obálka nebo vstupenka zůstala mimo něj.
-        - text: Klepněte na **Hotovo** nebo **Uložit**. Prohlédněte si oříznutou fotografii – zbylo jen to, co chcete ukázat?
+          question: Co všechno je na fotografii vidět? Zachytili jste i něco, co jste fotit nechtěli – papír, obrazovku, nápis nebo jiného člověka?
+        - text: Klepněte na **Upravit** (na tabletu s Androidem často ikona tužky) a vyberte **Oříznout**. Posuňte rohy rámečku tak, aby na fotografii zůstala jen jedna věc – třeba hrnek nebo vaše ruka.
+        - text: 'Představte si, že je uprostřed fotografie adresa nebo registrační značka. V úpravách najděte ikonu **pera** (na iPadu **Označení**, na Androidu **Kreslit**) a přes to místo přetáhněte silnou tmavou čáru.'
+        - text: Klepněte na **Hotovo** nebo **Uložit**. Prohlédněte si upravenou fotografii – zbylo jen to, co chcete ukázat?
           question: Komu byste takovou fotografii poslali? Rodinná skupina není totéž jako veřejný příspěvek.
         - text: Zkušební fotografii smažte – klepněte na ikonu **koše** 🗑️ a smazání potvrďte. Tablet budou používat i další účastníci.
-      outro: Hotovo. Stejně se můžete podívat na každou fotografii, než ji doma pošlete dál. I rozhodnutí něco nesdílet je dobrý výsledek.
+      outro: Hotovo. Stejně se můžete podívat na každou fotografii, než ji doma pošlete dál. Postup najdete i v návodu „Jak oříznout nebo zakrýt údaje na fotografii“ v části Zdroje a materiály. I rozhodnutí něco nesdílet je dobrý výsledek.
     lecturer:
       time: 10 minut
-      goal: Přenést zásady sdílení do vlastní zkušenosti bez zveřejňování skutečných údajů. Účastníci si vyzkoušejí focení, prohlížení a oříznutí fotografie.
+      goal: Přenést zásady sdílení do vlastní zkušenosti bez zveřejňování skutečných údajů. Účastníci si vyzkoušejí focení, prohlížení, oříznutí a zakrytí části fotografie.
       tips:
-        - 'Předem připravte na stoly ukázkové předměty se smyšlenými údaji: obálku s adresou, vytištěnou palubní vstupenku nebo jmenovku. Hodí se i hrnek nebo květina jako „hlavní motiv“.'
-        - Názvy tlačítek se liší podle tabletu (iPad – Upravit a ikona oříznutí; Android – tužka, Oříznout nebo Transformovat). Projděte místností a pomozte.
+        - Nejsou potřeba žádné rekvizity. Kdo neví, co vyfotit, ať vyfotí vlastní ruku na stole nebo okno.
+        - Názvy tlačítek se liší podle tabletu (iPad – Upravit, ikona oříznutí a pero Označení; Android – tužka, Oříznout nebo Transformovat, Kreslit). Projděte místností a pomozte.
+        - Kdo nestíhá, může zakrytí perem vynechat – oříznutí stačí.
         - Zkontrolujte, že účastníci na konci zkušební fotografie smazali. Na iPadu se smazané fotky ještě 30 dní drží v albu Nedávno smazané – po workshopu je vyprázdněte.

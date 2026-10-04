@@ -116,12 +116,10 @@ screens:
       - 👁️ **Neviditelný obrázek v e-mailu** – drobný obrázek, který odesílateli prozradí, že a kdy jste e-mail otevřeli.
       - 🔍 **Otisk prohlížeče** – kombinace údajů o vašem zařízení (model, jazyk, nastavení). Je tak jedinečná, že vás web pozná i bez cookies.
       - 💡 Méně stop zanecháte s vyhledávačem, který si nepamatuje, co hledáte – například **Startpage** nebo **DuckDuckGo**.
-      - '🧪 Vyzkoušejte si, jak vás web vidí: [Cover Your Tracks](https://coveryourtracks.eff.org/) prozradí, jak dobře vás chrání prohlížeč, a [Am I Unique](https://amiunique.org/) ukáže, podle čeho vás web pozná i bez cookies. Stránky jsou v angličtině – lektor vám je ukáže. Odkazy najdete i v části Zdroje a materiály na přehledu modulu.'
     lecturer:
       goal: Stačí pochopit, že sledování existuje a dá se omezit. Technické detaily nejsou cílem.
       tips:
         - 'Zdroj: Minikurz kyberbezpečnosti pro uživatele – kapitola Trasování na webu.'
-        - 'Ukázka: na Cover Your Tracks klepněte na velké tlačítko testu a výsledek projděte společně. Am I Unique ukáže, jak jedinečný je otisk prohlížeče.'
   - kind: aktivita
     title: Lišta s cookies
     text:
