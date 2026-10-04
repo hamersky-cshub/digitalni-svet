@@ -1,0 +1,84 @@
+---
+/**
+ * Obrázky u obrazovky (pole "figures" v obsahu). Ilustrace jsou inline SVG
+ * – rychle se načtou, fungují offline a všechny údaje v nich jsou smyšlené.
+ */
+import type { IllustrationName } from '../content.config';
+import { formatText } from '../lib/text';
+import CookieBanner from './illustrations/CookieBanner.astro';
+import FlashlightPermission from './illustrations/FlashlightPermission.astro';
+import PhotoSafe from './illustrations/PhotoSafe.astro';
+import PhotoRevealing from './illustrations/PhotoRevealing.astro';
+
+interface Props {
+  figures: { illustration: IllustrationName; alt: string; caption?: string }[];
+}
+
+const COMPONENTS = {
+  'lista-cookies': CookieBanner,
+  'svitilna-poloha': FlashlightPermission,
+  'foto-bezpecna': PhotoSafe,
+  'foto-prozrazujici': PhotoRevealing,
+} as const;
+
+// Úzké (na výšku) ilustrace se nezvětšují přes celou šířku stránky.
+const NARROW = new Set<IllustrationName>(['svitilna-poloha']);
+
+const { figures } = Astro.props;
+---
+
+<div class:list={['screen-figures', { 'screen-figures--pair': figures.length > 1 }]}>
+  {
+    figures.map((figure) => {
+      const Illustration = COMPONENTS[figure.illustration];
+      return (
+        <figure class:list={['screen-figure', { 'screen-figure--narrow': NARROW.has(figure.illustration) }]}>
+          <div class="screen-figure__image" role="img" aria-label={figure.alt}>
+            <Illustration />
+          </div>
+          {figure.caption && <figcaption set:html={formatText(figure.caption)} />}
+        </figure>
+      );
+    })
+  }
+</div>
+
+<style>
+  .screen-figures {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-3) 0;
+  }
+
+  @media (min-width: 46rem) {
+    .screen-figures--pair {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .screen-figure {
+    margin: 0;
+  }
+
+  .screen-figure__image {
+    line-height: 0;
+  }
+
+  .screen-figure--narrow .screen-figure__image {
+    max-width: 20rem;
+    margin: 0 auto;
+  }
+
+  .screen-figure__image :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+</style>

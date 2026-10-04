@@ -32,7 +32,7 @@ screens:
       intro: '**Zadejte jen svou e-mailovou adresu. Heslo nikdy nikam nezadávejte.**'
       steps:
         - text: Otevřete internetový prohlížeč, například Chrome nebo Safari.
-        - text: Do řádku s adresou nahoře napište **haveibeenpwned.com** a potvrďte.
+        - text: Otevřete stránku [haveibeenpwned.com](https://haveibeenpwned.com/). Můžete na odkaz klepnout, nebo adresu napsat do řádku s adresou nahoře.
         - text: Do velkého políčka uprostřed stránky napište svou e-mailovou adresu a klepněte na tlačítko vedle něj.
         - text: Objeví se **zelená** zpráva (anglicky „Good news“ = dobrá zpráva)? Váš e-mail v žádném známém úniku není.
         - text: Objeví se **červená** zpráva (anglicky „pwned“ = prolomeno)? E-mail unikl. Níže uvidíte, ze kterých služeb a kdy.

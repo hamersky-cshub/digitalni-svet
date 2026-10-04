@@ -35,6 +35,8 @@ screens:
           label: ZNÁMÝM
         - id: verejne
           label: KLIDNĚ VEŘEJNĚ
+        - id: nikomu
+          label: NIKOMU
       items:
         - text: Kdy jedu na dovolenou.
           recommended:
@@ -44,6 +46,26 @@ screens:
               tone: risk
               text: Veřejná informace, že nejste doma, může zajímat i zloděje.
           explanation: O dovolené je dobré vědět jen blízkým. Fotografie z cest můžete klidně zveřejnit až po návratu.
+        - text: Recept na bábovku.
+          recommended:
+            - blizkym
+            - znamym
+            - verejne
+          explanation: Recept je v pořádku sdílet s kýmkoli – klidně i veřejně. Nic o vás neprozradí.
+        - text: PIN k platební kartě.
+          recommended:
+            - nikomu
+          responses:
+            blizkym:
+              tone: risk
+              text: Ani blízkým PIN neříkejte. Pokud potřebují platit za vás, banka jim může vydat vlastní kartu k vašemu účtu.
+            znamym:
+              tone: risk
+              text: PIN známým nikdy neříkejte. Kdo zná PIN a má kartu, může z účtu vybrat peníze.
+            verejne:
+              tone: risk
+              text: PIN nesmí být nikde zveřejněný – ani zapsaný na kartě nebo v peněžence.
+          explanation: PIN neříkejte nikomu. Banka ani policie ho po vás nikdy nebude chtít.
         - text: Moje telefonní číslo.
           recommended:
             - blizkym
@@ -53,6 +75,12 @@ screens:
               tone: risk
               text: Veřejně dostupné číslo mohou zneužít podvodníci k falešným telefonátům a SMS.
           explanation: Telefonní číslo dáváme lidem a firmám, které ho opravdu potřebují. Na internetu ho zveřejňovat nemusíte.
+        - text: Fotografie z výletu – už jsem zpátky doma.
+          recommended:
+            - blizkym
+            - znamym
+            - verejne
+          explanation: Po návratu je sdílení fotografií z cest bezpečnější – nikdo už z nich nevyčte, že nejste doma. Jen zkontrolujte, co je na nich vidět.
         - text: Fotografie vnoučete.
           recommended:
             - blizkym
@@ -61,12 +89,32 @@ screens:
               tone: risk
               text: Fotografii na veřejném profilu může vidět kdokoli – a dítě o tom samo rozhodnout nemůže.
           explanation: U fotografií dětí se nejdřív zeptejte rodičů, zda se sdílením souhlasí. Nejbezpečnější je posílat je jen rodině.
+        - text: Datum narození.
+          recommended:
+            - blizkym
+            - znamym
+          responses:
+            verejne:
+              tone: risk
+              text: Datum narození slouží k ověření totožnosti – v bance, u lékaře i u operátora. Veřejně ho neuvádějte.
+          explanation: Blízcí a známí vám rádi popřejí. Na sociální síti můžete datum narození v nastavení profilu skrýt.
         - text: Fotografie narozeninového dortu.
           recommended:
             - blizkym
             - znamym
             - verejne
           explanation: Tady je to v pořádku téměř kdekoli. Jen se podívejte, co je na fotografii kolem dortu – třeba přáníčko s celým jménem a datem narození.
+        - text: Že jsem právě v nemocnici.
+          recommended:
+            - blizkym
+          responses:
+            znamym:
+              tone: info
+              text: Známým stačí říct obecně, že se léčíte. Podrobnosti o zdraví nechte pro blízké.
+            verejne:
+              tone: risk
+              text: Zdravotní údaje patří k nejcitlivějším. Veřejná zpráva navíc prozradí, že nejste doma.
+          explanation: O svém zdraví rozhodujete sami, komu co řeknete. Na internet podrobnosti nepatří.
         - text: Adresa bydliště.
           recommended:
             - blizkym
@@ -78,13 +126,44 @@ screens:
               tone: risk
               text: Veřejná adresa spolu s informací, že nejste doma, je pro zloděje cenná.
           explanation: Adresu potřebují blízcí, lékař nebo doručovací služba. Na sociálních sítích ji zveřejňovat nemusíte.
+        - text: Jméno mého domácího mazlíčka.
+          recommended:
+            - blizkym
+            - znamym
+          responses:
+            verejne:
+              tone: info
+              text: Jméno mazlíčka často slouží jako odpověď na bezpečnostní otázku nebo jako součást hesla. Pokud ho tak používáte, veřejně ho nesdílejte.
+          explanation: Samo o sobě je jméno mazlíčka nevinné. Jen ho nepoužívejte jako heslo.
         - text: Hodnocení knihy, kterou jsem přečetl(a).
           recommended:
             - blizkym
             - znamym
             - verejne
           explanation: Hodnocení knihy je běžná veřejná informace a může pomoci dalším čtenářům. Stačí, když v něm nebudou osobní údaje.
+        - text: Že bydlím sám/sama.
+          recommended:
+            - blizkym
+          responses:
+            znamym:
+              tone: info
+              text: Důvěryhodným známým, třeba sousedům, to vědět může pomoci. Jinak to sdílet nemusíte.
+            verejne:
+              tone: risk
+              text: Veřejná informace, že bydlíte sami, může přilákat podvodníky – třeba falešné řemeslníky nebo „vnuky“ v nouzi.
+          explanation: Tuto informaci sdílejte jen s lidmi, kterým důvěřujete.
+        - text: Číslo mého bankovního účtu.
+          recommended:
+            - blizkym
+            - znamym
+          responses:
+            verejne:
+              tone: info
+              text: Číslo účtu samo o sobě peníze neohrozí. Veřejně ho ale vystavovat nemusíte.
+          explanation: Na rozdíl od PINu nebo hesla není číslo účtu tajné. Dáváte ho tomu, kdo vám má zaplatit.
         - text: Fotografie letenky nebo palubní vstupenky.
+          recommended:
+            - nikomu
           responses:
             blizkym:
               tone: info
@@ -97,7 +176,7 @@ screens:
               text: Na vstupence je kód, ze kterého lze zjistit jméno a rezervaci – a někdy dokonce let změnit nebo zrušit.
           explanation: Palubní vstupenky raději nefoťte. Pro radost z cesty stačí fotografie z letiště nebo z okna letadla.
     lecturer:
-      goal: Zdůrazněte, že u dortu nebo knihy je v pořádku jakákoli odpověď. Cílem je přemýšlet o kontextu, ne „trefit se“.
+      goal: Zdůrazněte, že u dortu, receptu nebo knihy je v pořádku téměř jakákoli odpověď. PIN patří jen vám – nikomu. Cílem je přemýšlet o kontextu, ne „trefit se“.
   - kind: vyklad
     title: Kdo ještě tvoří vaši stopu?
     text:
@@ -118,10 +197,37 @@ screens:
       type: reflection
       question: Vzpomenete si na něco, co jste v minulosti sdíleli a dnes byste to udělali jinak?
       hint: Nemusíte to nikomu říkat. Stačí, když si to promyslíte.
+  - kind: aktivita
+    title: Kterou fotografii byste sdíleli?
+    text:
+      - 'Podívejte se na dvě fotografie. Obě vypadají nevinně – ale jedna z nich prozrazuje víc, než by se zdálo.'
+    figures:
+      - illustration: foto-bezpecna
+        alt: 'Fotografie A: narozeninový dort se třemi svíčkami na talíři, vedle váza s květinami, v pozadí rozmazaná světýlka. Nejsou na ní žádné osobní údaje.'
+        caption: '**Fotografie A** – narozeninový dort na stole.'
+      - illustration: foto-prozrazujici
+        alt: 'Fotografie B: osoba v klobouku s kufry před vchodovými dveřmi domu. Na zdi je cedule ulice Vzorová, číslo domu 12 a jmenovka Ukázkovi, vedle stojí auto s čitelnou registrační značkou 1AB 2345.'
+        caption: '**Fotografie B** – odjezd na dovolenou před domem.'
+    activity:
+      type: scenarios
+      items:
+        - text: Představte si, že jste fotografie pořídili vy a chcete je ukázat přátelům.
+          question: Kterou fotografii byste klidně dali na sociální síť?
+          options:
+            - label: Fotografii A – dort
+              tone: ok
+              feedback: Ano. Na fotografii dortu není nic, co by o vás prozradilo osobní údaje.
+            - label: Fotografii B – odjezd před domem
+              tone: risk
+              feedback: 'Fotografie B prozrazuje ulici, číslo domu, příjmení na jmenovce i registrační značku auta. A kufry říkají: „Teď odjíždíme, dům bude prázdný.“'
+            - label: Obě fotografie
+              tone: risk
+              feedback: 'Fotografie A je v pořádku. Fotografie B ale prozrazuje adresu, příjmení, registrační značku a to, že odjíždíte.'
+          lesson: Fotografii B by stačilo oříznout nebo zakrýt cedule a značku – a zveřejnit ji až po návratu domů.
   - kind: prakticky
     title: Než pošlu fotografii dál
     text:
-      - Vyberte si v telefonu jednu vlastní fotografii. Nikam ji neposílejte. Společně si projdeme, co na ní může být vidět.
+      - Teď totéž zkuste na vlastní fotografii. Vyberte si v telefonu jeden snímek a nikam ho neposílejte. Společně si projdeme, co na něm může být vidět – stejně jako u fotografie B.
     activity:
       type: guide
       steps:

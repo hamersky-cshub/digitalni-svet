@@ -1,0 +1,92 @@
+---
+/**
+ * Ukázková fotografie B: odjezd na dovolenou před domem. Prozrazuje číslo domu,
+ * jmenovku, ulici, SPZ a že dům bude prázdný. Všechny údaje jsou smyšlené. viewBox 600 × 450.
+ */
+---
+
+<svg viewBox="0 0 600 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="pr-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fc3ec"></stop>
+      <stop offset="1" stop-color="#d8ecf8"></stop>
+    </linearGradient>
+    <linearGradient id="pr-wall" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#efe3cf"></stop>
+      <stop offset="1" stop-color="#e0cfb4"></stop>
+    </linearGradient>
+    <linearGradient id="pr-door" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7a4a2b"></stop>
+      <stop offset="1" stop-color="#5c341c"></stop>
+    </linearGradient>
+    <linearGradient id="pr-car" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d14b4b"></stop>
+      <stop offset="1" stop-color="#9e2f2f"></stop>
+    </linearGradient>
+    <linearGradient id="pr-case" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3f6f8f"></stop>
+      <stop offset="1" stop-color="#2c5370"></stop>
+    </linearGradient>
+    <filter id="pr-soft" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#2b2116" flood-opacity="0.35"></feDropShadow>
+    </filter>
+    <clipPath id="pr-photo"><rect x="16" y="16" width="568" height="418" rx="4"></rect></clipPath>
+  </defs>
+
+  <rect width="600" height="450" rx="10" fill="#ffffff"></rect>
+  <rect x="0.5" y="0.5" width="599" height="449" rx="10" fill="none" stroke="#d6dbe3"></rect>
+  <g clip-path="url(#pr-photo)">
+    <rect x="16" y="16" width="568" height="418" fill="url(#pr-sky)"></rect>
+    <!-- Dům -->
+    <rect x="16" y="60" width="380" height="330" fill="url(#pr-wall)"></rect>
+    <path d="M16 60 H396" stroke="#b49c7c" stroke-width="6"></path>
+    <!-- Okno -->
+    <rect x="44" y="110" width="120" height="110" rx="4" fill="#ffffff"></rect>
+    <rect x="52" y="118" width="104" height="94" fill="#a9cfe6"></rect>
+    <path d="M104 118 V212 M52 165 H156" stroke="#ffffff" stroke-width="5"></path>
+    <!-- Dveře -->
+    <rect x="214" y="150" width="120" height="226" rx="4" fill="url(#pr-door)"></rect>
+    <rect x="228" y="166" width="92" height="80" rx="3" fill="#6b3f24" stroke="#4e2a15" stroke-width="2"></rect>
+    <rect x="228" y="262" width="92" height="96" rx="3" fill="#6b3f24" stroke="#4e2a15" stroke-width="2"></rect>
+    <circle cx="318" cy="268" r="6" fill="#e2c26b"></circle>
+    <!-- Číslo domu a jmenovka -->
+    <rect x="346" y="160" width="40" height="40" rx="5" fill="#1f4f8c"></rect>
+    <text x="366" y="189" font-size="22" font-weight="700" text-anchor="middle" fill="#ffffff">12</text>
+    <rect x="339" y="214" width="54" height="22" rx="3" fill="#f5f0e3" stroke="#8c7a5c"></rect>
+    <text x="366" y="229.5" font-size="9.5" font-weight="700" text-anchor="middle" fill="#2b2116">UKÁZKOVI</text>
+    <!-- Cedule s ulicí -->
+    <rect x="100" y="72" width="150" height="30" rx="4" fill="#ffffff" stroke="#c0392b" stroke-width="3"></rect>
+    <text x="175" y="93" font-size="16" font-weight="700" text-anchor="middle" fill="#c0392b">Vzorová</text>
+    <!-- Chodník a schod -->
+    <rect x="16" y="376" width="568" height="58" fill="#b8b2a6"></rect>
+    <rect x="196" y="370" width="156" height="14" fill="#a39d92"></rect>
+    <!-- Kufry připravené k odjezdu -->
+    <g filter="url(#pr-soft)">
+      <rect x="120" y="300" width="70" height="86" rx="10" fill="url(#pr-case)"></rect>
+      <rect x="142" y="286" width="26" height="16" rx="5" fill="none" stroke="#244a63" stroke-width="5"></rect>
+      <rect x="352" y="318" width="56" height="68" rx="9" fill="#d58a3a"></rect>
+      <rect x="368" y="306" width="24" height="14" rx="5" fill="none" stroke="#a7652a" stroke-width="5"></rect>
+    </g>
+    <!-- Osoba v klobouku (zezadu) -->
+    <g filter="url(#pr-soft)">
+      <path d="M232 434 L240 320 C 244 296, 300 296, 304 320 L312 434 Z" fill="#4f7d5a"></path>
+      <circle cx="272" cy="290" r="22" fill="#e2b48f"></circle>
+      <ellipse cx="272" cy="274" rx="40" ry="9" fill="#e9d38c"></ellipse>
+      <path d="M252 274 C 254 252, 290 252, 292 274 Z" fill="#e9d38c"></path>
+    </g>
+    <!-- Auto se SPZ -->
+    <g filter="url(#pr-soft)">
+      <path d="M420 330 C 424 300, 440 280, 470 276 L 540 276 C 566 280, 584 300, 590 330 L 590 392 L 420 392 Z" fill="url(#pr-car)"></path>
+      <path d="M446 312 C 452 292, 462 286, 478 286 L 534 286 C 552 288, 562 296, 568 312 Z" fill="#cfe6f5"></path>
+      <circle cx="456" cy="394" r="20" fill="#24272c"></circle><circle cx="456" cy="394" r="8" fill="#8a9099"></circle>
+      <circle cx="560" cy="394" r="20" fill="#24272c"></circle><circle cx="560" cy="394" r="8" fill="#8a9099"></circle>
+      <rect x="470" y="350" width="92" height="24" rx="3" fill="#ffffff" stroke="#1b1f23" stroke-width="2"></rect>
+      <rect x="470" y="350" width="11" height="24" fill="#2a4fa0"></rect>
+      <text x="522" y="367" font-size="14" font-weight="700" text-anchor="middle" fill="#1b1f23">1AB 2345</text>
+    </g>
+  </g>
+
+  <!-- Označení fotografie -->
+  <circle cx="54" cy="54" r="26" fill="#84390a"></circle>
+  <text x="54" y="63" font-size="26" font-weight="700" text-anchor="middle" fill="#ffffff">B</text>
+</svg>

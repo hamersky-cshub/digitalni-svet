@@ -35,7 +35,7 @@ screens:
   - kind: aktivita
     title: Vznikla digitální stopa?
     text:
-      - U každé situace zvolte odpověď. Nejde o test – po každé volbě se dozvíte, jak to je.
+      - U každé situace zvolte odpověď. Někdy digitální stopa vzniká, někdy ne. Nejde o test – po každé volbě se dozvíte, jak to je.
     activity:
       type: choices
       question: Vznikla při tom digitální stopa?
@@ -51,10 +51,26 @@ screens:
           recommended:
             - ano
           explanation: Ano – i při běžném hledání mohou vznikat informace o naší aktivitě. Vyhledávač si může zapamatovat, co jste hledali, a stránka s počasím může zjistit, ve kterém městě přibližně jste.
+        - text: Zaplatím na trhu za zeleninu hotovostí.
+          recommended:
+            - ne
+          explanation: Ne – platba hotovostí nezanechá digitální záznam spojený s vaším jménem. Jiné by to bylo, kdybyste přiložili věrnostní kartu obchodu.
         - text: Podívám se na video na internetu.
           recommended:
             - ano
           explanation: Ano – služba s videi si obvykle pamatuje, co jste si pustili a jak dlouho jste se dívali. Podle toho vám pak nabízí další videa.
+        - text: Napíšu rukou dopis a pošlu ho poštou.
+          recommended:
+            - ne
+          explanation: Ne – ručně psaný dopis digitální stopu nevytváří. Jiné by to bylo, kdybyste ho vyfotili a poslali přes chat.
+        - text: Zaplatím v obchodě platební kartou.
+          recommended:
+            - ano
+          explanation: Ano – banka zaznamená, kde, kdy a kolik jste zaplatili. Uvidíte to i ve výpisu z účtu.
+        - text: Zahraju si s vnoučaty deskovou hru u stolu.
+          recommended:
+            - ne
+          explanation: Ne – pokud u toho nikdo nefotí a fotky nesdílí, digitální stopa nevzniká.
         - text: Napíšu komentář pod článek.
           recommended:
             - ano
@@ -63,17 +79,33 @@ screens:
           recommended:
             - ano
           explanation: Ano – navigace potřebuje vědět, kde právě jste. Některé služby si polohu ukládají do historie, pokud to v nastavení nevypnete.
+        - text: Přečtu si noviny, které jsem si koupil(a) v trafice.
+          recommended:
+            - ne
+          explanation: Ne – papírové noviny o vás nic nezaznamenají. Na zpravodajském webu by to bylo jinak.
+        - text: Zavolám kamarádce z mobilního telefonu.
+          recommended:
+            - ano
+          explanation: Ano – obsah hovoru se běžně neukládá, ale operátor zaznamenává, komu jste volali, kdy a jak dlouho.
         - text: Pošlu fotografii známému ve zprávě.
           recommended:
             - ano
             - nevim
           explanation: Je to trochu složitější… Fotografie je hlavně u vás a u vašeho známého. Ten ji ale může poslat dál. A v samotné fotografii bývá uloženo, kdy a kde vznikla.
+        - text: Vyfotím západ slunce starým fotoaparátem, který nemá připojení k internetu, a fotku nikam nenahraju.
+          recommended:
+            - ne
+          explanation: Ne – dokud fotografii nikam nenahrajete, zůstává jen ve fotoaparátu. Pozor ale na chytré telefony – ty fotky často samy zálohují na internet.
         - text: Navštívím internetový obchod, ale nic nekoupím.
           recommended:
             - ano
           explanation: Ano – obchod si může zapamatovat, na co jste se dívali. Proto se vám pak stejné zboží může objevovat v reklamách i na jiných stránkách.
+        - text: Jdu na procházku a telefon mám v kapse se zapnutou polohou.
+          recommended:
+            - ano
+          explanation: Ano – i když telefon nepoužíváte, některé aplikace mohou polohu zaznamenávat na pozadí.
     lecturer:
-      goal: U každé situace nechte chvíli na reakce. Odpověď „nejsem si jistý/á“ je v pořádku a stojí za diskusi.
+      goal: U každé situace nechte chvíli na reakce. Odpověď „nejsem si jistý/á“ je v pořádku a stojí za diskusi. Situace bez digitální stopy ukazují, že offline svět stopu nezanechává – a čím se liší od online.
   - kind: vyklad
     title: Jak nás web sleduje
     text:
@@ -84,14 +116,20 @@ screens:
       - 👁️ **Neviditelný obrázek v e-mailu** – drobný obrázek, který odesílateli prozradí, že a kdy jste e-mail otevřeli.
       - 🔍 **Otisk prohlížeče** – kombinace údajů o vašem zařízení (model, jazyk, nastavení). Je tak jedinečná, že vás web pozná i bez cookies.
       - 💡 Méně stop zanecháte s vyhledávačem, který si nepamatuje, co hledáte – například **Startpage** nebo **DuckDuckGo**.
+      - '🧪 Vyzkoušejte si, jak vás web vidí: [Blacklight](https://themarkup.org/blacklight) ukáže, kdo sleduje vybranou stránku, a [Cover Your Tracks](https://coveryourtracks.eff.org/) prozradí, jak dobře vás chrání prohlížeč. Stránky jsou v angličtině – lektor vám je ukáže. Odkazy najdete i v materiálech ke stažení.'
     lecturer:
       goal: Stačí pochopit, že sledování existuje a dá se omezit. Technické detaily nejsou cílem.
       tips:
         - 'Zdroj: Minikurz kyberbezpečnosti pro uživatele – kapitola Trasování na webu.'
+        - 'Ukázka: do Blacklight zadejte adresu známého zpravodajského webu – uvidíte počet sledovacích nástrojů. Am I Unique (amiunique.org) ukáže otisk prohlížeče.'
   - kind: aktivita
     title: Lišta s cookies
     text:
-      - Na mnoha webech se objeví lišta s dotazem na cookies. Co s ní?
+      - 'Na mnoha webech se objeví lišta s dotazem na cookies. Takhle může vypadat:'
+    figures:
+      - illustration: lista-cookies
+        alt: Tablet se zpravodajským webem. Spodní část obrazovky zakrývá lišta „Vaše soukromí je pro nás důležité“ se třemi možnostmi – výrazné modré tlačítko Přijmout vše, méně nápadné tlačítko Odmítnout vše a odkaz Nastavení.
+        caption: Tlačítko **Přijmout vše** bývá nápadné. **Odmítnout vše** nebo **Nastavení** jsou často méně vidět – stojí za to je hledat.
     activity:
       type: scenarios
       items:

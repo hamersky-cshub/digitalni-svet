@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ActivityBlock from '../../../components/activities/ActivityBlock.astro';
 import Progress from '../../../components/Progress.astro';
+import ScreenFigures from '../../../components/ScreenFigures.astro';
 import ScreenKind from '../../../components/ScreenKind.astro';
 import StepNav from '../../../components/StepNav.astro';
 import { buildSteps, getStops, getAvailableWorkshops } from '../../../lib/content';
@@ -70,6 +71,7 @@ const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, pr
         </ul>
       )
     }
+    {screen.figures && <ScreenFigures figures={screen.figures} />}
     {screen.activity && <ActivityBlock activity={screen.activity} nextLabel={next.label} />}
   </article>
 

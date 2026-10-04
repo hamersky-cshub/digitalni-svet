@@ -1,0 +1,55 @@
+---
+/** Telefon s dialogem: aplikace Svítilna žádá o polohu. Doporučená volba „Nepovolovat“ je zvýrazněná. Jen telefon – vysvětlení je v popisku pod obrázkem. */
+---
+
+<svg viewBox="66 12 322 536" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="fl-bezel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a3f47"></stop>
+      <stop offset="1" stop-color="#16181c"></stop>
+    </linearGradient>
+    <linearGradient id="fl-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e2a3d"></stop>
+      <stop offset="1" stop-color="#33445e"></stop>
+    </linearGradient>
+    <radialGradient id="fl-beam" cx="0.5" cy="0" r="1">
+      <stop offset="0" stop-color="#fff6c8" stop-opacity="0.95"></stop>
+      <stop offset="1" stop-color="#fff6c8" stop-opacity="0"></stop>
+    </radialGradient>
+    <filter id="fl-shadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0b1a33" flood-opacity="0.3"></feDropShadow>
+    </filter>
+    <clipPath id="fl-screen"><rect x="96" y="40" width="262" height="480" rx="26"></rect></clipPath>
+  </defs>
+
+  <!-- Telefon -->
+  <rect x="80" y="22" width="294" height="516" rx="42" fill="url(#fl-bezel)" filter="url(#fl-shadow)"></rect>
+  <g clip-path="url(#fl-screen)">
+    <rect x="96" y="40" width="262" height="480" fill="url(#fl-wall)"></rect>
+    <!-- Aplikace Svítilna v pozadí -->
+    <path d="M227 150 L140 330 L314 330 Z" fill="url(#fl-beam)"></path>
+    <rect x="207" y="120" width="40" height="64" rx="8" fill="#d6dbe3"></rect>
+    <rect x="200" y="104" width="54" height="22" rx="6" fill="#eef1f5"></rect>
+    <circle cx="227" cy="160" r="9" fill="#e3a33b"></circle>
+    <text x="227" y="80" font-size="18" font-weight="700" text-anchor="middle" fill="#ffffff">Svítilna</text>
+    <!-- Ztmavení a dialog -->
+    <rect x="96" y="40" width="262" height="480" fill="#000000" opacity="0.45"></rect>
+    <rect x="110" y="210" width="234" height="296" rx="22" fill="#ffffff"></rect>
+    <circle cx="227" cy="244" r="17" fill="#e6edf7"></circle>
+    <path d="M227 233c-6 0-10.5 4.5-10.5 10.2 0 7.6 10.5 17.8 10.5 17.8s10.5-10.2 10.5-17.8c0-5.7-4.5-10.2-10.5-10.2Zm0 14.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" fill="#1d4f91"></path>
+    <text x="227" y="284" font-size="14.5" text-anchor="middle" fill="#1b1f23">Povolit aplikaci <tspan font-weight="700">Svítilna</tspan></text>
+    <text x="227" y="303" font-size="14.5" text-anchor="middle" fill="#1b1f23">přístup k poloze</text>
+    <text x="227" y="322" font-size="14.5" text-anchor="middle" fill="#1b1f23">tohoto zařízení?</text>
+    <rect x="126" y="340" width="202" height="42" rx="21" fill="#e6edf7"></rect>
+    <text x="227" y="366" font-size="14" text-anchor="middle" fill="#1d4f91">Při používání aplikace</text>
+    <rect x="126" y="390" width="202" height="42" rx="21" fill="#e6edf7"></rect>
+    <text x="227" y="416" font-size="14" text-anchor="middle" fill="#1d4f91">Pouze tentokrát</text>
+    <rect x="126" y="440" width="202" height="42" rx="21" fill="#e5f2e8" stroke="#1b5e32" stroke-width="3"></rect>
+    <text x="227" y="466" font-size="14" font-weight="700" text-anchor="middle" fill="#1b5e32">Nepovolovat</text>
+  </g>
+  <rect x="190" y="30" width="74" height="6" rx="3" fill="#0f1114"></rect>
+
+  <!-- Zelené označení doporučené volby -->
+  <circle cx="330" cy="461" r="15" fill="#1b5e32" stroke="#ffffff" stroke-width="3"></circle>
+  <path d="M323 461 l5 5 l10 -11" stroke="#ffffff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>

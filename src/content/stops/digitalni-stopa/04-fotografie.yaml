@@ -21,8 +21,8 @@ screens:
       instruction: Klepněte na čísla v obrázku. Ukážou místa, která byste před zveřejněním zkontrolovali.
       alt: Ilustrace stolu při balení na dovolenou. Na stole leží obálka s adresou, palubní vstupenka, klíče se štítkem, občanský průkaz a kufr. Stojí tam tablet s rozepsaným příspěvkem. Na zdi visí rodinná fotografie a za oknem stojí auto s viditelnou registrační značkou. Všechny údaje jsou smyšlené.
       spots:
-        - x: 36
-          y: 34
+        - x: 11.5
+          y: 36
           label: Registrační značka auta
           text: Podle registrační značky (SPZ) lze auto spojit s místem, kde bydlíte. Před zveřejněním ji můžete na fotografii zakrýt.
         - x: 67

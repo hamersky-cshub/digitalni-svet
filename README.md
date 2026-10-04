@@ -41,6 +41,8 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 
 - `src/content/workshops/*.yaml`: názvy a popisy tří témat.
 - `src/content/stops/<téma>/*.yaml`: očíslované zastávky a krátké obrazovky. `kind: prakticky` zařadí obrazovku i do přehledu praktických úkolů.
+- V textech obrazovek lze psát `**tučně**`, `[text odkazu](https://…)` (klikací odkaz, otevře se v novém okně) a `{{adresa.test}}` (neklikací ukázková adresa v simulacích).
+- Obrazovka může mít pole `figures` s nejvýš dvěma ilustracemi (`illustration`, `alt`, `caption`). Dostupné ilustrace jsou v `src/components/illustrations/` a jejich seznam v `ILLUSTRATIONS` v `src/content.config.ts`.
 - `src/content/resources/*.md`: tematické návody, odkazy a materiály ke stažení.
 - `public/soubory/<téma>/`: PDF a jiné soubory ke stažení. **Soubory ukládejte pod odpovídající téma**, aby se při zamčení vynechaly ze sestavení.
 - `src/lib/presentation.ts`: barvy jednotlivých témat.
@@ -49,4 +51,4 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 
 Při přidání nového tématu přidejte jeho id i do `workshop-access.json`; téma bez přepínače zůstává zamčené.
 
-Web nemá registraci ani analytiku. Odpovědi a zaškrtnuté kroky se neukládají. Prohlížeč si pamatuje navštívené zastávky, poslední pozici a velikost písma. Ukázkové podvodné adresy používají neklikací doménu `.test`.
+Web nemá registraci ani analytiku. Odpovědi a zaškrtnuté kroky se neukládají. Prohlížeč si pamatuje otevřené kroky (zastávka je „Navštíveno“, až jsou otevřené všechny její kroky) a velikost písma. Ukázkové podvodné adresy používají neklikací doménu `.test`.

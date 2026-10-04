@@ -250,11 +250,25 @@ export type Activity = z.infer<typeof activity>;
 export const SCREEN_KINDS = ['vyklad', 'diskuse', 'aktivita', 'prakticky', 'reflexe', 'shrnuti'] as const;
 export type ScreenKind = (typeof SCREEN_KINDS)[number];
 
+/** Ilustrace, které lze vložit k obrazovce (src/components/illustrations/). */
+export const ILLUSTRATIONS = ['lista-cookies', 'svitilna-poloha', 'foto-bezpecna', 'foto-prozrazujici'] as const;
+export type IllustrationName = (typeof ILLUSTRATIONS)[number];
+
+const figure = z.object({
+  illustration: z.enum(ILLUSTRATIONS),
+  /** Popis obrázku pro čtečky obrazovky. */
+  alt: z.string(),
+  /** Popisek pod obrázkem (může obsahovat **tučně**). */
+  caption: z.string().optional(),
+});
+
 const screen = z.object({
   kind: z.enum(SCREEN_KINDS).default('vyklad'),
   title: z.string(),
   text: z.array(z.string()).default([]),
   points: z.array(z.string()).optional(),
+  /** Nejvýš dva obrázky; zobrazí se pod textem, na širší obrazovce vedle sebe. */
+  figures: z.array(figure).max(2).optional(),
   activity: activity.optional(),
   lecturer: lecturerNote.optional(),
 });

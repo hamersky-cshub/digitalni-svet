@@ -23,10 +23,9 @@ screens:
         - title: Vadilo by mi, kdyby tato informace zůstala dostupná i později?
           text: Co je jednou na internetu, se těžko maže.
   - kind: reflexe
-    title: Děkujeme
+    title: Děkuji
     text:
       - Dnes jste zjistili, jak vzniká digitální stopa a kde si v zařízení nastavíte soukromí.
-      - Návody ke stažení najdete na přehledu workshopu.
     activity:
       type: reflection
       question: Co si z dnešního setkání odnášíte?

@@ -4,7 +4,7 @@
 workshop: digitalni-stopa
 order: 3
 title: Co dovolují aplikace
-summary: Kde zkontrolovat, co smějí aplikace v tabletu používat.
+summary: Kde zkontrolovat, co smějí aplikace v mobilu nebo tabletu používat.
 lecturer:
   time: 20 minut
   goal: Účastníci vědí, kde v zařízení najdou oprávnění aplikací. Cílem není všechno zakázat.
@@ -31,8 +31,12 @@ screens:
       type: reflection
       question: Potřebuje tato aplikace tuto informaci ke svému fungování?
       hint: Navigace polohu potřebuje. Svítilna nebo hra s kartami ji ke svému fungování nepotřebuje. Když aplikace oprávnění nepotřebuje, můžete ho vypnout – obvykle bude fungovat dál.
+    figures:
+      - illustration: svitilna-poloha
+        alt: Telefon s otevřeným dialogem „Povolit aplikaci Svítilna přístup k poloze tohoto zařízení?“ a možnostmi Při používání aplikace, Pouze tentokrát a Nepovolovat. Možnost Nepovolovat je zvýrazněná zeleně a označená fajfkou.
+        caption: 'Takto se aplikace ptá na oprávnění. **Svítilna potřebuje jen světlo, ne vaši polohu** – zvolte **Nepovolovat** a bude fungovat dál. Na iPhonu a iPadu se možnost jmenuje **Nepovolit**. Naopak navigace polohu potřebuje.'
   - kind: prakticky
-    title: Kontrola mého tabletu
+    title: Kontrola mého mobilu/tabletu
     text:
       - Teď se společně podíváme do nastavení vašeho zařízení. Tento web nechte otevřený – vrátíte se k němu.
     activity:
@@ -71,10 +75,12 @@ screens:
   - kind: reflexe
     title: Co jste zjistili?
     text:
-      - 'Dva tipy na závěr:'
+      - 'Tipy na závěr:'
     points:
-      - Aplikace stahujte jen z oficiálního obchodu – **Google Play** nebo **App Store**.
-      - Aplikace, které nepoužíváte, smažte. Nebudou mít přístup k vašim údajům.
+      - Aplikace do mobilu a tabletu stahujte jen z oficiálního obchodu – **Google Play** nebo **App Store**.
+      - Na počítači stahujte programy z oficiálního obchodu (**Microsoft Store**, **Mac App Store**) nebo přímo z webu výrobce – ne z neznámých stránek s nabídkou „zdarma ke stažení“.
+      - 'Doplňky do internetového prohlížeče instalujte jen z jeho oficiálního obchodu: **Internetový obchod Chrome**, **Doplňky pro Firefox** nebo **Doplňky pro Microsoft Edge**. A jen ty, které opravdu potřebujete.'
+      - Aplikace, programy a doplňky, které nepoužíváte, smažte. Nebudou mít přístup k vašim údajům.
     activity:
       type: reflection
       question: Našli jste aplikaci, která má oprávnění, které podle vás nepotřebuje?
