@@ -52,3 +52,15 @@ screens:
       type: reflection
       question: Komu zavoláte, když si nebudete jistí?
       hint: Myslete na někoho, komu důvěřujete – třeba na člena rodiny nebo souseda. Jeho číslo si můžete napsat na lísteček ke STOP.
+  - kind: prakticky
+    title: Připravte si svůj kontakt pro pomoc
+    text:
+      - V klidu si promyslete, komu zavoláte, když vás zpráva nebo telefonát znejistí. Kontakty si ponechte u sebe.
+    activity:
+      type: guide
+      steps:
+        - text: Vyberte si důvěryhodného člověka, se kterým můžete podezřelou situaci probrat. Zkontrolujte, že máte jeho telefonní číslo.
+        - text: Najděte kontakt na svou banku na platební kartě, ve smlouvě nebo v její oficiální aplikaci. Číslo si můžete poznamenat na vlastní papír.
+        - text: Připomeňte si postup **zastavit se – nic nepotvrzovat – ověřit jinou cestou**. Nikomu neposílejte PIN, heslo ani potvrzovací kód.
+        - text: Pokud už odešly peníze nebo jste sdělili údaje ke kartě, kontaktujte banku ihned. Při podezření na podvod se obraťte také na **Policii ČR na čísle 158**.
+      outro: Svá čísla ani osobní údaje do tohoto webu nezadávejte. Cílem je mít pomoc po ruce.

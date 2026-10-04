@@ -56,7 +56,7 @@ screens:
               tone: ok
               feedback: Ano. Délka je pro bezpečnost důležitější než složité znaky. A tuto frázi si snadno zapamatujete.
           lesson: 'Pravidlo: **dlouhé** a **jedinečné** heslo je lepší než krátké a složité.'
-  - kind: aktivita
+  - kind: prakticky
     title: Postavte si heslovou frázi
     text:
       - 'Vyzkoušejte si, jak vzniká heslová fráze: několik náhodných slov, která spolu nesouvisejí.'

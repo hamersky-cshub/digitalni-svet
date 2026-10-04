@@ -1,6 +1,6 @@
 ---
 title: Jak si nastavit soukromí na Facebooku
-description: Ukázkový návod. Krok za krokem si nastavíte, kdo uvidí vaše příspěvky a fotografie.
+description: Krok za krokem si nastavíte, kdo uvidí vaše příspěvky a fotografie.
 workshop: digitalni-stopa
 type: navod
 source: Digitální svět pod kontrolou

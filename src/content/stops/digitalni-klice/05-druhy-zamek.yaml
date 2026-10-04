@@ -105,3 +105,20 @@ screens:
     points:
       - Když vám služba přístupový klíč nabídne, můžete ho klidně vyzkoušet.
       - Nemusíte nic nastavovat hned – stačí vědět, že tato možnost existuje.
+  - kind: prakticky
+    title: Najděte druhé ověření ve svém e-mailu
+    text:
+      - Na svém zařízení otevřete e-mail tak, jak to děláte běžně. Hesla ani kódy nikomu neukazujte. Nastavení zatím jen prohlédněte.
+    activity:
+      type: guide
+      steps:
+        - text: Otevřete nastavení svého účtu. Hledejte část **Zabezpečení**, **Přihlášení** nebo **Bezpečnost účtu**. Názvy se liší podle služby.
+        - text: Najděte položku **Dvoufázové ověření**, **Dvoufaktorové ověření** nebo **Ověření ve dvou krocích**. Pokud ji nevidíte, požádejte o pomoc.
+        - text: Podívejte se, zda je ověření zapnuté. Pokud ano, nic měnit nemusíte. Pokud ne, společně si přečtěte, jaké možnosti služba nabízí.
+        - text: Před zapnutím si ověřte, že máte dostupný telefon a způsob obnovení účtu. Postup dokončete jen tehdy, když mu rozumíte; jinak si domluvte pomoc. Záložní kódy si uschovejte v soukromí.
+      outro: I nalezení správného nastavení je pokrok. Nikdy nepotvrzujte přihlášení, které jste sami nezahájili.
+    lecturer:
+      time: 10 minut
+      goal: Najít stav druhého ověření bez rizika ztráty přístupu k účtu.
+      tips:
+        - Každý účastník může používat jinou službu. Nevyžadujte zapnutí během skupinového setkání.

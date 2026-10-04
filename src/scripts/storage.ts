@@ -3,6 +3,7 @@
  * Nic se nikam neodesílá. Ukládá se:
  *   - poslední navštívený krok a navštívené zastávky každého workshopu,
  *   - zda je zapnutý režim lektora.
+ * Velikost písma ukládá src/scripts/site.ts pod stejným prefixem.
  * Odpovědi z aktivit se neukládají nikdy.
  */
 

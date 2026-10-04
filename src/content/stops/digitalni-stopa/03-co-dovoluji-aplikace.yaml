@@ -79,3 +79,16 @@ screens:
       type: reflection
       question: Našli jste aplikaci, která má oprávnění, které podle vás nepotřebuje?
       hint: Nevadí, pokud ne. Důležité je, že teď víte, kde se oprávnění kontrolují. Můžete se tam kdykoli vrátit.
+  - kind: prakticky
+    title: Zkontrolujte jednu aplikaci
+    text:
+      - Navážeme na předchozí návod. Vyberte si jednu aplikaci a podívejte se, co smí používat. Stačí jediná drobná změna.
+    activity:
+      type: guide
+      steps:
+        - text: V nastavení oprávnění si vyberte aplikaci, kterou dobře znáte. **Neměňte teď nastavení bankovnictví ani zdravotních pomůcek.**
+        - text: Podívejte se na přístup k poloze, mikrofonu a fotoaparátu. Každé oprávnění porovnejte s tím, k čemu aplikaci používáte.
+          question: Potřebuje například aplikace na recepty znát vaši přesnou polohu?
+        - text: Pokud je oprávnění zbytečné, můžete ho omezit. Když si nejste jistí, nechte nastavení být a zeptejte se lektora. Názvy položek se liší podle zařízení.
+        - text: Otevřete aplikaci a ověřte, že ji můžete dál používat. Oprávnění můžete později znovu povolit.
+      outro: Nemusíte všechno zakázat. Cílem je vědět, co aplikaci dovolujete a proč.

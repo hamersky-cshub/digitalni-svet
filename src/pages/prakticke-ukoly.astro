@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModuleIcon from '../components/ModuleIcon.astro';
+import { buildSteps, getStops, getAvailableWorkshops } from '../lib/content';
+import { moduleStyles, defaultModuleStyle } from '../lib/presentation';
+import { plural } from '../lib/text';
+import { workshopHref } from '../lib/url';
+const workshops = await getAvailableWorkshops();
+const modules = await Promise.all(workshops.map(async workshop => ({ workshop, style: moduleStyles[workshop.id] ?? defaultModuleStyle, tasks: buildSteps(workshop, await getStops(workshop.id)).filter(step => step.screen.kind === 'prakticky') })));
+---
+<BaseLayout title="Praktické úkoly" description="Vyzkoušejte si ochranu soukromí, bezpečnou reakci na podvod a zabezpečení účtů. Krátké návody krok za krokem." wide>
+  <header class="page-intro"><h1>Praktické úkoly</h1></header>
+  <nav class="task-jumps" aria-label="Vybrat téma úkolů">{modules.map(({workshop, style}) => <a href={`#${workshop.id}`} style={`--module-color:${style.color};--module-soft:${style.soft}`}><ModuleIcon name={style.icon} size={24} />{workshop.data.title}</a>)}</nav>
+  {modules.map(({ workshop, style, tasks }) => <section class="task-section" aria-labelledby={workshop.id} style={`--module-color:${style.color};--module-soft:${style.soft}`}><div class="task-heading"><span class="task-icon"><ModuleIcon name={style.icon} size={34} /></span><div><p class="eyebrow">Modul 0{workshop.data.order} · {tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</p><h2 id={workshop.id}>{workshop.data.title}</h2></div></div><ul class="tasks">{tasks.map((task, i) => <li><span class="task-number">0{i+1}</span><div><p class="task-meta">Zastávka {task.stopNumber} · {task.stop.data.title}</p><h3>{task.screen.title}</h3><p>{task.screen.text[0]?.replaceAll('**', '') ?? 'Krátký praktický návod. Otevřete úkol a postupujte krok za krokem.'}</p></div><a class="button button--secondary" href={task.href}>Otevřít úkol<span class="visually-hidden"> {task.screen.title}</span><ModuleIcon name="arrow" size={21} /></a></li>)}</ul><a href={workshopHref(workshop.id)}>Prohlédnout celý modul {workshop.data.title} →</a></section>)}
+  <aside class="notice"><p><strong>Na nic se nespěchá.</strong> Pokud některému kroku nerozumíte, zastavte se a požádejte o pomoc. Skutečná hesla, kódy a osobní údaje do tohoto webu nezadávejte.</p></aside>
+</BaseLayout>
+<style>
+.task-jumps{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:1.5rem}.task-jumps a{display:flex;align-items:center;gap:.6rem;min-height:3rem;padding:.6rem 1rem;background:var(--module-soft);border:1px solid var(--module-color);color:var(--module-color);border-radius:.5rem;font-weight:700;text-decoration:none}.task-jumps a:hover{text-decoration:underline}.task-section{padding:2rem 0 3rem}.task-heading{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}.task-icon{display:grid;place-items:center;width:3.3rem;height:3.3rem;background:var(--module-soft);color:var(--module-color);border-radius:.6rem;flex:none}.task-heading .eyebrow{margin-bottom:.4rem}.task-heading h2{margin:0;font-size:1.6rem}.tasks{list-style:none;max-width:none;margin:0 0 1rem;padding:0;border:1px solid var(--color-border-light);border-top:4px solid var(--module-color);border-radius:.5rem}.tasks li{display:grid;grid-template-columns:2rem 1fr auto;gap:1.2rem;align-items:center;padding:1.5rem;margin:0}.tasks li+li{border-top:1px solid var(--color-border-light)}.task-number{align-self:start;font-family:var(--font-heading);color:var(--module-color);font-size:1.3rem;font-weight:500}.task-meta{font-size:.8rem;color:var(--module-color);margin-bottom:.4rem}.tasks h3{font-size:1.15rem;margin:0 0 .6rem}.tasks p:last-child{font-size:.95rem;color:var(--color-text-muted);margin:0}.tasks .button{font-size:.9rem}.notice{max-width:none}
+@media(max-width:850px){.tasks li{grid-template-columns:2rem 1fr;gap:.6rem;padding:1.2rem 1rem}.tasks .button{grid-column:2;justify-self:start;margin-top:.6rem}.task-heading h2{font-size:1.35rem}.task-heading .eyebrow{font-size:.8rem}}
+</style>

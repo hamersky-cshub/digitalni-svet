@@ -1,21 +1,24 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
+import ModuleIcon from '../../components/ModuleIcon.astro';
+import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import LecturerNote from '../../components/LecturerNote.astro';
 import ResourceCard from '../../components/ResourceCard.astro';
-import { buildSteps, getStops, getWorkshops } from '../../lib/content';
+import { buildSteps, getStops, getAvailableWorkshops } from '../../lib/content';
 import { formatText, plural } from '../../lib/text';
 import { stepHref, withBase } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
-  const workshops = await getWorkshops();
+  const workshops = await getAvailableWorkshops();
   return workshops.map((workshop) => ({ params: { workshop: workshop.id }, props: { workshop } }));
 }) satisfies GetStaticPaths;
 
 const { workshop } = Astro.props;
 const stops = await getStops(workshop.id);
 const steps = buildSteps(workshop, stops);
+const tasks = steps.filter(step => step.screen.kind === 'prakticky');
+const theme = moduleStyles[workshop.id] ?? defaultModuleStyle;
 const resources = (await getCollection('resources', (r) => r.data.workshop.id === workshop.id)).sort((a, b) =>
   a.data.title.localeCompare(b.data.title, 'cs'),
 );
@@ -24,26 +27,18 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
 const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
 ---
 
-<BaseLayout title={workshop.data.title} description={workshop.data.cardText}>
+<BaseLayout title={workshop.data.title} description={workshop.data.cardText} moduleId={workshop.id}>
   <p class="back-link"><a href={withBase()}>← Úvodní stránka</a></p>
 
   <header class="workshop-header">
-    <p class="workshop-header__icon" aria-hidden="true">{workshop.data.icon}</p>
+    <p class="eyebrow">Modul 0{workshop.data.order} · {theme.topic}</p>
+    <img class="workshop-art" src={withBase(`images/modules/${workshop.id}.webp`)} alt="" width="800" height="800" />
     <h1>{workshop.data.title}</h1>
     <p class="workshop-header__subtitle">{workshop.data.subtitle}</p>
-    <p class="lead" set:html={formatText(firstParagraph)} />
-    {
-      moreParagraphs.length > 0 && (
-        <details class="disclosure">
-          <summary>Více o workshopu</summary>
-          <div class="disclosure__body">
-            {moreParagraphs.map((p) => (
-              <p set:html={formatText(p)} />
-            ))}
-          </div>
-        </details>
-      )
-    }
+    <p class="lead">{workshop.data.cardText}</p>
+    <div class="workshop-meta"><span class="pill">{stops.length} zastávek</span><span class="pill">{tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</span><span>{workshop.data.duration}</span></div>
+    <div class="workshop-actions"><a class="button" href={steps[0].href}>Začít od první zastávky <ModuleIcon name="arrow" size={22} /></a><a class="button button--secondary" href="#prakticke-ukoly">Přejít na praktické úkoly</a></div>
+    <details class="disclosure"><summary>Co se v tomto modulu naučíte</summary><div class="disclosure__body"><p set:html={formatText(firstParagraph)} />{moreParagraphs.map(p => <p set:html={formatText(p)} />)}</div></details>
   </header>
 
   <div class="resume" data-resume={workshop.id} hidden>
@@ -52,8 +47,8 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
   </div>
 
   <section aria-labelledby="zastavky">
-    <h2 id="zastavky">Zastávky workshopu</h2>
-    <p>Lektor vám řekne, kterou zastávku otevřít. Klepněte na její číslo nebo název.</p>
+    <h2 id="zastavky">Krok za krokem modulem</h2>
+
     <ol class="route">
       {
         stops.map((stop, i) => (
@@ -70,17 +65,23 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
               </h3>
               <p class="route__summary">{stop.data.summary}</p>
               <p class="route__meta">
+                {stop.data.screens.some(screen => screen.kind === 'prakticky') && <span class="pill">Praktický úkol</span>}
                 {stop.data.screens.length} {plural(stop.data.screens.length, ['krok', 'kroky', 'kroků'])}
                 <span class="route__visited" data-visited hidden>
                   <span aria-hidden="true">✓</span> Navštíveno
                 </span>
               </p>
-              <LecturerNote note={stop.data.lecturer} title={`Lektor: zastávka ${i + 1}`} />
             </div>
           </li>
         ))
       }
     </ol>
+  </section>
+
+  <section class="module-practice" aria-labelledby="prakticke-ukoly">
+    <p class="eyebrow">Vyzkoušejte si to sami</p><h2 id="prakticke-ukoly">Praktické úkoly v tomto modulu</h2>
+    <p>Úkol můžete otevřít přímo. Pokud si nejste jistí, požádejte o pomoc lektora.</p>
+    <ul class="task-links">{tasks.map(task => <li><a href={task.href}><span><span class="task-location">Zastávka {task.stopNumber} · krok {task.stepNumber}</span><strong>{task.screen.title}</strong></span><ModuleIcon name="arrow" size={24} /></a></li>)}</ul>
   </section>
 
   {
@@ -98,10 +99,10 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
   }
 
   <section class="restart" data-restart-box hidden aria-labelledby="znovu">
-    <h2 id="znovu">Začít workshop znovu</h2>
-    <p>Web si v tomto zařízení pamatuje jen to, kde jste skončili. Tlačítkem to smažete.</p>
+    <h2 id="znovu">Projít téma znovu</h2>
+
     <p>
-      <button type="button" class="button button--secondary" data-restart={workshop.id}>Začít workshop znovu</button>
+      <button type="button" class="button button--secondary" data-restart={workshop.id}>Začít od první zastávky</button>
     </p>
     <p class="restart__done" data-restart-done role="status"></p>
   </section>
@@ -162,6 +163,23 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     min-height: var(--tap-size);
   }
 
+  .workshop-header { padding:1.5rem 0 2rem; }
+  .workshop-header h1 { font-weight:700;letter-spacing:-.04em;text-decoration:underline;text-decoration-color:var(--module-color);text-decoration-thickness:4px;text-underline-offset:.2em;margin-bottom:1rem; }
+  .workshop-art { float:right;width:10rem;height:10rem;object-fit:contain;margin:0 0 1.5rem 1.5rem; }
+  .workshop-header .disclosure { clear:both; }
+  @media(max-width:650px){ .workshop-art{display:none} }
+  .workshop-icon { display:inline-grid;place-items:center;padding:1rem;border-radius:.65rem;background:var(--module-soft);color:var(--module-color);margin-bottom:.5rem; }
+  .workshop-meta { display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:1.5rem;color:var(--color-text-muted);font-size:.9rem; }
+  .workshop-actions { display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem; }
+  .module-practice { padding:2rem 0; }
+  .module-practice h2 { margin-top:0; }
+  .task-links { max-width:none;list-style:none;padding:0;border:1px solid var(--color-border-light);border-radius:var(--radius);overflow:hidden; }
+  .task-links li { margin:0; }
+  .task-links li+li { border-top:1px solid var(--color-border-light); }
+  .task-links a { display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 1.25rem;min-height:3.5rem;text-decoration:none;color:var(--color-text); }
+  .task-links a:hover { background:var(--module-soft);text-decoration:underline; }
+  .task-links svg { color:var(--module-color);flex:none; }
+  .task-location { display:block;font-size:.85rem;color:var(--module-color);margin-bottom:.2rem; }
   .workshop-header__icon {
     margin: var(--space-1) 0 0;
     font-size: 3rem;
@@ -175,7 +193,7 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
 
   .workshop-header__subtitle {
     margin-bottom: var(--space-2);
-    color: var(--color-primary);
+    color: var(--module-color);
     font-size: 1.3rem;
     font-weight: 700;
   }
@@ -226,10 +244,10 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     flex: none;
     width: 4rem;
     height: 4rem;
-    border: 4px solid var(--color-primary);
-    border-radius: 50%;
-    background: var(--color-surface);
-    color: var(--color-primary);
+    border: 2px solid var(--module-color);
+    border-radius: .6rem;
+    background: var(--module-soft);
+    color: var(--module-color);
     font-size: 1.6rem;
     font-weight: 800;
   }
@@ -243,7 +261,7 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     position: relative;
     flex: 1;
     padding: var(--space-2) var(--space-3);
-    border: 3px solid var(--color-border-light);
+    border: 1px solid var(--color-border-light);
     border-radius: var(--radius);
     background: var(--color-surface);
   }

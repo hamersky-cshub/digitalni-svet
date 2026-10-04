@@ -1,6 +1,6 @@
 ---
 title: Aktuální varování před podvody – Policie ČR
-description: Ukázkový odkaz. Na webu Policie ČR najdete aktuální informace o nových typech podvodů.
+description: Na webu Policie ČR najdete aktuální informace o nových typech podvodů.
 workshop: digitalni-obrana
 type: odkaz
 url: https://www.policie.gov.cz/

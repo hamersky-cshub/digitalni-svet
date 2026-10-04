@@ -1,13 +1,14 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection, getEntry, render } from 'astro:content';
+import { isWorkshopUnlocked } from '../../lib/access';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ActionButton from '../../components/ActionButton.astro';
 import { TYPE_ICONS, TYPE_LABELS, formatDate, resourceAction } from '../../lib/resources';
 import { workshopHref } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
-  const resources = await getCollection('resources');
+  const resources = await getCollection('resources', resource => isWorkshopUnlocked(resource.data.workshop.id));
   return resources.map((resource) => ({ params: { id: resource.id }, props: { resource } }));
 }) satisfies GetStaticPaths;
 

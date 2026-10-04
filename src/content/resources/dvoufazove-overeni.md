@@ -1,6 +1,6 @@
 ---
 title: Dvoufázové ověření krok za krokem
-description: Ukázkový návod. Co je dvoufázové ověření a proč je to jako druhý zámek na dveřích.
+description: Co je dvoufázové ověření a proč je to jako druhý zámek na dveřích.
 workshop: digitalni-klice
 type: navod
 source: Digitální svět pod kontrolou

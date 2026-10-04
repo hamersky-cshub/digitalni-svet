@@ -83,3 +83,18 @@ screens:
         - title: Zavolejte bance sami.
           text: Na číslo z platební karty, ze smlouvy nebo z oficiálního webu.
         - title: Banka nikdy nechce PIN, heslo, kód z SMS ani převod na „bezpečný účet“.
+  - kind: prakticky
+    title: Nacvičte si ukončení hovoru
+    text:
+      - Ve dvojici nebo s lektorem si zkuste krátký rozhovor. Žádný skutečný hovor ani převod peněz neprovádějte.
+    activity:
+      type: guide
+      steps:
+        - text: Druhý člověk zahraje volajícího a přečte větu **„Vaše peníze jsou v ohrožení, musíte ihned převést úspory na jiný účet.“**
+        - text: Nahlas odpovězte **„Děkuji. Hovor ukončím a ověřím si to přímo u své banky.“** Nemusíte nic vysvětlovat.
+        - text: Řekněte, kde byste našli důvěryhodné číslo banky. Třeba na platební kartě nebo v její oficiální aplikaci. Na číslo z podezřelé zprávy nevolejte.
+        - text: Vyměňte si role a větu si ještě jednou zopakujte.
+      outro: Hovor můžete ukončit i uprostřed věty. O svých penězích rozhodujete vy.
+    lecturer:
+      time: 5 minut
+      goal: Nacvičit konkrétní větu a snížit obavu z nezdvořilosti.

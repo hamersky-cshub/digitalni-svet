@@ -1,142 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CompassIcon from '../components/CompassIcon.astro';
-import { getStops, getWorkshops } from '../lib/content';
+import ModuleIcon from '../components/ModuleIcon.astro';
+import { buildSteps, getStops, getWorkshops } from '../lib/content';
+import { isWorkshopUnlocked } from '../lib/access';
+import { moduleStyles, defaultModuleStyle } from '../lib/presentation';
 import { plural } from '../lib/text';
 import { workshopHref, withBase } from '../lib/url';
-
 const workshops = await getWorkshops();
-const stopCounts = Object.fromEntries(await Promise.all(workshops.map(async (w) => [w.id, (await getStops(w.id)).length])));
+const modules = await Promise.all(workshops.map(async workshop => {
+  const stops = await getStops(workshop.id);
+  return { workshop, stops, tasks: buildSteps(workshop, stops).filter(step => step.screen.kind === 'prakticky'), style: moduleStyles[workshop.id] ?? defaultModuleStyle, unlocked: isWorkshopUnlocked(workshop.id) };
+}));
+const firstAvailable = modules.find(module => module.unlocked);
 ---
-
-<BaseLayout title="Digitální svět pod kontrolou">
-  <section class="hero">
-    <CompassIcon size={72} />
-    <h1>Digitální svět pod kontrolou</h1>
-    <p class="lead">Tři praktická setkání o bezpečnějším používání digitálního světa.</p>
+<BaseLayout title="Digitální svět pod kontrolou" wide>
+  <section class="hero" aria-labelledby="uvodni-nadpis">
+    <div class="hero-copy">
+      <h1 id="uvodni-nadpis">Digitální svět<br /><span>pod kontrolou.</span></h1>
+      <p>Vaše soukromí. Vaše jistota.<br />Vaše účty v bezpečí.</p>
+      <div class="hero-actions">{firstAvailable && <a class="button" href={workshopHref(firstAvailable.workshop.id)}><ModuleIcon name="book" size={25} />Začít první téma</a>}<a class="button button--secondary" href="#temata">Prohlédnout témata <ModuleIcon name="arrow" size={23} /></a></div>
+    </div>
+    <img class="hero-robot" src={withBase('images/robot-intro.webp')} alt="" width="1200" height="1200" fetchpriority="high" />
   </section>
-
-  <h2 class="visually-hidden">Workshopy</h2>
-  <ol class="workshop-list">
-    {
-      workshops.map((workshop, i) => (
-        <li class="workshop-card">
-          <p class="workshop-card__number">
-            <span aria-hidden="true">{workshop.data.icon}</span> {i + 1}. setkání
-          </p>
-          <h3 class="workshop-card__title">{workshop.data.title}</h3>
-          <p class="workshop-card__subtitle">{workshop.data.subtitle}</p>
-          <p>{workshop.data.cardText}</p>
-          <p class="workshop-card__meta">
-            {stopCounts[workshop.id]} {plural(stopCounts[workshop.id], ['zastávka', 'zastávky', 'zastávek'])} · {workshop.data.duration}
-          </p>
-          <a class="button button--large workshop-card__cta" href={workshopHref(workshop.id)}>
-            Otevřít workshop<span class="visually-hidden"> {workshop.data.title}</span>
-            <span aria-hidden="true">→</span>
-          </a>
-        </li>
-      ))
-    }
-  </ol>
-
-  <section class="howto" aria-labelledby="jak-to-funguje">
-    <h2 id="jak-to-funguje">Jak tento web funguje</h2>
-    <ul class="points">
-      <li>Lektor vám řekne, který workshop a kterou zastávku otevřít.</li>
-      <li>Na každé obrazovce je jedna věc: krátké povídání, otázka nebo aktivita.</li>
-      <li>Dál se dostanete tlačítkem <strong>Pokračovat</strong> dole na stránce. Nikam nespěchejte.</li>
-      <li>Nejde o test. Žádné odpovědi se nehodnotí, neukládají ani neodesílají.</li>
-    </ul>
-    <p>
-      Písmo je příliš malé? Na tabletu roztáhněte obrazovku dvěma prsty. Na počítači podržte klávesu
-      <kbd>Ctrl</kbd> a stiskněte <kbd>+</kbd>.
-    </p>
-    <p><a href={withBase('o-projektu/')}>Více o projektu a o tom, jak web chrání vaše soukromí</a></p>
+  <section class="topics" aria-labelledby="temata">
+    <h2 id="temata">Tři témata.<br /><span>Více jistoty na internetu.</span></h2>
+    <ol class="module-stack">{modules.map(({ workshop, stops, tasks, style, unlocked }) => <li class:list={['module-panel', { 'module-panel--locked': !unlocked }]} style={`--module-color:${style.color};--module-accent:${style.accent};--module-soft:${style.soft}`}>
+      <div class="module-poster"><img src={withBase(`images/modules/${workshop.id}.webp`)} alt="" width="800" height="800" loading="lazy" /></div>
+      <div class="module-copy">
+        <div class="module-status"><span class="module-number">0{workshop.data.order}. workshop</span><span class:list={['status', { 'status--locked': !unlocked }]}>{unlocked ? 'Nyní dostupné' : 'Dostupné později'}</span></div>
+        <h3>{workshop.data.title}</h3><p class="module-subtitle">{workshop.data.subtitle}</p><p class="module-description">{workshop.data.cardText}</p>
+        <p class="module-meta"><span>{stops.length} {plural(stops.length, ['zastávka', 'zastávky', 'zastávek'])}</span><span>{tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</span></p>
+        {unlocked ? <a class="button module-button" href={workshopHref(workshop.id)}>Otevřít téma <span class="visually-hidden">{workshop.data.title}</span><ModuleIcon name="arrow" size={24} /></a> : <button class="button module-button button--locked" type="button" disabled><ModuleIcon name="lock" size={23} />Téma zatím není otevřené</button>}
+      </div>
+    </li>)}</ol>
   </section>
 </BaseLayout>
-
 <style>
-  .hero {
-    padding: var(--space-4) 0 var(--space-2);
-  }
-
-  .hero h1 {
-    margin-top: var(--space-2);
-  }
-
-  .workshop-list {
-    display: grid;
-    gap: var(--space-3);
-    margin: var(--space-3) 0 0;
-    padding: 0;
-    list-style: none;
-    max-width: none;
-  }
-
-  .workshop-card {
-    position: relative;
-    margin: 0;
-    padding: var(--space-3) var(--space-4) var(--space-4);
-    border: 3px solid var(--color-border-light);
-    border-top: 10px solid var(--color-primary);
-    border-radius: var(--radius);
-    background: var(--color-surface);
-  }
-
-  .workshop-card + .workshop-card {
-    margin-top: 0;
-  }
-
-  .workshop-card__number {
-    margin-bottom: 0;
-    color: var(--color-text-muted);
-    font-weight: 700;
-  }
-
-  .workshop-card__title {
-    margin: var(--space-1) 0 0;
-    font-size: 1.75rem;
-  }
-
-  .workshop-card__subtitle {
-    margin-bottom: var(--space-2);
-    color: var(--color-primary);
-    font-size: 1.2rem;
-    font-weight: 700;
-  }
-
-  .workshop-card__meta {
-    color: var(--color-text-muted);
-    font-size: 0.95rem;
-  }
-
-  .workshop-card__cta {
-    margin-top: var(--space-1);
-  }
-
-  @media (max-width: 40rem) {
-    .workshop-card {
-      padding: var(--space-3) var(--space-2);
-    }
-
-    .workshop-card__cta {
-      width: 100%;
-    }
-  }
-
-  .howto {
-    margin-top: var(--space-5);
-    padding: var(--space-1) var(--space-3) var(--space-3);
-    border-radius: var(--radius);
-    background: var(--color-surface-alt);
-  }
-
-  kbd {
-    padding: 0.05rem 0.4rem;
-    border: 2px solid var(--color-border);
-    border-radius: 0.3rem;
-    background: var(--color-surface);
-    font-family: inherit;
-    font-weight: 700;
-  }
+.hero{display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:1rem;padding:3rem 0 3.5rem}.hero h1{font-size:clamp(2.8rem,5.7vw,4.9rem);font-weight:700;line-height:1.05;letter-spacing:-.05em;margin:0 0 1.6rem;text-wrap:initial}.hero h1 span{color:#2563eb}.hero-copy>p{font-size:1.4rem;line-height:1.45;margin-bottom:1.6rem}.hero-actions{display:flex;flex-wrap:wrap;gap:.7rem}.hero-actions .button{font-size:1rem;border-radius:.5rem}.hero-robot{width:100%;height:auto;max-height:520px;object-fit:contain}.topics{padding:1rem 0 2rem}.topics>h2{font-size:clamp(2rem,4vw,3.15rem);font-weight:700;line-height:1.1;letter-spacing:-.04em;margin:0 0 2.5rem}.topics>h2 span{color:#2563eb}.module-stack{list-style:none;max-width:none;margin:0;padding:0;display:grid;gap:2rem}.module-panel{display:grid;grid-template-columns:.8fr 1.6fr;align-items:center;gap:2.5rem;padding:2rem;border:2px solid color-mix(in srgb,var(--module-accent) 40%,white);border-radius:.7rem;background:color-mix(in srgb,var(--module-accent) 7%,white);margin:0}.module-panel+li{margin:0}.module-poster{display:grid;place-items:center;min-width:0}.module-poster img{width:100%;height:auto;max-height:310px;object-fit:contain}.module-copy{min-width:0}.module-status{display:flex;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1rem}.module-number{font-family:var(--font-heading);font-weight:500;font-size:.9rem;color:var(--module-color)}.status{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .6rem;border-radius:.35rem;background:var(--module-soft);color:var(--module-color);font-weight:700;font-size:.8rem}.status::before{content:'';width:.35rem;height:.35rem;border-radius:50%;background:currentColor}.status--locked{background:#edf0f5;color:#465065}.module-copy h3{font-size:clamp(1.7rem,3.2vw,2.35rem);font-weight:700;margin:0 0 .5rem;letter-spacing:-.035em}.module-subtitle{color:var(--module-color);font-size:1.15rem;font-weight:700;margin:0 0 1rem}.module-description{font-size:1.1rem;margin-bottom:1rem}.module-meta{display:flex;flex-wrap:wrap;gap:.5rem 1.3rem;font-size:.9rem;color:#47556b;margin-bottom:1.4rem}.module-meta span{display:inline-flex;align-items:center;gap:.4rem}.module-meta span::before{content:'';width:.3rem;height:.3rem;border-radius:50%;background:var(--module-color)}.module-button{background:var(--module-color);border-color:var(--module-color);font-size:1rem}.module-button:hover{background:color-mix(in srgb,var(--module-color),black 20%);border-color:var(--module-color)}.button--locked{background:#e4e8ee;border-color:#cad1dc;color:#465065;cursor:default;font-weight:700}.button--locked:hover{background:#e4e8ee;color:#465065;border-color:#cad1dc}.module-panel--locked .module-poster{opacity:.82}
+@media(max-width:1000px){.hero h1{font-size:3.2rem}.hero-copy>p{font-size:1.2rem}.module-panel{gap:1.5rem;padding:1.5rem}.module-copy h3{font-size:1.8rem}}@media(max-width:750px){.hero{grid-template-columns:1fr;padding:2.5rem 0 2rem;gap:0}.hero h1{font-size:clamp(2.25rem,9vw,3.5rem)}.hero-robot{display:none}.topics>h2{font-size:2rem}.module-panel{grid-template-columns:1fr;gap:1rem;padding:1.3rem}.module-poster img{max-width:220px;max-height:200px}.module-description{font-size:1rem}.module-copy h3{font-size:1.65rem}.module-subtitle{font-size:1.05rem}}@media(max-width:420px){.hero-actions .button{width:100%}.module-button{width:100%;padding-inline:.7rem}.module-panel{padding:1rem}.topics>h2{font-size:1.8rem}}
 </style>

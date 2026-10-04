@@ -1,28 +1,19 @@
 ---
 import '../styles/global.css';
 import CompassIcon from '../components/CompassIcon.astro';
+import { getWorkshops } from '../lib/content';
+import { isWorkshopUnlocked } from '../lib/access';
 import { withBase } from '../lib/url';
-
-interface Props {
-  title: string;
-  description?: string;
-  /** Údaje pro zapamatování pozice ve workshopu (jen v prohlížeči). */
-  workshop?: string;
-  stop?: number;
-  stepLabel?: string;
-}
-
-const {
-  title,
-  description = 'Tři praktická setkání o bezpečnějším používání digitálního světa.',
-  workshop,
-  stop,
-  stepLabel,
-} = Astro.props;
+import { moduleStyles } from '../lib/presentation';
+interface Props { title: string; description?: string; workshop?: string; stop?: number; stepLabel?: string; wide?: boolean; moduleId?: string; }
+const { title, description = 'Tři praktické moduly pro bezpečnější internet. Srozumitelně, v klidu a vlastním tempem. Pro dospělé 60+.', workshop, stop, stepLabel, wide = false, moduleId } = Astro.props;
 const siteName = 'Digitální svět pod kontrolou';
 const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const theme = moduleStyles[moduleId ?? workshop ?? ''];
+const workshops = await getWorkshops();
+const links = [{ label: 'Témata', path: '#temata' }, { label: 'Praktické úkoly', path: 'prakticke-ukoly/' }, { label: 'Materiály', path: 'materialy/' }];
+const isActive = (path: string) => path === '#temata' ? Astro.url.pathname === withBase() : path ? Astro.url.pathname.startsWith(withBase(path)) : Astro.url.pathname === withBase();
 ---
-
 <!doctype html>
 <html lang="cs">
   <head>
@@ -30,162 +21,40 @@ const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#062f47" />
+    <meta name="theme-color" content="#2563eb" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:title" content={fullTitle} /><meta property="og:description" content={description} /><meta property="og:locale" content="cs_CZ" />
+    <style is:inline set:html={[
+      ['Atkinson Hyperlegible Next', 400, 'AtkinsonHyperlegibleNext-Regular'],
+      ['Atkinson Hyperlegible Next', 700, 'AtkinsonHyperlegibleNext-Bold'],
+      ['Rubik', 400, 'Rubik-Regular'], ['Rubik', 500, 'Rubik-Medium'], ['Rubik', 700, 'Rubik-Bold'],
+    ].map(([family, weight, file]) => `@font-face{font-family:'${family}';font-style:normal;font-weight:${weight};src:url('${withBase(`fonts/${file}.woff2`)}') format('woff2');font-display:swap;}`).join('')} />
+    <script is:inline>
+      try { if (localStorage.getItem('dspk:large-text') === 'true') document.documentElement.dataset.largeText = ''; } catch {}
+    </script>
   </head>
-  <body data-workshop={workshop} data-stop={stop} data-step-label={stepLabel}>
+  <body data-workshop={workshop} data-stop={stop} data-step-label={stepLabel} style={theme && `--module-color:${theme.color};--module-soft:${theme.soft}`}>
     <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
-
-    <aside class="lecturer-bar" data-lecturer hidden aria-label="Režim lektora">
-      <div class="container lecturer-bar__inner">
-        <span><strong>Režim lektora je zapnutý.</strong> Účastníci poznámky nevidí.</span>
-        <button type="button" class="lecturer-bar__off" data-lecturer-off>Vypnout</button>
-      </div>
-    </aside>
-
     <header class="site-header">
-      <div class="container">
-        <a class="site-logo" href={withBase()}>
-          <CompassIcon size={44} />
-          <span>{siteName}</span>
-        </a>
+      <div class="container header-inner">
+        <a class="site-logo" href={withBase()} aria-label={`${siteName} – úvodní stránka`}><span class="logo-mark"><CompassIcon size={38} /></span><span>Digitální svět<small>pod kontrolou</small></span></a>
+        <nav aria-label="Hlavní navigace"><ul class="header-links">{links.map(link => <li class:list={{'nav-topic':link.path === '#temata'}}><a href={withBase(link.path)} aria-current={isActive(link.path) ? 'page' : undefined}>{link.label}</a></li>)}</ul></nav>
+        <button type="button" class="text-size" data-text-size aria-pressed="false" hidden><span aria-hidden="true">A<span class="bigger-a">A</span></span><span data-text-size-label>Větší písmo</span></button>
       </div>
     </header>
-
-    <main id="obsah" tabindex="-1">
-      <div class="container">
-        <slot />
-      </div>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <p>
-          <strong>{siteName}</strong> – průvodce workshopy o bezpečnějším používání internetu.
-        </p>
-        <p class="site-footer__privacy">
-          Tento web nesbírá žádné osobní údaje a vaše odpovědi nikam neodesílá.
-        </p>
-        <ul class="site-footer__links">
-          <li><a href={withBase()}>Úvodní stránka</a></li>
-          <li><a href={withBase('o-projektu/')}>O projektu a soukromí</a></li>
-          <li><a href={withBase('pro-lektory/')}>Pro lektory</a></li>
-        </ul>
-      </div>
-    </footer>
-
-    <script>
-      import '../scripts/site';
-    </script>
+    <main id="obsah" tabindex="-1"><div class:list={['container', { 'reading-container': !wide }]}><slot /></div></main>
+    <footer class="site-footer"><div class="container footer-topics"><a class="footer-brand" href={withBase()}>Digitální svět <span>pod kontrolou.</span></a><nav aria-label="Témata workshopů"><ul>{workshops.map(topic => <li>{isWorkshopUnlocked(topic.id) ? <a href={withBase(`${topic.id}/`)}>{topic.data.title}</a> : <span class="footer-locked">{topic.data.title}<small>Dostupné později</small></span>}</li>)}</ul></nav></div></footer>
+    <script>import '../scripts/site';</script>
   </body>
 </html>
+<style>
+.skip-link{position:absolute;left:1rem;top:-10rem;z-index:20;padding:.5rem 1rem;background:var(--color-focus);color:#111;font-weight:700}.skip-link:focus{top:1rem}main:focus{outline:none}main{padding-bottom:3rem}.reading-container{max-width:52rem}.site-header{background:white}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-block:1.5rem}.site-logo{display:flex;align-items:center;gap:.6rem;color:var(--color-text);font-family:var(--font-heading);font-size:1.05rem;font-weight:500;line-height:1.25;text-decoration:none;flex:none}.site-logo:hover{color:var(--color-primary)}.site-logo small{display:block;font-size:.8rem;font-weight:400;color:var(--color-text-muted)}.logo-mark{display:grid;place-items:center;width:2.7rem;height:2.7rem;background:#eaf0ff;color:#2563eb;border-radius:.6rem}.header-links{display:flex;gap:1.25rem;list-style:none;padding:0;margin:0;max-width:none}.header-links li{margin:0}.header-links a{display:flex;align-items:center;min-height:2.8rem;font-family:var(--font-heading);font-size:.9rem;color:var(--color-text);text-decoration:none;white-space:nowrap}.header-links a:hover,.header-links a[aria-current]{color:var(--color-primary);text-decoration:underline;text-decoration-style:wavy;text-underline-offset:8px}.text-size{display:flex;align-items:center;gap:.5rem;min-height:2.8rem;background:white;color:var(--color-primary);border:1px solid #c7d4ea;border-radius:.4rem;padding:.3rem .65rem;font-size:.85rem;white-space:nowrap}.bigger-a{font-size:1.1rem}.text-size[aria-pressed=true]{background:#edf3ff}.lecturer-bar{background:#edf3ff;border-bottom:2px solid #2563eb}.lecturer-bar__inner{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding-block:.5rem;font-size:.9rem}.site-footer{background:#f3f6fc;border-top:1px solid #e2e8f2;padding-top:3rem;font-size:.9rem}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2rem;padding-bottom:2rem}.footer-brand{font-family:var(--font-heading);font-weight:500;font-size:1.2rem;color:var(--color-text);text-decoration:none;display:block;margin-bottom:.9rem}.footer-brand span{color:var(--color-primary)}.footer-grid p{line-height:1.6}.footer-privacy{color:var(--color-text-muted);font-size:.85rem}.footer-links{margin:0;padding:0;list-style:none}.footer-links li{margin:0}.footer-links a{display:inline-flex;align-items:center;min-height:2.8rem;color:var(--color-text-muted)}.footer-bottom{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid #dbe3ee;padding-block:1.5rem;font-size:.8rem;color:var(--color-text-muted)}
+@media(max-width:1100px){.header-inner{flex-wrap:wrap;gap:.6rem 1rem}.header-inner nav{order:3;flex-basis:100%}.header-links{justify-content:center}.text-size{margin-left:auto}}@media(max-width:600px){.header-links{display:grid;grid-template-columns:1fr 1fr;gap:0 .6rem}.header-links a{justify-content:center;font-size:.9rem}.site-logo{font-size:.95rem}.text-size{font-size:.8rem}.footer-grid{grid-template-columns:1fr;gap:1rem}.footer-bottom{flex-direction:column;gap:.3rem}.lecturer-bar__inner{flex-wrap:wrap}}
+</style>
 
 <style>
-  .skip-link {
-    position: absolute;
-    left: var(--space-2);
-    top: -10rem;
-    z-index: 10;
-    padding: var(--space-1) var(--space-2);
-    background: var(--color-focus);
-    color: var(--color-focus-text);
-    font-weight: 700;
-  }
-
-  .skip-link:focus {
-    top: var(--space-1);
-  }
-
-  main:focus {
-    outline: none;
-  }
-
-  main {
-    padding-bottom: var(--space-4);
-  }
-
-  .lecturer-bar {
-    background: var(--color-accent-soft);
-    border-bottom: 3px solid var(--color-accent);
-    font-size: 0.9rem;
-  }
-
-  .lecturer-bar__inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-1) var(--space-2);
-    padding-top: var(--space-1);
-    padding-bottom: var(--space-1);
-  }
-
-  .lecturer-bar__off {
-    min-height: 2.75rem;
-    padding: 0.3rem 1rem;
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-small);
-    background: var(--color-surface);
-    color: var(--color-primary);
-    font-weight: 700;
-  }
-
-  .site-header {
-    background: var(--color-primary-dark);
-    color: var(--color-on-primary);
-    border-bottom: 5px solid var(--color-accent);
-  }
-
-  .site-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    min-height: 4.5rem;
-    color: var(--color-on-primary);
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.2;
-    text-decoration: none;
-  }
-
-  .site-logo:hover {
-    color: var(--color-on-primary);
-    text-decoration: underline;
-  }
-
-  .site-footer {
-    padding: var(--space-4) 0;
-    background: var(--color-surface-alt);
-    border-top: 1px solid var(--color-border-light);
-    font-size: 0.95rem;
-  }
-
-  .site-footer__privacy {
-    color: var(--color-text-muted);
-  }
-
-  .site-footer__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 var(--space-3);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    max-width: none;
-  }
-
-  .site-footer__links li {
-    margin: 0;
-  }
-
-  .site-footer__links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-  }
+.header-links .nav-topic a{background:#2563eb;color:white;border:2px solid #2563eb;border-radius:.4rem;padding:.25rem .75rem;text-decoration:none;font-weight:700}.header-links .nav-topic a:hover{color:#2563eb;background:white}.footer-topics{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;padding-bottom:2rem}.footer-topics ul{display:flex;flex-wrap:wrap;gap:1.5rem;list-style:none;margin:0;padding:0;max-width:none}.footer-topics li{margin:0}.footer-topics a{min-height:2.8rem;display:inline-flex;align-items:center}.footer-locked{display:block;color:#47556b;line-height:1.4;padding-top:.4rem}.footer-locked small{display:block;font-size:.75rem;margin-top:.25rem}.logo-mark{background:transparent;padding:0}.site-logo{font-weight:700}.site-logo small{font-weight:400}.site-footer{background:#f1f5fa}
+@media(max-width:850px){.footer-topics{flex-direction:column;gap:.5rem}.header-links{gap:1rem}}@media(max-width:600px){.header-links{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:.3rem .8rem}.header-links a{font-size:.85rem}.footer-topics ul{flex-direction:column;gap:.7rem}}
 </style>

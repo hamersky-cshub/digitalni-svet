@@ -5,7 +5,9 @@
  * - Přehled workshopu pošle seznam všech obrazovek; ty se stáhnou předem.
  * Neukládají se žádné údaje uživatele, jen veřejné stránky tohoto webu.
  */
-const VERSION = 'v1';
+// Build injects the settings; changing them also refreshes the offline cache.
+const WORKSHOP_ACCESS = {};
+const VERSION = 'v3-' + Object.entries(WORKSHOP_ACCESS).map(([id, enabled]) => `${id}-${enabled}`).join('_');
 const CACHE = `dspk-${VERSION}`;
 const SCOPE = new URL(self.registration.scope).pathname;
 
@@ -30,6 +32,13 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin || !url.pathname.startsWith(SCOPE)) return;
+
+  const segments = url.pathname.slice(SCOPE.length).split('/');
+  const moduleId = segments[0] === 'soubory' ? segments[1] : segments[0];
+  if (Object.hasOwn(WORKSHOP_ACCESS, moduleId) && WORKSHOP_ACCESS[moduleId] !== true) {
+    event.respondWith(new Response('Tento modul zatím není dostupný.', { status: 404 }));
+    return;
+  }
 
   if (isAsset(url)) {
     event.respondWith(
@@ -72,7 +81,7 @@ self.addEventListener('message', (event) => {
 
   event.waitUntil(
     caches.open(CACHE).then(async (cache) => {
-      const assets = new Set();
+      const assets = new Set(['AtkinsonHyperlegibleNext-Regular', 'AtkinsonHyperlegibleNext-Bold', 'Rubik-Regular', 'Rubik-Medium', 'Rubik-Bold'].map(name => `${SCOPE}fonts/${name}.woff2`));
       for (const url of urls) {
         try {
           const response = await fetch(url, { credentials: 'same-origin' });

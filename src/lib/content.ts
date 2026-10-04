@@ -1,9 +1,10 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Screen } from '../content.config';
+import { isWorkshopUnlocked } from './access';
 import { stepHref, workshopHref } from './url';
 
 /** Adresy, které nesmí být použity jako id workshopu (kolidovaly by s jinými stránkami). */
-const RESERVED_IDS = ['materialy', 'soubory', 'pro-lektory', 'o-projektu', '_astro', '404'];
+const RESERVED_IDS = ['prakticke-ukoly', 'materialy', 'soubory', 'pro-lektory', 'o-projektu', '_astro', '404'];
 
 export type Workshop = CollectionEntry<'workshops'>;
 export type Stop = CollectionEntry<'stops'>;
@@ -16,6 +17,11 @@ export async function getWorkshops(): Promise<Workshop[]> {
     }
   }
   return workshops.sort((a, b) => a.data.order - b.data.order);
+}
+
+/** Only these modules generate public pages, activities and resources. */
+export async function getAvailableWorkshops(): Promise<Workshop[]> {
+  return (await getWorkshops()).filter(workshop => isWorkshopUnlocked(workshop.id));
 }
 
 /** Zastávky workshopu seřazené podle pořadí. */

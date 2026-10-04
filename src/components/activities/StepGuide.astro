@@ -16,6 +16,7 @@ const { intro, steps, outro } = Astro.props;
 
 <step-guide class="step-guide">
   {intro && <p set:html={formatText(intro)} />}
+  <p class="step-guide__status" data-guide-status role="status" aria-live="polite" hidden></p>
   <ol class="step-guide__list">
     {
       steps.map((step, i) => (
@@ -46,14 +47,25 @@ const { intro, steps, outro } = Astro.props;
 <script>
   class StepGuide extends HTMLElement {
     connectedCallback() {
-      this.querySelectorAll<HTMLButtonElement>('[data-done]').forEach((button) => {
+      const buttons = this.querySelectorAll<HTMLButtonElement>('[data-done]');
+      const status = this.querySelector<HTMLElement>('[data-guide-status]')!;
+      status.hidden = false;
+      const render = () => {
+        const done = this.querySelectorAll('[data-done][aria-pressed="true"]').length;
+        status.textContent = done === buttons.length
+          ? 'Všechny kroky máte hotové. Můžete pokračovat vlastním tempem.'
+          : `Hotové kroky: ${done} z ${buttons.length}. Označte si, co jste už vyzkoušeli.`;
+      };
+      buttons.forEach((button) => {
         button.hidden = false;
         button.addEventListener('click', () => {
           const done = button.getAttribute('aria-pressed') !== 'true';
           button.setAttribute('aria-pressed', String(done));
           button.closest('li')?.classList.toggle('is-done', done);
+          render();
         });
       });
+      render();
     }
   }
   customElements.define('step-guide', StepGuide);
@@ -64,6 +76,8 @@ const { intro, steps, outro } = Astro.props;
     display: block;
     margin-top: var(--space-3);
   }
+
+  .step-guide__status { font-weight:700; color:var(--color-primary); padding:.8rem 1rem; background:var(--color-info-bg); border-radius:var(--radius-small); }
 
   .step-guide__list {
     margin: 0 0 var(--space-3);

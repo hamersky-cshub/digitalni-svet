@@ -118,3 +118,19 @@ screens:
       type: reflection
       question: Vzpomenete si na něco, co jste v minulosti sdíleli a dnes byste to udělali jinak?
       hint: Nemusíte to nikomu říkat. Stačí, když si to promyslíte.
+  - kind: prakticky
+    title: Než pošlu fotografii dál
+    text:
+      - Vyberte si v telefonu jednu vlastní fotografii. Nikam ji neposílejte. Společně si projdeme, co na ní může být vidět.
+    activity:
+      type: guide
+      steps:
+        - text: Otevřete **Fotky** nebo **Galerii** a vyberte jeden snímek. Nemusíte ho nikomu ukazovat.
+        - text: Prohlédněte si pozadí. Je vidět adresa, jmenovka na dveřích, doklad, platební karta nebo někdo další?
+          question: Co byste před sdílením raději ořízli nebo zakryli?
+        - text: Rozhodněte, komu má být fotografie určena. Rodinná skupina není totéž jako veřejný příspěvek.
+        - text: Pokud jsou na snímku další lidé, zeptejte se jich před zveřejněním. U dětí se domluvte s jejich rodiči.
+      outro: Hotovo. Fotografii nemusíte zveřejňovat. I rozhodnutí něco nesdílet je dobrý výsledek.
+    lecturer:
+      time: 5 minut
+      goal: Přenést zásady sdílení do vlastní zkušenosti bez zveřejňování údajů.

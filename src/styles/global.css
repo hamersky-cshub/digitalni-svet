@@ -8,18 +8,18 @@
 
 :root {
   /* Barvy */
-  --color-text: #1b1f23;
-  --color-text-muted: #3d4650;
-  --color-bg: #fbfaf7;
+  --color-text: #182338;
+  --color-text-muted: #47556b;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-surface-alt: #f0ede6;
-  --color-border: #6b7280;
-  --color-border-light: #d6d2c8;
-  --color-primary: #0b4566;
-  --color-primary-dark: #062f47;
+  --color-surface-alt: #f3f6fc;
+  --color-border: #708099;
+  --color-border-light: #dbe3ee;
+  --color-primary: #245cce;
+  --color-primary-dark: #17439e;
   --color-on-primary: #ffffff;
-  --color-accent: #e3a33b;
-  --color-accent-soft: #fbf0dc;
+  --color-accent: #2563eb;
+  --color-accent-soft: #edf3ff;
   --color-focus: #ffd33d;
   --color-focus-text: #0b0c0c;
 
@@ -32,15 +32,16 @@
   --color-risk-bg: #fbece0;
 
   /* Písmo a rozměry */
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --radius: 0.75rem;
+  --font-body: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --font-heading: 'Rubik', system-ui, sans-serif;
+  --radius: 0.6rem;
   --radius-small: 0.5rem;
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2rem;
   --space-5: 3rem;
-  --content-width: 52rem;
+  --content-width: 64rem;
   --text-width: 40rem;
   --tap-size: 3.5rem;
 
@@ -86,18 +87,21 @@ svg {
 h1,
 h2,
 h3 {
-  line-height: 1.25;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
   margin: var(--space-4) 0 var(--space-2);
   text-wrap: balance;
 }
 
 h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.9rem, 3.2vw, 2.65rem);
   margin-top: var(--space-2);
 }
 
 h2 {
-  font-size: 1.45rem;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
 }
 
 h3 {
@@ -198,7 +202,7 @@ button {
   gap: 0.6rem;
   min-height: var(--tap-size);
   padding: 0.7rem 1.4rem;
-  border: 3px solid var(--color-primary);
+  border: 2px solid var(--color-primary);
   border-radius: var(--radius);
   background: var(--color-primary);
   color: var(--color-on-primary);
@@ -227,8 +231,8 @@ button {
 }
 
 .button--large {
-  min-height: 4rem;
-  padding: 0.9rem 1.8rem;
+  min-height: 3.5rem;
+  padding: 0.8rem 1.4rem;
   font-size: 1.15rem;
 }
 
@@ -509,8 +513,7 @@ details.disclosure > .disclosure__body {
 
 @media (max-width: 40rem) {
   html {
-    /* Na telefonu o něco menší, ale stále nadprůměrně velké písmo (18 px). */
-    font-size: 112.5%;
+    font-size: 125%;
   }
 
   .container {
@@ -629,3 +632,24 @@ details.disclosure > .disclosure__body {
 .resource-list > li + li {
   margin-top: 0;
 }
+
+/* Shared page composition, inspired by KidCy's module pages. */
+html[data-large-text] { font-size: 150%; }
+.eyebrow { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:.9rem; color:var(--module-color, var(--color-primary)); margin-bottom:1rem; }
+.eyebrow::before { content:''; width:1.5rem; height:3px; background:currentColor; }
+.section-heading { margin-bottom:2rem; }
+.section-heading h2 { margin:0 0 .7rem; }
+.section-heading p { color:var(--color-text-muted); }
+.pill { display:inline-flex; align-items:center; gap:.4rem; padding:.25rem .65rem; border-radius:.35rem; background:var(--module-soft, #edf3ff); color:var(--module-color, var(--color-primary)); font-weight:700; font-size:.85rem; }
+.page-intro { padding:2.5rem 0 1.5rem; }
+.page-intro h1 { margin:.5rem 0 1rem; }
+.page-section { padding-block:2.5rem; }
+.button { font-family:var(--font-body); }
+body[data-workshop] .progress, body[data-workshop] .screen, body[data-workshop] .step-nav, body[data-workshop] main > .container > .lecturer-note { max-width:46rem; margin-inline:auto; }
+.screen { padding:2rem; background:white; border:1px solid var(--color-border-light); border-top:5px solid var(--module-color, var(--color-primary)); border-radius:var(--radius); box-shadow:0 8px 28px #1c355407; }
+body[data-workshop] main { background:#f6f8fc; }
+.screen .prose, .screen p, .screen ul { max-width:100%; }
+body[data-workshop] .progress { background:white; border:1px solid var(--color-border-light); }
+.resource-card { box-shadow:0 3px 14px #1c355407; }
+@media(max-width:40rem){ .screen{padding:1.25rem .85rem;} .page-intro{padding-top:1.5rem;} }
+@media print { .screen{border:0;box-shadow:none;} html[data-large-text]{font-size:125%;} }

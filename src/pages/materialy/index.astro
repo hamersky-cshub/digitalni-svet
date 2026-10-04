@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import { isWorkshopUnlocked } from '../../lib/access';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ResourceCard from '../../components/ResourceCard.astro';
+import ModuleIcon from '../../components/ModuleIcon.astro';
+import { getAvailableWorkshops } from '../../lib/content';
+import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
+const workshops = await getAvailableWorkshops();
+const resources = await getCollection('resources', resource => isWorkshopUnlocked(resource.data.workshop.id));
+---
+<BaseLayout title="Materiály a návody" description="Taháky, návody a užitečné odkazy ke třem modulům o bezpečnějším používání internetu." wide>
+  <header class="page-intro"><h1>Materiály k tématům</h1></header>
+  {workshops.map(workshop => {
+    const style = moduleStyles[workshop.id] ?? defaultModuleStyle;
+    const items = resources.filter(resource => resource.data.workshop.id === workshop.id).sort((a,b) => a.data.title.localeCompare(b.data.title,'cs'));
+    return <section class="materials-section" style={`--module-color:${style.color};--module-soft:${style.soft}`} aria-labelledby={workshop.id}><h2 id={workshop.id}><span><ModuleIcon name={style.icon} size={30} /></span>{workshop.data.title}</h2><ul class="resource-list">{items.map(resource => <ResourceCard resource={resource} />)}</ul></section>;
+  })}
+</BaseLayout>
+<style>.materials-section{padding-bottom:2rem}.materials-section h2{display:flex;align-items:center;gap:.8rem;font-size:1.6rem}.materials-section h2>span{display:grid;place-items:center;background:var(--module-soft);color:var(--module-color);padding:.7rem;border-radius:.5rem}</style>
