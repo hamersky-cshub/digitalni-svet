@@ -41,15 +41,10 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     <details class="disclosure"><summary>Co se v tomto modulu naučíte</summary><div class="disclosure__body"><p set:html={formatText(firstParagraph)} />{moreParagraphs.map(p => <p set:html={formatText(p)} />)}</div></details>
   </header>
 
-  <div class="resume" data-resume={workshop.id} hidden>
-    <p><strong>Pokračovat tam, kde jste skončili:</strong></p>
-    <p><a class="button button--large" data-resume-link href="#">Pokračovat</a></p>
-  </div>
-
   <section aria-labelledby="zastavky">
     <h2 id="zastavky">Krok za krokem modulem</h2>
 
-    <ol class="route">
+    <ol class="route" data-progress={workshop.id}>
       {
         stops.map((stop, i) => (
           <li class="route__stop" data-stop-card={i + 1}>
@@ -113,19 +108,12 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
 <script>
   import { progress } from '../../scripts/storage';
 
-  const resume = document.querySelector<HTMLElement>('[data-resume]');
-  const workshop = resume?.dataset.resume;
+  // U zastávek, kterými už účastník prošel, se zobrazí „Navštíveno“ (uloženo jen v tomto prohlížeči).
+  const workshop = document.querySelector<HTMLElement>('[data-progress]')?.dataset.progress;
 
   function render() {
-    if (!resume || !workshop) return;
-    const position = progress.getPosition(workshop);
+    if (!workshop) return;
     const visited = progress.getVisited(workshop);
-    resume.hidden = !position;
-    if (position) {
-      const link = resume.querySelector<HTMLAnchorElement>('[data-resume-link]')!;
-      link.href = position.href;
-      link.textContent = `Pokračovat: ${position.label} →`;
-    }
     document.querySelectorAll<HTMLElement>('[data-stop-card]').forEach((card) => {
       const done = visited.includes(Number(card.dataset.stopCard));
       card.classList.toggle('is-visited', done);
@@ -196,18 +184,6 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     color: var(--module-color);
     font-size: 1.3rem;
     font-weight: 700;
-  }
-
-  .resume {
-    margin: var(--space-3) 0;
-    padding: var(--space-2) var(--space-3);
-    border: 3px solid var(--color-accent);
-    border-radius: var(--radius);
-    background: var(--color-accent-soft);
-  }
-
-  .resume p:last-child {
-    margin-bottom: 0;
   }
 
   .route {
