@@ -1,18 +1,13 @@
 /*
  * Jediná místa, kde web něco ukládá – a to jen v prohlížeči tohoto zařízení.
  * Nic se nikam neodesílá. Ukládá se:
- *   - poslední navštívený krok a navštívené zastávky každého workshopu,
+ *   - které kroky workshopu účastník otevřel (podle toho se u zastávky ukáže „Navštíveno“),
  *   - zda je zapnutý režim lektora.
  * Velikost písma ukládá src/scripts/site.ts pod stejným prefixem.
  * Odpovědi z aktivit se neukládají nikdy.
  */
 
 const PREFIX = 'dspk:';
-
-export interface Position {
-  href: string;
-  label: string;
-}
 
 function read<T>(key: string): T | null {
   try {
@@ -40,15 +35,21 @@ function remove(key: string): void {
 }
 
 export const progress = {
-  getPosition: (workshop: string) => read<Position>(`${workshop}:position`),
-  getVisited: (workshop: string) => read<number[]>(`${workshop}:visited`) ?? [],
-  save(workshop: string, stop: number, position: Position) {
-    write(`${workshop}:position`, position);
-    const visited = new Set(progress.getVisited(workshop));
-    visited.add(stop);
-    write(`${workshop}:visited`, [...visited].sort((a, b) => a - b));
+  /** Otevřené kroky workshopu ve tvaru „zastávka-krok“, např. „2-3“. */
+  getSeenSteps: (workshop: string) => read<string[]>(`${workshop}:seen`) ?? [],
+  markStep(workshop: string, stop: number, step: number) {
+    const seen = new Set(progress.getSeenSteps(workshop));
+    seen.add(`${stop}-${step}`);
+    write(`${workshop}:seen`, [...seen]);
+  },
+  /** Zastávka je prošlá, až účastník otevřel všechny její kroky. */
+  isStopDone(workshop: string, stop: number, stepCount: number) {
+    const seen = new Set(progress.getSeenSteps(workshop));
+    return Array.from({ length: stepCount }, (_, i) => `${stop}-${i + 1}`).every((key) => seen.has(key));
   },
   reset(workshop: string) {
+    remove(`${workshop}:seen`);
+    // Starší verze webu ukládaly pozici a otevřené zastávky – smažeme je také.
     remove(`${workshop}:position`);
     remove(`${workshop}:visited`);
   },

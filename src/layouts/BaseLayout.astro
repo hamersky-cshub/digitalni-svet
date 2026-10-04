@@ -5,8 +5,8 @@ import { getWorkshops } from '../lib/content';
 import { isWorkshopUnlocked } from '../lib/access';
 import { withBase } from '../lib/url';
 import { moduleStyles } from '../lib/presentation';
-interface Props { title: string; description?: string; workshop?: string; stop?: number; stepLabel?: string; wide?: boolean; moduleId?: string; }
-const { title, description = 'Tři praktické moduly pro bezpečnější internet. Srozumitelně, v klidu a vlastním tempem. Pro dospělé 60+.', workshop, stop, stepLabel, wide = false, moduleId } = Astro.props;
+interface Props { title: string; description?: string; workshop?: string; stop?: number; step?: number; wide?: boolean; moduleId?: string; }
+const { title, description = 'Tři praktické moduly pro bezpečnější internet. Srozumitelně, v klidu a vlastním tempem. Pro dospělé 60+.', workshop, stop, step, wide = false, moduleId } = Astro.props;
 const siteName = 'Digitální svět pod kontrolou';
 const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
 const theme = moduleStyles[moduleId ?? workshop ?? ''];
@@ -33,7 +33,7 @@ const workshops = await getWorkshops();
       try { if (localStorage.getItem('dspk:large-text') === 'true') document.documentElement.dataset.largeText = ''; } catch {}
     </script>
   </head>
-  <body data-workshop={workshop} data-stop={stop} data-step-label={stepLabel} style={theme && `--module-color:${theme.color};--module-soft:${theme.soft}`}>
+  <body data-workshop={workshop} data-stop={stop} data-step={step} style={theme && `--module-color:${theme.color};--module-soft:${theme.soft}`}>
     <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
     <header class="site-header">
       <div class="container header-inner">

@@ -1,9 +1,9 @@
 import { progress } from './storage';
 
-/* 1) Zapamatování pozice ve workshopu (jen v tomto prohlížeči). */
-const { workshop, stop, stepLabel } = document.body.dataset;
-if (workshop && stop) {
-  progress.save(workshop, Number(stop), { href: location.pathname, label: stepLabel ?? '' });
+/* 1) Zapamatování otevřených kroků workshopu (jen v tomto prohlížeči). */
+const { workshop, stop, step } = document.body.dataset;
+if (workshop && stop && step) {
+  progress.markStep(workshop, Number(stop), Number(step));
 }
 
 /* 3) Offline režim: service worker uloží stránky, aby šly otevřít i při výpadku Wi-Fi. */

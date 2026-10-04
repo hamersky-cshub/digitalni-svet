@@ -47,7 +47,7 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     <ol class="route" data-progress={workshop.id}>
       {
         stops.map((stop, i) => (
-          <li class="route__stop" data-stop-card={i + 1}>
+          <li class="route__stop" data-stop-card={i + 1} data-step-count={stop.data.screens.length}>
             <span class="route__number" aria-hidden="true">
               {i + 1}
             </span>
@@ -108,14 +108,13 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
 <script>
   import { progress } from '../../scripts/storage';
 
-  // U zastávek, kterými už účastník prošel, se zobrazí „Navštíveno“ (uloženo jen v tomto prohlížeči).
+  // „Navštíveno“ se u zastávky zobrazí, až účastník projde všechny její kroky (uloženo jen v tomto prohlížeči).
   const workshop = document.querySelector<HTMLElement>('[data-progress]')?.dataset.progress;
 
   function render() {
     if (!workshop) return;
-    const visited = progress.getVisited(workshop);
     document.querySelectorAll<HTMLElement>('[data-stop-card]').forEach((card) => {
-      const done = visited.includes(Number(card.dataset.stopCard));
+      const done = progress.isStopDone(workshop, Number(card.dataset.stopCard), Number(card.dataset.stepCount));
       card.classList.toggle('is-visited', done);
       card.querySelector<HTMLElement>('[data-visited]')!.hidden = !done;
     });
@@ -220,17 +219,19 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     flex: none;
     width: 4rem;
     height: 4rem;
-    border: 2px solid var(--module-color);
+    border: 2px solid #c3cad6;
     border-radius: .6rem;
-    background: var(--module-soft);
-    color: var(--module-color);
+    background: #f1f3f7;
+    color: #5b6475;
     font-size: 1.6rem;
     font-weight: 800;
   }
 
+  /* Prošlá zastávka se vybarví barvou modulu. */
   .route__stop.is-visited .route__number {
-    background: var(--color-primary);
-    color: var(--color-on-primary);
+    border-color: var(--module-color);
+    background: var(--module-color);
+    color: #ffffff;
   }
 
   .route__body {

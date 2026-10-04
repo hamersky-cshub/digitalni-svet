@@ -30,7 +30,6 @@ export const getStaticPaths = (async () => {
 
 const { step } = Astro.props;
 const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, prev, next } = step;
-const stepLabel = `Zastávka ${stopNumber}, ${stop.data.title}${stepCount > 1 ? ` – krok ${stepNumber}` : ''}`;
 ---
 
 <BaseLayout
@@ -38,7 +37,7 @@ const stepLabel = `Zastávka ${stopNumber}, ${stop.data.title}${stepCount > 1 ? 
   description={stop.data.summary}
   workshop={workshop.id}
   stop={stopNumber}
-  stepLabel={stepLabel}
+  step={stepNumber}
 >
   <Progress
     workshopId={workshop.id}
