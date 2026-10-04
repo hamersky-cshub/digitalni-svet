@@ -39,7 +39,7 @@ export function resourceAction(resource: CollectionEntry<'resources'>): Resource
     return { href: withBase(file), label: `${verb}${size}`, external: false, download: true };
   }
   if (url) {
-    const label = type === 'video' ? 'Přehrát video na jiném webu' : 'Otevřít na jiném webu';
+    const label = type === 'video' ? 'Přehrát video na webu' : 'Otevřít na webu';
     return { href: url, label, external: true, download: false };
   }
   return { href: detailHref(resource), label: 'Přečíst návod', external: false, download: false };

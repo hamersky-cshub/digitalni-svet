@@ -6,7 +6,7 @@ order: 2
 title: Co sdílím
 summary: Komu svěřujeme jaké informace a proč na tom záleží.
 lecturer:
-  time: 15 minut
+  time: 20 minut
   goal: Účastníci rozliší, že u informací rozhoduje komu, proč a zda je nutné je zveřejnit. U řady otázek neexistuje jediná správná odpověď.
   discussion: Kdy jste naposledy něco sdíleli a komu to bylo určené?
   transition: Informace sdílíme nejen my – někdy si o ně říkají i aplikace. Podívejme se, co jim dovolujeme.
@@ -227,16 +227,24 @@ screens:
   - kind: prakticky
     title: Než pošlu fotografii dál
     text:
-      - Teď totéž zkuste na vlastní fotografii. Vyberte si v telefonu jeden snímek a nikam ho neposílejte. Společně si projdeme, co na něm může být vidět – stejně jako u fotografie B.
+      - 'Teď si to vyzkoušíte sami: vyfotíte zkušební fotografii, prohlédnete si ji jako fotografii B a oříznete, co by na ní být nemělo. Fotografii nikam neposíláte a na konci ji smažete.'
     activity:
       type: guide
+      intro: Na stole máte připravené ukázkové předměty, třeba obálku nebo vstupenku. Všechny údaje na nich jsou smyšlené.
       steps:
-        - text: Otevřete **Fotky** nebo **Galerii** a vyberte jeden snímek. Nemusíte ho nikomu ukazovat.
-        - text: Prohlédněte si pozadí. Je vidět adresa, jmenovka na dveřích, doklad, platební karta nebo někdo další?
-          question: Co byste před sdílením raději ořízli nebo zakryli?
-        - text: Rozhodněte, komu má být fotografie určena. Rodinná skupina není totéž jako veřejný příspěvek.
-        - text: Pokud jsou na snímku další lidé, zeptejte se jich před zveřejněním. U dětí se domluvte s jejich rodiči.
-      outro: Hotovo. Fotografii nemusíte zveřejňovat. I rozhodnutí něco nesdílet je dobrý výsledek.
+        - text: Otevřete aplikaci **Fotoaparát** – má ikonu fotoaparátu 📷.
+        - text: Namiřte tablet na stůl tak, aby byl vidět hrnek, květina nebo jiný předmět a vedle něj i ukázková obálka či vstupenka. Klepněte na velké kulaté tlačítko. Fotografie je hotová.
+        - text: Klepněte na malý náhled fotografie v rohu obrazovky. Fotografii si zvětšete roztažením dvěma prsty a prohlédněte si i okraje a pozadí.
+          question: Je na fotografii vidět adresa, jméno, kód nebo něco, co by o vás prozradilo víc, než chcete?
+        - text: Klepněte na **Upravit** (na tabletu s Androidem často ikona tužky) a vyberte **Oříznout**. Posuňte rohy rámečku tak, aby obálka nebo vstupenka zůstala mimo něj.
+        - text: Klepněte na **Hotovo** nebo **Uložit**. Prohlédněte si oříznutou fotografii – zbylo jen to, co chcete ukázat?
+          question: Komu byste takovou fotografii poslali? Rodinná skupina není totéž jako veřejný příspěvek.
+        - text: Zkušební fotografii smažte – klepněte na ikonu **koše** 🗑️ a smazání potvrďte. Tablet budou používat i další účastníci.
+      outro: Hotovo. Stejně se můžete podívat na každou fotografii, než ji doma pošlete dál. I rozhodnutí něco nesdílet je dobrý výsledek.
     lecturer:
-      time: 5 minut
-      goal: Přenést zásady sdílení do vlastní zkušenosti bez zveřejňování údajů.
+      time: 10 minut
+      goal: Přenést zásady sdílení do vlastní zkušenosti bez zveřejňování skutečných údajů. Účastníci si vyzkoušejí focení, prohlížení a oříznutí fotografie.
+      tips:
+        - 'Předem připravte na stoly ukázkové předměty se smyšlenými údaji: obálku s adresou, vytištěnou palubní vstupenku nebo jmenovku. Hodí se i hrnek nebo květina jako „hlavní motiv“.'
+        - Názvy tlačítek se liší podle tabletu (iPad – Upravit a ikona oříznutí; Android – tužka, Oříznout nebo Transformovat). Projděte místností a pomozte.
+        - Zkontrolujte, že účastníci na konci zkušební fotografie smazali. Na iPadu se smazané fotky ještě 30 dní drží v albu Nedávno smazané – po workshopu je vyprázdněte.

@@ -118,7 +118,7 @@ screens:
         - text: Opakujte, dokud nemáte alespoň **5 slov**.
         - text: Slova spojte dohromady, třeba pomlčkou. Heslová fráze je hotová.
           question: Vymyslíte si k slovům krátký příběh, který vám je připomene?
-      outro: Český seznam slov najdete v Materiálech ke stažení na přehledu workshopu.
+      outro: Český seznam slov najdete v části Zdroje a materiály na přehledu modulu.
     lecturer:
       tips:
         - Přineste na workshop několik hracích kostek a vytištěný český seznam slov.

@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { resource, headingLevel: Heading = 'h3' } = Astro.props;
-const { title, description, type, source } = resource.data;
+const { title, description, type } = resource.data;
 const action = resourceAction(resource);
 ---
 
@@ -24,7 +24,6 @@ const action = resourceAction(resource);
     <a href={detailHref(resource)}>{title}</a>
   </Heading>
   <p>{description}</p>
-  {source && <p class="resource-card__source">Zdroj: {source}</p>}
   <p class="resource-card__action">
     <ActionButton action={action} variant="secondary" />
   </p>
@@ -64,9 +63,6 @@ const action = resourceAction(resource);
     font-weight: 600;
   }
 
-  .resource-card__source {
-    color: var(--color-text-muted);
-  }
 
   .resource-card__title {
     margin: var(--space-1) 0;

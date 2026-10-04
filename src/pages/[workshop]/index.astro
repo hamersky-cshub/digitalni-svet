@@ -82,8 +82,8 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
   {
     resources.length > 0 && (
       <section aria-labelledby="materialy">
-        <h2 id="materialy">Materiály ke stažení</h2>
-        <p>Návody a materiály, ke kterým se můžete vrátit i po workshopu.</p>
+        <h2 id="materialy">Zdroje a materiály</h2>
+        <p>Nástroje, návody a materiály, ke kterým se můžete vrátit i po workshopu.</p>
         <ul class="resource-list">
           {resources.map((resource) => (
             <ResourceCard resource={resource} />
