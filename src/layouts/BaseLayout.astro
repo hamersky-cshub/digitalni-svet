@@ -49,7 +49,7 @@ const FONTS = [
       </div>
     </header>
     <main id="obsah" tabindex="-1"><div class:list={['container', { 'reading-container': !wide }]}><slot /></div></main>
-    <footer class="site-footer"><div class="container footer-topics"><a class="footer-brand" href={withBase()}>Digitální svět{' '}<span>pod kontrolou.</span></a><nav aria-label="Témata workshopů"><ul>{workshops.map(topic => <li>{isWorkshopUnlocked(topic.id) ? <a href={withBase(`${topic.id}/`)}>{topic.data.title}</a> : <span class="footer-locked">{topic.data.title}<small>Dostupné později</small></span>}</li>)}</ul></nav></div></footer>
+    <footer class="site-footer"><div class="container footer-topics"><a class="footer-brand" href={withBase()}>Digitální svět{' '}<span>pod kontrolou.</span></a><nav aria-label="Témata workshopů"><ul>{workshops.map(topic => <li>{isWorkshopUnlocked(topic.id) ? <a href={withBase(`${topic.id}/`)}>{topic.data.title}</a> : <span class="footer-locked">{topic.data.title}<small>Dostupné později</small></span>}</li>)}</ul></nav></div><div class="container footer-more"><a href={withBase('materialy/')}>Zdroje a materiály ke všem tématům</a></div></footer>
     <script>import '../scripts/site';</script>
   </body>
 </html>
@@ -59,6 +59,6 @@ const FONTS = [
 </style>
 
 <style>
-.footer-topics{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;padding-bottom:2rem}.footer-topics ul{display:flex;flex-wrap:wrap;gap:1.5rem;list-style:none;margin:0;padding:0;max-width:none}.footer-topics li{margin:0}.footer-topics li a{min-height:2.8rem;display:inline-flex;align-items:center}.footer-locked{display:block;color:#47556b;line-height:1.4;padding-top:.4rem}.footer-locked small{display:block;font-size:.75rem;margin-top:.25rem}.logo-mark{background:transparent;padding:0}.site-logo{font-weight:700}.site-logo small{font-family:var(--font-body);font-weight:400}.site-footer{background:#f1f5fa}
+.footer-topics{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;padding-bottom:2rem}.footer-topics ul{display:flex;flex-wrap:wrap;gap:1.5rem;list-style:none;margin:0;padding:0;max-width:none}.footer-topics li{margin:0}.footer-topics li a{min-height:2.8rem;display:inline-flex;align-items:center}.footer-locked{display:block;color:#47556b;line-height:1.4;padding-top:.4rem}.footer-locked small{display:block;font-size:.75rem;margin-top:.25rem}.logo-mark{background:transparent;padding:0}.site-logo{font-weight:700}.site-logo small{font-family:var(--font-body);font-weight:400}.site-footer{background:#f1f5fa}.footer-more{padding-bottom:2rem}.footer-more a{display:inline-flex;align-items:center;min-height:2.8rem}
 @media(max-width:850px){.footer-topics{flex-direction:column;gap:.5rem}}@media(max-width:600px){.footer-topics ul{flex-direction:column;gap:.7rem}}
 </style>

@@ -9,8 +9,8 @@ import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
 const workshops = await getAvailableWorkshops();
 const resources = await getCollection('resources', resource => isWorkshopUnlocked(resource.data.workshop.id));
 ---
-<BaseLayout title="Materiály a návody" description="Taháky, návody a užitečné odkazy ke třem modulům o bezpečnějším používání internetu." wide>
-  <header class="page-intro"><h1>Materiály k tématům</h1></header>
+<BaseLayout title="Zdroje a materiály" description="Nástroje, návody a materiály ke třem modulům o bezpečnějším používání internetu." wide>
+  <header class="page-intro"><h1>Zdroje a materiály</h1><p class="lead">Nástroje, návody a materiály, ke kterým se můžete vrátit i po workshopu.</p></header>
   {workshops.map(workshop => {
     const style = moduleStyles[workshop.id] ?? defaultModuleStyle;
     const items = resources.filter(resource => resource.data.workshop.id === workshop.id).sort((a,b) => a.data.title.localeCompare(b.data.title,'cs'));
