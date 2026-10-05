@@ -41,11 +41,11 @@ screens:
       question: Vznikla při tom digitální stopa?
       options:
         - id: ano
-          label: ANO
+          label: Ano
         - id: ne
-          label: NE
+          label: Ne
         - id: nevim
-          label: NEJSEM SI JISTÝ/Á
+          label: Nejsem si jistý/á
       items:
         - text: Vyhledám si na internetu předpověď počasí.
           recommended:

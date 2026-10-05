@@ -30,13 +30,13 @@ screens:
       itemLabel: Informace
       options:
         - id: blizkym
-          label: JEN BLÍZKÝM
+          label: Jen blízkým
         - id: znamym
-          label: ZNÁMÝM
+          label: Známým
         - id: verejne
-          label: KLIDNĚ VEŘEJNĚ
+          label: Klidně veřejně
         - id: nikomu
-          label: NIKOMU
+          label: Nikomu
       items:
         - text: Kdy jedu na dovolenou.
           recommended:

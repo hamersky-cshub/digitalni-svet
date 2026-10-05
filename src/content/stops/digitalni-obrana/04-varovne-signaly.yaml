@@ -193,11 +193,11 @@ screens:
       question: Je tato zpráva podvodná?
       options:
         - id: podvod
-          label: PODVOD
+          label: Podvod
         - id: v-poradku
-          label: V POŘÁDKU
+          label: V pořádku
         - id: overim
-          label: NEJSEM SI JISTÝ/Á – OVĚŘÍM SI TO
+          label: Nejsem si jistý/á – ověřím si to
       items:
         - message:
             medium: sms
@@ -258,7 +258,7 @@ screens:
             sender: Neznámé číslo
             time: '21:03'
             lines:
-              - Ahoj, tady Petra, mám nové číslo. Omylem jsem poslala ověřovací kód na tvůj telefon. Můžeš mi ho prosím přeposlat?
+              - Ahoj, tady Petra, mám nové číslo. Omylem jsem ti poslala SMS s kódem. Můžeš mi ho prosím přeposlat?
           recommended:
             - podvod
             - overim

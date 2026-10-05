@@ -4,7 +4,7 @@ description: První pomoc krok za krokem, když jste klepli na odkaz, zadali úd
 workshop: digitalni-obrana
 type: navod
 source: Digitální svět pod kontrolou
-updated: 2026-10-04
+updated: 2026-10-05
 ---
 
 Stát se to může každému – i velmi opatrným lidem. **Nestyďte se a jednejte hned.**
@@ -32,6 +32,8 @@ Stát se to může každému – i velmi opatrným lidem. **Nestyďte se a jedne
 ## 4. Oznamte to
 
 - **Policie ČR: 158**, nebo osobně na kterékoli služebně.
+- **Bílý kruh bezpečí: 116 006** – nonstop a zdarma pomáhá obětem trestných činů, i podvodů.
+- **Linka seniorů: 800 200 007** – denně 8–20 h, zdarma, když si potřebujete s někým promluvit.
 - Zprávy, čísla a e-maily **nemažte** – poslouží jako důkaz. Můžete si je i vyfotit nebo udělat snímek obrazovky.
 - Řekněte to blízkým. Varujete je a nebudete na to sami.
 

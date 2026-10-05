@@ -7,14 +7,14 @@ title: Druhý zámek
 summary: Dvoufázové ověření a novější způsoby přihlašování.
 lecturer:
   time: 25 minut
-  goal: Vysvětlit dvoufázové (vícefaktorové) ověření a zásadu nepotvrzovat přihlášení, které jsem sám/sama nezahájil(a). Krátce zmínit přístupové klíče (passkeys).
+  goal: Vysvětlit dvoufázové ověření a zásadu nepotvrzovat přihlášení, které jsem sám/sama nezahájil(a). Krátce zmínit přístupové klíče (passkeys).
   discussion: Potvrzujete už něco v telefonu, třeba platby v bankovnictví?
   transition: Shrňme si čtyři návyky, které vaše účty ochrání.
 screens:
   - kind: vyklad
     title: Dva zámky jsou víc než jeden
     text:
-      - '**Dvoufázové ověření** (někdy také vícefaktorové) znamená, že k přihlášení nestačí jen heslo.'
+      - '**Dvoufázové ověření** znamená, že k přihlášení nestačí jen heslo.'
     points:
       - 🔑 **První zámek:** heslo, které znáte.
       - 📱 **Druhý zámek:** potvrzení v telefonu nebo kód z SMS.
@@ -30,11 +30,11 @@ screens:
       question: Do které skupiny to patří?
       options:
         - id: vite
-          label: 🧠 Něco, co VÍTE
+          label: 🧠 Něco, co víte
         - id: mate
-          label: 📱 Něco, co MÁTE
+          label: 📱 Něco, co máte
         - id: jste
-          label: 👤 Něco, co JSTE
+          label: 👤 Něco, co jste
       items:
         - text: PIN
           recommended:

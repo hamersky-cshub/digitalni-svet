@@ -14,6 +14,7 @@ lecturer:
     - V roce 2024 uniklo přes 1 miliardu záznamů s údaji uživatelů (TechCrunch, 2024).
     - Stránka Have I Been Pwned je v angličtině – výsledky vysvětlete nahlas.
     - 'Kdo nechce svůj e-mail zadávat, nemusí – může jen sledovat. Alternativa: monitor.mozilla.org.'
+    - Na sdílených tabletech si prohlížeč psané e-maily pamatuje pro automatické vyplňování. Doporučte anonymní okno, nebo po workshopu smažte údaje automatického vyplňování (postup je na stránce pro lektora).
 screens:
   - kind: vyklad
     title: Co je únik dat?
@@ -29,7 +30,7 @@ screens:
       - Bezplatná stránka **Have I Been Pwned** zjistí, zda se vaše e-mailová adresa objevila v některém známém úniku. Provozuje ji uznávaný bezpečnostní odborník.
     activity:
       type: guide
-      intro: '**Zadejte jen svou e-mailovou adresu. Heslo nikdy nikam nezadávejte.**'
+      intro: '**Zadejte jen svou e-mailovou adresu. Heslo nikdy nikam nezadávejte.** Máte s sebou vlastní telefon? Je jistější to zkusit na něm.'
       steps:
         - text: Otevřete internetový prohlížeč, například Chrome nebo Safari.
         - text: Otevřete stránku [haveibeenpwned.com](https://haveibeenpwned.com/). Můžete na odkaz klepnout, nebo adresu napsat do řádku s adresou nahoře.
@@ -37,6 +38,7 @@ screens:
         - text: Objeví se **zelená** zpráva (anglicky „Good news“ = dobrá zpráva)? Váš e-mail v žádném známém úniku není.
         - text: Objeví se **červená** zpráva (anglicky „pwned“ = prolomeno)? E-mail unikl. Níže uvidíte, ze kterých služeb a kdy.
           question: Znáte službu, ze které e-mail unikl? Nepoužíváte tam stejné heslo jako jinde?
+        - text: Až budete hotovi, adresu z políčka smažte a kartu se stránkou zavřete. Tablet budou používat i další účastníci.
       outro: Stránka je v angličtině. Když si nebudete jistí, co čtete, zvedněte ruku.
   - kind: shrnuti
     title: Co dělat, když e-mail unikl

@@ -41,8 +41,8 @@ screens:
           text: Ani na odkaz „odhlásit z odběru“.
         - title: Ukažte ji nebo nahlaste.
           text: Blízkému člověku, v bance, nebo tlačítkem „Nahlásit spam“ v e-mailové schránce.
-        - title: Smažte ji.
-          text: Pak ji klidně vymažte.
+        - title: Pak ji smažte.
+          text: Pokud jste nic neodeslali ani nezaplatili. Když už se něco stalo, zprávu si nechte jako důkaz.
   - kind: prakticky
     title: Připravte si svůj kontakt pro pomoc
     text:
@@ -52,8 +52,9 @@ screens:
       steps:
         - text: Vyberte si důvěryhodného člověka, se kterým můžete podezřelou situaci probrat. Zkontrolujte, že máte jeho telefonní číslo.
         - text: Najděte kontakt na svou banku na platební kartě, ve smlouvě nebo v její oficiální aplikaci. Číslo si můžete poznamenat na vlastní papír.
-        - text: Připomeňte si postup **zastavit se – nic nepotvrzovat – ověřit jinou cestou**. Nikomu neposílejte PIN, heslo ani potvrzovací kód.
+        - text: Připomeňte si postup **zastavit se – nic nepotvrzovat – ověřit jinou cestou**. Nikomu neposílejte PIN, heslo ani kód z SMS.
         - text: Pokud už odešly peníze nebo jste sdělili údaje ke kartě, kontaktujte banku ihned. Při podezření na podvod se obraťte také na **Policii ČR na čísle 158**.
+        - text: Potřebujete si s někým promluvit? Volejte **Linku seniorů 800 200 007** (denně 8–20 h, zdarma). Obětem podvodů pomáhá **Bílý kruh bezpečí na čísle 116 006** (nonstop, zdarma).
       outro: Svá čísla ani osobní údaje do tohoto webu nezadávejte. Cílem je mít pomoc po ruce.
   - kind: reflexe
     title: Děkuji
