@@ -24,7 +24,7 @@ const { service, password, request, done, denied } = Astro.props;
       <div class="login__screen">
         <p class="login__service"><span aria-hidden="true">✉️</span> {service} – přihlášení</p>
         <p class="login__field-label">Heslo</p>
-        <p class="login__field" aria-label="Ukázkové heslo, skryté tečkami">●●●●●●●●●●●●●●●●</p>
+        <p class="login__field"><span aria-hidden="true">●●●●●●●●●●●●●●●●</span><span class="visually-hidden">Ukázkové heslo, skryté tečkami</span></p>
         <p set:html={formatText(password)} />
         <button type="button" class="button button--large" data-go="2" hidden>Přihlásit se</button>
       </div>
@@ -64,6 +64,8 @@ const { service, password, request, done, denied } = Astro.props;
 </login-sim>
 
 <script>
+  import { reveal } from '../../scripts/reveal';
+
   class LoginSim extends HTMLElement {
     connectedCallback() {
       const stages = Array.from(this.querySelectorAll<HTMLElement>('[data-stage]'));
@@ -80,7 +82,7 @@ const { service, password, request, done, denied } = Astro.props;
           const label = current.querySelector<HTMLElement>('.login__step')!;
           label.tabIndex = -1;
           label.focus({ preventScroll: true });
-          label.scrollIntoView({ block: 'nearest' });
+          reveal(current);
         }
       };
 

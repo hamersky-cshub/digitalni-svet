@@ -37,12 +37,14 @@ const example = words.slice(0, count);
     }
   </ol>
 
-  <p class="passphrase__result">
-    <span class="passphrase__phrase" data-phrase>{example.join('-')}</span>
-  </p>
-  <p class="passphrase__length" data-length role="status">
-    Délka: {example.join('-').length} znaků
-  </p>
+  <div data-passphrase-status>
+    <p class="passphrase__result">
+      <span class="visually-hidden">Fráze: </span><span class="passphrase__phrase" data-phrase>{example.join('-')}</span>
+    </p>
+    <p class="passphrase__length" data-length>
+      Délka: {example.join('-').length} znaků
+    </p>
+  </div>
 
   <p data-controls hidden>
     <button type="button" class="button" data-shuffle>Nabídnout jiná slova</button>
@@ -99,6 +101,8 @@ const example = words.slice(0, count);
       this.querySelector<HTMLElement>('[data-controls]')!.hidden = false;
       this.querySelector('[data-shuffle]')!.addEventListener('click', shuffle);
       shuffle();
+      // Až po prvním zamíchání: další změny fráze přečte čtečka obrazovky (při načtení stránky ne).
+      this.querySelector('[data-passphrase-status]')!.setAttribute('role', 'status');
     }
   }
   customElements.define('passphrase-builder', PassphraseBuilder);

@@ -23,13 +23,13 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
   <ul class="choice-list choice-list--row" aria-labelledby="keys-mode" data-options hidden>
     <li>
       <button type="button" class="choice-card" data-mode="same" aria-pressed="true">
-        <span>🔑 {sameKey.label}</span>
+        <span><span aria-hidden="true">🔑</span> {sameKey.label}</span>
         <span class="choice-card__mark">✓ Vybráno</span>
       </button>
     </li>
     <li>
       <button type="button" class="choice-card" data-mode="unique" aria-pressed="false">
-        <span>🗝️ {uniqueKeys.label}</span>
+        <span><span aria-hidden="true">🗝️</span> {uniqueKeys.label}</span>
         <span class="choice-card__mark">✓ Vybráno</span>
       </button>
     </li>
@@ -74,6 +74,8 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
 </key-reuse>
 
 <script>
+  import { reveal } from '../../scripts/reveal';
+
   class KeyReuse extends HTMLElement {
     connectedCallback() {
       const leaked = Number(this.dataset.leaked);
@@ -110,6 +112,10 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
       leakButton.addEventListener('click', () => {
         isLeaked = true;
         render();
+        // Tlačítko úniku se skryje – zaměření přejde na „Začít znovu“ a výsledek se posune do zorného pole.
+        resetButton.focus({ preventScroll: true });
+        const result = results.find((r) => !r.hidden);
+        if (result) reveal(this.querySelector('.keys__doors') ?? result, result);
       });
       resetButton.addEventListener('click', () => {
         isLeaked = false;

@@ -24,6 +24,7 @@ const devices = [
 
 <device-selector class="device">
   <p class="device__question" id="device-question"><strong>{question}</strong></p>
+  <p class="visually-hidden" role="status" data-device-status></p>
   <ul class="choice-list" data-options hidden aria-labelledby="device-question">
     {
       devices.map((d) => (
@@ -43,9 +44,9 @@ const devices = [
   {
     devices.map((d) => (
       <section class="device__panel" data-panel={d.id} aria-label={d.heading}>
-        <h3 class="device__heading" tabindex="-1">
+        <h2 class="device__heading" tabindex="-1">
           {d.heading}
-        </h3>
+        </h2>
         <StepGuide {...d.guide} />
         {d.id === 'unsure' && (
           <p class="device__switch" data-switch-row hidden>
@@ -63,6 +64,8 @@ const devices = [
 </device-selector>
 
 <script>
+  import { reveal } from '../../scripts/reveal';
+
   class DeviceSelector extends HTMLElement {
     connectedCallback() {
       const buttons = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-device]'));
@@ -71,14 +74,16 @@ const devices = [
       this.querySelector<HTMLElement>('[data-switch-row]')!.hidden = false;
       panels.forEach((p) => (p.hidden = true));
 
+      const status = this.querySelector<HTMLElement>('[data-device-status]')!;
       const select = (id: string, moveFocus: boolean) => {
         buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.device === id)));
         panels.forEach((p) => (p.hidden = p.dataset.panel !== id));
-        if (moveFocus) {
-          const heading = panels.find((p) => p.dataset.panel === id)?.querySelector<HTMLElement>('h3');
-          heading?.focus({ preventScroll: true });
-          heading?.scrollIntoView({ block: 'start' });
-        }
+        const panel = panels.find((p) => p.dataset.panel === id);
+        const heading = panel?.querySelector<HTMLElement>('.device__heading');
+        if (!panel || !heading) return;
+        status.textContent = `Níže: ${heading.textContent?.trim()}.`;
+        if (moveFocus) heading.focus({ preventScroll: true });
+        reveal(heading, panel);
       };
 
       buttons.forEach((b) => b.addEventListener('click', () => select(b.dataset.device!, false)));
@@ -117,6 +122,7 @@ const devices = [
 
   .device__heading {
     margin-top: var(--space-1);
+    font-size: 1.35rem;
     scroll-margin-top: var(--space-3);
   }
 

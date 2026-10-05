@@ -37,7 +37,7 @@ const ids = [...new Set(order)];
     linesHtml={body.map(fmt)}
     attachmentHtml={attachment ? fmt(attachment) : undefined}
   />
-  <p class="spot-status" data-status role="status" hidden></p>
+  <p class="spot-status" data-status role="status" hidden><span class="visually-hidden" data-status-detail></span><span data-status-count></span></p>
   <ul class="spot-list spot-list--plain" data-list>
     {
       ids.map((id) => (

@@ -9,24 +9,21 @@ class SpotExplorer extends HTMLElement {
     const buttons = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-spot]'));
     const explains = Array.from(this.querySelectorAll<HTMLElement>('[data-explain]'));
     const status = this.querySelector<HTMLElement>('[data-status]')!;
+    const detail = status.querySelector<HTMLElement>('[data-status-detail]')!;
+    const count = status.querySelector<HTMLElement>('[data-status-count]')!;
     const controls = this.querySelector<HTMLElement>('[data-controls]');
     const total = explains.length;
     const seen = new Set<string>();
-    // Pro čtečky obrazovky: přečte vysvětlení právě zvoleného místa.
-    const announce = document.createElement('p');
-    announce.className = 'visually-hidden';
-    announce.setAttribute('aria-live', 'polite');
-    this.append(announce);
 
     const update = () => {
       const n = seen.size;
       if (this.dataset.noun === 'signálu') {
-        status.textContent =
+        count.textContent =
           n === total
             ? `Prohlédli jste všech ${total} varovných signálů.`
             : `Prohlédli jste ${n} ${plural(n, ['varovný signál', 'varovné signály', 'varovných signálů'])} ${zOrZe(total)} ${total}.`;
       } else {
-        status.textContent =
+        count.textContent =
           n === total ? `Prohlédli jste všech ${total} míst.` : `Prohlédli jste ${n} ${plural(n, ['místo', 'místa', 'míst'])} ${zOrZe(total)} ${total}.`;
       }
     };
@@ -39,7 +36,10 @@ class SpotExplorer extends HTMLElement {
           el.hidden = false;
           el.classList.add('is-current');
           if (only) {
-            announce.textContent = el.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+            // Čtečka přečte jedno hlášení: vysvětlení místa a počet prohlédnutých.
+            const title = el.querySelector('.spot-explain__title, .signal-explain__title')?.textContent?.trim();
+            const text = el.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+            detail.textContent = title && text.startsWith(title) ? `${title}: ${text.slice(title.length).trim()} ` : `${text} `;
             el.scrollIntoView({ block: 'nearest' });
           }
         } else {
@@ -57,6 +57,7 @@ class SpotExplorer extends HTMLElement {
     status.hidden = false;
     if (controls) controls.hidden = false;
     this.querySelector('[data-show-all]')?.addEventListener('click', () => {
+      detail.textContent = '';
       explains.forEach((el) => reveal(el.dataset.explain!, false));
       explains.forEach((el) => el.classList.remove('is-current'));
     });

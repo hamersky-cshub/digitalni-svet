@@ -108,6 +108,8 @@ const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.opti
 </choice-sequence>
 
 <script>
+  import { reveal } from '../../scripts/reveal';
+
   class ChoiceSequence extends HTMLElement {
     items: HTMLElement[] = [];
 
@@ -157,6 +159,9 @@ const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.opti
       const done = item.querySelector<HTMLElement>('[data-done]');
       if (next) next.hidden = false;
       if (done) done.hidden = false;
+      // Zpětná vazba a tlačítko „Další“ bývají na tabletu pod okrajem – posuneme je do zorného pole.
+      // Zaměření zůstává na zvoleném tlačítku; obsah přečte čtečka díky role="status".
+      if (shown) reveal(shown, item.querySelector('[data-controls]') ?? shown);
     }
 
     show(index: number, moveFocus: boolean) {

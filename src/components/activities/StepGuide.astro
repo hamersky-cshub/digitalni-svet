@@ -16,7 +16,8 @@ const { intro, steps, outro } = Astro.props;
 
 <step-guide class="step-guide">
   {intro && <p set:html={formatText(intro)} />}
-  <p class="step-guide__status" data-guide-status role="status" aria-live="polite" hidden></p>
+  <p class="step-guide__hint" data-guide-hint hidden>Po každém kroku si klepněte na „Mám hotovo“.</p>
+  <p class="step-guide__status" data-guide-status role="status" hidden></p>
   <ol class="step-guide__list">
     {
       steps.map((step, i) => (
@@ -34,7 +35,7 @@ const { intro, steps, outro } = Astro.props;
             )}
             <button type="button" class="step-guide__done" aria-pressed="false" data-done hidden>
               <span class="step-guide__box" aria-hidden="true" />
-              Mám hotovo
+              Mám hotovo<span class="visually-hidden"> (krok {i + 1})</span>
             </button>
           </div>
         </li>
@@ -50,11 +51,10 @@ const { intro, steps, outro } = Astro.props;
       const buttons = this.querySelectorAll<HTMLButtonElement>('[data-done]');
       const status = this.querySelector<HTMLElement>('[data-guide-status]')!;
       status.hidden = false;
+      this.querySelector<HTMLElement>('[data-guide-hint]')!.hidden = false;
       const render = () => {
         const done = this.querySelectorAll('[data-done][aria-pressed="true"]').length;
-        status.textContent = done === buttons.length
-          ? 'Všechny kroky máte hotové. Můžete pokračovat vlastním tempem.'
-          : `Hotové kroky: ${done} z ${buttons.length}. Označte si, co jste už vyzkoušeli.`;
+        status.textContent = done === buttons.length ? 'Všechny kroky máte hotové.' : `Hotovo: ${done} z ${buttons.length} kroků.`;
       };
       buttons.forEach((button) => {
         button.hidden = false;
@@ -77,6 +77,7 @@ const { intro, steps, outro } = Astro.props;
     margin-top: var(--space-3);
   }
 
+  .step-guide__hint { margin-bottom: var(--space-1); color: var(--color-text-muted); }
   .step-guide__status { font-weight:700; color:var(--color-primary); padding:.8rem 1rem; background:var(--color-info-bg); border-radius:var(--radius-small); }
 
   .step-guide__list {
