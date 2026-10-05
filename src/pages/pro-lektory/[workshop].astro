@@ -1,0 +1,255 @@
+---
+/**
+ * Scénář pro lektora: časy, cíle, otázky, přechody, tipy a klíč odpovědí ke každé obrazovce.
+ * Stránka není z webu odkazovaná (noindex) a offline režim ji neukládá předem.
+ * Vzniká jen pro otevřená témata (workshop-access.json).
+ */
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LecturerNote from '../../components/LecturerNote.astro';
+import type { Screen } from '../../content.config';
+import { choiceTone, signalOrder } from '../../lib/activities';
+import { getAvailableWorkshops, getStops, workshopDuration } from '../../lib/content';
+import { SCREEN_KIND_INFO } from '../../lib/presentation';
+import { plainText, plural } from '../../lib/text';
+import { stepHref, withBase } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const workshops = await getAvailableWorkshops();
+  return workshops.map((workshop) => ({ params: { workshop: workshop.id }, props: { workshop } }));
+}) satisfies GetStaticPaths;
+
+const { workshop } = Astro.props;
+const stops = await getStops(workshop.id);
+const duration = workshopDuration(workshop, stops);
+
+const MEDIUM: Record<string, string> = { sms: 'SMS', email: 'E-mail', chat: 'Chat', call: 'Telefonát', notification: 'Oznámení', popup: 'Vyskakovací okno' };
+const trim = (text: string, max = 90) => (text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text);
+type Situation = { text?: string; message?: { medium: string; sender: string; lines: string[] } };
+const situation = (item: Situation) =>
+  item.text
+    ? trim(plainText(item.text))
+    : item.message
+      ? `${MEDIUM[item.message.medium] ?? 'Zpráva'} – ${plainText(item.message.sender)}: „${trim(plainText(item.message.lines[0]), 70)}“`
+      : '';
+
+type KeyRow = { q: string; ok: string[]; risk: string[] };
+type AnswerKey = { rows?: KeyRow[]; list?: string[]; ordered?: boolean; note?: string };
+
+/** Klíč odpovědí k aktivitě (co je vhodné a co riskantní). */
+function answerKey(activity: Screen['activity']): AnswerKey | undefined {
+  if (!activity) return undefined;
+  switch (activity.type) {
+    case 'choices':
+      return {
+        rows: activity.items.map((item) => ({
+          q: situation(item),
+          ok: activity.options.filter((o) => choiceTone(item, o.id) === 'ok').map((o) => plainText(o.label)),
+          risk: activity.options.filter((o) => choiceTone(item, o.id) === 'risk').map((o) => plainText(o.label)),
+        })),
+      };
+    case 'scenarios':
+      return {
+        rows: activity.items.map((item) => ({
+          q: situation(item),
+          ok: item.options.filter((o) => o.tone === 'ok').map((o) => plainText(o.label)),
+          risk: item.options.filter((o) => o.tone === 'risk').map((o) => plainText(o.label)),
+        })),
+      };
+    case 'signals':
+      return { list: signalOrder(activity).map((id) => activity.signals[id]?.label ?? id), ordered: true, note: 'Varovné signály ve zprávě:' };
+    case 'hotspots':
+      return { list: activity.spots.map((spot) => spot.label), ordered: true, note: 'Místa v obrázku (podle čísel):' };
+    case 'settings':
+      return { list: [[...activity.screens.map((s) => plainText(s.correct)), plainText(activity.final.label)].join(' → ')], note: 'Správná cesta:' };
+    default:
+      return undefined;
+  }
+}
+---
+
+<BaseLayout title={`Scénář pro lektora – ${workshop.data.title}`} description={`Scénář workshopu ${workshop.data.title} pro lektora.`} moduleId={workshop.id} noindex>
+  <p class="back-link no-print"><a href={withBase('pro-lektory/')}><span aria-hidden="true">←</span> Pro lektory</a></p>
+
+  <header class="lecturer-header">
+    <p class="eyebrow">Scénář pro lektora</p>
+    <h1>{workshop.data.title}</h1>
+    <p class="lead">{workshop.data.subtitle}{duration && ` · ${duration}`} · {stops.length} {plural(stops.length, ['zastávka', 'zastávky', 'zastávek'])}</p>
+    <p class="notice notice--warning"><strong>Obsahuje správné odpovědi – neukazujte účastníkům.</strong></p>
+    <p class="no-print"><button type="button" class="button button--secondary" data-print hidden>Vytisknout scénář</button></p>
+  </header>
+
+  {
+    stops.map((stop, si) => (
+      <section class="lecturer-stop" aria-labelledby={`zastavka-${si + 1}`}>
+        <h2 id={`zastavka-${si + 1}`}>
+          Zastávka {si + 1}: {stop.data.title}
+          {stop.data.lecturer?.time && <span class="lecturer-time"> · {stop.data.lecturer.time}</span>}
+        </h2>
+        <p>{stop.data.summary}</p>
+        <LecturerNote note={stop.data.lecturer} title={`Poznámky k zastávce ${si + 1}`} />
+        <p class="no-print">
+          <a href={stepHref(workshop.id, si + 1)}>Otevřít zastávku {si + 1}</a>
+        </p>
+        <ol class="lecturer-screens">
+          {stop.data.screens.map((screen, ki) => {
+            const key = answerKey(screen.activity);
+            return (
+              <li class="lecturer-screen">
+                <h3>
+                  Krok {ki + 1}: {plainText(screen.title)} <span class="lecturer-kind">· {SCREEN_KIND_INFO[screen.kind].label}</span>
+                </h3>
+                {screen.lecturer && <LecturerNote note={screen.lecturer} title={`Poznámky ke kroku ${ki + 1}`} />}
+                {key?.rows && (
+                  <table class="answer-key">
+                    <caption class="visually-hidden">Klíč odpovědí ke kroku {ki + 1}</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Situace</th>
+                        <th scope="col">
+                          <span aria-hidden="true">✓</span> Vhodné
+                        </th>
+                        <th scope="col">
+                          <span aria-hidden="true">⚠</span> Riskantní
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {key.rows.map((row, ri) => (
+                        <tr>
+                          <td>
+                            {ri + 1}. {row.q}
+                          </td>
+                          <td>{row.ok.join(' / ') || '–'}</td>
+                          <td>{row.risk.join(' / ') || '–'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+                {key?.list && (
+                  <div class="answer-list">
+                    <p class="answer-list__label">{key.note}</p>
+                    {key.ordered ? (
+                      <ol>
+                        {key.list.map((x) => (
+                          <li>{x}</li>
+                        ))}
+                      </ol>
+                    ) : (
+                      <p>{key.list[0]}</p>
+                    )}
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<script>
+  // Tlačítko tisku (bez JavaScriptu stačí tisk z nabídky prohlížeče).
+  const button = document.querySelector<HTMLButtonElement>('[data-print]');
+  if (button) {
+    button.hidden = false;
+    button.addEventListener('click', () => window.print());
+  }
+</script>
+
+<style>
+  .back-link {
+    margin: var(--space-2) 0 0;
+  }
+
+  .lecturer-header {
+    padding: var(--space-3) 0 var(--space-2);
+  }
+
+  .lecturer-stop {
+    margin-top: var(--space-4);
+    padding-top: var(--space-2);
+    border-top: 3px solid var(--module-color, var(--color-primary));
+  }
+
+  .lecturer-time,
+  .lecturer-kind {
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  .lecturer-screens {
+    max-width: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lecturer-screen {
+    margin: 0;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .lecturer-screen h3 {
+    margin: 0 0 var(--space-1);
+    font-size: 1.15rem;
+  }
+
+  .answer-key {
+    width: 100%;
+    margin: var(--space-1) 0;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  .answer-key th,
+  .answer-key td {
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--color-border-light);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .answer-key th {
+    background: var(--color-surface-alt);
+  }
+
+  .answer-list {
+    font-size: 0.95rem;
+  }
+
+  .answer-list__label {
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+  }
+
+  .answer-list ol {
+    margin: 0;
+    padding-left: 1.4rem;
+  }
+
+  @media (max-width: 40rem) {
+    .answer-key {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  @media print {
+    :global(html),
+    :global(html[data-large-text]) {
+      font-size: 80%;
+    }
+
+    .lecturer-stop + .lecturer-stop {
+      break-before: page;
+    }
+
+    .lecturer-screen {
+      break-inside: avoid;
+    }
+  }
+</style>

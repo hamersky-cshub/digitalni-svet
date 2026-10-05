@@ -16,3 +16,11 @@ export function choiceTone(item: ChoiceItem, id: string): Tone {
   if (item.avoid?.includes(id)) return 'risk';
   return 'info';
 }
+
+type SignalsActivity = Extract<Activity, { type: 'signals' }>;
+
+/** Id varovných signálů v pořadí, v jakém se objevují ve zprávě. */
+export function signalOrder(activity: Pick<SignalsActivity, 'sender' | 'subject' | 'body' | 'attachment'>): string[] {
+  const text = [activity.sender, activity.subject ?? '', ...activity.body, activity.attachment ?? ''].join('\n');
+  return [...new Set([...text.matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)].map((m) => m[1]))];
+}

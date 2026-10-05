@@ -1,3 +1,5 @@
+import type { ScreenKind } from '../content.config';
+
 /** Visual identity shared by the homepage, module overview and activities. */
 export const moduleStyles: Record<string, { accent: string; color: string; /** Tmavší odstín pro drobný text (kontrast ≥ 7:1). */ text: string; soft: string; icon: 'privacy' | 'shield' | 'key'; topic: string; outcome: string }> = {
   'digitalni-stopa': { accent: '#d946ef', color: '#a13783', text: '#872e6e', soft: '#f9eefa', icon: 'privacy', topic: 'Vaše soukromí', outcome: 'Zkontrolujete oprávnění aplikací a promyslíte, co sdílíte.' },
@@ -5,3 +7,13 @@ export const moduleStyles: Record<string, { accent: string; color: string; /** T
   'digitalni-klice': { accent: '#f59e0b', color: '#935b08', text: '#764906', soft: '#fff5dd', icon: 'key', topic: 'Vaše účty', outcome: 'Vyzkoušíte si silnou heslovou frázi a druhé ověření.' },
 };
 export const defaultModuleStyle = moduleStyles['digitalni-stopa'];
+
+/** Štítek „co se teď děje“ u obrazovky (ScreenKind.astro) a ve scénáři pro lektora. */
+export const SCREEN_KIND_INFO: Record<ScreenKind, { icon: string; label: string }> = {
+  vyklad: { icon: '💬', label: 'Povídání' },
+  diskuse: { icon: '👥', label: 'Společná diskuse' },
+  aktivita: { icon: '👆', label: 'Aktivita' },
+  prakticky: { icon: '📱', label: 'Na vašem zařízení' },
+  reflexe: { icon: '💭', label: 'K zamyšlení' },
+  shrnuti: { icon: '📌', label: 'Shrnutí' },
+};

@@ -1,0 +1,84 @@
+---
+/**
+ * Pro lektory: jak web používat během prezenčního workshopu a odkazy na scénáře.
+ * Stránka není z webu odkazovaná (noindex) a offline režim ji neukládá předem.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAvailableWorkshops, getStops, workshopDuration } from '../../lib/content';
+import { withBase } from '../../lib/url';
+
+const workshops = await Promise.all(
+  (await getAvailableWorkshops()).map(async (workshop) => ({ workshop, duration: workshopDuration(workshop, await getStops(workshop.id)) })),
+);
+const guideHref = withBase('materialy/jak-smazat-historii-a-cookies/');
+const hasGuide = workshops.some(({ workshop }) => workshop.id === 'digitalni-stopa');
+---
+
+<BaseLayout title="Pro lektory" description="Jak web používat během prezenčního workshopu." noindex>
+  <div class="prose page-intro">
+    <h1>Pro lektory</h1>
+    <p class="lead">
+      Web je průvodce prezenčním workshopem. Na tuto stránku web nikde neodkazuje – otevírejte ji na vlastním zařízení, ne na tabletech
+      účastníků (zůstala by v jejich historii).
+    </p>
+
+    <h2>Scénáře workshopů</h2>
+    <p>Časy, cíle, otázky do diskuse, tipy a klíč odpovědí ke každé obrazovce. Dají se i vytisknout.</p>
+    <ul class="points">
+      {
+        workshops.map(({ workshop, duration }) => (
+          <li>
+            <a href={withBase(`pro-lektory/${workshop.id}/`)}>{workshop.data.title}</a>
+            {duration && ` – ${duration}`}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="hint">Témata, která ještě nejsou otevřená (soubor workshop-access.json), tu nejsou.</p>
+
+    <h2>Před workshopem</h2>
+    <ul class="points">
+      <li>Na každém tabletu otevřete přehled tématu, dokud je Wi-Fi. Stránky tématu se uloží a fungují i při výpadku připojení.</li>
+      <li>Pokud tablety používala jiná skupina, klepněte na přehledu tématu na „Smazat označení Navštíveno“.</li>
+      <li>Kdo chce, může si zapnout „Větší písmo“ (vpravo nahoře). Nastavení platí jen pro daný tablet.</li>
+      <li>Web jde přidat na plochu tabletu jako ikonu: v Safari přes Sdílet → Přidat na plochu, v Chromu přes ⋮ → Přidat na plochu.</li>
+      <li>Rekvizity nejsou potřeba – fotografie si účastníci vyfotí sami a kostky jsou virtuální.</li>
+    </ul>
+
+    <h2>Během workshopu</h2>
+    <ul class="points">
+      <li>Každá obrazovka má vlastní adresu. Stačí říct například „Otevřete zastávku 3“.</li>
+      <li>Tlačítko „Pokračovat“ je vždy dostupné – účastníci nemusí aktivitu dokončit.</li>
+      <li>Po volbě odpovědi se nic neposouvá samo. Nechte čas na přečtení vysvětlení.</li>
+      <li>Když Wi-Fi vypadne, uložené stránky se otevřou samy. Stránka, která uložená není, ukáže „Jste offline“.</li>
+    </ul>
+
+    <h2>Po workshopu (sdílené tablety)</h2>
+    <ul class="points">
+      <li>Smažte zkušební fotografie. Na iPadu vysypte i album „Nedávno smazané“.</li>
+      <li>
+        Zavřete kartu se stránkou Have I Been Pwned a v nastavení prohlížeče smažte historii a uložené údaje formulářů (automatické vyplňování){
+          hasGuide && (
+            <>
+              {' '}– postup je v návodu <a href={guideHref}>Jak smazat historii prohlížení a cookies</a>
+            </>
+          )
+        }.
+      </li>
+      <li>Na přehledu tématu klepněte na „Smazat označení Navštíveno“.</li>
+    </ul>
+
+    <h2>Soukromí</h2>
+    <p>
+      Web nic nikam neodesílá. V prohlížeči si pamatuje jen to, které kroky byly otevřené (kvůli označení „Navštíveno“), a velikost písma.
+      Odpovědi z aktivit se neukládají.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .hint {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+</style>

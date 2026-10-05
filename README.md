@@ -23,6 +23,10 @@ Potom spusťte `npm run check && npm run build` a zveřejněte nový obsah slož
 
 Přepínač se používá při sestavení. Nestačí měnit soubor na již nasazeném statickém webu. Obsah zamčených témat zůstává ve zdrojových souborech pro budoucí použití, ale jejich stránky a PDF nejsou součástí výsledného webu. Jsou blokovány i při zadání přímé adresy. Nová konfigurace aktualizuje service worker a jeho offline cache.
 
+## Pro lektory
+
+Stránka **`/pro-lektory/`** (web na ni nikde neodkazuje) shrnuje, jak web používat před workshopem, během něj a po něm. Odkazuje na scénáře `/pro-lektory/<téma>/` s časy, cíli, otázkami do diskuse, tipy a klíčem odpovědí ke každé obrazovce – vznikají z poznámek `lecturer` v souborech zastávek a dají se vytisknout. Scénáře jsou jen pro otevřená témata. Stránky mají `noindex` a offline režim je neukládá; otevírejte je na vlastním zařízení.
+
 ## Spuštění
 
 Node.js 24 nebo novější (viz `.nvmrc`).

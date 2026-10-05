@@ -4,6 +4,7 @@
  * Podezřelá místa jsou tlačítka (podtržená tečkovaně), vysvětlení se zobrazí pod zprávou.
  */
 import { formatSignals, formatText } from '../../lib/text';
+import { signalOrder } from '../../lib/activities';
 import MessageMock from './MessageMock.astro';
 
 interface Props {
@@ -21,8 +22,7 @@ interface Props {
 const { instruction, medium, sender, subject, time, body, attachment, signals, note } = Astro.props;
 const fmt = (t: string) => formatSignals(t);
 // Pořadí vysvětlení podle výskytu v textu.
-const order = [...[sender, subject ?? '', ...body, attachment ?? ''].join('\n').matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)].map((m) => m[1]);
-const ids = [...new Set(order)];
+const ids = signalOrder({ sender, subject, body, attachment });
 ---
 
 <spot-explorer class="signals" data-noun="signálu">

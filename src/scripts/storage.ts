@@ -1,8 +1,7 @@
 /*
  * Jediná místa, kde web něco ukládá – a to jen v prohlížeči tohoto zařízení.
  * Nic se nikam neodesílá. Ukládá se:
- *   - které kroky workshopu účastník otevřel (podle toho se u zastávky ukáže „Navštíveno“),
- *   - zda je zapnutý režim lektora.
+ *   - které kroky workshopu účastník otevřel (podle toho se u zastávky ukáže „Navštíveno“).
  * Velikost písma ukládá src/scripts/site.ts pod stejným prefixem.
  * Odpovědi z aktivit se neukládají nikdy.
  */
@@ -52,14 +51,5 @@ export const progress = {
     // Starší verze webu ukládaly pozici a otevřené zastávky – smažeme je také.
     remove(`${workshop}:position`);
     remove(`${workshop}:visited`);
-  },
-};
-
-export const lecturerMode = {
-  isOn: () => read<boolean>('lecturer') === true,
-  set(on: boolean) {
-    if (on) write('lecturer', true);
-    else remove('lecturer');
-    document.dispatchEvent(new CustomEvent('lecturer-mode', { detail: on }));
   },
 };

@@ -1,5 +1,5 @@
 ---
-/** Poznámka pro lektora – skrytá, dokud lektor nezapne režim lektora (stránka Pro lektory). */
+/** Poznámka pro lektora (čas, cíl, diskuse, přechod, tipy). Zobrazuje se jen na stránkách pro lektory. */
 interface Props {
   note?: {
     time?: string;
@@ -24,7 +24,7 @@ const rows = note
 
 {
   note && (rows.length > 0 || note.tips?.length) && (
-    <aside class="lecturer-note" data-lecturer hidden aria-label={title}>
+    <div class="lecturer-note">
       <p class="lecturer-note__title">
         <span aria-hidden="true">🧭</span> {title}
       </p>
@@ -45,7 +45,7 @@ const rows = note
           ))}
         </ul>
       )}
-    </aside>
+    </div>
   )
 }
 

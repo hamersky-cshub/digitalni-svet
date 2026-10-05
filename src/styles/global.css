@@ -567,7 +567,7 @@ details.disclosure > .disclosure__body {
   .site-header,
   .site-footer,
   .step-nav,
-  .lecturer-bar {
+  .no-print {
     display: none !important;
   }
 }
@@ -716,7 +716,7 @@ html[data-large-text] { font-size: 150%; }
 .page-intro h1 { margin:.5rem 0 1rem; }
 .page-section { padding-block:2.5rem; }
 .button { font-family:var(--font-body); }
-body[data-workshop] .progress, body[data-workshop] .screen, body[data-workshop] .step-nav, body[data-workshop] main > .container > .lecturer-note { max-width:46rem; margin-inline:auto; }
+body[data-workshop] .progress, body[data-workshop] .screen, body[data-workshop] .step-nav { max-width:46rem; margin-inline:auto; }
 .screen { padding:2rem; background:white; border:1px solid var(--color-border-light); border-top:5px solid var(--module-color, var(--color-primary)); border-radius:var(--radius); box-shadow:0 8px 28px #1c355407; }
 body[data-workshop] main { background:#f6f8fc; }
 .screen .prose, .screen p, .screen ul { max-width:100%; }
