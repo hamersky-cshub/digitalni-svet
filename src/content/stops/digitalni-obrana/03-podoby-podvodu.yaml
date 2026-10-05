@@ -5,6 +5,7 @@ workshop: digitalni-obrana
 order: 3
 title: Podvody mají mnoho podob
 summary: QR kódy, vyskakovací okna, falešná Wi-Fi i napodobený hlas.
+icon: masks
 lecturer:
   time: 15 minut
   goal: 'Ukázat, že podvod nepřichází jen e-mailem. Kanál se mění, princip obrany zůstává stejný: zastavit se a ověřit jinou cestou.'

@@ -5,6 +5,7 @@ workshop: digitalni-obrana
 order: 2
 title: Co byste udělali?
 summary: Čtyři modelové situace a bezpečné reakce na ně.
+icon: question
 lecturer:
   time: 15 minut
   goal: 'Procvičit volbu bezpečné reakce: neklepat na odkaz, neplatit, ověřit jinou cestou.'

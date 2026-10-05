@@ -5,6 +5,7 @@ workshop: digitalni-klice
 order: 5
 title: Druhý zámek
 summary: Dvoufázové ověření a novější způsoby přihlašování.
+icon: lock
 lecturer:
   time: 25 minut
   goal: Vysvětlit dvoufázové ověření a zásadu nepotvrzovat přihlášení, které jsem sám/sama nezahájil(a). Krátce zmínit přístupové klíče (passkeys).

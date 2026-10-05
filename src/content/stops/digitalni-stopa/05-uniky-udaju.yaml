@@ -5,6 +5,7 @@ workshop: digitalni-stopa
 order: 5
 title: Unikly mé údaje?
 summary: Jak zjistit, zda váš e-mail unikl, a co pak dělat.
+icon: leak
 lecturer:
   time: 15 minut
   goal: 'Účastníci si ověří, zda jejich e-mail unikl, a vědí, co dělat. Zdůrazněte: zadává se jen e-mail, nikdy heslo.'

@@ -5,6 +5,7 @@ workshop: digitalni-obrana
 order: 6
 title: Tlak podvodníka
 summary: Na jaké pocity podvodníci působí.
+icon: timer
 lecturer:
   time: 15 minut
   goal: Pojmenovat manipulační triky, aby je účastníci příště poznali. Zprávy často kombinují více triků najednou.

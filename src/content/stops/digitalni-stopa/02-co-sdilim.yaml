@@ -5,6 +5,7 @@ workshop: digitalni-stopa
 order: 2
 title: Co sdílím
 summary: Komu svěřujeme jaké informace a proč na tom záleží.
+icon: share
 lecturer:
   time: 20 minut
   goal: Účastníci rozliší, že u informací rozhoduje komu, proč a zda je nutné je zveřejnit. U řady otázek neexistuje jediná správná odpověď.

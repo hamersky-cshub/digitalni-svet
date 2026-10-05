@@ -5,6 +5,7 @@ workshop: digitalni-klice
 order: 1
 title: Klíče k digitálnímu životu
 summary: Proč jsou hesla jako klíče od bytu.
+icon: key
 lecturer:
   time: 10 minut
   goal: Navázat na zkušenost účastníků a zavést přirovnání heslo = klíč.

@@ -5,6 +5,7 @@ workshop: digitalni-klice
 order: 3
 title: Jaké heslo je lepší?
 summary: Délka a jedinečnost jsou důležitější než složité znaky.
+icon: dice
 lecturer:
   time: 20 minut
   goal: Ukázat, že bezpečné heslo nemusí být nezapamatovatelný chaos. Rozhoduje délka a jedinečnost.

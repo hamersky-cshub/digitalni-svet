@@ -51,7 +51,7 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 ## Obsah
 
 - `src/content/workshops/*.yaml`: názvy a popisy tří témat.
-- `src/content/stops/<téma>/*.yaml`: očíslované zastávky a krátké obrazovky. `kind: prakticky` zařadí obrazovku i do přehledu praktických úkolů.
+- `src/content/stops/<téma>/*.yaml`: očíslované zastávky a krátké obrazovky. `kind: prakticky` zařadí obrazovku i do přehledu praktických úkolů. Pole `icon` (název ikony ze sady v `src/lib/icons.ts`, např. `camera`) se zobrazí na kartě zastávky v přehledu modulu.
 - V textech obrazovek lze psát `**tučně**`, `[text odkazu](https://…)` (klikací odkaz, otevře se v novém okně) a `{{adresa.test}}` (neklikací ukázková adresa v simulacích).
 - Obrazovka může mít pole `figures` s nejvýš dvěma ilustracemi (`illustration`, `alt`, `caption`). Dostupné ilustrace jsou v `src/components/illustrations/` a jejich seznam v `ILLUSTRATIONS` v `src/content.config.ts`.
 - Typy aktivit (pole `activity.type`) a jejich pole popisuje `src/content.config.ts`. Patří mezi ně např. `choices`, `scenarios`, `signals`, `guide`, `passphrase`, `dice` (kostková metoda s virtuálními kostkami a tabulkou 36 slov) a `settings` (proklikání nastavení účtu nanečisto).

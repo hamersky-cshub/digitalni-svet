@@ -5,6 +5,7 @@ workshop: digitalni-stopa
 order: 4
 title: Co může prozradit fotografie
 summary: Na co se podívat, než fotografii pošlete nebo zveřejníte.
+icon: camera
 lecturer:
   time: 10 minut
   goal: Účastníci si zvyknou prohlédnout si celou fotografii, než ji sdílejí.

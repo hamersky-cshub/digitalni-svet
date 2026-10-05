@@ -5,6 +5,7 @@ workshop: digitalni-obrana
 order: 1
 title: Proč to na nás zkoušejí
 summary: Jak podvodníci pracují a jaký je hlavní princip obrany.
+icon: target
 lecturer:
   time: 10 minut
   goal: Navodit klidnou atmosféru, nechat sdílet zkušenosti a představit princip zastavit se – zkontrolovat – ověřit.

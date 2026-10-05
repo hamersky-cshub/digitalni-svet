@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
+import Icon from '../../components/Icon.astro';
 import ModuleIcon from '../../components/ModuleIcon.astro';
 import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -54,12 +55,19 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
               {i + 1}
             </span>
             <div class="route__body">
-              <h3 class="route__title">
-                <a href={stepHref(workshop.id, i + 1)}>
-                  <span class="visually-hidden">Zastávka {i + 1}: </span>
-                  {stop.data.title}
-                </a>
-              </h3>
+              <div class="route__head">
+                <h3 class="route__title">
+                  <a href={stepHref(workshop.id, i + 1)}>
+                    <span class="visually-hidden">Zastávka {i + 1}: </span>
+                    {stop.data.title}
+                  </a>
+                </h3>
+                {stop.data.icon && (
+                  <span class="route__icon">
+                    <Icon name={stop.data.icon} />
+                  </span>
+                )}
+              </div>
               <p class="route__summary">{stop.data.summary}</p>
               <p class="route__meta">
                 {stop.data.screens.some(screen => screen.kind === 'prakticky') && <span class="pill">Praktický úkol</span>}
@@ -244,6 +252,31 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
     }
   }
 
+  /* Název zastávky a vpravo její ikona. */
+  .route__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .route__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 0.75rem;
+    background: var(--module-soft);
+    color: var(--module-text, var(--module-color));
+  }
+
+  .route__icon :global(.icon) {
+    width: 1.9rem;
+    height: 1.9rem;
+    vertical-align: 0;
+  }
+
   .route__title {
     margin: 0;
     font-size: 1.35rem;
@@ -320,6 +353,28 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
 
     .route__body {
       padding: var(--space-2);
+    }
+
+    .route__head {
+      gap: var(--space-1);
+    }
+
+    .route__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.6rem;
+    }
+
+    .route__icon :global(.icon) {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  /* Na telefonu je místo pro název důležitější než ikona. */
+  @media (max-width: 30rem) {
+    .route__icon {
+      display: none;
     }
   }
 </style>

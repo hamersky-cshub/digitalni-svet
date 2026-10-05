@@ -5,6 +5,7 @@ workshop: digitalni-klice
 order: 2
 title: Jak se hesla kradou
 summary: Proč se běžná hesla uhodnou za pár vteřin.
+icon: hook
 lecturer:
   time: 20 minut
   goal: 'Pochopit, že hesla se většinou nehádají naslepo: vylákají se, zkoušejí z úniků nebo hádají ze seznamů běžných hesel.'

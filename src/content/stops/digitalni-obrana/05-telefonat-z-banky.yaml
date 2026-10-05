@@ -5,6 +5,7 @@ workshop: digitalni-obrana
 order: 5
 title: Telefonát z banky
 summary: Simulace rozhovoru s falešným pracovníkem banky.
+icon: phone-call
 lecturer:
   time: 10 minut
   goal: Nacvičit ukončení hovoru a ověření na známém čísle. Posílit pocit, že zavěsit je slušné a v pořádku.

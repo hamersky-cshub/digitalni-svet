@@ -5,6 +5,7 @@ workshop: digitalni-obrana
 order: 4
 title: Najděte varovné signály
 summary: Varovné signály ve zprávách i v adresách – a jak poznat zprávu, která je v pořádku.
+icon: flag
 lecturer:
   time: 25 minut
   goal: Účastníci poznají typické varovné signály. Zdůrazněte, že podvod může vypadat bezchybně – pravopis nic nezaručuje.

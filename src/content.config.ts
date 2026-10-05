@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { ICON_NAMES, type IconName } from './lib/icons';
 
 /*
  * Pravidla pro obsah webu. Při sestavení se každý soubor zkontroluje;
@@ -343,6 +344,8 @@ const stops = defineCollection({
     title: z.string(),
     /** Jedna věta na kartu zastávky. */
     summary: z.string(),
+    /** Ikona na kartě zastávky (název ze sady v src/lib/icons.ts, např. camera). */
+    icon: z.enum(ICON_NAMES as [IconName, ...IconName[]]).optional(),
     lecturer: lecturerNote.optional(),
     screens: z.array(screen).min(1),
   }),
