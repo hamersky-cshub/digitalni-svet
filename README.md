@@ -49,7 +49,9 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 - `src/content/resources/*.md`: tematické návody, odkazy a materiály ke stažení.
 - `public/soubory/<téma>/`: PDF a jiné soubory ke stažení. **Soubory ukládejte pod odpovídající téma**, aby se při zamčení vynechaly ze sestavení.
 - `src/lib/presentation.ts`: barvy jednotlivých témat.
-- `public/images/`: ilustrace převzaté z referenčního projektu.
+- `public/images/`: ilustrace převzaté z referenčního projektu, zmenšené na velikost, ve které se zobrazují (obrázky modulů 640 px, robot 640 a 1040 px).
+- `public/fonts/`: písma webu. Nadpisové písmo Rubik je zmenšené jen na latinku; původní soubor je ve `fonts-source/`. Po výměně písma podmnožinu vytvořte znovu (nástroj `pyftsubset` z balíčku fonttools):
+  `pyftsubset fonts-source/Rubik-Bold.woff2 --unicodes="U+0020-007E,U+00A0-017F,U+2013-2014,U+2018-201E,U+2022,U+2026,U+2039-203A,U+20AC,U+2190-2193" --layout-features='*' --flavor=woff2 --output-file=public/fonts/Rubik-Bold-latin.woff2`
 - `scripts/workshop-access.mjs`: odstranění zamčených souborů z výsledného webu a blokování v místním vývojovém serveru.
 
 Při přidání nového tématu přidejte jeho id i do `workshop-access.json`; téma bez přepínače zůstává zamčené.

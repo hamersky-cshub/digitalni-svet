@@ -33,7 +33,10 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
 
   <header class="workshop-header">
     <p class="eyebrow">Modul 0{workshop.data.order} · {theme.topic}</p>
-    <img class="workshop-art" src={withBase(`images/modules/${workshop.id}.webp`)} alt="" width="800" height="800" />
+    <picture class="workshop-art">
+      <source media="(max-width: 650px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+      <img src={withBase(`images/modules/${workshop.id}.webp`)} alt="" width="640" height="640" decoding="async" />
+    </picture>
     <h1>{workshop.data.title}</h1>
     <p class="workshop-header__subtitle">{workshop.data.subtitle}</p>
     <p class="lead">{workshop.data.cardText}</p>
@@ -153,7 +156,8 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
 
   .workshop-header { padding:1.5rem 0 2rem; }
   .workshop-header h1 { font-weight:700;letter-spacing:-.04em;text-decoration:underline;text-decoration-color:var(--module-color);text-decoration-thickness:4px;text-underline-offset:.2em;margin-bottom:1rem; }
-  .workshop-art { float:right;width:10rem;height:10rem;object-fit:contain;margin:0 0 1.5rem 1.5rem; }
+  .workshop-art { float:right;display:block;width:10rem;height:10rem;margin:0 0 1.5rem 1.5rem; }
+  .workshop-art img { display:block;width:100%;height:100%;object-fit:contain; }
   .workshop-header .disclosure { clear:both; }
   @media(max-width:650px){ .workshop-art{display:none} }
   .workshop-icon { display:inline-grid;place-items:center;padding:1rem;border-radius:.65rem;background:var(--module-soft);color:var(--module-color);margin-bottom:.5rem; }
