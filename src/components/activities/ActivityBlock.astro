@@ -11,6 +11,8 @@ import LoginSimulation from './LoginSimulation.astro';
 import MessageSignals from './MessageSignals.astro';
 import PassphraseBuilder from './PassphraseBuilder.astro';
 import PermissionsSim from './PermissionsSim.astro';
+import AddressAnatomy from './AddressAnatomy.astro';
+import DialogueSim from './DialogueSim.astro';
 import Reflection from './Reflection.astro';
 import Rules from './Rules.astro';
 import SettingsSim from './SettingsSim.astro';
@@ -58,3 +60,5 @@ if (activity.type === 'choices') {
 {activity.type === 'login' && <LoginSimulation {...activity} />}
 {activity.type === 'rules' && <Rules {...activity} />}
 {activity.type === 'permissions' && <PermissionsSim {...activity} />}
+{activity.type === 'address' && <AddressAnatomy {...activity} />}
+{activity.type === 'dialogue' && <DialogueSim {...activity} />}

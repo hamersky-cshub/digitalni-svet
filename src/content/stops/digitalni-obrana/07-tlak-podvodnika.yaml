@@ -2,13 +2,13 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-obrana
-order: 6
+order: 7
 title: Tlak podvodníka
 summary: Na jaké pocity podvodníci působí.
 goal: Poznáte, na jaké pocity podvodníci tlačí.
 icon: timer
 lecturer:
-  time: 15 minut
+  time: 20 minut
   goal: Pojmenovat manipulační triky, aby je účastníci příště poznali. Zprávy často kombinují více triků najednou.
   discussion: Který trik by na vás nejvíc zapůsobil?
   transition: Shrňme si vše do jednoho jednoduchého pravidla.
@@ -169,6 +169,75 @@ screens:
     lecturer:
       tips:
         - Pokud nestíháte, není nutné projít všech jedenáct zpráv – stačí polovina a zbytek si účastníci mohou projít doma.
+  - kind: aktivita
+    title: Ahoj mami, mám nové číslo
+    text:
+      - Přijde vám zpráva z neznámého čísla. Vyberte, co odpovíte.
+    activity:
+      type: dialogue
+      medium: chat
+      contact: Neznámé číslo
+      start: zacatek
+      nodes:
+        zacatek:
+          lines:
+            - Ahoj mami, to jsem já. Rozbil se mi telefon, tohle je moje nové číslo. Ulož si ho 🙂
+            - Máš chvilku? Potřebuju pomoct.
+          choices:
+            - label: Ahoj! Co potřebuješ?
+              next: penize
+              tone: info
+            - label: Nejdřív ti zavolám na tvoje staré číslo.
+              next: nevolej
+              tone: ok
+        penize:
+          lines:
+            - Musím dneska zaplatit fakturu, ale bankovnictví mi na novém telefonu ještě nejde. Můžeš to za mě poslat? 24 800 Kč, zítra ti to vrátím. Je to fakt naléhavé 🙏
+          choices:
+            - label: Dobře, pošli mi číslo účtu.
+              next: konec-poslala
+              tone: risk
+            - label: Nejdřív ti zavolám na staré číslo.
+              next: nevolej
+              tone: ok
+            - label: Kdo jsi? Jak se jmenuje náš pes?
+              next: otazka
+              tone: ok
+        nevolej:
+          lines:
+            - Na staré číslo nevolej, ten telefon je rozbitý! Nemám čas, prosím, pošli to hned.
+          choices:
+            - label: Tak dobře, pošlu to.
+              next: konec-poslala
+              tone: risk
+            - label: Bez ověření nic neposílám. Zavolám tvé sestře.
+              next: konec-overila
+              tone: ok
+        otazka:
+          lines:
+            - Mami, nezkoušej mě, nemám čas 😟 Prostě to pošli, prosím.
+          choices:
+            - label: Tak dobře, pošlu to.
+              next: konec-poslala
+              tone: risk
+            - label: Bez ověření nic neposílám. Zavolám tvé sestře.
+              next: konec-overila
+              tone: ok
+        konec-poslala:
+          lines:
+            - Děkuju moc! Tady je číslo účtu…
+          end:
+            tone: risk
+            text: Tak to podvodníci dělají – nové číslo, spěch a prosba o peníze. Peníze by odešly cizímu člověku. Zkuste to znovu.
+        konec-overila:
+          lines:
+            - '(Sestra vám řekne: „Bráška má telefon v pořádku, právě s ním mluvím.“)'
+          end:
+            tone: ok
+            text: Výborně. Ověřili jste si to na čísle, které znáte. Na zprávu už neodpovídejte, ukažte ji blízkým a číslo zablokujte.
+      lesson: Podezřelé je hlavně „nové číslo“ spojené s prosbou o peníze a spěchem. Vždy volejte na číslo, které znáte – nebo se zeptejte na něco, co ví jen váš blízký.
+    lecturer:
+      goal: Vyzkoušet si ověření jinou cestou ve chvíli, kdy na nás tlačí „blízký člověk“.
   - kind: reflexe
     title: Když cítíte tlak
     activity:

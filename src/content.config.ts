@@ -125,7 +125,7 @@ const scenariosActivity = z.object({
 });
 
 /** Ilustrace s místy, na která lze klepnout. */
-export const SCENES = ['dovolena'] as const;
+export const SCENES = ['dovolena', 'eshop'] as const;
 const hotspotsActivity = z.object({
   type: z.literal('hotspots'),
   scene: z.enum(SCENES),
@@ -295,6 +295,45 @@ const permissionsActivity = z
   })
   .refine((a) => a.apps.some((app) => app.permissions.some((p) => !p.needed)), { message: 'Aspoň jedno oprávnění musí být zbytečné (needed: false).' });
 
+/** Internetová adresa rozložená na části (klepnutím se ukáže vysvětlení). */
+const addressActivity = z.object({
+  type: z.literal('address'),
+  instruction: z.string(),
+  parts: z.array(z.object({ text: z.string(), label: z.string(), explanation: z.string(), key: z.boolean().optional() })).min(2),
+  outro: z.string().optional(),
+});
+
+/** Větvený rozhovor (telefonát nebo chat): uzly s větami protistrany a volbami, nebo závěrem. */
+const dialogueActivity = z
+  .object({
+    type: z.literal('dialogue'),
+    medium: z.enum(['call', 'chat']),
+    /** Jméno nebo číslo v hlavičce rozhovoru. */
+    contact: z.string(),
+    /** Id prvního uzlu. */
+    start: z.string(),
+    nodes: z.record(
+      z.string(),
+      z
+        .object({
+          lines: z.array(z.string()).min(1),
+          choices: z.array(z.object({ label: z.string(), next: z.string(), tone })).min(2).max(4).optional(),
+          end: z.object({ tone, text: z.string() }).optional(),
+        })
+        .refine((n) => Boolean(n.choices) !== Boolean(n.end), { message: 'Uzel má buď "choices", nebo "end".' }),
+    ),
+    /** Shrnutí pod závěrem rozhovoru. */
+    lesson: z.string().optional(),
+  })
+  .superRefine((a, ctx) => {
+    if (!a.nodes[a.start]) ctx.addIssue({ code: 'custom', path: ['start'], message: `Uzel "${a.start}" neexistuje.` });
+    for (const [id, n] of Object.entries(a.nodes)) {
+      for (const c of n.choices ?? []) {
+        if (!a.nodes[c.next]) ctx.addIssue({ code: 'custom', path: ['nodes', id], message: `Volba vede na neexistující uzel "${c.next}".` });
+      }
+    }
+  });
+
 const activity = z.discriminatedUnion('type', [
   choicesActivity,
   scenariosActivity,
@@ -310,6 +349,8 @@ const activity = z.discriminatedUnion('type', [
   loginActivity,
   rulesActivity,
   permissionsActivity,
+  addressActivity,
+  dialogueActivity,
 ]);
 export type Activity = z.infer<typeof activity>;
 

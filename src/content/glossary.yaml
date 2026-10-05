@@ -38,6 +38,11 @@ dvoufazove-overeni:
   workshop: digitalni-stopa
   definition: Přihlášení ve dvou krocích – kromě hesla je potřeba ještě potvrzení v telefonu nebo kód z SMS. Kdo zná jen vaše heslo, se dovnitř nedostane. V aplikacích se jmenuje také **dvoufaktorové ověření** nebo **ověření ve dvou krocích**.
 
+domena:
+  term: Doména
+  workshop: digitalni-obrana
+  definition: Název webu v adrese, třeba „mojebanka.cz“. Je těsně před prvním lomítkem „/“ a podle ní poznáte, komu stránka patří.
+
 phishing:
   term: Phishing
   workshop: digitalni-obrana

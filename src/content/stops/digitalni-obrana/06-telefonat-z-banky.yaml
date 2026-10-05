@@ -1,0 +1,125 @@
+# Zastávka workshopu. Každá položka v "screens" je jedna obrazovka (krok).
+# Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
+
+workshop: digitalni-obrana
+order: 6
+title: Telefonát z banky
+summary: Simulace rozhovoru s falešným pracovníkem banky.
+goal: Nacvičíte si, jak ukončit podezřelý hovor.
+icon: phone-call
+lecturer:
+  time: 10 minut
+  goal: Nacvičit ukončení hovoru a ověření na známém čísle. Posílit pocit, že zavěsit je slušné a v pořádku.
+  discussion: Proč je těžké hovor ukončit? Co vám může pomoci?
+  transition: Proč na takové triky lidé reagují? Podívejme se na tlak, který podvodníci používají.
+  tips:
+    - 'Rozhovor si můžete zahrát ve dvojicích: jeden je „bankéř“, druhý trénuje ukončení hovoru.'
+screens:
+  - kind: vyklad
+    title: Zvoní telefon
+    text:
+      - Představte si, že vám zavolá neznámé číslo. Volající mluví zdvořile, klidně a profesionálně.
+      - Projdeme rozhovor krok za krokem. V každém kroku zvolte, co byste udělali.
+  - kind: aktivita
+    title: Telefonát z „banky“
+    text:
+      - Volající se představí jako pracovník banky. Vyberte, co odpovíte. Rozhovor se podle vašich odpovědí změní.
+    activity:
+      type: dialogue
+      medium: call
+      contact: Neznámé číslo
+      start: zacatek
+      nodes:
+        zacatek:
+          lines:
+            - Dobrý den, tady Petr Novák z bezpečnostního oddělení vaší banky. Zaznamenali jsme podezřelou platbu 18 500 Kč z vašeho účtu. Máte chvilku?
+          choices:
+            - label: Co se stalo? Co mám dělat?
+              next: spech
+              tone: info
+            - label: Děkuji, ověřím si to přímo u banky. Na shledanou.
+              next: konec-ukoncil
+              tone: ok
+            - label: Kvůli ověření vám řeknu číslo účtu a datum narození.
+              next: kod
+              tone: risk
+        spech:
+          lines:
+            - Někdo se vám snaží vybrat úspory. Musíme jednat hned, do pěti minut. Převedeme vaše peníze na bezpečný účet, kde jim nic nehrozí.
+          choices:
+            - label: Dobře, na jaký účet to mám poslat?
+              next: konec-prevod
+              tone: risk
+            - label: Banka žádný bezpečný účet nemá. Hovor ukončím a zavolám bance sám/sama.
+              next: konec-bezpecny-ucet
+              tone: ok
+        kod:
+          lines:
+            - Děkuji, údaje sedí. Teď vám přišla SMS s kódem. Nadiktujte mi ho, ať můžu platbu zastavit. A nainstalujte si prosím aplikaci, přes kterou vám pomůžu.
+          choices:
+            - label: Kód je 482 913.
+              next: konec-kod
+              tone: risk
+            - label: Kód nikomu neříkám. Hovor končím a volám bance.
+              next: konec-pozde
+              tone: ok
+        konec-ukoncil:
+          lines:
+            - Ale to je naléhavé, prosím vás… (hovor ukončen)
+          end:
+            tone: ok
+            text: Výborně. Ukončit hovor je v pořádku a slušné. Teď zavolejte bance sami – na číslo z platební karty nebo ze smlouvy. Když se opravdu něco děje, banka vám to potvrdí.
+        konec-bezpecny-ucet:
+          lines:
+            - Počkejte, nezavěšujte, přijdete o peníze! (hovor ukončen)
+          end:
+            tone: ok
+            text: Přesně tak. Žádná banka nemá „bezpečný účet“, na který byste měli převádět peníze. Spěch a strach jsou hlavní nástroje podvodníka.
+        konec-pozde:
+          lines:
+            - To je chyba, platba pak nepůjde zastavit… (hovor ukončen)
+          end:
+            tone: ok
+            text: Správně. I když jste už něco prozradili, nikdy není pozdě hovor ukončit. Zavolejte bance a řekněte, co jste volajícímu sdělili.
+        konec-prevod:
+          lines:
+            - Výborně, nadiktuji vám číslo účtu. Hlavně o tom s nikým nemluvte, mohl by to být i někdo z banky.
+          end:
+            tone: risk
+            text: Takhle by o peníze přišel. Převedené peníze se většinou nedají vrátit a skutečná banka nikdy nechce převod na jiný účet. Zkuste to znovu a hovor ukončete.
+        konec-kod:
+          lines:
+            - Děkuji, platba je zastavena. Na shledanou.
+          end:
+            tone: risk
+            text: Kód z SMS potvrzuje platbu nebo přihlášení – kdo ho zná, může jednat vaším jménem. Banka ho po vás nikdy nechce. Zkuste to znovu.
+      lesson: Podvodníci umějí zfalšovat i číslo, ze kterého volají – na displeji se může ukázat i skutečné číslo banky. Proto vždy zavolejte zpět sami.
+    lecturer:
+      goal: Zažít, jak rozhovor stupňuje tlak, a vyzkoušet si, že hovor jde kdykoli ukončit.
+      tips:
+        - Projděte s účastníky i „špatnou“ cestu – je bezpečné ji vyzkoušet tady.
+  - kind: shrnuti
+    title: Bezpečné ověření
+    activity:
+      type: rules
+      items:
+        - title: Hovor můžete kdykoli ukončit.
+          text: Je to v pořádku a slušné.
+        - title: Zavolejte bance sami.
+          text: Na číslo z platební karty, ze smlouvy nebo z oficiálního webu.
+        - title: Banka nikdy nechce PIN, heslo, kód z SMS ani převod na ((„bezpečný účet“|bezpecny-ucet)).
+  - kind: prakticky
+    title: Nacvičte si ukončení hovoru
+    text:
+      - Ve dvojici nebo s lektorem si zkuste krátký rozhovor. Žádný skutečný hovor ani převod peněz neprovádějte.
+    activity:
+      type: guide
+      steps:
+        - text: Druhý člověk zahraje volajícího a přečte větu **„Vaše peníze jsou v ohrožení, musíte ihned převést úspory na jiný účet.“**
+        - text: Nahlas odpovězte **„Děkuji. Hovor ukončím a ověřím si to přímo u své banky.“** Nemusíte nic vysvětlovat.
+        - text: Řekněte, kde byste našli důvěryhodné číslo banky. Třeba na platební kartě nebo v její oficiální aplikaci. Na číslo z podezřelé zprávy nevolejte.
+        - text: Vyměňte si role a větu si ještě jednou zopakujte.
+      outro: Hovor můžete ukončit i uprostřed věty. O svých penězích rozhodujete vy.
+    lecturer:
+      time: 5 minut
+      goal: Nacvičit konkrétní větu a snížit obavu z nezdvořilosti.

@@ -17,7 +17,12 @@ class SpotExplorer extends HTMLElement {
 
     const update = () => {
       const n = seen.size;
-      if (this.dataset.noun === 'signálu') {
+      const forms = this.dataset.forms?.split(',') as [string, string, string] | undefined;
+      if (forms) {
+        // Obecné tvary, např. data-forms="část,části,částí".
+        const all = total < 5 ? `všechny ${total} ${forms[1]}` : `všech ${total} ${forms[2]}`;
+        count.textContent = n === total ? `Prohlédli jste ${all}.` : `Prohlédli jste ${n} ${plural(n, forms)} ${zOrZe(total)} ${total}.`;
+      } else if (this.dataset.noun === 'signálu') {
         count.textContent =
           n === total
             ? `Prohlédli jste všech ${total} varovných signálů.`

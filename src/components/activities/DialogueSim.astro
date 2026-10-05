@@ -1,0 +1,300 @@
+---
+/**
+ * DialogueSim – větvený rozhovor s podvodníkem (telefonát nebo chat) nanečisto.
+ * Účastník volí odpovědi, rozhovor na ně reaguje a skončí zpětnou vazbou.
+ * Bez JavaScriptu funguje jako „gamebook“: možnosti jsou odkazy na další část rozhovoru.
+ */
+import type { TONES } from '../../content.config';
+import { formatText } from '../../lib/text';
+import { stableId } from '../../lib/id';
+import Icon from '../Icon.astro';
+import ToneLabel from '../ToneLabel.astro';
+
+type Tone = (typeof TONES)[number];
+interface Props {
+  medium: 'call' | 'chat';
+  contact: string;
+  start: string;
+  nodes: Record<string, { lines: string[]; choices?: { label: string; next: string; tone: Tone }[]; end?: { tone: Tone; text: string } }>;
+  lesson?: string;
+}
+
+const { medium, contact, start, nodes, lesson } = Astro.props;
+const uid = stableId('dlg', nodes);
+const anchor = (id: string) => `${uid}-${id}`;
+const TONE_TITLE: Record<Tone, { icon: string; label: string }> = {
+  ok: { icon: '✓', label: 'Vhodná možnost' },
+  info: { icon: 'i', label: 'K zamyšlení' },
+  risk: { icon: '!', label: 'Pozor, riziko' },
+};
+// Pořadí uzlů pro verzi bez JS: začátek, pak podle výskytu.
+const order: string[] = [];
+const visit = (id: string) => {
+  if (order.includes(id) || !nodes[id]) return;
+  order.push(id);
+  nodes[id].choices?.forEach((c) => visit(c.next));
+};
+visit(start);
+Object.keys(nodes).forEach(visit);
+// Data pro skript: texty už zformátované.
+const data = Object.fromEntries(
+  Object.entries(nodes).map(([id, n]) => [
+    id,
+    {
+      lines: n.lines.map(formatText),
+      choices: n.choices?.map((c) => ({ label: formatText(c.label), next: c.next })),
+      end: n.end && { tone: n.end.tone, icon: TONE_TITLE[n.end.tone].icon, title: TONE_TITLE[n.end.tone].label, text: formatText(n.end.text) },
+    },
+  ]),
+);
+const json = JSON.stringify({ start, nodes: data }).replace(/</g, '\\u003c');
+const them = medium === 'call' ? 'Volající' : contact;
+---
+
+<dialogue-sim class="dlg" data-medium={medium}>
+  <div class="dlg__phone">
+    <p class="dlg__header">
+      <span class="dlg__avatar"><Icon name={medium === 'call' ? 'phone-call' : 'chat'} /></span>
+      <span>
+        <strong>{contact}</strong>
+        <span class="dlg__sub">{medium === 'call' ? 'Probíhající hovor (ukázka)' : 'Zpráva (ukázka)'}</span>
+      </span>
+    </p>
+
+    <!-- Bez JavaScriptu: každý krok rozhovoru s odkazy na pokračování. -->
+    <ol class="dlg__book" data-book>
+      {
+        order.map((id) => {
+          const n = nodes[id];
+          return (
+            <li class="dlg__step" id={anchor(id)} tabindex="-1">
+              {n.lines.map((line) => (
+                <p class="dlg__bubble dlg__bubble--them">
+                  <span class="visually-hidden">{them}: </span>
+                  <span set:html={formatText(line)} />
+                </p>
+              ))}
+              {n.choices && (
+                <ul class="dlg__links">
+                  {n.choices.map((c) => (
+                    <li>
+                      <a href={`#${anchor(c.next)}`} set:html={formatText(c.label)} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {n.end && (
+                <div class:list={['feedback', `feedback--${n.end.tone}`]}>
+                  <ToneLabel tone={n.end.tone} />
+                  <p set:html={formatText(n.end.text)} />
+                </div>
+              )}
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <ol class="dlg__log" data-log hidden></ol>
+  </div>
+
+  <div class="dlg__choices" data-choices hidden>
+    <p class="dlg__prompt" data-prompt>Co odpovíte?</p>
+    <ul class="choice-list" data-options></ul>
+  </div>
+
+  <div class="dlg__end" data-end hidden>
+    <div class="feedback" data-end-box role="status"></div>
+    {lesson && <p class="notice" set:html={formatText(lesson)} />}
+    <p><button type="button" class="button button--secondary" data-restart>Zkusit znovu</button></p>
+  </div>
+
+  <script type="application/json" data-dialogue set:html={json} />
+  <span hidden data-them>{them}</span>
+</dialogue-sim>
+
+<script>
+  import { reveal } from '../../scripts/reveal';
+
+  type Node = { lines: string[]; choices?: { label: string; next: string }[]; end?: { tone: string; icon: string; title: string; text: string } };
+
+  class DialogueSim extends HTMLElement {
+    connectedCallback() {
+      const { start, nodes } = JSON.parse(this.querySelector('[data-dialogue]')!.textContent!) as { start: string; nodes: Record<string, Node> };
+      const them = this.querySelector('[data-them]')!.textContent!;
+      const log = this.querySelector<HTMLOListElement>('[data-log]')!;
+      const choices = this.querySelector<HTMLElement>('[data-choices]')!;
+      const options = this.querySelector<HTMLUListElement>('[data-options]')!;
+      const end = this.querySelector<HTMLElement>('[data-end]')!;
+      const endBox = this.querySelector<HTMLElement>('[data-end-box]')!;
+
+      // Nové zprávy po volbě se jemně objeví; první zpráva při načtení stránky ne.
+      const bubble = (html: string, mine: boolean, fresh = true) => {
+        const li = document.createElement('li');
+        li.className = `dlg__bubble dlg__bubble--${mine ? 'me' : 'them'}${fresh ? ' is-new' : ''}`;
+        li.innerHTML = `<span class="visually-hidden">${mine ? 'Vy' : them}: </span>${html}`;
+        log.append(li);
+        return li;
+      };
+
+      const play = (id: string, moveFocus: boolean) => {
+        const node = nodes[id];
+        const first = node.lines.map((line) => bubble(line, false, moveFocus))[0];
+        options.replaceChildren();
+        if (node.end) {
+          choices.hidden = true;
+          endBox.className = `feedback feedback--${node.end.tone}`;
+          endBox.innerHTML = `<p class="tone tone--${node.end.tone}"><span class="tone__icon" aria-hidden="true">${node.end.icon}</span>${node.end.title}</p><p>${node.end.text}</p>`;
+          end.hidden = false;
+        } else {
+          end.hidden = true;
+          choices.hidden = false;
+          node.choices!.forEach((choice) => {
+            const li = document.createElement('li');
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'choice-card';
+            button.innerHTML = choice.label;
+            button.addEventListener('click', () => {
+              bubble(choice.label, true);
+              play(choice.next, true);
+            });
+            li.append(button);
+            options.append(li);
+          });
+        }
+        if (moveFocus) {
+          // Zaměření na novou zprávu (čtečka ji přečte), možnosti nebo závěr do zorného pole.
+          first.tabIndex = -1;
+          first.focus({ preventScroll: true });
+          reveal(first, node.end ? end : choices);
+        }
+      };
+
+      this.querySelector('[data-restart]')!.addEventListener('click', () => {
+        log.replaceChildren();
+        play(start, true);
+      });
+
+      this.querySelector<HTMLElement>('[data-book]')!.hidden = true;
+      log.hidden = false;
+      play(start, false);
+    }
+  }
+  customElements.define('dialogue-sim', DialogueSim);
+</script>
+
+<style>
+  .dlg {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .dlg__phone {
+    max-width: 34rem;
+    border: 3px solid #1f2430;
+    border-radius: 1.5rem;
+    background: #f4f6fa;
+    overflow: hidden;
+  }
+
+  .dlg__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0.8rem 1rem;
+    background: #1f2430;
+    color: #ffffff;
+    max-width: none;
+  }
+
+  .dlg__avatar {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: #3d4656;
+  }
+
+  .dlg__sub {
+    display: block;
+    font-size: 0.85rem;
+    color: #d6dbe3;
+  }
+
+  .dlg__book,
+  .dlg__log {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: none;
+    margin: 0;
+    padding: 1rem;
+    list-style: none;
+  }
+
+  .dlg__step {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 0;
+    padding-bottom: 1rem;
+    border-bottom: 2px dashed var(--color-border-light);
+  }
+
+  .dlg__step:target {
+    outline: 3px solid var(--color-focus);
+  }
+
+  :global(.dlg__bubble) {
+    max-width: 85%;
+    margin: 0;
+    padding: 0.7rem 0.9rem;
+    border-radius: 1rem;
+    line-height: 1.45;
+  }
+
+  :global(.dlg__bubble--them) {
+    align-self: flex-start;
+    border-bottom-left-radius: 0.3rem;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 12%);
+  }
+
+  :global(.dlg__bubble--me) {
+    align-self: flex-end;
+    border-bottom-right-radius: 0.3rem;
+    background: var(--module-soft, var(--color-accent-soft));
+    border: 2px solid var(--module-color, var(--color-primary));
+    font-weight: 600;
+  }
+
+  .dlg__links {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  .dlg__links li {
+    margin: 0.3rem 0;
+  }
+
+  .dlg__choices,
+  .dlg__end {
+    margin-top: var(--space-2);
+    max-width: 34rem;
+  }
+
+  .dlg__prompt {
+    margin: 0 0 var(--space-1);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dlg__log > :global(li.is-new) {
+      animation: reveal-in 0.3s ease-out backwards;
+    }
+  }
+</style>

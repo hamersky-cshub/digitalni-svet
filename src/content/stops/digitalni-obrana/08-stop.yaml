@@ -2,7 +2,7 @@
 # Popis polí a typů aktivit najdete v README.md (sekce Úprava obsahu).
 
 workshop: digitalni-obrana
-order: 7
+order: 8
 title: STOP – co si odnáším
 summary: Jednoduchý postup pro chvíle, kdy si nejste jistí.
 goal: Odnesete si postup STOP a kontakt pro pomoc.
@@ -32,19 +32,6 @@ screens:
         - key: P
           title: Ptejte se.
           text: Když si nejste jistí, požádejte někoho o pomoc.
-  - kind: shrnuti
-    title: Co udělat s podvodnou zprávou
-    activity:
-      type: rules
-      items:
-        - title: Zachovejte klid.
-          text: Samotná zpráva vám neublíží, pokud neklepnete na odkaz a nic neodešlete.
-        - title: Neklepejte a neodpovídejte.
-          text: Ani na odkaz „odhlásit z odběru“.
-        - title: Ukažte ji nebo nahlaste.
-          text: Blízkému člověku, v bance, nebo tlačítkem „Nahlásit spam“ v e-mailové schránce.
-        - title: Pak ji smažte.
-          text: Pokud jste nic neodeslali ani nezaplatili. Když už se něco stalo, zprávu si nechte jako důkaz.
   - kind: prakticky
     title: Připravte si svůj kontakt pro pomoc
     text:

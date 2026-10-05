@@ -1,0 +1,152 @@
+---
+/**
+ * AddressAnatomy – internetová adresa rozložená na části. Klepnutím na část se ukáže,
+ * co znamená; část „key“ (doména) rozhoduje, komu stránka patří.
+ * Používá společnou logiku spot-explorer; bez JavaScriptu jsou vysvětlení vidět všechna.
+ */
+import { formatText } from '../../lib/text';
+import { stableId } from '../../lib/id';
+import Icon from '../Icon.astro';
+
+interface Props {
+  instruction: string;
+  parts: { text: string; label: string; explanation: string; key?: boolean }[];
+  outro?: string;
+}
+
+const { instruction, parts, outro } = Astro.props;
+const uid = stableId('adr', parts);
+---
+
+<spot-explorer class="address" data-forms="část,části,částí">
+  <p class="address__instruction"><strong>{instruction}</strong></p>
+  <div class="address__bar">
+    <Icon name="lock" />
+    <p class="address__url" translate="no">
+      {
+        parts.map((part, i) => (
+          <button type="button" class:list={['address__part', `address__part--${i % 4}`, { 'address__part--key': part.key }]} data-spot={`${uid}-${i}`} aria-pressed="false">
+            {part.text}
+            <span class="visually-hidden"> ({part.label})</span>
+          </button>
+        ))
+      }
+    </p>
+  </div>
+
+  <p class="spot-status" data-status role="status" hidden><span class="visually-hidden" data-status-detail></span><span data-status-count></span></p>
+  <ol class="spot-list address__list" data-list>
+    {
+      parts.map((part, i) => (
+        <li class:list={['spot-explain', 'address__explain', `address__explain--${i % 4}`, { 'address__explain--key': part.key }]} data-explain={`${uid}-${i}`}>
+          <p class="spot-explain__title">
+            <code translate="no">{part.text}</code> – {part.label}
+            {part.key && <span class="address__badge">Rozhoduje</span>}
+          </p>
+          <p set:html={formatText(part.explanation)} />
+        </li>
+      ))
+    }
+  </ol>
+  <p data-controls hidden>
+    <button type="button" class="button button--secondary" data-show-all>Ukázat všechny části</button>
+  </p>
+  {outro && <p class="notice" set:html={formatText(outro)} />}
+</spot-explorer>
+
+<script>
+  import './spot-explorer';
+</script>
+
+<style>
+  .address {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .address__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: var(--space-2) 0;
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: 2rem;
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: 1.15rem;
+  }
+
+  .address__url {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    max-width: none;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    overflow-wrap: anywhere;
+  }
+
+  .address__part {
+    min-height: var(--tap-size);
+    padding: 0 0.1rem;
+    border: 0;
+    border-bottom: 4px solid var(--part-color);
+    background: none;
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .address__part[aria-pressed='true'] {
+    background: var(--part-soft);
+  }
+
+  .address__part--0,
+  .address__explain--0 {
+    --part-color: #8a93a1;
+    --part-soft: #eef0f3;
+  }
+
+  .address__part--1,
+  .address__explain--1 {
+    --part-color: #3b7dd8;
+    --part-soft: #e6effb;
+  }
+
+  .address__part--2,
+  .address__explain--2 {
+    --part-color: #a35a2b;
+    --part-soft: #fbece0;
+  }
+
+  .address__part--3,
+  .address__explain--3 {
+    --part-color: #2e8b57;
+    --part-soft: #e5f2e8;
+  }
+
+  .address__part--key,
+  .address__explain--key {
+    --part-color: var(--module-color, #07756c);
+    --part-soft: var(--module-soft, #e7f5f1);
+  }
+
+  .address__explain {
+    border-left: 6px solid var(--part-color);
+  }
+
+  .address__explain code {
+    font-size: 1rem;
+  }
+
+  .address__badge {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.3rem;
+    background: var(--module-color, #07756c);
+    color: #ffffff;
+    font-size: 0.85rem;
+  }
+</style>

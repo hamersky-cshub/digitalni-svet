@@ -61,6 +61,17 @@ function answerKey(activity: Screen['activity']): AnswerKey | undefined {
       return { list: signalOrder(activity).map((id) => activity.signals[id]?.label ?? id), ordered: true, note: 'Varovné signály ve zprávě:' };
     case 'hotspots':
       return { list: activity.spots.map((spot) => spot.label), ordered: true, note: 'Místa v obrázku (podle čísel):' };
+    case 'address':
+      return { list: [activity.parts.filter((x) => x.key).map((x) => x.text).join(', ')], note: 'Rozhoduje (doména):' };
+    case 'dialogue':
+      return {
+        list: Object.values(activity.nodes)
+          .flatMap((n) => n.choices ?? [])
+          .filter((c) => c.tone === 'ok')
+          .map((c) => plainText(c.label))
+          .filter((x, i, a) => a.indexOf(x) === i),
+        note: 'Vhodné odpovědi (ostatní vedou k riziku nebo k zamyšlení):',
+      };
     case 'permissions':
       return {
         list: activity.apps.map(

@@ -8,7 +8,7 @@ summary: Proč jsou hesla jako klíče od bytu.
 goal: Pochopíte, proč jsou hesla klíče k vašim účtům.
 icon: key
 lecturer:
-  time: 10 minut
+  time: 15 minut
   goal: Navázat na zkušenost účastníků a zavést přirovnání heslo = klíč.
   discussion: Kolik různých hesel přibližně používáte? Jak si je pamatujete?
   transition: Jak se útočníci k heslům vůbec dostanou? To si ukážeme na další zastávce.
@@ -16,6 +16,36 @@ lecturer:
     - Nikdo nemusí říkat svá skutečná hesla – ani na workshopu.
     - Průměrný člověk má 87 hesel k osobním a 168 k pracovním účtům (NordPass Password Survey 2024).
 screens:
+  - kind: aktivita
+    title: Vzpomenete si?
+    text:
+      - Krátké opakování z minulého setkání (Digitální obrana). Nejde o test – po každé odpovědi se ukáže vysvětlení.
+    activity:
+      type: choices
+      itemLabel: Otázka
+      question: Platí to?
+      options:
+        - id: plati
+          label: Platí
+        - id: neplati
+          label: Neplatí
+        - id: nevim
+          label: Nevím
+      items:
+        - text: Banka po vás v telefonu může chtít kód z SMS, aby zastavila platbu.
+          recommended: [neplati]
+          explanation: Neplatí. Kód z SMS banka po telefonu nikdy nechce. Kdo o něj žádá, je podvodník – hovor ukončete.
+        - text: Když si nejste jistí zprávou, ověřte si ji jinou cestou – třeba zavoláním na známé číslo.
+          recommended: [plati]
+          explanation: Platí. Ověření jinou cestou je hlavní pravidlo obrany.
+        - text: Písmeno S v pomůcce STOP znamená „Stůjte“ – nemusíte reagovat hned.
+          recommended: [plati]
+          explanation: Platí. S – stůjte, T – tlak je varování, O – ověřte, P – ptejte se.
+        - text: QR kód na parkovacím automatu je vždy bezpečný.
+          recommended: [neplati]
+          explanation: Neplatí. Podvodníci přes pravý kód lepí vlastní nálepku. Podívejte se, zda není přelepený.
+    lecturer:
+      goal: Navázat na minulé setkání. Odpovědi stačí krátce okomentovat, pochvalte každou snahu.
   - kind: diskuse
     title: Kolik klíčů nosíte?
     activity:

@@ -1,0 +1,95 @@
+---
+/**
+ * Falešný e-shop „Levné boty“ s varovnými signály: adresa, odpočet, sleva −80 %,
+ * platba jen převodem předem, stejné recenze a patička bez kontaktu. Vše je smyšlené.
+ * Souřadnice míst k prohlédnutí jsou v obsahu (stops/digitalni-obrana/05-…yaml) v procentech. viewBox 800 × 640.
+ */
+import { ICONS } from '../../lib/icons';
+
+const icon = (name: keyof typeof ICONS, x: number, y: number, scale: number, color: string, width = 2) =>
+  `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" fill="none" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+const REVIEWS = [
+  { x: 24, name: 'Jana K.' },
+  { x: 280, name: 'Eva M.' },
+  { x: 536, name: 'Petr S.' },
+];
+const stars = (x: number, y: number, size: number) =>
+  Array.from({ length: 5 }, (_, i) => {
+    const cx = x + i * size * 1.15;
+    const pts = Array.from({ length: 10 }, (_, k) => {
+      const r = k % 2 ? size * 0.22 : size * 0.5;
+      const a = (Math.PI / 5) * k - Math.PI / 2;
+      return `${(cx + r * Math.cos(a)).toFixed(1)},${(y + r * Math.sin(a)).toFixed(1)}`;
+    }).join(' ');
+    return `<polygon points="${pts}" fill="#e3a33b"/>`;
+  }).join('');
+---
+
+<svg viewBox="0 0 800 640" role="presentation" aria-hidden="true" focusable="false" class="scene" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="fs-shoe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8b5a3c"></stop>
+      <stop offset="1" stop-color="#5e3a24"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Okno prohlížeče -->
+  <rect width="800" height="640" fill="#dfe4ec"></rect>
+  <circle cx="28" cy="28" r="7" fill="#e06c5f"></circle>
+  <circle cx="50" cy="28" r="7" fill="#e3b23c"></circle>
+  <circle cx="72" cy="28" r="7" fill="#5fae7b"></circle>
+  <rect x="104" y="10" width="592" height="38" rx="19" fill="#ffffff"></rect>
+  <Fragment set:html={icon('lock', 120, 17, 1, '#47556b')} />
+  <text x="152" y="36" font-size="20" fill="#1b2333">levne-boty-vyprodej.test/akce</text>
+
+  <!-- Stránka -->
+  <rect x="0" y="56" width="800" height="584" fill="#ffffff"></rect>
+  <text x="32" y="104" font-size="30" font-weight="700" fill="#c2410c">BOTY VÝPRODEJ</text>
+  <Fragment set:html={icon('cart', 724, 76, 1.5, '#1b2333')} />
+
+  <!-- Odpočet -->
+  <rect x="24" y="126" width="752" height="56" rx="10" fill="#fde2e2"></rect>
+  <Fragment set:html={icon('timer', 44, 138, 1.3, '#b91c1c', 2.4)} />
+  <text x="90" y="163" font-size="23" font-weight="700" fill="#b91c1c">Akce končí za 09:59! Poslední 2 kusy!</text>
+
+  <!-- Zboží -->
+  <rect x="24" y="200" width="340" height="236" rx="12" fill="#f4f6fa"></rect>
+  <path d="M70 360 C70 320 96 300 130 296 L176 252 C186 242 204 244 210 256 L236 300 C270 308 312 320 324 346 C330 360 322 372 306 372 L84 372 C76 372 70 368 70 360 Z" fill="url(#fs-shoe)"></path>
+  <path d="M70 360 L324 360 L322 384 C322 390 316 394 310 394 L82 394 C76 394 70 390 70 384 Z" fill="#2b2f36"></path>
+  <path d="M178 266 l22 12 M170 280 l24 12 M162 294 l24 12" stroke="#e9d3b8" stroke-width="4" stroke-linecap="round"></path>
+
+  <text x="392" y="236" font-size="25" font-weight="700" fill="#1b2333">Kožené boty Komfort</text>
+  <text x="392" y="274" font-size="22" fill="#6b7280">2 490 Kč</text>
+  <path d="M390 267 H484" stroke="#6b7280" stroke-width="2.5"></path>
+  <text x="392" y="330" font-size="46" font-weight="700" fill="#c2410c">499 Kč</text>
+  <circle cx="712" cy="292" r="44" fill="#c2410c"></circle>
+  <text x="712" y="301" font-size="24" font-weight="700" text-anchor="middle" fill="#ffffff">−80 %</text>
+  <Fragment set:html={stars(402, 358, 22)} />
+  <text x="532" y="366" font-size="18" fill="#47556b">(1 254 hodnocení)</text>
+
+  <!-- Platba -->
+  <rect x="384" y="386" width="392" height="58" rx="10" fill="#fff8e8" stroke="#e3a33b" stroke-width="2"></rect>
+  <Fragment set:html={icon('bank', 400, 401, 1.2, '#7a2e0e')} />
+  <text x="440" y="422" font-size="19" font-weight="700" fill="#7a2e0e">Platba: jen převodem předem</text>
+
+  <!-- Recenze: všechny stejné -->
+  <text x="24" y="484" font-size="22" font-weight="700" fill="#1b2333">Recenze zákazníků</text>
+  {
+    REVIEWS.map((r) => (
+      <g>
+        <rect x={r.x} y="498" width="240" height="78" rx="10" fill="#f4f6fa" />
+        <Fragment set:html={stars(r.x + 20, 520, 16)} />
+        <text x={r.x + 16} y="550" font-size="18" font-weight="700" fill="#1b2333">
+          Skvělé, doporučuji!
+        </text>
+        <text x={r.x + 16} y="570" font-size="18" fill="#47556b">
+          {r.name} · dnes
+        </text>
+      </g>
+    ))
+  }
+
+  <!-- Patička bez kontaktu a IČO -->
+  <rect x="0" y="592" width="800" height="48" fill="#eceff3"></rect>
+  <text x="32" y="623" font-size="18" fill="#47556b">© Levné boty · Obchodní podmínky</text>
+</svg>

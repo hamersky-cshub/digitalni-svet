@@ -7,7 +7,11 @@
 import type { SCENES } from '../../content.config';
 import { formatText } from '../../lib/text';
 import { stableId } from '../../lib/id';
+import FakeShop from '../illustrations/FakeShop.astro';
 import HolidayScene from '../illustrations/HolidayScene.astro';
+
+/** Scény s klepacími místy (stejný viewBox 800 × 640, souřadnice míst v procentech). */
+const SCENE_COMPONENTS = { dovolena: HolidayScene, eshop: FakeShop } as const;
 
 interface Props {
   scene: (typeof SCENES)[number];
@@ -16,7 +20,8 @@ interface Props {
   spots: { x: number; y: number; label: string; text: string }[];
 }
 
-const { instruction, alt, spots } = Astro.props;
+const { scene, instruction, alt, spots } = Astro.props;
+const Scene = SCENE_COMPONENTS[scene];
 const uid = stableId('hs', spots);
 ---
 
@@ -24,7 +29,7 @@ const uid = stableId('hs', spots);
   <p class="hotspots__instruction"><strong>{instruction}</strong></p>
   <figure class="hotspots__figure">
     <div class="hotspots__image">
-      <div class="hotspots__frame"><HolidayScene /></div>
+      <div class="hotspots__frame"><Scene /></div>
       {
         spots.map((spot, i) => (
           <button

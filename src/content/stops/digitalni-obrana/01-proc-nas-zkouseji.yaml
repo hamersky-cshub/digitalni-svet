@@ -8,13 +8,43 @@ summary: Jak podvodníci pracují a jaký je hlavní princip obrany.
 goal: Pochopíte, proč podvodníci zkoušejí každého, a poznáte hlavní pravidlo obrany.
 icon: target
 lecturer:
-  time: 10 minut
+  time: 15 minut
   goal: Navodit klidnou atmosféru, nechat sdílet zkušenosti a představit princip zastavit se – zkontrolovat – ověřit.
   discussion: Přišla vám někdy zpráva nebo telefonát, který vám nebyl příjemný?
   transition: Vyzkoušejme si několik situací, které se mohou stát komukoli.
   tips:
     - Oceňte každou sdílenou zkušenost. Kdo o pokusu o podvod mluví, pomáhá ostatním.
 screens:
+  - kind: aktivita
+    title: Vzpomenete si?
+    text:
+      - Krátké opakování z minulého setkání (Digitální stopa). Nejde o test – po každé odpovědi se ukáže vysvětlení.
+    activity:
+      type: choices
+      itemLabel: Otázka
+      question: Platí to?
+      options:
+        - id: plati
+          label: Platí
+        - id: neplati
+          label: Neplatí
+        - id: nevim
+          label: Nevím
+      items:
+        - text: Cookies jsou malé soubory, které si web uloží do vašeho prohlížeče.
+          recommended: [plati]
+          explanation: Platí. Některé jsou potřeba (třeba košík v obchodě), jiné slouží ke sledování napříč weby.
+        - text: Svítilna v telefonu potřebuje znát vaši polohu.
+          recommended: [neplati]
+          explanation: Neplatí. Svítilna jen rozsvítí světlo – oprávnění k poloze jí klidně vypněte.
+        - text: Než pošlete fotografii dál, vyplatí se prohlédnout pozadí – třeba adresu nebo SPZ.
+          recommended: [plati]
+          explanation: Platí. Údaje v pozadí můžete oříznout nebo zakrýt.
+        - text: Když vaše e-mailová adresa unikla, je dobré změnit heslo k tomu účtu.
+          recommended: [plati]
+          explanation: Platí. A pokud jste stejné heslo používali i jinde, změňte ho i tam.
+    lecturer:
+      goal: Navázat na minulé setkání. Odpovědi stačí krátce okomentovat, pochvalte každou snahu.
   - kind: diskuse
     title: Setkali jste se s podvodem?
     activity:
