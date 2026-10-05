@@ -1,0 +1,66 @@
+---
+/**
+ * Za koho se podvodníci vydávají: čtyři ukázková oznámení (doručovací služba,
+ * technická podpora, sociální síť, banka) kolem masky. Odesílatelé jsou obecní,
+ * bez skutečných značek. viewBox 800 × 450.
+ */
+import { ICONS } from '../../lib/icons';
+
+const icon = (name: keyof typeof ICONS, x: number, y: number, scale: number, color: string, width = 2) =>
+  `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" fill="none" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+
+/** Řádek zprávy: části s `hot: true` jsou typická „spouštěcí“ slova. */
+type Part = { text: string; hot?: boolean };
+const NOTES: { x: number; y: number; icon: keyof typeof ICONS; color: string; sender: string; lines: Part[][] }[] = [
+  {
+    x: 16, y: 16, icon: 'package', color: '#b45309', sender: 'Doručovací služba',
+    lines: [[{ text: 'Zásilka čeká na' }], [{ text: 'doplatek', hot: true }, { text: ' 39 Kč.' }]],
+  },
+  {
+    x: 408, y: 16, icon: 'laptop', color: '#245cce', sender: 'Technická podpora',
+    lines: [[{ text: 'Váš účet bude' }], [{ text: 'zablokován', hot: true }, { text: '.' }]],
+  },
+  {
+    x: 16, y: 234, icon: 'people', color: '#7c3aed', sender: 'Sociální síť',
+    lines: [[{ text: 'Máte ' }, { text: 'novou zprávu', hot: true }], [{ text: 'od Jany N.' }]],
+  },
+  {
+    x: 408, y: 234, icon: 'bank', color: '#07756c', sender: 'Vaše banka',
+    lines: [[{ text: 'Ověřte', hot: true }, { text: ' svou' }], [{ text: 'totožnost.' }]],
+  },
+];
+---
+
+<svg viewBox="0 0 800 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <defs>
+    <filter id="zk-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0b1a33" flood-opacity="0.18"></feDropShadow>
+    </filter>
+  </defs>
+  <rect width="800" height="450" rx="24" fill="#e7f5f1"></rect>
+
+  {
+    NOTES.map((n) => (
+      <g transform={`translate(${n.x} ${n.y})`}>
+        <rect width="376" height="200" rx="20" fill="#ffffff" filter="url(#zk-shadow)" />
+        <rect x="22" y="22" width="56" height="56" rx="14" fill={n.color} />
+        <Fragment set:html={icon(n.icon, 32.8, 32.8, 1.45, '#ffffff', 2.2)} />
+        <text x="94" y="47" font-size="21" font-weight="700" fill="#1b2333">
+          {n.sender}
+        </text>
+        <text x="94" y="72" font-size="18" fill="#47556b">
+          teď
+        </text>
+        {n.lines.map((line, li) => (
+          <text x="26" y={122 + li * 32} font-size="21" fill="#1b2333">
+            {line.map((part) => (part.hot ? <tspan font-weight="700" fill="#84390a" text-decoration="underline">{part.text}</tspan> : part.text))}
+          </text>
+        ))}
+      </g>
+    ))
+  }
+
+  <!-- Maska uprostřed: odesílatel se jen vydává za někoho známého -->
+  <circle cx="400" cy="225" r="50" fill="#fbece0" stroke="#ffffff" stroke-width="6"></circle>
+  <Fragment set:html={icon('masks', 370, 195, 2.5, '#84390a', 1.8)} />
+</svg>

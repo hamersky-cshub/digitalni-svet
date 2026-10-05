@@ -1,0 +1,56 @@
+---
+/**
+ * Hromadné podvody: počítač rozešle stejnou zprávu tisícům lidí a odpoví jen pár z nich.
+ * viewBox 800 × 450.
+ */
+import { ICONS } from '../../lib/icons';
+
+const icon = (name: keyof typeof ICONS, x: number, y: number, scale: number, color: string, width = 2) =>
+  `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" fill="none" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+
+const COLS = 10;
+const ROWS = 6;
+const HIT = new Set(['1-6', '4-2']);
+const crowd = Array.from({ length: ROWS }, (_, r) =>
+  Array.from({ length: COLS }, (_, c) => ({ x: 400 + c * 40, y: 96 + r * 50, hit: HIT.has(`${r}-${c}`) })),
+).flat();
+const person = (x: number, y: number, fill: string) =>
+  `<circle cx="${x}" cy="${y}" r="8" fill="${fill}"/><path d="M${x - 13} ${y + 30} q0-18 13-18 q13 0 13 18 Z" fill="${fill}"/>`;
+const ENVELOPES = [
+  { x: 270, y: 112, a: -14 },
+  { x: 318, y: 168, a: -6 },
+  { x: 282, y: 214, a: 4 },
+  { x: 330, y: 262, a: 10 },
+  { x: 276, y: 306, a: 16 },
+];
+---
+
+<svg viewBox="0 0 800 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <rect width="800" height="450" rx="24" fill="#e7f5f1"></rect>
+
+  <!-- Počítač -->
+  <rect x="34" y="128" width="200" height="132" rx="10" fill="#1f2430"></rect>
+  <rect x="44" y="138" width="180" height="112" rx="4" fill="#ffffff"></rect>
+  <Fragment set:html={icon('mail', 104, 144, 2.5, '#07756c')} />
+  <text x="134" y="236" font-size="24" font-weight="700" text-anchor="middle" fill="#1b2333">10 000×</text>
+  <path d="M18 260 h232 l-14 18 h-204 Z" fill="#c3cad6"></path>
+
+  <!-- Letící obálky -->
+  {
+    ENVELOPES.map((e) => (
+      <g transform={`translate(${e.x} ${e.y}) rotate(${e.a})`}>
+        <rect x="-19" y="-13" width="38" height="26" rx="4" fill="#ffffff" stroke="#07756c" stroke-width="2.5" />
+        <path d="M-17 -10 L0 3 L17 -10" fill="none" stroke="#07756c" stroke-width="2.5" stroke-linejoin="round" />
+      </g>
+    ))
+  }
+
+  <!-- Dav: odpověděli jen dva -->
+  <text x="580" y="58" font-size="22" font-weight="700" text-anchor="middle" fill="#1b2333">Tisíce stejných zpráv</text>
+  <Fragment set:html={crowd.map((p) => person(p.x, p.y, p.hit ? '#c2410c' : '#b3bfcd')).join('')} />
+  {crowd.filter((p) => p.hit).map((p) => <circle cx={p.x} cy={p.y + 12} r="25" fill="none" stroke="#e3a33b" stroke-width="4" stroke-dasharray="7 5" />)}
+
+  <Fragment set:html={person(452, 404, '#b3bfcd') + person(612, 404, '#c2410c')} />
+  <text x="474" y="428" font-size="19" fill="#1b2333">nereagují</text>
+  <text x="634" y="428" font-size="19" font-weight="700" fill="#84390a">odpověděli</text>
+</svg>

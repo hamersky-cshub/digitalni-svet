@@ -6,10 +6,22 @@
 import type { IllustrationName } from '../content.config';
 import { formatText, plainText } from '../lib/text';
 import CookieBanner from './illustrations/CookieBanner.astro';
+import FastSlow from './illustrations/FastSlow.astro';
 import FlashlightPermission from './illustrations/FlashlightPermission.astro';
+import Impersonation from './illustrations/Impersonation.astro';
+import MassMessages from './illustrations/MassMessages.astro';
+import OneKey from './illustrations/OneKey.astro';
+import Passkey from './illustrations/Passkey.astro';
+import PasswordManager from './illustrations/PasswordManager.astro';
+import PasswordTheft from './illustrations/PasswordTheft.astro';
+import PasswordTimeline from './illustrations/PasswordTimeline.astro';
 import PhotoSafe from './illustrations/PhotoSafe.astro';
 import PhotoRevealing from './illustrations/PhotoRevealing.astro';
 import QrSticker from './illustrations/QrSticker.astro';
+import SharingCircles from './illustrations/SharingCircles.astro';
+import SnowFootprints from './illustrations/SnowFootprints.astro';
+import TwoLocks from './illustrations/TwoLocks.astro';
+import WebTracking from './illustrations/WebTracking.astro';
 import WifiList from './illustrations/WifiList.astro';
 
 interface Props {
@@ -23,6 +35,18 @@ const COMPONENTS = {
   'foto-prozrazujici': PhotoRevealing,
   'qr-nalepka': QrSticker,
   'wifi-site': WifiList,
+  'stopy-ve-snehu': SnowFootprints,
+  'sledovani-na-webu': WebTracking,
+  'komu-to-rikam': SharingCircles,
+  'hromadne-zpravy': MassMessages,
+  'za-koho-se-vydavaji': Impersonation,
+  'rychle-pomale': FastSlow,
+  'hesla-v-case': PasswordTimeline,
+  'kradez-hesel': PasswordTheft,
+  'jeden-klic': OneKey,
+  'spravce-hesel': PasswordManager,
+  'dva-zamky': TwoLocks,
+  'pristupovy-klic': Passkey,
 } as const;
 
 // Úzké (na výšku) ilustrace se nezvětšují přes celou šířku stránky.

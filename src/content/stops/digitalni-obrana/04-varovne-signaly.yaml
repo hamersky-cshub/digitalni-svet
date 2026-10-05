@@ -22,6 +22,10 @@ screens:
       - 👥 **Sociální sítě a chaty** – „máte novou zprávu“.
       - 🏦 **Banky a úřady** – „ověřte svou totožnost“.
       - 'Často se opakují slova: **faktura, nová zpráva, ověření, dokument, žádost, akce**.'
+    figures:
+      - illustration: za-koho-se-vydavaji
+        alt: 'Čtyři ukázková oznámení v telefonu a uprostřed maska: doručovací služba – zásilka čeká na doplatek 39 Kč, technická podpora – váš účet bude zablokován, sociální síť – máte novou zprávu od Jany N., vaše banka – ověřte svou totožnost.'
+        caption: '**Známé jméno odesílatele nic nedokazuje.** Podvodník si ho může vypůjčit.'
     lecturer:
       tips:
         - 'Nejčastěji napodobované značky podle podkladů: LinkedIn, Facebook, Google, DHL, Microsoft, WhatsApp, Amazon, Apple (Hoxhunt Phishing Trends Report 2025, VIPRE 2024).'

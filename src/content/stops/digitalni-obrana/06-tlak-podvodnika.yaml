@@ -21,6 +21,9 @@ screens:
       - 🐢 **Pomalé myšlení** – klidné, kontroluje a přemýšlí. Stojí víc úsilí, ale chrání nás.
       - Podvodníci chtějí, abyste jednali **rychle**. Proto spěchají, straší nebo lákají.
       - Pomůže, když se zastavíte a dáte si čas – tím přepnete na **pomalé** myšlení.
+    figures:
+      - illustration: rychle-pomale
+        alt: 'Vlevo běžící zajíc a blesk – rychlé myšlení: automaticky, podle prvního dojmu. Vpravo želva s brýlemi a lupa – pomalé myšlení: klidně, ověřuje, stojí víc úsilí, ale chrání. Dole: Podvodník chce, abyste spěchali. Když se zastavíte, přepnete na pomalé myšlení.'
     lecturer:
       tips:
         - 'Kahneman: Myšlení rychlé a pomalé (Systém 1 a Systém 2).'

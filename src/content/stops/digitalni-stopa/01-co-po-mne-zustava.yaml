@@ -33,6 +33,10 @@ screens:
     points:
       - '**Sdílíte ji sami** – napíšete komentář, pošlete fotografii, vyplníte své jméno.'
       - '**Vzniká sama** – služby si automaticky zaznamenávají, co hledáte, kde jste nebo na co se díváte.'
+    figures:
+      - illustration: stopy-ve-snehu
+        alt: 'Zasněžená krajina se stopami ve sněhu. Stopy přecházejí v řadu koleček s ikonami vyhledávání, polohy, fotoaparátu, nákupního košíku a zprávy – digitální stopu.'
+        caption: '**Stopy ve sněhu roztají.** Digitální stopa může zůstat dlouho.'
   - kind: aktivita
     title: Vznikla digitální stopa?
     text:
@@ -117,6 +121,10 @@ screens:
       - 👁️ **Neviditelný obrázek v e-mailu** – drobný obrázek, který odesílateli prozradí, že a kdy jste e-mail otevřeli.
       - 🔍 **Otisk prohlížeče** – kombinace údajů o vašem zařízení (model, jazyk, nastavení). Je tak jedinečná, že vás web pozná i bez cookies.
       - 💡 Méně stop zanecháte s vyhledávačem, který si nepamatuje, co hledáte – například **Startpage** nebo **DuckDuckGo**.
+    figures:
+      - illustration: sledovani-na-webu
+        alt: 'Čtyři zdroje údajů – IP adresa, cookies, neviditelný obrázek v e-mailu a otisk prohlížeče – vedou šipkami do reklamního profilu: bydlí v Brně a okolí, zajímá se o zahradu a zájezdy, e-maily čte ráno kolem osmé, používá tablet v češtině. Dole: reklama na zájezdy k moři.'
+        caption: '**Každý údaj sám o sobě řekne málo.** Dohromady z nich vzniká profil pro reklamu.'
     lecturer:
       goal: Stačí pochopit, že sledování existuje a dá se omezit. Technické detaily nejsou cílem.
       tips:

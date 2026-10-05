@@ -1,0 +1,105 @@
+---
+/**
+ * Stopy ve sněhu, které přecházejí v digitální stopu (kolečka s ikonami vyhledávání,
+ * polohy, fotoaparátu, nákupu a zprávy). viewBox 800 × 450.
+ */
+import { ICONS } from '../../lib/icons';
+
+// Stopy po křivce (kvadratická Bézierova křivka), střídavě levá a pravá, vzadu menší.
+const P0 = [50, 425];
+const P1 = [260, 410];
+const P2 = [440, 300];
+const STEPS = 8;
+const prints = Array.from({ length: STEPS }, (_, i) => {
+  const t = i / (STEPS - 1);
+  const x = (1 - t) ** 2 * P0[0] + 2 * (1 - t) * t * P1[0] + t ** 2 * P2[0];
+  const y = (1 - t) ** 2 * P0[1] + 2 * (1 - t) * t * P1[1] + t ** 2 * P2[1];
+  const dx = 2 * (1 - t) * (P1[0] - P0[0]) + 2 * t * (P2[0] - P1[0]);
+  const dy = 2 * (1 - t) * (P1[1] - P0[1]) + 2 * t * (P2[1] - P1[1]);
+  const len = Math.hypot(dx, dy);
+  const scale = 1.35 - 0.45 * t;
+  const side = i % 2 ? 1 : -1;
+  return {
+    x: x + (-dy / len) * 13 * scale * side,
+    y: y + (dx / len) * 13 * scale * side,
+    angle: (Math.atan2(dy, dx) * 180) / Math.PI,
+    scale,
+  };
+});
+
+const TOKENS = (['search', 'location', 'camera', 'cart', 'chat'] as const).map((name, i) => ({
+  name,
+  x: 486 + i * 65,
+  y: 284 - i * 22,
+  r: 27 - i,
+}));
+const icon = (name: keyof typeof ICONS, cx: number, cy: number, size: number, color: string) =>
+  `<g transform="translate(${cx - size / 2} ${cy - size / 2}) scale(${size / 24})" stroke="${color}" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+
+const tree = (x: number, y: number, s: number) =>
+  `<g transform="translate(${x} ${y}) scale(${s})">` +
+  `<rect x="-4" y="-10" width="8" height="12" fill="#6b4a2e"/>` +
+  `<path d="M0 -70 L18 -40 H10 L24 -14 H-24 L-10 -40 H-18 Z" fill="#3f6f5a"/>` +
+  `<path d="M0 -70 L8 -56 L3 -58 L0 -54 L-3 -58 L-8 -56 Z M-14 -30 L-6 -36 L0 -33 L6 -36 L14 -30 L10 -40 H-10 Z" fill="#ffffff"/>` +
+  `</g>`;
+const TREES = [
+  [70, 210, 1],
+  [114, 204, 0.8],
+  [162, 208, 1.15],
+  [330, 198, 0.9],
+  [372, 196, 0.7],
+  [596, 190, 0.8],
+  [636, 188, 0.62],
+];
+const FLAKES = [
+  [40, 40], [120, 90], [210, 34], [262, 120], [340, 60], [420, 104], [480, 30], [540, 132], [600, 70], [760, 120], [520, 210], [700, 150],
+];
+---
+
+<svg viewBox="0 0 800 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="ss-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe2f4"></stop>
+      <stop offset="1" stop-color="#f0f6fc"></stop>
+    </linearGradient>
+    <clipPath id="ss-frame"><rect width="800" height="450" rx="24"></rect></clipPath>
+  </defs>
+
+  <g clip-path="url(#ss-frame)">
+    <rect width="800" height="450" fill="url(#ss-sky)"></rect>
+    <circle cx="700" cy="78" r="32" fill="#fff4c9"></circle>
+    <path d="M0 214 C120 186 260 202 380 190 C520 176 640 196 800 178 V450 H0 Z" fill="#e8f0f8"></path>
+    <Fragment set:html={TREES.map(([x, y, s]) => tree(x, y, s)).join('')} />
+    <path d="M0 252 C160 232 300 246 460 236 C600 226 700 238 800 230 V450 H0 Z" fill="#ffffff"></path>
+    <ellipse cx="180" cy="330" rx="150" ry="18" fill="#eef3f9"></ellipse>
+    <ellipse cx="640" cy="404" rx="190" ry="22" fill="#eef3f9"></ellipse>
+    {FLAKES.map(([x, y]) => <circle cx={x} cy={y} r="3" fill="#ffffff" />)}
+
+    <!-- Stopy ve sněhu -->
+    {
+      prints.map((p) => (
+        <g transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${p.angle.toFixed(1)}) scale(${p.scale.toFixed(2)})`}>
+          <path d="M-2 -7.5 C6 -10 18 -8.5 20 -1.5 C21.5 4 15 8.5 6 8.5 C-1 8.5 -4 5 -4 0.5 C-4 -3.5 -3.5 -6.5 -2 -7.5 Z" fill="#a9bcd4" />
+          <ellipse cx="-17" cy="0" rx="8" ry="7" fill="#a9bcd4" />
+          <path d="M1 -5 C7 -7 15 -6 17 -1.5" fill="none" stroke="#8fa5c2" stroke-width="2" stroke-linecap="round" />
+        </g>
+      ))
+    }
+
+    <!-- Digitální stopa -->
+    <path d={`M${TOKENS[0].x} ${TOKENS[0].y} L${TOKENS[4].x} ${TOKENS[4].y}`} stroke="#e3bcd6" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"></path>
+    {
+      TOKENS.map((t) => (
+        <g>
+          <circle cx={t.x} cy={t.y} r={t.r} fill="#ffffff" stroke="#a13783" stroke-width="3" />
+          <Fragment set:html={icon(t.name, t.x, t.y, t.r * 1.15, '#872e6e')} />
+        </g>
+      ))
+    }
+
+    <rect x="60" y="300" width="180" height="42" rx="21" fill="#ffffff" stroke="#bccbe0" stroke-width="2"></rect>
+    <text x="150" y="328" font-size="20" font-weight="700" text-anchor="middle" fill="#1b2333">Stopy ve sněhu</text>
+    <rect x="566" y="300" width="190" height="42" rx="21" fill="#f9eefa" stroke="#e3bcd6" stroke-width="2"></rect>
+    <text x="661" y="328" font-size="20" font-weight="700" text-anchor="middle" fill="#872e6e">Digitální stopa</text>
+  </g>
+</svg>

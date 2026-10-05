@@ -21,6 +21,9 @@ screens:
       - '**Komu** to říkám? Rodině, známým, nebo všem na internetu?'
       - '**Proč** to sdílím? Potřebuje to druhý vědět?'
       - '**Musím** to zveřejnit? Nestačí to poslat jen jednomu člověku?'
+    figures:
+      - illustration: komu-to-rikam
+        alt: 'Soustředné kruhy: uprostřed já, kolem rodina, dál přátelé a známí, venku všichni na internetu. Vedle zpráva „Příští týden jedeme na 14 dní k moři!“: rodině v pořádku, všem na internetu riskantní – zloděj ví, že dům bude prázdný.'
   - kind: aktivita
     title: Komu byste to řekli?
     text:

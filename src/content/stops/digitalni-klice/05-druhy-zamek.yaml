@@ -21,6 +21,9 @@ screens:
       - 📱 **Druhý zámek:** potvrzení v telefonu nebo kód z SMS.
       - 🛡️ I když někdo zjistí vaše heslo, bez vašeho telefonu se dovnitř nedostane.
       - ✅ Jakékoli druhé ověření je lepší než žádné.
+    figures:
+      - illustration: dva-zamky
+        alt: 'Tři kroky přihlášení: 1. heslo – to, co znáte, 2. telefon s kódem z SMS – to, co máte, 3. přihlášeno – teprve s obojím. Pod tím podvodník, který zjistil heslo: první krok projde, u telefonu se zastaví a účet zůstane zamčený.'
   - kind: aktivita
     title: Něco víte, něco máte, něco jste
     text:
@@ -130,6 +133,10 @@ screens:
     points:
       - Když vám služba přístupový klíč nabídne, můžete ho klidně vyzkoušet.
       - Nemusíte nic nastavovat hned – stačí vědět, že tato možnost existuje.
+    figures:
+      - illustration: pristupovy-klic
+        alt: 'Místo hesla tři způsoby potvrzení: otisk prstu, obličej a PIN zařízení. Uprostřed telefon s přihlášením do služby Moje pošta a výzvou „Přiložte prst“. Vpravo falešná stránka posta-login.test s přeškrtnutým rybářským háčkem a nápisem „Falešná stránka nemá co vylákat“.'
+        caption: '**Přístupový klíč zůstává ve vašem zařízení.** Nikam ho neopisujete, a tak ho nikdo nevyláká.'
   - kind: prakticky
     title: Najděte druhé ověření – nanečisto
     text:

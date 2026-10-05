@@ -1,0 +1,65 @@
+---
+/**
+ * Kruhy sdílení (já, rodina, přátelé a známí, všichni na internetu) a stejná zpráva
+ * o dovolené: rodině v pořádku, všem na internetu riskantní. viewBox 800 × 450.
+ */
+import { ICONS } from '../../lib/icons';
+
+const C = { x: 226, y: 232 };
+const icon = (name: keyof typeof ICONS, x: number, y: number, scale: number, color: string, width = 2) =>
+  `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" fill="none" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+/** Postavy rozmístěné po kružnici (úhly ve stupních, 90 = dolů). */
+const people = (r: number, angles: number[], scale: number, color: string) =>
+  angles
+    .map((a) => {
+      const x = C.x + r * Math.cos((a * Math.PI) / 180) - 12 * scale;
+      const y = C.y + r * Math.sin((a * Math.PI) / 180) - 12 * scale;
+      return icon('person', +x.toFixed(1), +y.toFixed(1), scale, color, 2.2);
+    })
+    .join('');
+---
+
+<svg viewBox="0 0 800 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <!-- Kruhy -->
+  <circle cx={C.x} cy={C.y} r="200" fill="#f3e4ef" stroke="#e2c4d9" stroke-width="2"></circle>
+  <circle cx={C.x} cy={C.y} r="134" fill="#f8edf5" stroke="#e2c4d9" stroke-width="2"></circle>
+  <circle cx={C.x} cy={C.y} r="76" fill="#fdf8fc" stroke="#e2c4d9" stroke-width="2"></circle>
+  <circle cx={C.x} cy={C.y} r="36" fill="#a13783"></circle>
+  <text x={C.x} y={C.y + 8} font-size="22" font-weight="700" text-anchor="middle" fill="#ffffff">Já</text>
+  <text x={C.x} y={C.y - 48} font-size="19" font-weight="700" text-anchor="middle" fill="#872e6e">Rodina</text>
+  <text x={C.x} y={C.y - 98} font-size="19" font-weight="700" text-anchor="middle" fill="#872e6e">Přátelé a známí</text>
+  <text x={C.x} y={C.y - 162} font-size="19" font-weight="700" text-anchor="middle" fill="#872e6e">Všichni na internetu</text>
+  <Fragment set:html={people(56, [150, 90, 30], 0.95, '#872e6e')} />
+  <Fragment set:html={people(105, [200, 165, 128, 52, 15, 340], 0.85, '#a8628f')} />
+  <Fragment set:html={people(168, [196, 176, 156, 136, 116, 96, 76, 56, 36, 16, 356, 336], 0.75, '#c08fb2')} />
+
+  <!-- Spojnice ke kartám -->
+  <path d="M302 236 C360 236 400 250 452 250" fill="none" stroke="#9fd3b0" stroke-width="3" stroke-dasharray="6 6"></path>
+  <path d="M410 300 C430 330 440 360 452 362" fill="none" stroke="#e8b48a" stroke-width="3" stroke-dasharray="6 6"></path>
+
+  <!-- Stejná zpráva, různí lidé -->
+  <text x="460" y="44" font-size="21" font-weight="700" fill="#1b2333">Stejná zpráva, různí lidé:</text>
+  <path
+    d="M478 62 H762 a18 18 0 0 1 18 18 V136 a18 18 0 0 1 -18 18 H500 L480 172 L484 154 H478 a18 18 0 0 1 -18 -18 V80 a18 18 0 0 1 18 -18 Z"
+    fill="#ffffff"
+    stroke="#c3cad6"
+    stroke-width="2"
+    stroke-linejoin="round"></path>
+  <text x="482" y="100" font-size="21" font-weight="700" fill="#1b2333">Příští týden jedeme</text>
+  <text x="482" y="130" font-size="21" font-weight="700" fill="#1b2333">na 14 dní k moři!</text>
+
+  <rect x="460" y="196" width="320" height="104" rx="16" fill="#e5f2e8"></rect>
+  <Fragment set:html={icon('people', 476, 214, 1.4, '#1b5e32')} />
+  <text x="522" y="236" font-size="20" font-weight="700" fill="#1b2333">Rodině</text>
+  <text x="522" y="266" font-size="19" fill="#1b5e32">v pořádku</text>
+  <circle cx="744" cy="248" r="20" fill="#2e8b57"></circle>
+  <Fragment set:html={icon('check', 733.2, 237.2, 0.9, '#ffffff', 3)} />
+
+  <rect x="460" y="314" width="320" height="120" rx="16" fill="#fbece0"></rect>
+  <Fragment set:html={icon('globe', 476, 332, 1.4, '#84390a')} />
+  <text x="522" y="354" font-size="20" font-weight="700" fill="#1b2333">Všem na internetu</text>
+  <text x="522" y="384" font-size="19" fill="#84390a">zloděj ví, že dům</text>
+  <text x="522" y="410" font-size="19" fill="#84390a">bude prázdný</text>
+  <circle cx="744" cy="374" r="20" fill="#84390a"></circle>
+  <Fragment set:html={icon('warning', 733.2, 362.6, 0.9, '#ffffff', 2.6)} />
+</svg>

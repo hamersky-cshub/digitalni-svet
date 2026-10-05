@@ -1,0 +1,82 @@
+---
+/**
+ * Dvoufázové ověření ve třech krocích (heslo → kód v telefonu → přihlášeno)
+ * a podvodník, který zná jen heslo a u druhého kroku se zastaví. viewBox 800 × 450.
+ */
+import { ICONS } from '../../lib/icons';
+
+const icon = (name: keyof typeof ICONS, x: number, y: number, scale: number, color: string, width = 2) =>
+  `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" fill="none" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+
+const STEPS = [
+  { x: 20, title: 'Heslo', sub: 'to, co znáte' },
+  { x: 290, title: 'Telefon', sub: 'to, co máte' },
+  { x: 560, title: 'Přihlášeno', sub: 'teprve s obojím' },
+];
+---
+
+<svg viewBox="0 0 800 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  {
+    STEPS.map((s, i) => (
+      <g>
+        <rect x={s.x} y="16" width="220" height="244" rx="18" fill="#ffffff" stroke="#ead9b0" stroke-width="3" />
+        <circle cx={s.x + 32} cy="48" r="18" fill="#935b08" />
+        <text x={s.x + 32} y="55" font-size="20" font-weight="700" text-anchor="middle" fill="#ffffff">
+          {i + 1}
+        </text>
+        <text x={s.x + 110} y="212" font-size="22" font-weight="700" text-anchor="middle" fill="#1b2333">
+          {s.title}
+        </text>
+        <text x={s.x + 110} y="240" font-size="19" text-anchor="middle" fill="#47556b">
+          {s.sub}
+        </text>
+      </g>
+    ))
+  }
+  <!-- Šipky mezi kroky -->
+  <g fill="none" stroke="#c9a35a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M248 124 H280 M270 113 l11 11 -11 11"></path>
+    <path d="M518 124 H550 M540 113 l11 11 -11 11"></path>
+  </g>
+
+  <!-- 1 Heslo -->
+  <rect x="62" y="80" width="136" height="88" rx="44" fill="#fff5dd"></rect>
+  <Fragment set:html={icon('key', 94, 88, 3, '#935b08', 1.7)} />
+
+  <!-- 2 Telefon s kódem z SMS -->
+  <rect x="348" y="64" width="104" height="124" rx="14" fill="#1f2430"></rect>
+  <rect x="354" y="74" width="92" height="104" rx="7" fill="#ffffff"></rect>
+  <text x="400" y="104" font-size="18" text-anchor="middle" fill="#47556b">Kód:</text>
+  <rect x="362" y="114" width="76" height="34" rx="8" fill="#e6edf7"></rect>
+  <text x="400" y="138" font-size="20" font-weight="700" text-anchor="middle" fill="#1b2333">482 913</text>
+
+  <!-- 3 Přihlášeno -->
+  <circle cx="670" cy="122" r="50" fill="#e5f2e8"></circle>
+  <Fragment set:html={icon('unlock', 637.6, 89.6, 2.7, '#1b5e32', 1.7)} />
+  <circle cx="704" cy="156" r="17" fill="#2e8b57" stroke="#ffffff" stroke-width="3"></circle>
+  <Fragment set:html={icon('check', 694.4, 146.4, 0.8, '#ffffff', 3)} />
+
+  <!-- Podvodník zná jen heslo -->
+  <rect x="20" y="280" width="760" height="154" rx="18" fill="#fbece0" stroke="#f1c9a8" stroke-width="2"></rect>
+  <path d="M38 412 q0-40 38-40 q38 0 38 40 Z" fill="#3d4650"></path>
+  <circle cx="76" cy="340" r="22" fill="#e8c4a0"></circle>
+  <path d="M54 336 a22 22 0 0 1 44 0 Z" fill="#3d4650"></path>
+  <rect x="55" y="337" width="42" height="11" rx="5.5" fill="#1b1f23"></rect>
+  <circle cx="68" cy="342.5" r="2.8" fill="#ffffff"></circle>
+  <circle cx="84" cy="342.5" r="2.8" fill="#ffffff"></circle>
+  <text x="134" y="332" font-size="21" font-weight="700" fill="#84390a">Podvodník zjistil vaše heslo…</text>
+  <text x="134" y="364" font-size="20" fill="#84390a">…ale bez vašeho telefonu</text>
+  <text x="134" y="392" font-size="20" fill="#84390a">se dovnitř nedostane.</text>
+
+  <rect x="478" y="320" width="68" height="68" rx="14" fill="#ffffff" stroke="#e8b48a" stroke-width="2"></rect>
+  <Fragment set:html={icon('key', 492, 334, 1.67, '#935b08')} />
+  <circle cx="544" cy="322" r="14" fill="#2e8b57" stroke="#ffffff" stroke-width="3"></circle>
+  <Fragment set:html={icon('check', 535.6, 313.6, 0.7, '#ffffff', 3)} />
+  <path d="M556 354 H584 M576 346 l8 8 -8 8" fill="none" stroke="#a35a2b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+  <rect x="594" y="320" width="68" height="68" rx="14" fill="#ffffff" stroke="#e8b48a" stroke-width="2"></rect>
+  <Fragment set:html={icon('phone', 608, 334, 1.67, '#935b08')} />
+  <circle cx="660" cy="322" r="14" fill="#c2410c" stroke="#ffffff" stroke-width="3"></circle>
+  <path d="M655 317 l10 10 M665 317 l-10 10" stroke="#ffffff" stroke-width="3" stroke-linecap="round"></path>
+  <path d="M672 354 H700" fill="none" stroke="#a35a2b" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 7"></path>
+  <Fragment set:html={icon('lock', 706, 324, 2.5, '#84390a', 1.8)} />
+</svg>

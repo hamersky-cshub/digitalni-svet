@@ -24,6 +24,10 @@ screens:
       - 📋 **Hádají z běžných hesel** – zkoušejí seznamy nejčastějších hesel, jako „123456“ nebo „heslo“.
       - 🔁 **Zkoušejí uniklá hesla jinde** – heslo z jednoho úniku vyzkoušejí u e-mailu, banky i obchodu.
       - 🖥️ **Zkoušejí všechny kombinace** – počítač zkouší „aaaa“, „aaab“… Krátká hesla tak padnou rychle.
+    figures:
+      - illustration: kradez-hesel
+        alt: 'Čtyři obrázky: 1. na rybářském háčku visí klíč – heslo se vyláká, 2. seznam nejčastějších hesel 123456, heslo, qwerty a 111111 se zvýrazněným slovem heslo, 3. jeden klíč a šipky k e-mailu, bance a obchodu, 4. obrazovka počítače, který zkouší aaaa, aaab, aaac.'
+        caption: '**Proti všem čtyřem pomáhá totéž:** dlouhé heslo, pro každý účet jiné, a ostražitost u zpráv.'
   - kind: aktivita
     title: Jak rychle se heslo uhodne?
     text:

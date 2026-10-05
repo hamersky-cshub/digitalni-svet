@@ -1,0 +1,124 @@
+---
+/**
+ * Jeden klíč ke všem dveřím vs. svazek různých klíčů (přirovnání k heslům).
+ * Vlevo po ztrátě jediného klíče otevřeno vše, vpravo jen jedny dveře. viewBox 800 × 450.
+ */
+import { ICONS } from '../../lib/icons';
+
+const PLACES = [
+  { name: 'Byt', x: 36, y: 82 },
+  { name: 'Chata', x: 272, y: 82 },
+  { name: 'Auto', x: 36, y: 252 },
+  { name: 'Sklep', x: 272, y: 252 },
+] as const;
+type Place = (typeof PLACES)[number]['name'];
+
+/** Kresba místa ve dlaždici se středem cx, cy. */
+const ART: Record<Place, (cx: number, cy: number) => string> = {
+  Byt: (cx, cy) =>
+    `<rect x="${cx - 19}" y="${cy - 27}" width="38" height="54" rx="3" fill="#8fa6c4" stroke="#4a5568" stroke-width="2"/>` +
+    [-20, -6, 8]
+      .flatMap((dy) => [-12, 4].map((dx) => `<rect x="${cx + dx}" y="${cy + dy}" width="8" height="8" rx="1" fill="#fff4c9"/>`))
+      .join('') +
+    `<rect x="${cx - 5}" y="${cy + 17}" width="10" height="10" fill="#4a5568"/>`,
+  Chata: (cx, cy) =>
+    `<path d="M${cx - 27} ${cy - 1} L${cx} ${cy - 26} L${cx + 27} ${cy - 1} Z" fill="#b45f3c" stroke="#7a3b22" stroke-width="2" stroke-linejoin="round"/>` +
+    `<rect x="${cx - 20}" y="${cy - 2}" width="40" height="29" fill="#e9c9a0" stroke="#8a5a2b" stroke-width="2"/>` +
+    `<rect x="${cx - 13}" y="${cy + 7}" width="11" height="20" fill="#8a5a2b"/><rect x="${cx + 5}" y="${cy + 5}" width="9" height="9" fill="#9fc3e6"/>`,
+  Auto: (cx, cy) =>
+    `<path d="M${cx - 30} ${cy + 12} v-10 q0-7 7-8 l9-13 q2-3 6-3 h17 q4 0 6 3 l9 13 q7 1 7 8 v10 Z" fill="#d9534f" stroke="#9b2c2a" stroke-width="2" stroke-linejoin="round"/>` +
+    `<path d="M${cx - 11} ${cy - 7} l6-10 h9 v10 Z M${cx + 8} ${cy - 7} v-10 h5 l7 10 Z" fill="#cfe3f3"/>` +
+    `<circle cx="${cx - 16}" cy="${cy + 13}" r="7" fill="#1f2430"/><circle cx="${cx + 16}" cy="${cy + 13}" r="7" fill="#1f2430"/>`,
+  Sklep: (cx, cy) =>
+    `<rect x="${cx - 17}" y="${cy - 27}" width="34" height="54" rx="3" fill="#8a6a4a" stroke="#5a4330" stroke-width="2"/>` +
+    `<path d="M${cx - 10} ${cy - 18} h20 M${cx - 10} ${cy - 8} h20 M${cx - 10} ${cy + 2} h20" stroke="#5a4330" stroke-width="2"/>` +
+    `<circle cx="${cx + 10}" cy="${cy + 13}" r="3.5" fill="#e3b23c"/>`,
+};
+
+const center = (p: { x: number; y: number }) => ({ cx: p.x + 42, cy: p.y + 42 });
+const icon = (name: keyof typeof ICONS, x: number, y: number, scale: number, color: string) =>
+  `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+/** Odznak v rohu dlaždice: otevřený (riziko) nebo zamčený zámek. */
+const badge = (p: { x: number; y: number }, open: boolean) =>
+  `<circle cx="${p.x + 80}" cy="${p.y + 4}" r="17" fill="${open ? '#84390a' : '#2e8b57'}" stroke="#ffffff" stroke-width="3"/>` +
+  icon(open ? 'unlock' : 'lock', p.x + 80 - 11.4, p.y + 4 - 11.4, 0.95, '#ffffff');
+
+// Svazek vpravo: klíče míří ke „svým“ dveřím, klíč od chaty se ztratil.
+const RING = { x: 604, y: 214 };
+const KEY_COLORS = ['#c98a1b', '#6b8fb3', '#9a6bb0', '#4f9a6b'];
+const LOST = 1;
+const ringKeys = PLACES.map((p, i) => {
+  const { cx, cy } = center(p);
+  const angle = (Math.atan2(cy - RING.y, cx + 408 - RING.x) * 180) / Math.PI;
+  return { angle, color: KEY_COLORS[i], lost: i === LOST };
+});
+---
+
+<svg viewBox="0 0 800 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <rect x="0" y="0" width="392" height="450" rx="20" fill="#fbece0"></rect>
+  <rect x="408" y="0" width="392" height="450" rx="20" fill="#e5f2e8"></rect>
+  <text x="196" y="50" font-size="24" font-weight="700" text-anchor="middle" fill="#84390a">Jeden klíč ke všemu</text>
+  <text x="604" y="50" font-size="24" font-weight="700" text-anchor="middle" fill="#1b5e32">Každé dveře svůj klíč</text>
+
+  <!-- Vlevo: spojnice od jediného klíče -->
+  {
+    PLACES.map((p) => {
+      const { cx, cy } = center(p);
+      return <path d={`M196 214 L${cx} ${cy}`} stroke="#d98c5f" stroke-width="3" stroke-dasharray="8 6" />;
+    })
+  }
+  <!-- Vpravo: spojnice od konce každého klíče ke „svým“ dveřím -->
+  {
+    PLACES.map((p, i) => {
+      const { cx, cy } = center(p);
+      const a = Math.atan2(cy - RING.y, cx + 408 - RING.x);
+      const sx = RING.x + 72 * Math.cos(a);
+      const sy = RING.y + 72 * Math.sin(a);
+      return <path d={`M${sx.toFixed(1)} ${sy.toFixed(1)} L${cx + 408} ${cy}`} stroke={KEY_COLORS[i]} stroke-width="3" stroke-dasharray="8 6" opacity={i === LOST ? 0.45 : 0.8} />;
+    })
+  }
+
+  {
+    [0, 408].map((ox) =>
+      PLACES.map((p) => {
+        const tile = { x: p.x + ox, y: p.y };
+        const { cx, cy } = center(tile);
+        return (
+          <g>
+            <rect x={tile.x} y={tile.y} width="84" height="84" rx="16" fill="#ffffff" stroke={ox ? '#9fd3b0' : '#e8b48a'} stroke-width="3" />
+            <Fragment set:html={ART[p.name](cx, cy)} />
+            <text x={cx} y={tile.y + 112} font-size="20" text-anchor="middle" fill="#1b2333">
+              {p.name}
+            </text>
+          </g>
+        );
+      }),
+    )
+  }
+
+  <!-- Odznaky: vlevo otevřeno všechno, vpravo jen chata -->
+  <Fragment set:html={PLACES.map((p) => badge(p, true)).join('')} />
+  <Fragment set:html={PLACES.map((p, i) => badge({ x: p.x + 408, y: p.y }, i === LOST)).join('')} />
+
+  <!-- Jeden velký klíč -->
+  <g transform="translate(196 214) rotate(-30)" fill="none" stroke="#c98a1b" stroke-width="9" stroke-linecap="round">
+    <circle cx="-30" cy="0" r="20"></circle>
+    <path d="M-10 0 H44 M32 0 v15 M18 0 v11"></path>
+  </g>
+
+  <!-- Svazek klíčů -->
+  {
+    ringKeys.map((k) => (
+      <g transform={`translate(${RING.x} ${RING.y}) rotate(${k.angle})`} fill="none" stroke={k.color} stroke-width="5" stroke-linecap="round" stroke-dasharray={k.lost ? '4 5' : undefined} opacity={k.lost ? 0.6 : 1}>
+        <circle cx="28" cy="0" r="8" />
+        <path d="M36 0 H66 M58 0 v8 M50 0 v6" />
+      </g>
+    ))
+  }
+  <circle cx={RING.x} cy={RING.y} r="20" fill="none" stroke="#8a93a1" stroke-width="6"></circle>
+
+  <text x="196" y="408" font-size="20" font-weight="700" text-anchor="middle" fill="#84390a">Ztratíte ho –</text>
+  <text x="196" y="434" font-size="20" font-weight="700" text-anchor="middle" fill="#84390a">zloděj otevře všechno</text>
+  <text x="604" y="408" font-size="20" font-weight="700" text-anchor="middle" fill="#1b5e32">Ztratíte jeden klíč –</text>
+  <text x="604" y="434" font-size="20" font-weight="700" text-anchor="middle" fill="#1b5e32">ostatní dveře zůstanou zamčené</text>
+</svg>

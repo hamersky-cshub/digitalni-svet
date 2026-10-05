@@ -1,0 +1,67 @@
+---
+/**
+ * Rychlé a pomalé myšlení: běžící zajíc a želva s lupou, dole výzva zastavit se.
+ * viewBox 800 × 450.
+ */
+import { ICONS } from '../../lib/icons';
+
+const icon = (name: keyof typeof ICONS, x: number, y: number, scale: number, color: string, width = 2) =>
+  `<g transform="translate(${x} ${y}) scale(${scale})" stroke="${color}" fill="none" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</g>`;
+---
+
+<svg viewBox="0 0 800 450" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
+  <rect x="0" y="0" width="392" height="318" rx="20" fill="#fff1df"></rect>
+  <rect x="408" y="0" width="392" height="318" rx="20" fill="#e7f5f1"></rect>
+
+  <!-- Rychlé myšlení -->
+  <Fragment set:html={icon('bolt', 70, 22, 1.4, '#b45309', 2.2)} />
+  <text x="112" y="50" font-size="24" font-weight="700" fill="#1b2333">Rychlé myšlení</text>
+  <g fill="none" stroke="#e7b77f" stroke-width="5" stroke-linecap="round">
+    <path d="M48 134 h46 M36 160 h52 M52 186 h38"></path>
+  </g>
+  <!-- Zajíc v běhu -->
+  <ellipse cx="128" cy="186" rx="28" ry="8" fill="#a77a4d" transform="rotate(12 128 186)"></ellipse>
+  <ellipse cx="160" cy="170" rx="28" ry="22" fill="#b6895b"></ellipse>
+  <circle cx="132" cy="146" r="12" fill="#f6efe4"></circle>
+  <ellipse cx="200" cy="160" rx="60" ry="32" fill="#c49a6c" transform="rotate(-8 200 160)"></ellipse>
+  <ellipse cx="206" cy="174" rx="38" ry="14" fill="#ead4b8" transform="rotate(-8 206 174)"></ellipse>
+  <ellipse cx="262" cy="190" rx="26" ry="7" fill="#a77a4d" transform="rotate(18 262 190)"></ellipse>
+  <ellipse cx="248" cy="96" rx="9" ry="32" fill="#b6895b" transform="rotate(-18 248 96)"></ellipse>
+  <ellipse cx="236" cy="98" rx="10" ry="34" fill="#c49a6c" transform="rotate(-32 236 98)"></ellipse>
+  <ellipse cx="236" cy="98" rx="5" ry="24" fill="#ead4b8" transform="rotate(-32 236 98)"></ellipse>
+  <circle cx="262" cy="134" r="27" fill="#c49a6c"></circle>
+  <circle cx="284" cy="143" r="11" fill="#ead4b8"></circle>
+  <circle cx="293" cy="139" r="3.8" fill="#7a4a2a"></circle>
+  <circle cx="266" cy="126" r="4.2" fill="#1b1f23"></circle>
+  <circle cx="267.6" cy="124.4" r="1.4" fill="#ffffff"></circle>
+  <text x="196" y="262" font-size="20" font-weight="700" text-anchor="middle" fill="#1b2333">automaticky</text>
+  <text x="196" y="290" font-size="19" text-anchor="middle" fill="#47556b">podle prvního dojmu</text>
+
+  <!-- Pomalé myšlení -->
+  <Fragment set:html={icon('search', 480, 22, 1.4, '#065c55', 2.2)} />
+  <text x="522" y="50" font-size="24" font-weight="700" fill="#1b2333">Pomalé myšlení</text>
+  <!-- Želva s brýlemi -->
+  <path d="M520 200 l-14 6 14 4 Z" fill="#7fb98f"></path>
+  <ellipse cx="548" cy="206" rx="15" ry="10" fill="#7fb98f"></ellipse>
+  <ellipse cx="580" cy="208" rx="14" ry="10" fill="#7fb98f"></ellipse>
+  <ellipse cx="640" cy="208" rx="14" ry="10" fill="#7fb98f"></ellipse>
+  <ellipse cx="670" cy="206" rx="15" ry="10" fill="#7fb98f"></ellipse>
+  <path d="M684 186 Q700 170 712 172 L716 196 Q700 200 684 202 Z" fill="#8cc29b"></path>
+  <circle cx="722" cy="172" r="22" fill="#8cc29b"></circle>
+  <circle cx="726" cy="166" r="8" fill="#ffffff" stroke="#2f5f41" stroke-width="2.5"></circle>
+  <path d="M718 166 h-12 M734 166 l8 -2" stroke="#2f5f41" stroke-width="2.5" stroke-linecap="round"></path>
+  <circle cx="727" cy="166" r="3.3" fill="#1b1f23"></circle>
+  <path d="M724 182 q7 5 14 -1" fill="none" stroke="#2f5f41" stroke-width="2.5" stroke-linecap="round"></path>
+  <path d="M524 196 Q524 110 606 110 Q688 110 688 196 Z" fill="#4f9a6b"></path>
+  <path d="M584 132 L628 132 L646 162 L628 192 L584 192 L566 162 Z" fill="#5fae7b" stroke="#3c7a55" stroke-width="4" stroke-linejoin="round"></path>
+  <path d="M584 132 L560 118 M628 132 L652 118 M646 162 L686 168 M566 162 L526 168 M584 192 V196 M628 192 V196" stroke="#3c7a55" stroke-width="4" stroke-linecap="round"></path>
+  <rect x="516" y="192" width="180" height="14" rx="7" fill="#3f7f58"></rect>
+  <text x="604" y="262" font-size="20" font-weight="700" text-anchor="middle" fill="#1b2333">klidně, ověřuje</text>
+  <text x="604" y="290" font-size="19" text-anchor="middle" fill="#47556b">stojí víc úsilí, ale chrání</text>
+
+  <!-- Výzva -->
+  <rect x="0" y="334" width="800" height="116" rx="20" fill="#fbece0"></rect>
+  <Fragment set:html={icon('stop', 34, 362, 2.5, '#84390a', 2)} />
+  <text x="112" y="382" font-size="22" font-weight="700" fill="#84390a">Podvodník chce, abyste spěchali.</text>
+  <text x="112" y="414" font-size="20" fill="#84390a">Když se zastavíte, přepnete na pomalé myšlení.</text>
+</svg>

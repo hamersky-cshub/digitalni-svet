@@ -296,7 +296,26 @@ export const SCREEN_KINDS = ['vyklad', 'diskuse', 'aktivita', 'prakticky', 'refl
 export type ScreenKind = (typeof SCREEN_KINDS)[number];
 
 /** Ilustrace, které lze vložit k obrazovce (src/components/illustrations/). */
-export const ILLUSTRATIONS = ['lista-cookies', 'svitilna-poloha', 'foto-bezpecna', 'foto-prozrazujici', 'qr-nalepka', 'wifi-site'] as const;
+export const ILLUSTRATIONS = [
+  'lista-cookies',
+  'svitilna-poloha',
+  'foto-bezpecna',
+  'foto-prozrazujici',
+  'qr-nalepka',
+  'wifi-site',
+  'stopy-ve-snehu',
+  'sledovani-na-webu',
+  'komu-to-rikam',
+  'hromadne-zpravy',
+  'za-koho-se-vydavaji',
+  'rychle-pomale',
+  'hesla-v-case',
+  'kradez-hesel',
+  'jeden-klic',
+  'spravce-hesel',
+  'dva-zamky',
+  'pristupovy-klic',
+] as const;
 export type IllustrationName = (typeof ILLUSTRATIONS)[number];
 
 const figure = z.object({

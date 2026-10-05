@@ -36,6 +36,10 @@ screens:
       - 🥃 **Prohibice v USA** – do tajných barů se vcházelo jen se správným heslem.
       - ⚙️ **Druhá světová válka** – zprávy chránil šifrovací stroj Enigma.
       - 💻 **Rok 1961** – první počítačová hesla na univerzitě MIT.
+    figures:
+      - illustration: hesla-v-case
+        alt: 'Časová osa hesel: vosková destička z antického Říma, dveře tajného baru s okénkem a otázkou „Heslo?“, šifrovací stroj Enigma, počítačový terminál z roku 1961 a dnešní tablet s polem pro heslo.'
+        caption: '**Princip se nemění:** kdo zná heslo, smí dovnitř. Dnes jen hesla potřebujeme k desítkám účtů.'
   - kind: vyklad
     title: Heslo je klíč
     text:

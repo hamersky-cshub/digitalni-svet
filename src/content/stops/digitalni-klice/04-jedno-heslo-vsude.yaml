@@ -17,6 +17,10 @@ screens:
     text:
       - Představte si, že jedním klíčem odemykáte byt, chatu, auto i sklep. Je to pohodlné. Když ale klíč ztratíte, zloděj otevře všechno.
       - S hesly je to stejné. Internetové obchody a jiné služby jsou občas napadeny a hesla z nich uniknou. Útočník je pak zkouší i jinde.
+    figures:
+      - illustration: jeden-klic
+        alt: 'Vlevo jeden klíč, který odemyká byt, chatu, auto i sklep – po jeho ztrátě jsou otevřené všechny čtyři. Vpravo svazek čtyř různých klíčů – klíč od chaty se ztratil, otevřená je jen chata a ostatní zůstaly zamčené.'
+        caption: '**U hesel je to stejné:** pro každý účet jiné heslo.'
   - kind: aktivita
     title: Co se stane, když heslo unikne?
     text:
@@ -50,6 +54,10 @@ screens:
       - 🔔 Upozorní, když máte **stejné heslo** na více místech nebo když heslo **uniklo**.
       - 🔑 **Hlavní heslo si dobře zapamatujte** – nedá se obnovit. Zvolte dlouhou heslovou frázi.
       - Nejdůležitější je vlastní heslo k **e-mailu** – přes e-mail se dají obnovit hesla k ostatním účtům.
+    figures:
+      - illustration: spravce-hesel
+        alt: 'Otevřený trezor s uloženými hesly k e-mailu, bance, obchodu a k lékaři a nápis „Pamatujete si jen jedno hlavní heslo“. Vedle dvě přihlašovací okna: na adrese banka.test správce heslo vyplnil, na podobné adrese banka-overeni.test heslo nevyplní.'
+        caption: '**Správce hesel kontroluje adresu.** Na napodobené stránce heslo nevyplní.'
     lecturer:
       tips:
         - Podklady doporučují neukládat hesla jen do prohlížeče a používat samostatného správce hesel.

@@ -28,6 +28,10 @@ screens:
     points:
       - Hromadné podvody jsou levné – stačí, když se nachytá pár lidí z tisíce.
       - Útoky na konkrétního člověka jsou vzácnější a pracnější.
+    figures:
+      - illustration: hromadne-zpravy
+        alt: 'Počítač rozesílá stejnou zprávu 10 000× a obálky letí k velké skupině lidí. Z šedesáti postav jsou zvýrazněné jen dvě – ty, které odpověděly.'
+        caption: '**Podvodník nemusí vědět, kdo jste.** Stačí mu, že z tisíců lidí pár odpoví.'
     lecturer:
       tips:
         - 'Zdroj: Verizon Data Breach Investigations Report 2020 – 86 % případů je finančně motivovaných.'
