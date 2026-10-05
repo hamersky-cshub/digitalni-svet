@@ -67,4 +67,43 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 
 Při přidání nového tématu přidejte jeho id i do `workshop-access.json`; téma bez přepínače zůstává zamčené.
 
+## Vizuální styl
+
+Pravidla pro ikony, ilustrace a další grafiku, aby web působil jednotně a zůstal čitelný na tabletu.
+
+**Barvy**
+
+- Text `#182338`, tlumený text `#47556b`, hlavní modrá `#245cce` (definice v `src/styles/global.css`).
+- Barvy témat jsou v `src/lib/presentation.ts`: `color` pro rámečky a tlačítka, `text` pro drobný barevný text (kontrast aspoň 7 : 1), `soft` pro světlé pozadí.
+  - Digitální stopa: `#a13783` / `#872e6e` / `#f9eefa`
+  - Digitální obrana: `#07756c` / `#065c55` / `#e7f5f1`
+  - Digitální klíče: `#935b08` / `#764906` / `#fff5dd`
+- Vhodná možnost `#1b5e32` na `#e5f2e8`, riziko `#84390a` na `#fbece0`. Místo, na které chceme upozornit, označuje oranžový přerušovaný rámeček `#e3a33b`.
+
+**Ikony**
+
+- Sada je v `src/lib/icons.ts`: mřížka 24 × 24, obrys tahem 2, kulaté konce, barva podle okolního textu. V šablonách `<Icon name="…" />`.
+- Ikony jsou vždy dekorativní (`aria-hidden`); význam musí nést text vedle nich.
+- Emoji v textech obsahu se při vykreslení nahradí ikonou podle `EMOJI_ICONS`, texty proto není nutné přepisovat. Emoji bez ikony v mapě zůstane emoji (to se hodí třeba ve zprávách). Pro nové emoji přidejte ikonu i řádek do mapy.
+- Zastávka může mít pole `icon` (zobrazí se na trase modulu), viz sekce Obsah.
+
+**Ilustrace**
+
+- Vlastní SVG komponenty v `src/components/illustrations/`, vložené přímo do stránky (fungují offline a nic se nestahuje). Nové ilustraci přidejte název do `ILLUSTRATIONS` v `src/content.config.ts` a komponentu do `ScreenFigures.astro`.
+- Šířka 800 jednotek (`viewBox` 800 × 450 nebo 800 × 560), písmo Atkinson Hyperlegible Next. **Text v ilustraci má aspoň 18 jednotek**, důležité údaje 20–24 – na tabletu je pak čitelný bez zvětšení.
+- Jedna ilustrace na obrazovku je čitelnější než dvě vedle sebe. U dvojice jsou obě poloviční a text je drobný (pomůže tlačítko „Zvětšit obrázek“).
+- ID gradientů, filtrů a ořezů začínají zkratkou ilustrace (např. `cb-shadow`). Zvětšené kopii je přejmenuje `src/scripts/zoom.ts`.
+- Všechny údaje jsou smyšlené: adresy s doménou `.test`, jména jako Jana Ukázková, Vzorová 12, žádné skutečné značky ani loga.
+- Každý obrázek má v obsahu `alt`: co je na obrázku vidět, včetně všech textů v něm, a co z toho plyne. Popisek `caption` je jedna věta s tučným začátkem.
+
+**Postavy**
+
+- Paní Marie, pan Josef, paní Věra a Jana mají avatar (`src/components/Avatar.astro`, seznam v `src/lib/personas.ts`). Zobrazí se vedle textu situace nebo obrazovky s polem `persona`. Avatar je dekorativní; jméno vždy nese text.
+
+**Animace**
+
+- Jen tam, kde pomáhají pochopit děj (hod kostkami, únik hesla, lišta s cookies, objevení vysvětlení).
+- Běží jen při `prefers-reduced-motion: no-preference`. Při systémovém nastavení „omezit pohyb“ je vypne pravidlo v `global.css`.
+- Obsah nikdy nečeká na animaci: výsledek je vidět a čtečka ho přečte hned. Při načtení stránky se nic neanimuje (výjimkou je ilustrace s cookies).
+
 Web nemá registraci ani analytiku. Odpovědi a zaškrtnuté kroky se neukládají. Prohlížeč si pamatuje otevřené kroky (zastávka je „Navštíveno“, až jsou otevřené všechny její kroky) a velikost písma. Ukázkové podvodné adresy používají neklikací doménu `.test`.
