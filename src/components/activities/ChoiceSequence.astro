@@ -7,6 +7,7 @@
  */
 import type { MEDIA, TONES } from '../../content.config';
 import { formatText, zOrZe } from '../../lib/text';
+import { stableId } from '../../lib/id';
 import ToneLabel from '../ToneLabel.astro';
 import MessageMock from './MessageMock.astro';
 
@@ -28,7 +29,7 @@ interface Props {
 const { items, itemLabel, nextLabel } = Astro.props;
 const count = items.length;
 const labelLower = itemLabel.toLocaleLowerCase('cs');
-const uid = `seq-${Math.random().toString(36).slice(2, 8)}`;
+const uid = stableId('seq', items);
 // Dvě krátké možnosti vedle sebe, jinak velká tlačítka pod sebou (přehlednější).
 const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.options.every((o) => o.label.length <= 24);
 ---
@@ -70,9 +71,15 @@ const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.opti
                   </p>
                   <ToneLabel tone={option.tone} />
                   {option.response && <p set:html={formatText(option.response)} />}
-                  {item.explanation && <p set:html={formatText(item.explanation)} />}
                 </div>
               ))}
+              {/* Vysvětlení platí pro všechny volby – v HTML je jen jednou. */}
+              {item.explanation && (
+                <p class="sequence__explanation-label" data-nojs-label>
+                  Vysvětlení:
+                </p>
+              )}
+              {item.explanation && <p class="sequence__explanation" data-explanation set:html={formatText(item.explanation)} />}
             </div>
           </details>
         </div>
@@ -122,6 +129,7 @@ const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.opti
       details.classList.remove('disclosure');
       item.querySelectorAll<HTMLElement>('[data-feedback]').forEach((panel) => (panel.hidden = true));
       item.querySelectorAll<HTMLElement>('[data-choice-prefix]').forEach((el) => (el.textContent = 'Vaše volba:'));
+      item.querySelectorAll<HTMLElement>('[data-nojs-label], [data-explanation]').forEach((el) => (el.hidden = true));
 
       item.querySelectorAll<HTMLButtonElement>('[data-option]').forEach((button) => {
         button.addEventListener('click', () => this.choose(item, button.dataset.option!));
@@ -134,9 +142,17 @@ const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.opti
       item.querySelectorAll<HTMLButtonElement>('[data-option]').forEach((button) => {
         button.setAttribute('aria-pressed', String(button.dataset.option === option));
       });
+      let shown: HTMLElement | undefined;
       item.querySelectorAll<HTMLElement>('[data-feedback]').forEach((panel) => {
         panel.hidden = panel.dataset.feedback !== option;
+        if (!panel.hidden) shown = panel;
       });
+      // Společné vysvětlení se přesune do panelu zvolené možnosti (jedno hlášení, barva podle tónu).
+      const explanation = item.querySelector<HTMLElement>('[data-explanation]');
+      if (explanation && shown) {
+        shown.append(explanation);
+        explanation.hidden = false;
+      }
       const next = item.querySelector<HTMLElement>('[data-next]');
       const done = item.querySelector<HTMLElement>('[data-done]');
       if (next) next.hidden = false;
@@ -197,6 +213,11 @@ const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.opti
 
   .sequence__feedback :global(.feedback) {
     margin-bottom: var(--space-2);
+  }
+
+  .sequence__explanation-label {
+    margin-bottom: var(--space-1);
+    font-weight: 700;
   }
 
   .sequence__controls {

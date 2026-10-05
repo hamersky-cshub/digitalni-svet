@@ -6,6 +6,7 @@
  * Bez JavaScriptu zůstane vidět tabulka a návod pro skutečné kostky.
  */
 import { formatText } from '../../lib/text';
+import { stableId } from '../../lib/id';
 
 interface Props {
   warning: string;
@@ -17,7 +18,7 @@ interface Props {
 
 const { warning, words, count, explanation } = Astro.props;
 const rows = [0, 1, 2, 3, 4, 5].map((r) => words.slice(r * 6, r * 6 + 6));
-const uid = `dice-${Math.random().toString(36).slice(2, 8)}`;
+const uid = stableId('dice', words);
 ---
 
 <dice-roller class="dice" data-words={JSON.stringify(words)} data-count={count}>

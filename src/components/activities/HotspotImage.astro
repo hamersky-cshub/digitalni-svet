@@ -6,6 +6,7 @@
  */
 import type { SCENES } from '../../content.config';
 import { formatText } from '../../lib/text';
+import { stableId } from '../../lib/id';
 import HolidayScene from '../illustrations/HolidayScene.astro';
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const { instruction, alt, spots } = Astro.props;
-const uid = `hs-${Math.random().toString(36).slice(2, 8)}`;
+const uid = stableId('hs', spots);
 ---
 
 <spot-explorer class="hotspots" data-total={spots.length} data-noun="místa">
