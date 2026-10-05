@@ -6,6 +6,7 @@
  * Bez JavaScriptu zůstane vidět tabulka a návod pro skutečné kostky.
  */
 import { formatText } from '../../lib/text';
+import Icon from '../Icon.astro';
 import { stableId } from '../../lib/id';
 
 interface Props {
@@ -23,7 +24,7 @@ const uid = stableId('dice', words);
 
 <dice-roller class="dice" data-words={JSON.stringify(words)} data-count={count}>
   <div class="notice notice--warning">
-    <p><strong><span aria-hidden="true">⚠ </span><span set:html={formatText(warning)} /></strong></p>
+    <p><strong><Icon name="warning" /> <span set:html={formatText(warning)} /></strong></p>
   </div>
 
   <p data-nojs>Hoďte dvěma kostkami. První kostka určí řádek, druhá sloupec tabulky. Slovo si zapamatujte a hoďte znovu.</p>

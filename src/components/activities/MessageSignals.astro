@@ -5,6 +5,7 @@
  */
 import { formatSignals, formatText } from '../../lib/text';
 import { signalOrder } from '../../lib/activities';
+import Icon from '../Icon.astro';
 import MessageMock from './MessageMock.astro';
 
 interface Props {
@@ -42,7 +43,7 @@ const ids = signalOrder({ sender, subject, body, attachment });
       ids.map((id) => (
         <li class="spot-explain" data-explain={id}>
           <p class="spot-explain__title">
-            <span aria-hidden="true">⚠</span> {signals[id].label}
+            <Icon name="warning" /> {signals[id].label}
           </p>
           <p set:html={formatText(signals[id].text)} />
         </li>

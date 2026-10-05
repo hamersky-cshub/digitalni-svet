@@ -32,6 +32,7 @@ const labelLower = itemLabel.toLocaleLowerCase('cs');
 const uid = stableId('seq', items);
 // Dvě krátké možnosti vedle sebe, jinak velká tlačítka pod sebou (přehlednější).
 const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.options.every((o) => o.label.length <= 24);
+import Icon from '../Icon.astro';
 ---
 
 <choice-sequence class="sequence">
@@ -54,7 +55,7 @@ const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.opti
             <li>
               <button type="button" class="choice-card" data-option={option.id} aria-pressed="false">
                 <span set:html={formatText(option.label)} />
-                <span class="choice-card__mark"><span aria-hidden="true">✓</span> Vaše volba</span>
+                <span class="choice-card__mark"><Icon name="check" /> Vaše volba</span>
               </button>
             </li>
           ))}

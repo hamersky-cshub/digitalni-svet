@@ -28,17 +28,18 @@ const MEDIUM_LABELS = {
   notification: 'Ukázkové oznámení v telefonu',
   popup: 'Ukázkové vyskakovací okno na webu',
 } as const;
-const MEDIUM_ICONS = { sms: '💬', email: '✉️', chat: '💬', call: '📞', notification: '🔔', popup: '⚠️' } as const;
+const MEDIUM_ICONS = { sms: 'chat', email: 'mail', chat: 'chat', call: 'phone-call', notification: 'bell', popup: 'warning' } as const;
 
 const { medium, sender, subject, time, lines = [], linesHtml, senderHtml, subjectHtml, attachmentHtml } = Astro.props;
 const body = linesHtml ?? lines.map(formatText);
 const senderOut = senderHtml ?? formatText(sender);
 const subjectOut = subjectHtml ?? (subject ? formatText(subject) : undefined);
+import Icon from '../Icon.astro';
 ---
 
 <figure class:list={['message', `message--${medium}`]}>
   <figcaption class="message__label">
-    <span aria-hidden="true">{MEDIUM_ICONS[medium]}</span>
+    <Icon name={MEDIUM_ICONS[medium]} />
     {MEDIUM_LABELS[medium]}
   </figcaption>
   <div class="message__frame">
@@ -60,7 +61,7 @@ const subjectOut = subjectHtml ?? (subject ? formatText(subject) : undefined);
           </div>
           {attachmentHtml && (
             <p class="message__attachment">
-              <span aria-hidden="true">📎</span> Příloha: <span set:html={attachmentHtml} />
+              <Icon name="paperclip" /> Příloha: <span set:html={attachmentHtml} />
             </p>
           )}
         </>
@@ -88,7 +89,7 @@ const subjectOut = subjectHtml ?? (subject ? formatText(subject) : undefined);
           </div>
           {attachmentHtml && (
             <p class="message__attachment">
-              <span aria-hidden="true">📎</span> <span set:html={attachmentHtml} />
+              <Icon name="paperclip" /> <span set:html={attachmentHtml} />
             </p>
           )}
         </>

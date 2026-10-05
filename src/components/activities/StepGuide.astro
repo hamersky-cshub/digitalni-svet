@@ -4,6 +4,7 @@
  * aby účastník po návratu z Nastavení věděl, kde skončil (nic se neukládá).
  */
 import { formatText } from '../../lib/text';
+import Icon from '../Icon.astro';
 
 interface Props {
   intro?: string;
@@ -30,7 +31,7 @@ const { intro, steps, outro } = Astro.props;
             <p set:html={formatText(step.text)} />
             {step.question && (
               <p class="step-guide__question">
-                <span aria-hidden="true">💭</span> <span set:html={formatText(step.question)} />
+                <Icon name="thought" /> <span set:html={formatText(step.question)} />
               </p>
             )}
             <button type="button" class="step-guide__done" aria-pressed="false" data-done hidden>

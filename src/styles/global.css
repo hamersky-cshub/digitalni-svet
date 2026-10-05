@@ -475,8 +475,26 @@ button {
   padding-left: 2rem;
 }
 
+/* Ikony ze sady (src/lib/icons.ts): velikost podle písma, barva podle textu. */
+.icon {
+  display: inline-block;
+  flex: none;
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: -0.25em;
+}
+
+.emoji--icon {
+  display: inline-block;
+  line-height: 1;
+}
+
 .points li.points__item--icon::before {
   content: none;
+}
+
+.points li.points__item--icon > .emoji--icon:first-child {
+  color: var(--module-text, var(--color-primary));
 }
 
 /* Bod začínající emoji: emoji slouží jako odrážka (čtečka ho nečte). */

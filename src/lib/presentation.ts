@@ -1,4 +1,5 @@
 import type { ScreenKind } from '../content.config';
+import type { IconName } from './icons';
 
 /** Visual identity shared by the homepage, module overview and activities. */
 export const moduleStyles: Record<string, { accent: string; color: string; /** Tmavší odstín pro drobný text (kontrast ≥ 7:1). */ text: string; soft: string; icon: 'privacy' | 'shield' | 'key'; topic: string; outcome: string }> = {
@@ -9,11 +10,11 @@ export const moduleStyles: Record<string, { accent: string; color: string; /** T
 export const defaultModuleStyle = moduleStyles['digitalni-stopa'];
 
 /** Štítek „co se teď děje“ u obrazovky (ScreenKind.astro) a ve scénáři pro lektora. */
-export const SCREEN_KIND_INFO: Record<ScreenKind, { icon: string; label: string }> = {
-  vyklad: { icon: '💬', label: 'Povídání' },
-  diskuse: { icon: '👥', label: 'Společná diskuse' },
-  aktivita: { icon: '👆', label: 'Aktivita' },
-  prakticky: { icon: '📱', label: 'Na vašem zařízení' },
-  reflexe: { icon: '💭', label: 'K zamyšlení' },
-  shrnuti: { icon: '📌', label: 'Shrnutí' },
+export const SCREEN_KIND_INFO: Record<ScreenKind, { icon: IconName; label: string }> = {
+  vyklad: { icon: 'chat', label: 'Povídání' },
+  diskuse: { icon: 'people', label: 'Společná diskuse' },
+  aktivita: { icon: 'tap', label: 'Aktivita' },
+  prakticky: { icon: 'phone', label: 'Na vašem zařízení' },
+  reflexe: { icon: 'thought', label: 'K zamyšlení' },
+  shrnuti: { icon: 'pin', label: 'Shrnutí' },
 };

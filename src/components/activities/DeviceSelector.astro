@@ -20,6 +20,7 @@ const devices = [
   { id: 'apple', label: 'iPad / iPhone', hint: 'zařízení Apple', heading: 'Návod pro iPad a iPhone', guide: apple },
   { id: 'unsure', label: 'Nejsem si jistý/á', hint: 'pomůžeme vám to zjistit', heading: 'Jak poznat, jaké zařízení máte', guide: unsure },
 ];
+import Icon from '../Icon.astro';
 ---
 
 <device-selector class="device">
@@ -34,7 +35,7 @@ const devices = [
               {d.label}
               <span class="device__hint">{d.hint}</span>
             </span>
-            <span class="choice-card__mark"><span aria-hidden="true">✓</span> Vaše volba</span>
+            <span class="choice-card__mark"><Icon name="check" /> Vaše volba</span>
           </button>
         </li>
       ))

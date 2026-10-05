@@ -1,5 +1,6 @@
 ---
 /** Poznámka pro lektora (čas, cíl, diskuse, přechod, tipy). Zobrazuje se jen na stránkách pro lektory. */
+import Icon from './Icon.astro';
 interface Props {
   note?: {
     time?: string;
@@ -26,7 +27,7 @@ const rows = note
   note && (rows.length > 0 || note.tips?.length) && (
     <div class="lecturer-note">
       <p class="lecturer-note__title">
-        <span aria-hidden="true">🧭</span> {title}
+        <Icon name="compass" /> {title}
       </p>
       {rows.length > 0 && (
         <dl>

@@ -5,6 +5,8 @@
  */
 import { formatText } from '../../lib/text';
 import ToneLabel from '../ToneLabel.astro';
+import Icon from '../Icon.astro';
+import { iconForEmoji } from '../../lib/icons';
 
 interface Props {
   services: { name: string; icon: string }[];
@@ -23,14 +25,14 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
   <ul class="choice-list choice-list--row" aria-labelledby="keys-mode" data-options hidden>
     <li>
       <button type="button" class="choice-card" data-mode="same" aria-pressed="true">
-        <span><span aria-hidden="true">🔑</span> {sameKey.label}</span>
-        <span class="choice-card__mark"><span aria-hidden="true">✓</span> Vybráno</span>
+        <span><Icon name="key" /> {sameKey.label}</span>
+        <span class="choice-card__mark"><Icon name="check" /> Vybráno</span>
       </button>
     </li>
     <li>
       <button type="button" class="choice-card" data-mode="unique" aria-pressed="false">
-        <span><span aria-hidden="true">🗝️</span> {uniqueKeys.label}</span>
-        <span class="choice-card__mark"><span aria-hidden="true">✓</span> Vybráno</span>
+        <span><Icon name="keys" /> {uniqueKeys.label}</span>
+        <span class="choice-card__mark"><Icon name="check" /> Vybráno</span>
       </button>
     </li>
   </ul>
@@ -40,14 +42,17 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
       services.map((service, i) => (
         <li class:list={['keys__door', { 'is-leaked': i === leaked }]} data-door={i}>
           <span class="keys__icon" aria-hidden="true">
-            {service.icon}
+            {iconForEmoji(service.icon) ? <Icon name={iconForEmoji(service.icon)!} /> : service.icon}
           </span>
           <span class="keys__name">{service.name}</span>
           <span class="keys__key">
             Heslo: <strong data-key data-same="A" data-unique={keyNames[i]}>A</strong>
           </span>
-          <span class="keys__state" data-state>
-            <span aria-hidden="true">🔒</span> Zamčeno
+          <span class="keys__state" data-state-locked>
+            <Icon name="lock" /> Zamčeno
+          </span>
+          <span class="keys__state keys__state--open" data-state-open hidden>
+            <Icon name="unlock" /> Otevřeno – útočník se dostal dovnitř
           </span>
         </li>
       ))
@@ -94,9 +99,8 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
           key.textContent = mode === 'same' ? key.dataset.same! : key.dataset.unique!;
           const open = isLeaked && (mode === 'same' || i === leaked);
           door.classList.toggle('is-open', open);
-          door.querySelector<HTMLElement>('[data-state]')!.innerHTML = open
-            ? '<span aria-hidden="true">⚠</span> Otevřeno – útočník se dostal dovnitř'
-            : '<span aria-hidden="true">🔒</span> Zamčeno';
+          door.querySelector<HTMLElement>('[data-state-locked]')!.hidden = open;
+          door.querySelector<HTMLElement>('[data-state-open]')!.hidden = !open;
         });
         results.forEach((r) => (r.hidden = !isLeaked || r.dataset.result !== mode));
         leakButton.hidden = isLeaked;
@@ -172,6 +176,12 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
   .keys__icon {
     font-size: 2.2rem;
     line-height: 1;
+    color: var(--module-text, var(--color-primary));
+  }
+
+  .keys__icon :global(.icon) {
+    width: 1em;
+    height: 1em;
   }
 
   .keys__name {

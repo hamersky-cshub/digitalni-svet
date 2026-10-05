@@ -6,6 +6,7 @@ const arcs = (x: number, y: number) => [
   `M${x - 18} ${y - 4} Q${x} ${y - 22} ${x + 18} ${y - 4}`,
   `M${x - 11} ${y + 3} Q${x} ${y - 8} ${x + 11} ${y + 3}`,
 ];
+import { ICONS } from '../../lib/icons';
 ---
 
 <svg viewBox="0 0 800 560" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
@@ -48,7 +49,7 @@ const arcs = (x: number, y: number) => [
 
     <!-- Skutečná síť kavárny -->
     <text x="120" y="282" font-size="22" fill="#1b1f23">Kavarna_U_Lipy</text>
-    <text x="120" y="305" font-size="18" fill="#4a5568">🔒 Zabezpečená heslem</text>
+    <g transform="translate(118 289) scale(0.75)" stroke="#4a5568" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS.lock}></g><text x="142" y="305" font-size="18" fill="#4a5568">Zabezpečená heslem</text>
     {arcs(660, 290).map((d) => <path d={d} fill="none" stroke="#1b1f23" stroke-width="4" stroke-linecap="round" />)}
     <circle cx="660" cy="296" r="4" fill="#1b1f23"></circle>
     <rect x="96" y="312" width="608" height="1.5" fill="#e3e6ec"></rect>
@@ -62,7 +63,7 @@ const arcs = (x: number, y: number) => [
 
     <!-- Další síť v okolí -->
     <text x="120" y="426" font-size="22" fill="#1b1f23">Byt_Novakovi</text>
-    <text x="120" y="447" font-size="18" fill="#4a5568">🔒 Zabezpečená heslem</text>
+    <g transform="translate(118 431) scale(0.75)" stroke="#4a5568" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS.lock}></g><text x="142" y="447" font-size="18" fill="#4a5568">Zabezpečená heslem</text>
     <path d={arcs(660, 434)[1]} fill="none" stroke="#9aa3b1" stroke-width="4" stroke-linecap="round"></path>
     <circle cx="660" cy="440" r="4" fill="#9aa3b1"></circle>
 

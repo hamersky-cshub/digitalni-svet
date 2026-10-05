@@ -7,6 +7,8 @@
  * Vše ostatní se escapuje, takže v obsahu nelze omylem vložit HTML.
  */
 
+import { iconForEmoji, iconSvg } from './icons';
+
 const ESCAPES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 
 /** Emoji (i se spojovníky a variantami). Čtečky obrazovky by je četly nahlas, proto se skrývají. */
@@ -23,7 +25,11 @@ export function escapeHtml(text: string): string {
 
 export function formatText(text: string): string {
   return escapeHtml(text)
-    .replace(EMOJI, '<span class="emoji" aria-hidden="true">$&</span>')
+    .replace(EMOJI, (emoji) => {
+      // Emoji se sadovou ikonou se vykreslí jako ikona (stejně na všech zařízeních), ostatní zůstanou.
+      const icon = iconForEmoji(emoji);
+      return icon ? `<span class="emoji emoji--icon" aria-hidden="true">${iconSvg(icon)}</span>` : `<span class="emoji" aria-hidden="true">${emoji}</span>`;
+    })
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\{\{(.+?)\}\}/g, '<span class="fake-link">$1<span class="visually-hidden"> (ukázková adresa, nikam nevede)</span></span>')
     .replace(

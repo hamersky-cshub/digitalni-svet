@@ -4,6 +4,7 @@
  * Vše běží jen v prohlížeči: nic se neukládá, neodesílá ani nekopíruje.
  */
 import { formatText } from '../../lib/text';
+import Icon from '../Icon.astro';
 
 interface Props {
   warning: string;
@@ -18,7 +19,7 @@ const example = words.slice(0, count);
 
 <passphrase-builder class="passphrase" data-words={JSON.stringify(words)} data-count={count}>
   <div class="notice notice--warning passphrase__warning">
-    <p><strong><span aria-hidden="true">⚠ </span><span set:html={formatText(warning)} /></strong></p>
+    <p><strong><Icon name="warning" /> <span set:html={formatText(warning)} /></strong></p>
   </div>
 
   <p class="passphrase__label" id="passphrase-label">Modelová heslová fráze:</p>

@@ -1,5 +1,6 @@
 import type { CollectionEntry } from 'astro:content';
 import type { ResourceType } from '../content.config';
+import type { IconName } from './icons';
 import { withBase } from './url';
 
 export const TYPE_LABELS: Record<ResourceType, string> = {
@@ -10,12 +11,12 @@ export const TYPE_LABELS: Record<ResourceType, string> = {
   navod: 'Návod na tomto webu',
 };
 
-export const TYPE_ICONS: Record<ResourceType, string> = {
-  pdf: '📄',
-  prezentace: '🖥️',
-  video: '▶️',
-  odkaz: '🔗',
-  navod: '📝',
+export const TYPE_ICONS: Record<ResourceType, IconName> = {
+  pdf: 'file',
+  prezentace: 'presentation',
+  video: 'play',
+  odkaz: 'link',
+  navod: 'guide',
 };
 
 export interface ResourceAction {

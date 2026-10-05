@@ -1,0 +1,13 @@
+---
+/** Ikona ze sady (src/lib/icons.ts). Vždy dekorativní – význam nese text vedle ní. */
+import { iconSvg, type IconName } from '../lib/icons';
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+
+<Fragment set:html={iconSvg(name, className ? `icon ${className}` : 'icon')} />

@@ -1,5 +1,6 @@
 ---
 /** Tablet se zpravodajským webem a lištou s cookies. Web „Denní zprávy“ je smyšlený. viewBox 800 × 560. */
+import { ICONS } from '../../lib/icons';
 ---
 
 <svg viewBox="0 0 800 560" aria-hidden="true" focusable="false" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
@@ -58,7 +59,8 @@
     <g filter="url(#cb-banner-shadow)">
       <rect x="62" y="318" width="676" height="198" fill="#ffffff"></rect>
     </g>
-    <text x="90" y="356" font-size="22" font-weight="700" fill="#1b1f23">🍪 Vaše soukromí je pro nás důležité</text>
+    <g transform="translate(88 334) scale(1.1)" stroke="#8a5a2b" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS.cookie}></g>
+    <text x="122" y="356" font-size="22" font-weight="700" fill="#1b1f23">Vaše soukromí je pro nás důležité</text>
     <text x="90" y="388" font-size="16" fill="#3d4650">Tento web používá cookies ke zlepšení služeb a k zobrazování</text>
     <text x="90" y="410" font-size="16" fill="#3d4650">přizpůsobené reklamy. Souhlas můžete kdykoli změnit.</text>
     <!-- Tlačítka: nápadné „Přijmout vše“, méně nápadné ostatní -->

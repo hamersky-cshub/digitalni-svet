@@ -2,6 +2,7 @@
 /** Štítek „co se teď děje“ – pomáhá účastníkovi zorientovat se. */
 import type { ScreenKind } from '../content.config';
 import { SCREEN_KIND_INFO } from '../lib/presentation';
+import Icon from './Icon.astro';
 
 interface Props {
   kind: ScreenKind;
@@ -12,7 +13,7 @@ const KINDS = SCREEN_KIND_INFO;
 ---
 
 <p class="screen-kind">
-  <span aria-hidden="true">{KINDS[kind].icon}</span>
+  <Icon name={KINDS[kind].icon} />
   {KINDS[kind].label}
 </p>
 

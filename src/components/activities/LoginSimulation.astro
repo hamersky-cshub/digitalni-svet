@@ -5,6 +5,7 @@
  */
 import { formatText } from '../../lib/text';
 import ToneLabel from '../ToneLabel.astro';
+import Icon from '../Icon.astro';
 
 interface Props {
   service: string;
@@ -22,7 +23,7 @@ const { service, password, request, done, denied } = Astro.props;
     <li class="login__stage" data-stage="1">
       <p class="login__step">1. zámek: heslo</p>
       <div class="login__screen">
-        <p class="login__service"><span aria-hidden="true">✉️</span> {service} – přihlášení</p>
+        <p class="login__service"><Icon name="mail" /> {service} – přihlášení</p>
         <p class="login__field-label">Heslo</p>
         <p class="login__field"><span aria-hidden="true">●●●●●●●●●●●●●●●●</span><span class="visually-hidden">Ukázkové heslo, skryté tečkami</span></p>
         <p set:html={formatText(password)} />
@@ -33,7 +34,7 @@ const { service, password, request, done, denied } = Astro.props;
     <li class="login__stage" data-stage="2">
       <p class="login__step">2. zámek: potvrzení v telefonu</p>
       <div class="login__phone">
-        <p class="login__notification-title"><span aria-hidden="true">🔔</span> Žádost o přihlášení</p>
+        <p class="login__notification-title"><Icon name="bell" /> Žádost o přihlášení</p>
         <p set:html={formatText(request)} />
         <div class="login__actions" data-actions hidden>
           <button type="button" class="button" data-go="3">Ano, jsem to já</button>

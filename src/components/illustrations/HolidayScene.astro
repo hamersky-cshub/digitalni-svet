@@ -5,6 +5,7 @@
  * aby byly čitelné i na tabletu na výšku. Souřadnice míst k prohlédnutí jsou v obsahu
  * (stops/…/04-fotografie.yaml) v procentech – při posunutí předmětů je upravte také. viewBox 800 × 640.
  */
+import { ICONS } from '../../lib/icons';
 ---
 
 <svg viewBox="0 0 800 640" role="presentation" aria-hidden="true" focusable="false" class="scene" font-family="'Atkinson Hyperlegible Next', system-ui, sans-serif">
@@ -153,7 +154,8 @@
   <text x="570" y="210" font-size="18" fill="#1b1f23">Zítra letíme k moři!</text>
   <text x="570" y="236" font-size="18" fill="#1b1f23">Celé dva týdny pryč.</text>
   <rect x="570" y="250" width="132" height="32" rx="16" fill="#0b4566"></rect>
-  <text x="636" y="272" font-size="16" font-weight="700" text-anchor="middle" fill="#ffffff">🌐 Veřejně</text>
+  <g transform="translate(586 257) scale(0.75)" stroke="#ffffff" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS.globe}></g>
+  <text x="610" y="272" font-size="16" font-weight="700" fill="#ffffff">Veřejně</text>
   <rect x="558" y="118" width="222" height="176" rx="4" fill="url(#hs-screen-glare)"></rect>
 
   <!-- Obálka s adresou -->
@@ -173,7 +175,7 @@
     <rect x="300" y="335" width="270" height="125" rx="8" fill="url(#hs-paper)" stroke="#3f6d9b" stroke-width="2"></rect>
     <rect x="300" y="335" width="270" height="30" rx="8" fill="#3f6d9b"></rect>
     <rect x="300" y="355" width="270" height="10" fill="#3f6d9b"></rect>
-    <text x="314" y="356" font-size="15" font-weight="700" fill="#ffffff">PALUBNÍ VSTUPENKA ✈</text>
+    <text x="314" y="356" font-size="15" font-weight="700" fill="#ffffff">PALUBNÍ VSTUPENKA</text>
     <text x="314" y="393" font-size="20" font-weight="700" fill="#1b1f23">PRAHA → MÁLAGA</text>
     <text x="314" y="418" font-size="16" fill="#1b1f23">UKÁZKOVÁ JANA</text>
     <text x="314" y="442" font-size="16" fill="#1b1f23">14. 7.</text>

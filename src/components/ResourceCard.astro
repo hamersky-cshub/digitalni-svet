@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import ActionButton from './ActionButton.astro';
 import { TYPE_ICONS, TYPE_LABELS, detailHref, resourceAction } from '../lib/resources';
+import Icon from './Icon.astro';
 
 interface Props {
   resource: CollectionEntry<'resources'>;
@@ -16,7 +17,7 @@ const action = resourceAction(resource);
 <li class="resource-card">
   <p class="resource-card__meta">
     <span class="badge">
-      <span aria-hidden="true">{TYPE_ICONS[type]}</span>
+      <Icon name={TYPE_ICONS[type]} />
       {TYPE_LABELS[type]}
     </span>
   </p>

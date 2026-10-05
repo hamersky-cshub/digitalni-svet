@@ -7,6 +7,7 @@
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LecturerNote from '../../components/LecturerNote.astro';
+import Icon from '../../components/Icon.astro';
 import type { Screen } from '../../content.config';
 import { choiceTone, signalOrder } from '../../lib/activities';
 import { getAvailableWorkshops, getStops, workshopDuration } from '../../lib/content';
@@ -107,10 +108,10 @@ function answerKey(activity: Screen['activity']): AnswerKey | undefined {
                       <tr>
                         <th scope="col">Situace</th>
                         <th scope="col">
-                          <span aria-hidden="true">✓</span> Vhodné
+                          <Icon name="check" /> Vhodné
                         </th>
                         <th scope="col">
-                          <span aria-hidden="true">⚠</span> Riskantní
+                          <Icon name="warning" /> Riskantní
                         </th>
                       </tr>
                     </thead>
@@ -215,6 +216,7 @@ function answerKey(activity: Screen['activity']): AnswerKey | undefined {
 
   .answer-key th {
     background: var(--color-surface-alt);
+    white-space: nowrap;
   }
 
   .answer-list {

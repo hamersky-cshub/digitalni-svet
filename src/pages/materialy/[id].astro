@@ -5,6 +5,7 @@ import { isWorkshopUnlocked } from '../../lib/access';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ActionButton from '../../components/ActionButton.astro';
 import { TYPE_ICONS, TYPE_LABELS, formatDate, resourceAction } from '../../lib/resources';
+import Icon from '../../components/Icon.astro';
 import { workshopHref } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
@@ -25,7 +26,7 @@ const backHref = workshopHref(workshop.id);
 
   <article>
     <p class="meta">
-      <span class="badge"><span aria-hidden="true">{TYPE_ICONS[type]}</span> {TYPE_LABELS[type]}</span>
+      <span class="badge"><Icon name={TYPE_ICONS[type]} /> {TYPE_LABELS[type]}</span>
     </p>
     <h1>{title}</h1>
     <p class="lead">{description}</p>
