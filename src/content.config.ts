@@ -358,6 +358,19 @@ const workshops = defineCollection({
     icon: z.string().optional(),
     /** Délka workshopu, např. "přibližně 90 minut". Když chybí, sečtou se časy zastávek (lecturer.time). */
     duration: z.string().optional(),
+    /** Tahák na doma (/<téma>/tahak/): řádky a políčka k vyplnění rukou. Pravidla se doplní z aktivit „rules“. */
+    takeaway: z
+      .object({
+        /** Nadpis části k vyplnění, např. „Moje důležitá čísla“. */
+        title: z.string(),
+        /** Řádky: popisek a pevná hodnota, nebo prázdné místo k dopsání rukou. */
+        numbers: z.array(z.object({ label: z.string(), value: z.string().optional() })).optional(),
+        /** Políčka k odškrtnutí. */
+        checklist: z.array(z.string()).optional(),
+        /** Upozornění pod částí k vyplnění (zvýrazněné). */
+        warning: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 

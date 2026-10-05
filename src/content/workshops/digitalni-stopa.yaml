@@ -10,3 +10,10 @@ annotation:
   - Některé informace sdílíme vědomě, jiné vznikají zcela automaticky a často ani netušíme, kdo k nim může mít přístup a jak jsou využívány.
   - Na workshopu společně odhalíme, jak digitální stopa vzniká, co znamená aktivní a pasivní sdílení informací a proč jsou naše data pro internetové služby cenná.
   - Ukážeme si, jak lépe chránit soukromí, jak omezit zbytečné sdílení osobních údajů a jak získat větší kontrolu nad tím, co o nás internet prozrazuje.
+takeaway:
+  title: Co jsem si doma zkontroloval(a)
+  checklist:
+    - Oprávnění aplikací – hlavně poloha, mikrofon a fotoaparát.
+    - Kdo vidí moje příspěvky a fotografie na sociální síti.
+    - Zda můj e-mail neunikl (Have I Been Pwned nebo Mozilla Monitor).
+    - 'Před odesláním fotografie: adresa, doklady, SPZ, informace, že nejsem doma.'

@@ -10,3 +10,14 @@ annotation:
   - Stačí chvilka nepozornosti a následky mohou být nepříjemné.
   - Na příkladech workshop ukazuje podvodné e-maily a SMS zprávy, falešné telefonáty a další triky. Naučíte se rozpoznat varovné signály, ověřovat důležité informace a zachovat klid, když vás někdo tlačí k rychlému rozhodnutí.
   - 'Hlavní princip zní: **zastavit se – zkontrolovat – ověřit jinou cestou**.'
+takeaway:
+  title: Moje důležitá čísla
+  numbers:
+    - label: Moje banka (číslo je na zadní straně karty)
+    - label: Blízký člověk, kterému zavolám
+    - label: Policie
+      value: '158'
+    - label: Linka seniorů (denně 8–20 h, zdarma)
+      value: 800 200 007
+    - label: Bílý kruh bezpečí (nonstop, zdarma)
+      value: 116 006

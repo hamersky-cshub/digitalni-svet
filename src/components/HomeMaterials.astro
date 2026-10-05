@@ -1,0 +1,112 @@
+---
+/** Odkazy na materiály na doma: tahák k vytištění (pro každé zadané téma) a slovníček pojmů. */
+import Icon from './Icon.astro';
+import { defaultModuleStyle, moduleStyles } from '../lib/presentation';
+import { withBase } from '../lib/url';
+
+interface Props {
+  workshops: { id: string; title: string }[];
+  /** Při více tématech se k taháku připíše název tématu. */
+  named?: boolean;
+}
+
+const { workshops, named = false } = Astro.props;
+---
+
+<ul class="home-links">
+  {
+    workshops.map((w) => {
+      const style = moduleStyles[w.id] ?? defaultModuleStyle;
+      return (
+        <li style={`--module-color:${style.color};--module-text:${style.text};--module-soft:${style.soft}`}>
+          <a class="home-link" href={withBase(`${w.id}/tahak/`)}>
+            <span class="home-link__icon">
+              <Icon name="file" />
+            </span>
+            <span>
+              <strong class="home-link__title">Tahák k vytištění{named && `: ${w.title}`}</strong>
+              <span class="home-link__desc">Pravidla tématu na jednom listu A4 a místo pro vaše poznámky.</span>
+            </span>
+          </a>
+        </li>
+      );
+    })
+  }
+  <li>
+    <a class="home-link" href={withBase('slovnicek/')}>
+      <span class="home-link__icon">
+        <Icon name="guide" />
+      </span>
+      <span>
+        <strong class="home-link__title">Slovníček pojmů</strong>
+        <span class="home-link__desc">Pojmy z workshopů jednoduše vysvětlené.</span>
+      </span>
+    </a>
+  </li>
+</ul>
+
+<style>
+  .home-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-2);
+    max-width: none;
+    margin: var(--space-2) 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .home-links li {
+    margin: 0;
+  }
+
+  .home-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-2);
+    border: 2px solid var(--color-border-light);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  @media (hover: hover) {
+    .home-link:hover {
+      border-color: var(--color-primary);
+    }
+
+    .home-link:hover .home-link__title {
+      text-decoration: underline;
+    }
+  }
+
+  .home-link:active {
+    background: var(--module-soft, var(--color-accent-soft));
+  }
+
+  .home-link__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    background: var(--module-soft, var(--color-accent-soft));
+    color: var(--module-text, var(--color-primary));
+    font-size: 1.3rem;
+  }
+
+  .home-link__title {
+    display: block;
+    color: var(--color-primary);
+  }
+
+  .home-link__desc {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+</style>

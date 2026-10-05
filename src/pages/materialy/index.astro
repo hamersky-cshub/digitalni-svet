@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { isWorkshopUnlocked } from '../../lib/access';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResourceCard from '../../components/ResourceCard.astro';
+import HomeMaterials from '../../components/HomeMaterials.astro';
 import ModuleIcon from '../../components/ModuleIcon.astro';
 import { getAvailableWorkshops } from '../../lib/content';
 import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
@@ -11,6 +12,7 @@ const resources = await getCollection('resources', resource => isWorkshopUnlocke
 ---
 <BaseLayout title="Zdroje a materiály" description="Nástroje, návody a materiály ke třem modulům o bezpečnějším používání internetu." wide>
   <header class="page-intro"><h1>Zdroje a materiály</h1><p class="lead">Nástroje, návody a materiály, ke kterým se můžete vrátit i po workshopu.</p></header>
+  <section class="materials-section" aria-labelledby="na-doma"><h2 id="na-doma">Na doma</h2><HomeMaterials workshops={workshops.map(w => ({ id: w.id, title: w.data.title }))} named={workshops.length > 1} /></section>
   {workshops.map(workshop => {
     const style = moduleStyles[workshop.id] ?? defaultModuleStyle;
     const items = resources.filter(resource => resource.data.workshop.id === workshop.id).sort((a,b) => a.data.title.localeCompare(b.data.title,'cs'));

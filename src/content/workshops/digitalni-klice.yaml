@@ -10,3 +10,11 @@ annotation:
   - Několik jednoduchých návyků ale může bezpečnost výrazně zvýšit.
   - Workshop vysvětluje, jak vytvářet bezpečná hesla, proč nepoužívat stejné heslo všude, jak funguje dvoufázové ověření a jak si přihlašování zjednodušit.
   - Krátce si ukážeme i novější způsob přihlašování otiskem prstu nebo obličejem.
+takeaway:
+  title: Co mám hotovo
+  checklist:
+    - E-mail má vlastní dlouhé heslo, které nepoužívám nikde jinde.
+    - Dvoufázové ověření v e-mailu.
+    - Dvoufázové ověření v bance a na sociální síti.
+    - Správce hesel nebo přístupové klíče – zeptám se blízkých.
+  warning: Hesla sem nikdy nepište. Tahák může najít i někdo jiný.

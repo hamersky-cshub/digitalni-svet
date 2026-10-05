@@ -51,6 +51,8 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 ## Obsah
 
 - `src/content/workshops/*.yaml`: názvy a popisy tří témat.
+- Materiály na doma: **tahák k vytištění** `/<téma>/tahak/` (list A4) a **slovníček** `/slovnicek/`. Odkazy jsou na přehledu tématu, na poslední obrazovce tématu, na stránce Zdroje a materiály a v patičce.
+  - Tahák sestaví všechna pravidla tématu (obrazovky s aktivitou `rules`) a zdroje tématu. Část k vyplnění rukou je pole `takeaway` v souboru workshopu: `title`, `numbers` (popisek a volitelná pevná hodnota, jinak prázdný řádek), `checklist` (políčka k odškrtnutí) a `warning`.
 - `src/content/stops/<téma>/*.yaml`: očíslované zastávky a krátké obrazovky. `kind: prakticky` zařadí obrazovku i do přehledu praktických úkolů. Pole `icon` (název ikony ze sady v `src/lib/icons.ts`, např. `camera`) se zobrazí na kartě zastávky v přehledu modulu.
 - V textech obrazovek lze psát `**tučně**`, `[text odkazu](https://…)` (klikací odkaz, otevře se v novém okně) a `{{adresa.test}}` (neklikací ukázková adresa v simulacích).
 - Pojem ze slovníčku se v textu označí `((cookies))`, skloňovaný tvar `((dvoufázové ověření|dvoufazove-overeni))`. Po klepnutí se vysvětlení rozbalí přímo v textu, bez JavaScriptu vede odkaz do slovníčku. Značku nepoužívejte v nadpisech a v popiscích tlačítek (možností).

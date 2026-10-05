@@ -6,6 +6,7 @@ import ModuleIcon from '../../components/ModuleIcon.astro';
 import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResourceCard from '../../components/ResourceCard.astro';
+import HomeMaterials from '../../components/HomeMaterials.astro';
 import { buildSteps, getStops, getAvailableWorkshops, workshopDuration } from '../../lib/content';
 import { formatText, ordinalWord, plural } from '../../lib/text';
 import { stepHref, withBase } from '../../lib/url';
@@ -87,6 +88,12 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
     <p class="eyebrow">Vyzkoušejte si to sami</p><h2 id="prakticke-ukoly">Praktické úkoly v tomto modulu</h2>
     <p>Úkol můžete otevřít přímo. Pokud si nejste jistí, požádejte o pomoc lektora.</p>
     <ul class="task-links">{tasks.map(task => <li><a href={task.href}><span><span class="task-location">Zastávka {task.stopNumber} · krok {task.stepNumber}</span><strong>{task.screen.title}</strong></span><ModuleIcon name="arrow" size={24} /></a></li>)}</ul>
+  </section>
+
+  <section aria-labelledby="na-doma">
+    <h2 id="na-doma">Na doma</h2>
+    <p>Shrnutí k vytištění a vysvětlení pojmů, ke kterým se můžete vrátit.</p>
+    <HomeMaterials workshops={[{ id: workshop.id, title: workshop.data.title }]} />
   </section>
 
   {

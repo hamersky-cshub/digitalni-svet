@@ -1,0 +1,375 @@
+---
+/**
+ * Tahák na doma k jednomu tématu: všechna pravidla tématu (obrazovky s aktivitou „rules“),
+ * část k vyplnění rukou (pole takeaway v souboru workshopu) a zdroje k dohledání.
+ * Navržený k tisku na list A4; vzniká jen pro otevřená témata.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import ModuleIcon from '../../components/ModuleIcon.astro';
+import { getAvailableWorkshops, getStops } from '../../lib/content';
+import { defaultModuleStyle, moduleStyles } from '../../lib/presentation';
+import { detailHref } from '../../lib/resources';
+import { formatText, plainText } from '../../lib/text';
+import { withBase, workshopHref } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const workshops = await getAvailableWorkshops();
+  return workshops.map((workshop) => ({ params: { workshop: workshop.id }, props: { workshop } }));
+}) satisfies GetStaticPaths;
+
+const { workshop } = Astro.props;
+const theme = moduleStyles[workshop.id] ?? defaultModuleStyle;
+const stops = await getStops(workshop.id);
+const sections = stops.flatMap((stop) =>
+  stop.data.screens.flatMap((screen) => (screen.activity?.type === 'rules' ? [{ title: plainText(screen.title), items: screen.activity.items }] : [])),
+);
+const takeaway = workshop.data.takeaway;
+/** Adresa k vytištění: bez https:// a koncového lomítka. */
+const printable = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+const site = (path: string) => printable(new URL(path, Astro.site).href);
+const resources = (await getCollection('resources', (r) => r.data.workshop.id === workshop.id))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, 'cs'))
+  .map((r) => ({ title: r.data.title, address: r.data.url ? printable(r.data.url) : site(r.data.file ? withBase(r.data.file) : detailHref(r)) }));
+---
+
+<BaseLayout title={`Tahák – ${workshop.data.title}`} description={`Shrnutí workshopu ${workshop.data.title} k vytištění.`} moduleId={workshop.id}>
+  <p class="back-link no-print"><a href={workshopHref(workshop.id)}><span aria-hidden="true">←</span> Přehled tématu {workshop.data.title}</a></p>
+
+  <div class="sheet">
+    <header class="sheet__header">
+      <span class="sheet__icon"><ModuleIcon name={theme.icon} size={40} /></span>
+      <div>
+        <p class="eyebrow">Tahák na doma</p>
+        <h1>{workshop.data.title}</h1>
+        <p class="sheet__subtitle">{workshop.data.subtitle}</p>
+      </div>
+    </header>
+    <p class="no-print sheet__print"><button type="button" class="button button--secondary" data-print hidden>Vytisknout tahák</button></p>
+
+    <div class="sheet__rules">
+      {
+        sections.map((section) => (
+          <section class="sheet__card">
+            <h2>{section.title}</h2>
+            <ol class="sheet__list">
+              {section.items.map((item, i) => (
+                <li>
+                  <span class="sheet__key" aria-hidden="true">
+                    {item.key ?? i + 1}
+                  </span>
+                  <div>
+                    <p class="sheet__item-title" set:html={formatText(item.title)} />
+                    {item.text && <p class="sheet__item-text" set:html={formatText(item.text)} />}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))
+      }
+      {
+        takeaway && (
+          <section class="sheet__fill">
+            <h2>
+              <Icon name="guide" /> {takeaway.title}
+            </h2>
+            {takeaway.numbers && (
+              <dl class="sheet__numbers">
+                {takeaway.numbers.map((n) => (
+                  <div>
+                    <dt>{n.label}</dt>
+                    <dd class:list={[{ 'sheet__blank': !n.value }]}>{n.value ?? <span class="visually-hidden">(doplňte rukou)</span>}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {takeaway.checklist && (
+              <ul class="sheet__checklist">
+                {takeaway.checklist.map((c) => (
+                  <li set:html={formatText(c)} />
+                ))}
+              </ul>
+            )}
+            {takeaway.warning && (
+              <p class="sheet__warning">
+                <Icon name="warning" /> <strong>{takeaway.warning}</strong>
+              </p>
+            )}
+          </section>
+        )
+      }
+    </div>
+
+    {
+      resources.length > 0 && (
+        <section class="sheet__more">
+          <h2>Kde najdu víc</h2>
+          <ul>
+            {resources.map((r) => (
+              <li>
+                <strong>{r.title}</strong> <span class="sheet__url">{r.address}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <p class="sheet__footer">Digitální svět pod kontrolou · {site(withBase())} · Slovníček pojmů: {site(withBase('slovnicek/'))}</p>
+  </div>
+</BaseLayout>
+
+<script>
+  // Tlačítko tisku (bez JavaScriptu stačí tisk z nabídky prohlížeče).
+  const button = document.querySelector<HTMLButtonElement>('[data-print]');
+  if (button) {
+    button.hidden = false;
+    button.addEventListener('click', () => window.print());
+  }
+</script>
+
+<style>
+  .back-link {
+    margin: var(--space-2) 0 0;
+  }
+
+  .sheet {
+    max-width: 52rem;
+    margin: var(--space-2) auto var(--space-4);
+  }
+
+  .sheet__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding-bottom: var(--space-2);
+    border-bottom: 4px solid var(--module-color);
+  }
+
+  .sheet__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: var(--module-soft);
+    color: var(--module-text);
+  }
+
+  .sheet__header h1 {
+    margin: 0;
+  }
+
+  .sheet__header .eyebrow {
+    margin: 0;
+  }
+
+  .sheet__subtitle {
+    margin: 0;
+    color: var(--module-text);
+    font-weight: 700;
+  }
+
+  .sheet__print {
+    margin: var(--space-2) 0 0;
+  }
+
+  .sheet__rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .sheet__card,
+  .sheet__fill,
+  .sheet__more {
+    padding: var(--space-2);
+    border: 2px solid var(--color-border-light);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .sheet h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 var(--space-1);
+    font-size: 1.2rem;
+    color: var(--module-text);
+  }
+
+  .sheet__list {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sheet__list li {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0 0 0.6rem;
+  }
+
+  .sheet__key {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--module-color);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .sheet__item-title {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .sheet__item-text {
+    margin: 0.15rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .sheet__more {
+    margin-top: var(--space-2);
+  }
+
+  /* Část k vyplnění: vedle poslední karty, nebo přes celou šířku. */
+  .sheet__fill {
+    border-color: var(--module-color);
+  }
+
+  .sheet__fill:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .sheet__numbers {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+  }
+
+  .sheet__numbers div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: end;
+  }
+
+  .sheet__numbers dd {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .sheet__blank {
+    min-height: 2rem;
+    border-bottom: 2px dotted var(--color-text-muted);
+  }
+
+  .sheet__checklist {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sheet__checklist li {
+    position: relative;
+    margin: 0 0 0.5rem;
+    padding-left: 2.25rem;
+  }
+
+  .sheet__checklist li::before {
+    content: '';
+    position: absolute;
+    top: 0.15rem;
+    left: 0;
+    width: 1.35rem;
+    height: 1.35rem;
+    border: 2px solid var(--color-text);
+    border-radius: 0.25rem;
+  }
+
+  .sheet__warning {
+    margin: var(--space-1) 0 0;
+    color: var(--color-risk);
+  }
+
+  .sheet__more ul {
+    max-width: none;
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  .sheet__more li {
+    margin: 0 0 0.3rem;
+  }
+
+  .sheet__url {
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .sheet__footer {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 40rem) {
+    .sheet__numbers div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25rem;
+    }
+  }
+
+  @media print {
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+
+    :global(html),
+    :global(html[data-large-text]) {
+      font-size: 76%;
+    }
+
+    .sheet {
+      max-width: none;
+      margin: 0;
+    }
+
+    .sheet__rules {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .sheet__card,
+    .sheet__fill,
+    .sheet__more {
+      padding: 0.6rem 0.8rem;
+      break-inside: avoid;
+    }
+
+    .sheet__more {
+      margin-top: 0.5rem;
+    }
+
+    .sheet__key {
+      border: 2px solid var(--module-color);
+      background: none;
+      color: var(--module-text);
+    }
+  }
+</style>

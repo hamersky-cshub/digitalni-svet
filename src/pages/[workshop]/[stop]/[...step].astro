@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ActivityBlock from '../../../components/activities/ActivityBlock.astro';
 import Avatar from '../../../components/Avatar.astro';
+import HomeMaterials from '../../../components/HomeMaterials.astro';
 import Progress from '../../../components/Progress.astro';
 import ScreenFigures from '../../../components/ScreenFigures.astro';
 import ScreenKind from '../../../components/ScreenKind.astro';
@@ -92,6 +93,14 @@ const termsJson = JSON.stringify(terms).replace(/</g, '\\u003c');
     }
     {screen.figures && <ScreenFigures figures={screen.figures} />}
     {screen.activity && <ActivityBlock activity={screen.activity} nextLabel={next.label} />}
+    {
+      next.label === 'Dokončit workshop' && (
+        <section class="screen__home" aria-labelledby="na-doma">
+          <h2 id="na-doma">Na doma</h2>
+          <HomeMaterials workshops={[{ id: workshop.id, title: workshop.data.title }]} />
+        </section>
+      )
+    }
   </article>
 
 
@@ -128,5 +137,16 @@ const termsJson = JSON.stringify(terms).replace(/</g, '\\u003c');
 
   .screen__points {
     font-size: 1.1rem;
+  }
+
+  .screen__home {
+    margin-top: var(--space-3);
+    padding-top: var(--space-2);
+    border-top: 2px solid var(--color-border-light);
+  }
+
+  .screen__home h2 {
+    margin: 0;
+    font-size: 1.3rem;
   }
 </style>
