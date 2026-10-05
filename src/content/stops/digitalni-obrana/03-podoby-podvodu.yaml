@@ -26,7 +26,7 @@ screens:
       - 📶 **Falešná Wi-Fi** – síť s názvem kavárny, kterou ale vytvořil podvodník.
       - 🔳 **QR kód** – nálepka přes skutečný kód, třeba na parkovacím automatu.
       - ⚠️ **Vyskakovací okno** – „Váš počítač je napaden, volejte podporu!“
-      - 🎙️ **Napodobený hlas nebo video** – umělá inteligence dokáže napodobit hlas blízkého člověka.
+      - 🎙️ **((Napodobený hlas|napodobeny-hlas)) nebo video** – umělá inteligence dokáže napodobit hlas blízkého člověka.
     figures:
       - illustration: qr-nalepka
         alt: 'Parkovací automat na ulici. Přes původní nápis „Plaťte v aplikaci Parkování Město“ je nakřivo nalepená žlutá nálepka „Plaťte rychle bez drobných – naskenujte“ s QR kódem. Okraj nálepky je zvýrazněný s popiskem „Nálepka přes původní nápis“.'
@@ -53,7 +53,7 @@ screens:
             - label: Kód naskenuji, ale nic nevyplním.
               tone: info
               feedback: Lepší než platit, ale i otevřít podvodnou stránku je zbytečné riziko. Bezpečnější je kód nepoužít.
-          lesson: Než naskenujete QR kód na veřejném místě, podívejte se, zda není přelepený.
+          lesson: Než naskenujete ((QR kód|qr-kod)) na veřejném místě, podívejte se, zda není přelepený.
         - text: 'Prohlížíte si na tabletu recepty. Najednou se přes celou obrazovku objeví okno:'
           message:
             medium: popup
@@ -84,7 +84,7 @@ screens:
             - label: Připojím se a přihlásím se do bankovnictví.
               tone: risk
               feedback: Na veřejné Wi-Fi se do bankovnictví raději nepřihlašujte. Pro důležité věci použijte mobilní data.
-          lesson: Na veřejné Wi-Fi si klidně čtěte zprávy. Bankovnictví a nákupy nechte na doma nebo na mobilní data.
+          lesson: Na ((veřejné Wi-Fi|verejna-wifi)) si klidně čtěte zprávy. Bankovnictví a nákupy nechte na doma nebo na mobilní data.
         - text: 'Zvoní telefon. Hlas zní úplně jako váš vnuk:'
           message:
             medium: call

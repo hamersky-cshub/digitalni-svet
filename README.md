@@ -53,6 +53,8 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 - `src/content/workshops/*.yaml`: názvy a popisy tří témat.
 - `src/content/stops/<téma>/*.yaml`: očíslované zastávky a krátké obrazovky. `kind: prakticky` zařadí obrazovku i do přehledu praktických úkolů. Pole `icon` (název ikony ze sady v `src/lib/icons.ts`, např. `camera`) se zobrazí na kartě zastávky v přehledu modulu.
 - V textech obrazovek lze psát `**tučně**`, `[text odkazu](https://…)` (klikací odkaz, otevře se v novém okně) a `{{adresa.test}}` (neklikací ukázková adresa v simulacích).
+- Pojem ze slovníčku se v textu označí `((cookies))`, skloňovaný tvar `((dvoufázové ověření|dvoufazove-overeni))`. Po klepnutí se vysvětlení rozbalí přímo v textu, bez JavaScriptu vede odkaz do slovníčku. Značku nepoužívejte v nadpisech a v popiscích tlačítek (možností).
+- `src/content/glossary.yaml`: slovníček pojmů (stránka `/slovnicek/`). Pole `workshop` je téma, kde se pojem vysvětluje; pojem se zobrazí, když je téma otevřené nebo když ho používá text otevřeného tématu. Neznámý pojem v textu zastaví sestavení.
 - Obrazovka může mít pole `figures` s nejvýš dvěma ilustracemi (`illustration`, `alt`, `caption`). Dostupné ilustrace jsou v `src/components/illustrations/` a jejich seznam v `ILLUSTRATIONS` v `src/content.config.ts`.
 - Typy aktivit (pole `activity.type`) a jejich pole popisuje `src/content.config.ts`. Patří mezi ně např. `choices`, `scenarios`, `signals`, `guide`, `passphrase`, `dice` (kostková metoda s virtuálními kostkami a tabulkou 36 slov) a `settings` (proklikání nastavení účtu nanečisto).
 - U aktivity `choices` označí `recommended` vhodné možnosti (✓ Vhodná možnost) a `avoid` riskantní (⚠ Pozor, riziko). Ostatní možnosti dostanou „K zamyšlení“.

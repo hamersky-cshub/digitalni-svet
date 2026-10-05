@@ -1,0 +1,94 @@
+# Slovníček pojmů (stránka /slovnicek/).
+# Klíč je id pojmu; v textech obrazovek se pojem označí ((pojem)) nebo ((tvar pojmu|id)).
+# workshop = téma, kde se pojem poprvé vysvětluje. Pojem se ve slovníčku zobrazí,
+# když je toto téma otevřené nebo když ho používá text některého otevřeného tématu.
+
+digitalni-stopa:
+  term: Digitální stopa
+  workshop: digitalni-stopa
+  definition: Informace, které po vás zůstávají, když používáte internet. Část sdílíte sami (fotografie, komentáře), část služby zaznamenávají automaticky (co hledáte, kde jste).
+
+cookies:
+  term: Cookies
+  workshop: digitalni-stopa
+  definition: Malé soubory (lístečky), které si web uloží do vašeho prohlížeče. Některé jsou potřeba, třeba aby si obchod pamatoval košík. Jiné slouží reklamním firmám ke sledování napříč weby.
+
+ip-adresa:
+  term: IP adresa
+  workshop: digitalni-stopa
+  definition: Číselná adresa vašeho připojení k internetu, něco jako adresa domu. Prozradí přibližně, odkud se připojujete.
+
+otisk-prohlizece:
+  term: Otisk prohlížeče
+  workshop: digitalni-stopa
+  definition: Kombinace údajů o vašem zařízení a prohlížeči (model, jazyk, písma, nastavení). Bývá tak jedinečná, že vás podle ní web pozná i bez cookies.
+
+opravneni:
+  term: Oprávnění aplikace
+  workshop: digitalni-stopa
+  definition: Svolení, které aplikaci dáte k používání části zařízení – třeba polohy, mikrofonu, fotoaparátu nebo fotografií. Dá se kdykoli změnit v nastavení.
+
+unik-dat:
+  term: Únik dat
+  workshop: digitalni-stopa
+  definition: Útočníci se dostanou do systému nějaké služby a odnesou si údaje uživatelů, třeba e-maily a hesla. Za únik obvykle nemůžete vy, ale můžete zjistit, zda se vás týká.
+
+dvoufazove-overeni:
+  term: Dvoufázové ověření
+  workshop: digitalni-stopa
+  definition: Přihlášení ve dvou krocích – kromě hesla je potřeba ještě potvrzení v telefonu nebo kód z SMS. Kdo zná jen vaše heslo, se dovnitř nedostane. V aplikacích se jmenuje také **dvoufaktorové ověření** nebo **ověření ve dvou krocích**.
+
+phishing:
+  term: Phishing
+  workshop: digitalni-obrana
+  definition: Podvodná zpráva (e-mail, SMS, chat), která se vydává za banku, úřad nebo známou firmu a snaží se vylákat heslo, údaje z karty nebo peníze. Čte se „fišing“.
+
+falesna-stranka:
+  term: Falešná stránka
+  workshop: digitalni-obrana
+  definition: Webová stránka, která vypadá jako skutečná (banka, pošta, obchod), ale patří podvodníkům. Pozná se hlavně podle adresy v prohlížeči.
+
+qr-kod:
+  term: QR kód
+  workshop: digitalni-obrana
+  definition: Čtvercový kód z teček. Po naskenování fotoaparátem otevře webovou stránku nebo platbu. Podvodníci ho někdy přelepí vlastním.
+
+verejna-wifi:
+  term: Veřejná Wi-Fi
+  workshop: digitalni-obrana
+  definition: Bezdrátové připojení k internetu v kavárně, na nádraží nebo v hotelu. Síť s podobným názvem může vytvořit kdokoli – na ten správný se zeptejte obsluhy.
+
+napodobeny-hlas:
+  term: Napodobený hlas
+  workshop: digitalni-obrana
+  definition: Hlas nebo video vytvořené umělou inteligencí tak, aby zněly jako skutečný člověk, třeba váš blízký. Anglicky „deepfake“.
+
+bezpecny-ucet:
+  term: „Bezpečný účet“
+  workshop: digitalni-obrana
+  definition: Smyšlený účet, na který podvodníci přemlouvají lidi převést úspory „kvůli ochraně“. Skutečná banka ani policie nic takového nikdy nechce.
+
+heslova-fraze:
+  term: Heslová fráze
+  workshop: digitalni-klice
+  definition: Heslo složené z několika náhodných slov, například ze čtyř. Je dlouhé, a proto těžko uhodnutelné, a přitom se dá zapamatovat.
+
+spravce-hesel:
+  term: Správce hesel
+  workshop: digitalni-klice
+  definition: Aplikace, která vaše hesla bezpečně uloží, sama vytvoří silná hesla a při přihlášení je vyplní. Vy si pamatujete jen jedno hlavní heslo.
+
+hlavni-heslo:
+  term: Hlavní heslo
+  workshop: digitalni-klice
+  definition: Jediné heslo, které odemyká správce hesel. Má být dlouhé a dobře zapamatované – obvykle se nedá obnovit.
+
+kod-z-sms:
+  term: Kód z SMS
+  workshop: digitalni-klice
+  definition: Krátký jednorázový kód, který vám přijde zprávou při přihlášení nebo platbě. Nikomu ho nesdělujte – ani „bance“ do telefonu.
+
+pristupovy-klic:
+  term: Přístupový klíč
+  workshop: digitalni-klice
+  definition: Přihlášení bez hesla – totožnost potvrdíte otiskem prstu, obličejem nebo PINem svého zařízení. Anglicky „passkey“. Podvodník ho nemůže vylákat přes falešnou stránku.

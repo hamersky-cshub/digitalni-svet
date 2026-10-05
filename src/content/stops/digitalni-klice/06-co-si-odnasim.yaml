@@ -21,9 +21,9 @@ screens:
           text: Délka je důležitější než složité znaky.
         - title: Nepoužívejte stejné heslo všude.
           text: Hlavně e-mail a banka by měly mít vlastní heslo.
-        - title: Zapněte dvoufázové ověření tam, kde je dostupné.
+        - title: Zapněte ((dvoufázové ověření|dvoufazove-overeni)) tam, kde je dostupné.
           text: A nepotvrzujte přihlášení, které jste nezahájili.
-        - title: Zvažte správce hesel nebo přístupové klíče.
+        - title: Zvažte ((správce hesel|spravce-hesel)) nebo ((přístupové klíče|pristupovy-klic)).
           text: Usnadní vám přihlašování a jsou bezpečné.
   - kind: reflexe
     title: Děkuji za celou sérii

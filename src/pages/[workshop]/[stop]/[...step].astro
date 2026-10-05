@@ -7,9 +7,9 @@ import Progress from '../../../components/Progress.astro';
 import ScreenFigures from '../../../components/ScreenFigures.astro';
 import ScreenKind from '../../../components/ScreenKind.astro';
 import StepNav from '../../../components/StepNav.astro';
-import { buildSteps, getStops, getAvailableWorkshops } from '../../../lib/content';
+import { buildSteps, getGlossary, getStops, getAvailableWorkshops } from '../../../lib/content';
 import { withBase } from '../../../lib/url';
-import { formatText, plainText, startsWithEmoji } from '../../../lib/text';
+import { formatText, plainText, startsWithEmoji, termIds } from '../../../lib/text';
 
 export const getStaticPaths = (async () => {
   const workshops = await getAvailableWorkshops();
@@ -32,6 +32,14 @@ export const getStaticPaths = (async () => {
 
 const { step } = Astro.props;
 const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, prev, next } = step;
+
+// Vysvětlení pojmů ze slovníčku, které obrazovka používá (src/scripts/terms.ts je rozbalí v textu).
+const used = termIds(JSON.stringify(screen));
+const glossary = used.length ? await getGlossary() : [];
+const terms = Object.fromEntries(
+  glossary.filter((e) => used.includes(e.id)).map((e) => [e.id, { term: e.data.term, definition: formatText(e.data.definition) }]),
+);
+const termsJson = JSON.stringify(terms).replace(/</g, '\\u003c');
 ---
 
 <BaseLayout
@@ -88,7 +96,12 @@ const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, pr
 
 
   <StepNav prev={prev} next={next} workshopId={workshop.id} />
+  {used.length > 0 && <script type="application/json" id="terms-data" set:html={termsJson} />}
 </BaseLayout>
+
+<script>
+  import '../../../scripts/terms';
+</script>
 
 <style>
   .screen-heading { display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem; }

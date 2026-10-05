@@ -1,7 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Screen } from '../content.config';
 import { isWorkshopUnlocked } from './access';
-import { plural } from './text';
+import { plural, termIds } from './text';
 import { stepHref, workshopHref } from './url';
 
 /** Adresy, které nesmí být použity jako id workshopu (kolidovaly by s jinými stránkami). */
@@ -95,4 +95,33 @@ export function buildSteps(workshop: Workshop, stops: Stop[]): StepContext[] {
     }
     return { ...step, prev, next };
   });
+}
+
+export type GlossaryEntry = CollectionEntry<'glossary'>;
+
+/**
+ * Pojmy slovníčku, které se na webu zobrazí: pojmy otevřených témat a pojmy,
+ * které používá text některého otevřeného tématu. Seřazené podle abecedy.
+ * Neznámý pojem v textu zastaví sestavení.
+ */
+export async function getGlossary(): Promise<GlossaryEntry[]> {
+  const entries = await getCollection('glossary');
+  const known = new Set(entries.map((e) => e.id));
+  const used = new Set<string>();
+  for (const workshop of await getAvailableWorkshops()) {
+    for (const stop of await getStops(workshop.id)) {
+      for (const id of termIds(JSON.stringify(stop.data))) {
+        if (!known.has(id)) throw new Error(`Pojem „${id}“ (zastávka ${stop.id}) není ve slovníčku src/content/glossary.yaml.`);
+        used.add(id);
+      }
+    }
+  }
+  return entries
+    .filter((e) => isWorkshopUnlocked(e.data.workshop.id) || used.has(e.id))
+    .sort((a, b) => sortKey(a.data.term).localeCompare(sortKey(b.data.term), 'cs'));
+}
+
+/** Řadicí klíč pojmu bez uvozovek („Bezpečný účet“ patří pod B). */
+export function sortKey(term: string): string {
+  return term.replace(/^[„"'“]+/, '');
 }

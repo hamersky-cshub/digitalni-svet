@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { defineCollection, reference } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { ICON_NAMES, type IconName } from './lib/icons';
 import { PERSONAS } from './lib/personas';
@@ -413,4 +413,16 @@ const resources = defineCollection({
     }),
 });
 
-export const collections = { workshops, stops, resources };
+/** Slovníček pojmů (src/content/glossary.yaml, klíčem je id pojmu). */
+const glossary = defineCollection({
+  loader: file('src/content/glossary.yaml'),
+  schema: z.object({
+    term: z.string(),
+    /** 1–2 věty bez žargonu (může obsahovat **tučně**). */
+    definition: z.string(),
+    /** Téma, kde se pojem poprvé vysvětluje. */
+    workshop: reference('workshops'),
+  }),
+});
+
+export const collections = { workshops, stops, resources, glossary };

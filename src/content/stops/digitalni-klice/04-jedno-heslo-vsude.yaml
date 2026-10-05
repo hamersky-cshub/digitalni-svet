@@ -52,7 +52,7 @@ screens:
     points:
       - 🛡️ Správce **pozná falešnou stránku** – na podvodné adrese heslo nevyplní.
       - 🔔 Upozorní, když máte **stejné heslo** na více místech nebo když heslo **uniklo**.
-      - 🔑 **Hlavní heslo si dobře zapamatujte** – nedá se obnovit. Zvolte dlouhou heslovou frázi.
+      - 🔑 **((Hlavní heslo|hlavni-heslo)) si dobře zapamatujte** – nedá se obnovit. Zvolte dlouhou ((heslovou frázi|heslova-fraze)).
       - Nejdůležitější je vlastní heslo k **e-mailu** – přes e-mail se dají obnovit hesla k ostatním účtům.
     figures:
       - illustration: spravce-hesel

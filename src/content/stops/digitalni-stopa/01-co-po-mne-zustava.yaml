@@ -40,7 +40,7 @@ screens:
   - kind: aktivita
     title: Vznikla digitální stopa?
     text:
-      - U každé situace zvolte odpověď. Někdy digitální stopa vzniká, někdy ne. Nejde o test – po každé volbě se dozvíte, jak to je.
+      - U každé situace zvolte odpověď. Někdy ((digitální stopa|digitalni-stopa)) vzniká, někdy ne. Nejde o test – po každé volbě se dozvíte, jak to je.
     activity:
       type: choices
       question: Vznikla při tom digitální stopa?
@@ -132,7 +132,7 @@ screens:
   - kind: aktivita
     title: Lišta s cookies
     text:
-      - 'Na mnoha webech se objeví lišta s dotazem na cookies. Takhle může vypadat:'
+      - 'Na mnoha webech se objeví lišta s dotazem na ((cookies)). Takhle může vypadat:'
     figures:
       - illustration: lista-cookies
         alt: Tablet se zpravodajským webem. Spodní část obrazovky zakrývá lišta „Vaše soukromí je pro nás důležité“ se třemi možnostmi – výrazné modré tlačítko Přijmout vše, méně nápadné tlačítko Odmítnout vše a odkaz Nastavení.

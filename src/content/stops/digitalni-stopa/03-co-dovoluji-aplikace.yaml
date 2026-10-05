@@ -27,7 +27,7 @@ screens:
   - kind: vyklad
     title: Stačí jedna otázka
     text:
-      - 'Nemusíte rozumět technice. U každého oprávnění se stačí zeptat:'
+      - 'Nemusíte rozumět technice. U každého ((oprávnění|opravneni)) se stačí zeptat:'
     activity:
       type: reflection
       question: Potřebuje tato aplikace tuto informaci ke svému fungování?

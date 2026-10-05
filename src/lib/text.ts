@@ -4,10 +4,12 @@
  *   {{adresa.test}}    → ukázková neklikací adresa (v simulacích podvodů)
  *   [[text|id]]        → označené místo ve zprávě (aktivita „Najděte varovné signály“)
  *   [text](https://…)  → skutečný odkaz na jiný web (otevře se v novém okně); jen https
+ *   ((pojem|id))       → pojem ze slovníčku (src/content/glossary.yaml); bez „|id“ se id odvodí z textu
  * Vše ostatní se escapuje, takže v obsahu nelze omylem vložit HTML.
  */
 
 import { iconForEmoji, iconSvg } from './icons';
+import { withBase } from './url';
 
 const ESCAPES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 
@@ -17,6 +19,24 @@ const EMOJI = /\p{Extended_Pictographic}(?:\uFE0F|\p{Emoji_Modifier}|\u200D\p{Ex
 /** Začíná text emoji? (Body seznamu s emoji nemají navíc odrážku.) */
 export function startsWithEmoji(text: string): boolean {
   return /^\s*\p{Extended_Pictographic}/u.test(text);
+}
+
+/** Pojem ze slovníčku: ((cookies)) nebo ((dvoufázové ověření|dvoufazove-overeni)). */
+const TERM = /\(\(([^()|]+?)(?:\|([a-z0-9-]+))?\)\)/g;
+
+/** Id z textu: „Otisk prohlížeče“ → „otisk-prohlizece“. */
+export function slugify(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/** Id všech pojmů ze slovníčku použitých v textu (nebo v JSON celé obrazovky). */
+export function termIds(text: string): string[] {
+  return [...new Set([...text.matchAll(TERM)].map((m) => m[2] ?? slugify(m[1])))];
 }
 
 export function escapeHtml(text: string): string {
@@ -29,6 +49,11 @@ export function formatText(text: string): string {
       // Emoji se sadovou ikonou se vykreslí jako ikona (stejně na všech zařízeních), ostatní zůstanou.
       const icon = iconForEmoji(emoji);
       return icon ? `<span class="emoji emoji--icon" aria-hidden="true">${iconSvg(icon)}</span>` : `<span class="emoji" aria-hidden="true">${emoji}</span>`;
+    })
+    .replace(TERM, (_, inner: string, id?: string) => {
+      // Bez JavaScriptu odkaz do slovníčku, s ním se vysvětlení rozbalí přímo v textu (src/scripts/terms.ts).
+      const key = id ?? slugify(inner);
+      return `<a class="term" href="${withBase('slovnicek/')}#${key}" data-term="${key}">${inner}</a>`;
     })
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\{\{(.+?)\}\}/g, '<span class="fake-link">$1<span class="visually-hidden"> (ukázková adresa, nikam nevede)</span></span>')
@@ -48,6 +73,7 @@ export function formatSignals(text: string): string {
 /** Text bez značek (např. pro title stránky). */
 export function plainText(text: string): string {
   return text
+    .replace(TERM, '$1')
     .replace(/\*\*(.+?)\*\*/g, '$1')
     .replace(/\{\{(.+?)\}\}/g, '$1')
     .replace(/\[\[([^|\]]+)\|[^\]]+\]\]/g, '$1')

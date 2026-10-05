@@ -1,0 +1,140 @@
+---
+/**
+ * Slovníček pojmů z workshopů (src/content/glossary.yaml). Zobrazí jen pojmy otevřených témat.
+ * Na pojem odkazují značky ((pojem)) v textech obrazovek (kotva #id). Dá se vytisknout.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getGlossary, getWorkshops, sortKey } from '../lib/content';
+import { defaultModuleStyle, moduleStyles } from '../lib/presentation';
+import { formatText } from '../lib/text';
+
+const entries = await getGlossary();
+const titles = new Map((await getWorkshops()).map((w) => [w.id, w.data.title]));
+// Skupiny podle prvního písmene.
+const groups: { letter: string; items: typeof entries }[] = [];
+for (const entry of entries) {
+  const letter = sortKey(entry.data.term).charAt(0).toLocaleUpperCase('cs');
+  const last = groups.at(-1);
+  if (last?.letter === letter) last.items.push(entry);
+  else groups.push({ letter, items: [entry] });
+}
+---
+
+<BaseLayout title="Slovníček pojmů" description="Vysvětlení pojmů z workshopů o bezpečnějším používání internetu.">
+  <div class="page-intro">
+    <h1>Slovníček pojmů</h1>
+    <p class="lead">Pojmy z workshopů jednoduše vysvětlené. Na pojmy podtržené tečkami můžete klepnout i přímo v textu.</p>
+    <p class="no-print"><button type="button" class="button button--secondary" data-print hidden>Vytisknout slovníček</button></p>
+  </div>
+
+  <nav class="glossary-letters no-print" aria-label="Písmena">
+    {groups.map((g) => <a href={`#pismeno-${g.letter}`}>{g.letter}</a>)}
+  </nav>
+
+  {
+    groups.map((g) => (
+      <section class="glossary-group" aria-labelledby={`pismeno-${g.letter}`}>
+        <h2 id={`pismeno-${g.letter}`}>{g.letter}</h2>
+        <dl class="glossary">
+          {g.items.map((entry) => {
+            const style = moduleStyles[entry.data.workshop.id] ?? defaultModuleStyle;
+            return (
+              <div class="glossary__entry" id={entry.id} tabindex="-1" style={`--module-color:${style.color};--module-text:${style.text};--module-soft:${style.soft}`}>
+                <dt>{entry.data.term}</dt>
+                <dd set:html={formatText(entry.data.definition)} />
+                <dd class="glossary__topic">
+                  <span class="pill">{titles.get(entry.data.workshop.id)}</span>
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<script>
+  // Tlačítko tisku (bez JavaScriptu stačí tisk z nabídky prohlížeče).
+  const button = document.querySelector<HTMLButtonElement>('[data-print]');
+  if (button) {
+    button.hidden = false;
+    button.addEventListener('click', () => window.print());
+  }
+</script>
+
+<style>
+  .glossary-letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin: 0 0 var(--space-3);
+  }
+
+  .glossary-letters a {
+    display: grid;
+    place-items: center;
+    min-width: var(--tap-size);
+    min-height: var(--tap-size);
+    border: 2px solid var(--color-border-light);
+    border-radius: 0.5rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .glossary-group h2 {
+    margin: var(--space-3) 0 var(--space-1);
+    font-size: 1.5rem;
+  }
+
+  .glossary {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 46rem;
+    margin: 0;
+  }
+
+  .glossary__entry {
+    padding: var(--space-2);
+    border: 1px solid var(--color-border-light);
+    border-left: 6px solid var(--module-color);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    scroll-margin-top: var(--space-3);
+  }
+
+  .glossary__entry:target {
+    background: var(--module-soft);
+    outline: 3px solid var(--module-color);
+  }
+
+  .glossary dt {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .glossary dd {
+    margin: 0.25rem 0 0;
+  }
+
+  .glossary__topic {
+    font-size: 0.9rem;
+  }
+
+  @media print {
+    .glossary-group h2 {
+      margin-top: 0.5rem;
+    }
+
+    .glossary__entry {
+      break-inside: avoid;
+      padding: 0.4rem 0.6rem;
+      border-left-width: 3px;
+    }
+
+    .glossary {
+      max-width: none;
+      gap: 0.4rem;
+    }
+  }
+</style>

@@ -192,7 +192,7 @@ screens:
       - Nastavte si účet jako soukromý a nastavení občas zkontrolujte.
       - Rozmyslete si, zda sdílet svou polohu.
       - Na zprávy od neznámých účtů neodpovídejte hned.
-      - Zapněte dvoufázové ověření (více na setkání Digitální klíče).
+      - Zapněte ((dvoufázové ověření|dvoufazove-overeni)) (více na setkání Digitální klíče).
     lecturer:
       discussion: Požádali jste někdy blízké, aby vaši fotografii nesdíleli? Jak to přijali?
   - kind: reflexe

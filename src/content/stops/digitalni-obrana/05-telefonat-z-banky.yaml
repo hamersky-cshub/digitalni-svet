@@ -83,7 +83,7 @@ screens:
           text: Je to v pořádku a slušné.
         - title: Zavolejte bance sami.
           text: Na číslo z platební karty, ze smlouvy nebo z oficiálního webu.
-        - title: Banka nikdy nechce PIN, heslo, kód z SMS ani převod na „bezpečný účet“.
+        - title: Banka nikdy nechce PIN, heslo, kód z SMS ani převod na ((„bezpečný účet“|bezpecny-ucet)).
   - kind: prakticky
     title: Nacvičte si ukončení hovoru
     text:

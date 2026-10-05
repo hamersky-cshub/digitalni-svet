@@ -28,7 +28,7 @@ screens:
   - kind: prakticky
     title: Unikl můj e-mail?
     text:
-      - Bezplatná stránka **Have I Been Pwned** zjistí, zda se vaše e-mailová adresa objevila v některém známém úniku. Provozuje ji uznávaný bezpečnostní odborník.
+      - Bezplatná stránka **Have I Been Pwned** zjistí, zda se vaše e-mailová adresa objevila v některém známém ((úniku|unik-dat)). Provozuje ji uznávaný bezpečnostní odborník.
     activity:
       type: guide
       intro: '**Zadejte jen svou e-mailovou adresu. Heslo nikdy nikam nezadávejte.** Máte s sebou vlastní telefon? Je jistější to zkusit na něm.'

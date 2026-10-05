@@ -20,9 +20,9 @@ screens:
     text:
       - 'Útočníci obvykle nehádají heslo naslepo. Nejčastěji ho:'
     points:
-      - 🎣 **Vylákají** – falešnou stránkou nebo zprávou (o tom bylo setkání Digitální obrana).
+      - 🎣 **Vylákají** – ((falešnou stránkou|falesna-stranka)) nebo zprávou (o tom bylo setkání Digitální obrana).
       - 📋 **Hádají z běžných hesel** – zkoušejí seznamy nejčastějších hesel, jako „123456“ nebo „heslo“.
-      - 🔁 **Zkoušejí uniklá hesla jinde** – heslo z jednoho úniku vyzkoušejí u e-mailu, banky i obchodu.
+      - 🔁 **Zkoušejí uniklá hesla jinde** – heslo z jednoho ((úniku|unik-dat)) vyzkoušejí u e-mailu, banky i obchodu.
       - 🖥️ **Zkoušejí všechny kombinace** – počítač zkouší „aaaa“, „aaab“… Krátká hesla tak padnou rychle.
     figures:
       - illustration: kradez-hesel

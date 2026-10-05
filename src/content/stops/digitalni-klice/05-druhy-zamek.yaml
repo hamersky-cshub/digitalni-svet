@@ -18,7 +18,7 @@ screens:
       - '**Dvoufázové ověření** znamená, že k přihlášení nestačí jen heslo.'
     points:
       - 🔑 **První zámek:** heslo, které znáte.
-      - 📱 **Druhý zámek:** potvrzení v telefonu nebo kód z SMS.
+      - 📱 **Druhý zámek:** potvrzení v telefonu nebo ((kód z SMS|kod-z-sms)).
       - 🛡️ I když někdo zjistí vaše heslo, bez vašeho telefonu se dovnitř nedostane.
       - ✅ Jakékoli druhé ověření je lepší než žádné.
     figures:
