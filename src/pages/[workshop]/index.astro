@@ -24,8 +24,6 @@ const resources = (await getCollection('resources', (r) => r.data.workshop.id ==
   a.data.title.localeCompare(b.data.title, 'cs'),
 );
 const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
-// Seznam všech obrazovek pro offline režim (service worker si je stáhne předem).
-const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
 ---
 
 <BaseLayout title={workshop.data.title} description={workshop.data.cardText} moduleId={workshop.id}>
@@ -106,7 +104,6 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     <p class="restart__done" data-restart-done role="status"></p>
   </section>
 
-  <script type="application/json" id="offline-urls" set:html={JSON.stringify(offlineUrls)} />
 </BaseLayout>
 
 <script>
@@ -134,13 +131,6 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     render();
   }
 
-  // Offline režim: požádá service worker, aby si stáhl všechny obrazovky workshopu.
-  const urls = JSON.parse(document.getElementById('offline-urls')?.textContent ?? '[]');
-  if ('serviceWorker' in navigator && urls.length) {
-    navigator.serviceWorker.ready
-      .then((registration) => registration.active?.postMessage({ type: 'precache', urls }))
-      .catch(() => {});
-  }
 </script>
 
 <style>

@@ -5,8 +5,8 @@ import { getWorkshops } from '../lib/content';
 import { isWorkshopUnlocked } from '../lib/access';
 import { withBase } from '../lib/url';
 import { moduleStyles } from '../lib/presentation';
-interface Props { title: string; description?: string; workshop?: string; stop?: number; step?: number; wide?: boolean; moduleId?: string; }
-const { title, description = 'Tři praktické moduly pro bezpečnější internet. Srozumitelně, v klidu a vlastním tempem. Pro dospělé 60+.', workshop, stop, step, wide = false, moduleId } = Astro.props;
+interface Props { title: string; description?: string; workshop?: string; stop?: number; step?: number; wide?: boolean; moduleId?: string; /** Stránka se nemá objevit ve vyhledávačích (offline, 404, pro lektory). */ noindex?: boolean; }
+const { title, description = 'Tři praktické moduly pro bezpečnější internet. Srozumitelně, v klidu a vlastním tempem. Pro dospělé 60+.', workshop, stop, step, wide = false, moduleId, noindex = false } = Astro.props;
 const siteName = 'Digitální svět pod kontrolou';
 const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
 const theme = moduleStyles[moduleId ?? workshop ?? ''];
@@ -28,7 +28,7 @@ const FONTS = [
     <meta name="theme-color" content="#2563eb" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
     <meta property="og:title" content={fullTitle} /><meta property="og:description" content={description} /><meta property="og:locale" content="cs_CZ" />
     {FONTS.filter((font) => font.preload).map((font) => <link rel="preload" href={withBase(`fonts/${font.file}.woff2`)} as="font" type="font/woff2" crossorigin />)}
     <style is:inline set:html={FONTS.map(({ family, weight, file }) => `@font-face{font-family:'${family}';font-style:normal;font-weight:${weight};src:url('${withBase(`fonts/${file}.woff2`)}') format('woff2');font-display:swap;}`).join('')} />

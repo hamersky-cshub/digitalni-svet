@@ -1,18 +1,37 @@
 /*
  * Offline režim „Digitální svět pod kontrolou“.
- * - Stránky (HTML): nejdřív síť, při výpadku uložená kopie → obsah je vždy aktuální, když je připojení.
- * - Styly, skripty a obrázky: nejdřív uložená kopie (jejich názvy se při změně mění).
- * - Přehled workshopu pošle seznam všech obrazovek; ty se stáhnou předem.
+ * - Stránky (HTML): nejdřív síť (nejvýš 3,5 s), pak uložená kopie, pak offline stránka.
+ *   Když je připojení, obsah je vždy aktuální; při slabé Wi-Fi se ukáže uložená kopie.
+ * - Styly, skripty, písma a obrázky: nejdřív uložená kopie.
+ * - Při instalaci se stáhne základ webu. Stránka pak požádá o společné stránky
+ *   a o obrazovky modulu, ve kterém právě jste.
+ * - VERSION a PRECACHE doplní sestavení (scripts/service-worker.mjs). Verze se mění
+ *   s obsahem webu; starší uložené kopie se pak smažou.
  * Neukládají se žádné údaje uživatele, jen veřejné stránky tohoto webu.
  */
-// Build injects the settings; changing them also refreshes the offline cache.
-const WORKSHOP_ACCESS = {};
-const VERSION = 'v3-' + Object.entries(WORKSHOP_ACCESS).map(([id, enabled]) => `${id}-${enabled}`).join('_');
+const VERSION = 'dev';
+const PRECACHE = { core: [], shared: [], modules: {} };
+
 const CACHE = `dspk-${VERSION}`;
 const SCOPE = new URL(self.registration.scope).pathname;
+const TIMEOUT = 3500;
+const OFFLINE_HTML =
+  '<!doctype html><html lang="cs"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+  '<title>Jste offline</title><body style="font:1.25rem/1.5 system-ui,sans-serif;margin:2rem;max-width:40rem">' +
+  '<h1>Jste offline</h1><p>Tato stránka není v zařízení uložená a připojení k internetu teď nefunguje.</p>' +
+  '<p>Zkontrolujte Wi-Fi a zkuste to znovu.</p></body></html>';
+
+const abs = (path) => `${SCOPE}${path}`;
+const keyOf = (url) => url.origin + url.pathname;
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll([SCOPE])).then(() => self.skipWaiting()));
+  event.waitUntil(
+    caches
+      .open(CACHE)
+      .then((cache) => cache.addAll(PRECACHE.core.map((path) => new Request(abs(path), { cache: 'no-cache' }))))
+      .then(() => self.skipWaiting()),
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -24,84 +43,89 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-function isAsset(url) {
-  return url.pathname.startsWith(`${SCOPE}_astro/`) || /\.(svg|png|jpg|webp|woff2?)$/.test(url.pathname);
+/* Stránka požádá o uložení společných stránek a modulu, ve kterém právě je. */
+let precacheJob = Promise.resolve();
+self.addEventListener('message', (event) => {
+  if (event.data?.type !== 'precache') return;
+  const page = new URL(event.source?.url ?? self.registration.scope);
+  const moduleId = page.pathname.startsWith(SCOPE) ? page.pathname.slice(SCOPE.length).split('/')[0] : '';
+  const paths = [...PRECACHE.shared, ...(PRECACHE.modules[moduleId] ?? [])];
+  precacheJob = precacheJob.then(() => precache(paths)).catch(() => {});
+  event.waitUntil(precacheJob);
+});
+
+async function precache(paths) {
+  const cache = await caches.open(CACHE);
+  const queue = [];
+  for (const path of paths) {
+    if (!(await cache.match(abs(path)))) queue.push(abs(path));
+  }
+  // Dvě stahování souběžně – šetrné ke sdílené Wi-Fi s mnoha tablety.
+  const worker = async () => {
+    while (queue.length) {
+      const url = queue.shift();
+      try {
+        const response = await fetch(url, { cache: 'no-cache' });
+        if (response.ok && !response.redirected) await cache.put(url, response);
+      } catch {
+        /* Bez připojení nic nestahujeme. */
+      }
+    }
+  };
+  await Promise.all([worker(), worker()]);
 }
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  if (request.method !== 'GET') return;
   const url = new URL(request.url);
-  if (request.method !== 'GET' || url.origin !== self.location.origin || !url.pathname.startsWith(SCOPE)) return;
+  if (url.origin !== self.location.origin || !url.pathname.startsWith(SCOPE) || url.pathname === abs('sw.js')) return;
 
-  const segments = url.pathname.slice(SCOPE.length).split('/');
-  const moduleId = segments[0] === 'soubory' ? segments[1] : segments[0];
-  if (Object.hasOwn(WORKSHOP_ACCESS, moduleId) && WORKSHOP_ACCESS[moduleId] !== true) {
-    event.respondWith(new Response('Tento modul zatím není dostupný.', { status: 404 }));
-    return;
-  }
-
-  if (isAsset(url)) {
-    event.respondWith(
-      caches.match(request).then(
-        (cached) =>
-          cached ||
-          fetch(request).then((response) => {
-            if (response.ok) caches.open(CACHE).then((cache) => cache.put(request, response.clone()));
-            return response;
-          }),
-      ),
-    );
-    return;
-  }
-
-  if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() =>
-          caches.match(request, { ignoreSearch: true }).then(
-            (cached) => cached || caches.match(SCOPE) || new Response('Jste offline.', { status: 503 }),
-          ),
-        ),
-    );
+  if (request.mode === 'navigate' || request.destination === 'document') {
+    navigate(event, url);
+  } else if (url.pathname.startsWith(abs('_astro/')) || /\.(woff2|webp|png|svg|ico|webmanifest)$/.test(url.pathname)) {
+    event.respondWith(fromCacheFirst(event, url));
   }
 });
 
-/* Předem stáhne obrazovky workshopu a soubory, které potřebují (styly, skripty). */
-self.addEventListener('message', (event) => {
-  const data = event.data;
-  if (!data || data.type !== 'precache' || !Array.isArray(data.urls)) return;
-  const urls = data.urls.filter((u) => typeof u === 'string' && u.startsWith(SCOPE)).slice(0, 200);
+async function fromCacheFirst(event, url) {
+  const cache = await caches.open(CACHE);
+  const cached = await cache.match(keyOf(url));
+  if (cached) return cached;
+  const response = await fetch(event.request);
+  if (response.ok && response.type === 'basic') event.waitUntil(cache.put(keyOf(url), response.clone()));
+  return response;
+}
 
-  event.waitUntil(
-    caches.open(CACHE).then(async (cache) => {
-      const assets = new Set(['AtkinsonHyperlegibleNext-Regular', 'AtkinsonHyperlegibleNext-Bold', 'Rubik-Regular', 'Rubik-Medium', 'Rubik-Bold'].map(name => `${SCOPE}fonts/${name}.woff2`));
-      for (const url of urls) {
-        try {
-          const response = await fetch(url, { credentials: 'same-origin' });
-          if (!response.ok) continue;
-          const html = await response.clone().text();
-          await cache.put(url, response);
-          for (const match of html.matchAll(/(?:href|src)="([^"]+\/_astro\/[^"]+)"/g)) assets.add(match[1]);
-        } catch {
-          /* Bez připojení nic nestahujeme. */
-        }
+function navigate(event, url) {
+  const key = keyOf(url);
+  // Odpověď ze sítě se hned zkopíruje do mezipaměti (i když už mezitím posloužila uložená kopie).
+  const attempt = fetch(event.request).then((response) => {
+    const html = (response.headers.get('content-type') || '').includes('text/html');
+    let stored = Promise.resolve();
+    if (response.ok && response.type === 'basic' && !response.redirected && html) {
+      const copy = response.clone(); // kopie hned, dřív než stránka začne číst tělo odpovědi
+      stored = caches.open(CACHE).then((cache) => cache.put(key, copy));
+    }
+    return { response, stored };
+  });
+  event.waitUntil(attempt.then(({ stored }) => stored).catch(() => {}));
+  event.respondWith(
+    (async () => {
+      const cache = await caches.open(CACHE);
+      const cached = await cache.match(key);
+      try {
+        if (!cached) return (await attempt).response;
+        const winner = await Promise.race([attempt.then(({ response }) => response), sleep(TIMEOUT).then(() => null)]);
+        // Pomalá síť nebo chyba serveru → raději uložená kopie.
+        return winner && winner.status < 500 ? winner : cached;
+      } catch {
+        return (
+          cached ??
+          (await cache.match(abs('offline/'))) ??
+          new Response(OFFLINE_HTML, { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } })
+        );
       }
-      for (const asset of assets) {
-        if (await cache.match(asset)) continue;
-        try {
-          const response = await fetch(asset);
-          if (response.ok) await cache.put(asset, response);
-        } catch {
-          /* viz výše */
-        }
-      }
-    }),
+    })(),
   );
-});
+}

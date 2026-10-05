@@ -37,6 +37,13 @@ npm run preview
 
 Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a doména pro GitHub Pages jsou v `astro.config.mjs`.
 
+## Offline režim
+
+- Service worker (`public/sw.js`) při první návštěvě uloží základ webu: úvodní stránku, styly, skripty, písma a offline stránku. Každá stránka pak požádá o uložení společných stránek (praktické úkoly, materiály, obrázky) a všech obrazovek tématu, ve kterém právě je.
+- Stránky se načítají nejdřív ze sítě. Když síť do 3,5 s neodpoví, zobrazí se uložená kopie. Když stránka uložená není, ukáže se „Jste offline“.
+- Seznam souborů a verzi doplní sestavení (`scripts/service-worker.mjs`). Verze se mění s obsahem webu: po každém nasazení si tablety stáhnou novou verzi a staré kopie smažou. **Nasazujte proto mimo probíhající workshop.**
+- Před workshopem stačí na každém tabletu otevřít přehled tématu, dokud je Wi-Fi.
+
 ## Obsah
 
 - `src/content/workshops/*.yaml`: názvy a popisy tří témat.

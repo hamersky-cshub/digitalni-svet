@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { readdir, rm, writeFile } from 'node:fs/promises';
+import { readdir, rm } from 'node:fs/promises';
+import { writeServiceWorker } from './service-worker.mjs';
 
 const settingsUrl = new URL('../workshop-access.json', import.meta.url);
 
@@ -12,14 +13,14 @@ export function readAccess() {
   return access;
 }
 
-/** Omit locked downloads from the published site and refresh offline access. */
+/** Omit locked downloads from the published site and write the offline file list. */
 /** @returns {import('astro').AstroIntegration} */
 export default function workshopAccess() {
   return {
     name: 'workshop-access',
     hooks: {
       'astro:config:setup': () => { readAccess(); },
-      'astro:build:done': async ({ dir }) => {
+      'astro:build:done': async ({ dir, logger }) => {
         const access = readAccess();
         const downloads = new URL('soubory/', dir);
         const entries = await readdir(downloads, { withFileTypes: true }).catch(error => {
@@ -31,8 +32,9 @@ export default function workshopAccess() {
             await rm(new URL(`${entry.name}/`, downloads), { recursive: true, force: true });
           }
         }
-        const worker = readFileSync(new URL('../public/sw.js', import.meta.url), 'utf8');
-        await writeFile(new URL('sw.js', dir), worker.replace('const WORKSHOP_ACCESS = {};', `const WORKSHOP_ACCESS = ${JSON.stringify(access)};`));
+        // Offline režim: seznam souborů a verze podle obsahu (viz scripts/service-worker.mjs).
+        const { version, count, kilobytes } = await writeServiceWorker(dir, access);
+        logger.info(`Offline režim: verze ${version}, ${count} souborů (${kilobytes} KB).`);
       },
     },
   };

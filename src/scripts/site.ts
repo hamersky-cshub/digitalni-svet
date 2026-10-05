@@ -6,12 +6,18 @@ if (workshop && stop && step) {
   progress.markStep(workshop, Number(stop), Number(step));
 }
 
-/* 3) Offline režim: service worker uloží stránky, aby šly otevřít i při výpadku Wi-Fi. */
+/* 2) Offline režim: service worker uloží stránky, aby šly otevřít i při výpadku Wi-Fi. */
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   navigator.serviceWorker.register(`${base}sw.js`, { scope: base }).catch(() => {
     /* Bez service workeru web normálně funguje, jen ne offline. */
   });
+  // Požádá o uložení společných stránek a obrazovek tématu, ve kterém právě jste
+  // (v úsporném režimu dat ne). Co už je uložené, se znovu nestahuje.
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  if (!saveData) {
+    navigator.serviceWorker.ready.then((registration) => registration.active?.postMessage({ type: 'precache' })).catch(() => {});
+  }
 }
 
 /* Čitelnější písmo: nastavení se pamatuje jen v tomto prohlížeči. */

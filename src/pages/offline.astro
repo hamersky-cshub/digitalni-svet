@@ -1,0 +1,24 @@
+---
+/** Zobrazí se, když stránka není v zařízení uložená a nefunguje připojení (viz public/sw.js). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAvailableWorkshops } from '../lib/content';
+import { withBase, workshopHref } from '../lib/url';
+
+const workshops = await getAvailableWorkshops();
+---
+
+<BaseLayout title="Jste offline" description="Stránka není v zařízení uložená a připojení k internetu nefunguje." noindex>
+  <h1>Jste offline</h1>
+  <p class="lead">Tato stránka není v zařízení uložená a připojení k internetu teď nefunguje.</p>
+  <ul class="points">
+    <li>Zkontrolujte, zda je zapnutá Wi-Fi nebo mobilní data.</li>
+    <li>Chvíli počkejte a zkuste to znovu.</li>
+    <li>Stránky témat, která jste už otevřeli, fungují i bez připojení.</li>
+  </ul>
+  <p><a class="button" href="">Zkusit znovu</a></p>
+  <h2>Uložené stránky</h2>
+  <ul class="points">
+    <li><a href={withBase()}>Úvodní stránka</a></li>
+    {workshops.map((workshop) => <li><a href={workshopHref(workshop.id)}>{workshop.data.title}</a></li>)}
+  </ul>
+</BaseLayout>
