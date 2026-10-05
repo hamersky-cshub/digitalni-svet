@@ -53,25 +53,56 @@ import { ICONS } from '../../lib/icons';
     <rect x="470" y="280" width="180" height="10" rx="3" fill="#b9c1cc"></rect>
     <rect x="88" y="376" width="620" height="10" rx="3" fill="#cfd5dd"></rect>
     <!-- Ztmavení stránky pod lištou -->
-    <rect x="62" y="84" width="676" height="432" fill="#0b1a33" opacity="0.28"></rect>
+    <rect class="cb-dim" x="62" y="84" width="676" height="432" fill="#0b1a33" opacity="0.28"></rect>
 
-    <!-- Lišta s cookies -->
-    <g filter="url(#cb-banner-shadow)">
-      <rect x="62" y="318" width="676" height="198" fill="#ffffff"></rect>
+    <!-- Lišta s cookies (při načtení se vysune zespodu) -->
+    <g class="cb-banner">
+      <g filter="url(#cb-banner-shadow)">
+        <rect x="62" y="318" width="676" height="198" fill="#ffffff"></rect>
+      </g>
+      <g transform="translate(88 334) scale(1.1)" stroke="#8a5a2b" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS.cookie}></g>
+      <text x="122" y="356" font-size="22" font-weight="700" fill="#1b1f23">Vaše soukromí je pro nás důležité</text>
+      <text x="90" y="388" font-size="16" fill="#3d4650">Tento web používá cookies ke zlepšení služeb a k zobrazování</text>
+      <text x="90" y="410" font-size="16" fill="#3d4650">přizpůsobené reklamy. Souhlas můžete kdykoli změnit.</text>
+      <!-- Tlačítka: nápadné „Přijmout vše“, méně nápadné ostatní -->
+      <rect x="90" y="436" width="210" height="52" rx="8" fill="#1d4f91"></rect>
+      <text x="195" y="469" font-size="19" font-weight="700" text-anchor="middle" fill="#ffffff">Přijmout vše</text>
+      <rect x="318" y="436" width="200" height="52" rx="8" fill="#ffffff" stroke="#8a93a1" stroke-width="2"></rect>
+      <text x="418" y="469" font-size="19" text-anchor="middle" fill="#3d4650">Odmítnout vše</text>
+      <text x="580" y="469" font-size="18" fill="#1d4f91" text-decoration="underline">Nastavení</text>
     </g>
-    <g transform="translate(88 334) scale(1.1)" stroke="#8a5a2b" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS.cookie}></g>
-    <text x="122" y="356" font-size="22" font-weight="700" fill="#1b1f23">Vaše soukromí je pro nás důležité</text>
-    <text x="90" y="388" font-size="16" fill="#3d4650">Tento web používá cookies ke zlepšení služeb a k zobrazování</text>
-    <text x="90" y="410" font-size="16" fill="#3d4650">přizpůsobené reklamy. Souhlas můžete kdykoli změnit.</text>
-    <!-- Tlačítka: nápadné „Přijmout vše“, méně nápadné ostatní -->
-    <rect x="90" y="436" width="210" height="52" rx="8" fill="#1d4f91"></rect>
-    <text x="195" y="469" font-size="19" font-weight="700" text-anchor="middle" fill="#ffffff">Přijmout vše</text>
-    <rect x="318" y="436" width="200" height="52" rx="8" fill="#ffffff" stroke="#8a93a1" stroke-width="2"></rect>
-    <text x="418" y="469" font-size="19" text-anchor="middle" fill="#3d4650">Odmítnout vše</text>
-    <text x="580" y="469" font-size="18" fill="#1d4f91" text-decoration="underline">Nastavení</text>
     <rect x="62" y="44" width="676" height="472" fill="url(#cb-glare)"></rect>
   </g>
 
   <!-- Upozornění na méně nápadné tlačítko -->
-  <rect x="306" y="424" width="224" height="76" rx="14" fill="none" stroke="#e3a33b" stroke-width="5" stroke-dasharray="10 7"></rect>
+  <rect class="cb-mark" x="306" y="424" width="224" height="76" rx="14" fill="none" stroke="#e3a33b" stroke-width="5" stroke-dasharray="10 7"></rect>
 </svg>
+
+<style>
+  /* Lišta se vysune, jako když web otevřete poprvé; zvýraznění tlačítka se ukáže až potom. */
+  @media (prefers-reduced-motion: no-preference) {
+    .cb-banner {
+      animation: cb-slide 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) 0.4s backwards;
+    }
+
+    .cb-dim {
+      animation: cb-fade 0.5s ease-out 0.4s backwards;
+    }
+
+    .cb-mark {
+      animation: cb-fade 0.4s ease-out 1.2s backwards;
+    }
+  }
+
+  @keyframes cb-slide {
+    from {
+      transform: translateY(200px);
+    }
+  }
+
+  @keyframes cb-fade {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

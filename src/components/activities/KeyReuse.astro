@@ -98,6 +98,16 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
           const key = door.querySelector<HTMLElement>('[data-key]')!;
           key.textContent = mode === 'same' ? key.dataset.same! : key.dataset.unique!;
           const open = isLeaked && (mode === 'same' || i === leaked);
+          // Nově otevřené dveře se otevírají postupně: nejdřív služba, odkud heslo uniklo, pak ostatní.
+          if (open && !door.classList.contains('is-open')) {
+            const order = i === leaked ? 0 : 1 + doors.filter((_, j) => j !== leaked && j < i).length;
+            door.style.setProperty('--open-delay', `${order * 0.25}s`);
+            door.classList.remove('is-opening');
+            door.getBoundingClientRect();
+            door.classList.add('is-opening');
+          } else if (!open) {
+            door.classList.remove('is-opening');
+          }
           door.classList.toggle('is-open', open);
           door.querySelector<HTMLElement>('[data-state-locked]')!.hidden = open;
           door.querySelector<HTMLElement>('[data-state-open]')!.hidden = !open;
@@ -171,6 +181,36 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
   .keys__door.is-open {
     border-color: var(--color-risk);
     background: var(--color-risk-bg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .keys__door.is-opening {
+      animation: keys-open 0.5s ease-out var(--open-delay, 0s) backwards;
+    }
+
+    .keys__door.is-opening .keys__state--open {
+      animation: keys-state 0.3s ease-out var(--open-delay, 0s) backwards;
+    }
+  }
+
+  @keyframes keys-open {
+    0% {
+      border-color: var(--color-border);
+      background: var(--color-surface);
+      transform: scale(1);
+    }
+    45% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes keys-state {
+    from {
+      opacity: 0;
+    }
   }
 
   .keys__icon {

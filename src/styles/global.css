@@ -557,6 +557,29 @@ details.disclosure > .disclosure__body {
   padding: 0 var(--space-3) var(--space-2);
 }
 
+/*
+ * Střídmé animace – jen tam, kde pomáhají pochopit, co se právě stalo.
+ * Při nastavení „omezit pohyb“ se nespustí (pravidlo hned pod tímto blokem).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  /* Vysvětlení a výsledky, které se objeví až po volbě (při načtení stránky jsou skryté). */
+  [data-feedback]:not([hidden]),
+  [data-result]:not([hidden]),
+  [data-explain]:not([hidden]),
+  [data-hint]:not([hidden]),
+  .device__panel:not([hidden]),
+  .login__stage:not([data-stage='1']):not([hidden]) {
+    animation: reveal-in 0.35s ease-out backwards;
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
