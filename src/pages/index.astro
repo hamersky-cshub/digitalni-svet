@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ModuleIcon from '../components/ModuleIcon.astro';
-import { buildSteps, getStops, getWorkshops } from '../lib/content';
+import { buildSteps, getStops, getWorkshops, workshopDuration } from '../lib/content';
 import { isWorkshopUnlocked } from '../lib/access';
 import { moduleStyles, defaultModuleStyle } from '../lib/presentation';
 import { ordinalWord, plural } from '../lib/text';
@@ -9,7 +9,7 @@ import { workshopHref, withBase } from '../lib/url';
 const workshops = await getWorkshops();
 const modules = await Promise.all(workshops.map(async workshop => {
   const stops = await getStops(workshop.id);
-  return { workshop, stops, tasks: buildSteps(workshop, stops).filter(step => step.screen.kind === 'prakticky'), style: moduleStyles[workshop.id] ?? defaultModuleStyle, unlocked: isWorkshopUnlocked(workshop.id) };
+  return { workshop, stops, duration: workshopDuration(workshop, stops), tasks: buildSteps(workshop, stops).filter(step => step.screen.kind === 'prakticky'), style: moduleStyles[workshop.id] ?? defaultModuleStyle, unlocked: isWorkshopUnlocked(workshop.id) };
 }));
 ---
 <BaseLayout title="Digitální svět pod kontrolou" wide>
@@ -23,12 +23,12 @@ const modules = await Promise.all(workshops.map(async workshop => {
   </section>
   <section class="topics" aria-labelledby="temata">
     <h2 id="temata">Tři témata.<br /><span>Více jistoty na internetu.</span></h2>
-    <ol class="module-stack">{modules.map(({ workshop, stops, tasks, style, unlocked }) => <li class:list={['module-panel', { 'module-panel--locked': !unlocked }]} style={`--module-color:${style.color};--module-accent:${style.accent};--module-soft:${style.soft}`}>
+    <ol class="module-stack">{modules.map(({ workshop, stops, duration, tasks, style, unlocked }) => <li class:list={['module-panel', { 'module-panel--locked': !unlocked }]} style={`--module-color:${style.color};--module-accent:${style.accent};--module-soft:${style.soft}`}>
       <div class="module-poster"><img src={withBase(`images/modules/${workshop.id}.webp`)} alt="" width="800" height="800" loading="lazy" /></div>
       <div class="module-copy">
         <div class="module-status"><span class="module-number">{ordinalWord(workshop.data.order)} workshop</span><span class:list={['status', { 'status--locked': !unlocked }]}>{unlocked ? 'Nyní dostupné' : 'Dostupné později'}</span></div>
         <h3>{workshop.data.title}</h3><p class="module-subtitle">{workshop.data.subtitle}</p><p class="module-description">{workshop.data.cardText}</p>
-        <p class="module-meta"><span>{stops.length} {plural(stops.length, ['zastávka', 'zastávky', 'zastávek'])}</span><span>{tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</span></p>
+        <p class="module-meta"><span>{stops.length} {plural(stops.length, ['zastávka', 'zastávky', 'zastávek'])}</span><span>{tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</span>{duration && <span>{duration}</span>}</p>
         {unlocked ? <a class="button module-button" href={workshopHref(workshop.id)}>Otevřít téma <span class="visually-hidden">{workshop.data.title}</span><ModuleIcon name="arrow" size={24} /></a> : <button class="button module-button button--locked" type="button" disabled><ModuleIcon name="lock" size={23} />Téma zatím není otevřené</button>}
       </div>
     </li>)}</ol>

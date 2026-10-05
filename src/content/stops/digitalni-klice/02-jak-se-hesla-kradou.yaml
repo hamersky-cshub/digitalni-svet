@@ -44,6 +44,8 @@ screens:
         - text: „123456“
           recommended:
             - hned
+          avoid:
+            - roky
           explanation: '**Okamžitě.** Patří k nejpoužívanějším heslům na světě – útočníci ho zkoušejí jako první.'
         - text: „pampeliška-komín-sešit-žirafa“
           recommended:
@@ -52,23 +54,33 @@ screens:
         - text: „heslo“
           recommended:
             - hned
+          avoid:
+            - roky
           explanation: '**Přibližně za 2 vteřiny.** Běžné slovo najdete v každém seznamu hesel.'
         - text: „Petr1975“
           recommended:
             - hned
             - minuty
+          avoid:
+            - roky
           explanation: '**Velmi rychle.** Jméno a rok narození útočníci zkoušejí mezi prvními – a často je najdou i na sociálních sítích.'
         - text: „Heslo1234“
           recommended:
             - minuty
+          avoid:
+            - roky
           explanation: '**Přibližně za minutu.** Velké písmeno na začátku a čísla na konci jsou tak obvyklé, že je útočníci zkoušejí automaticky.'
         - text: „qwertz“
           recommended:
             - hned
+          avoid:
+            - roky
           explanation: '**Okamžitě.** Jsou to písmena, která jdou na klávesnici za sebou. Takové „vzory“ jsou v seznamech hesel na předních místech.'
         - text: „maminka123“
           recommended:
             - hodiny
+          avoid:
+            - roky
           explanation: '**Přibližně za 6 hodin.** Zní to jako dlouho, ale pro počítač je to krátká doba. Slova z rodiny a čísla na konci se hádají mezi prvními.'
         - text: „Kj8#pQ2!“
           recommended:
@@ -78,11 +90,15 @@ screens:
         - text: „kocicka“
           recommended:
             - hned
+          avoid:
+            - roky
           explanation: '**Okamžitě.** Krátké běžné slovo – i bez diakritiky – je v každém seznamu hesel.'
         - text: „Praha2024!“
           recommended:
             - minuty
             - hodiny
+          avoid:
+            - roky
           explanation: '**Brzy.** Město, rok a vykřičník na konci jsou oblíbený vzor. Útočníci takové kombinace zkoušejí automaticky.'
   - kind: shrnuti
     title: Co z toho plyne

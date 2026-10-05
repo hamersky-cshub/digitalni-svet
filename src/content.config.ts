@@ -22,8 +22,11 @@ export const TONES = ['ok', 'info', 'risk'] as const;
 const tone = z.enum(TONES);
 
 const lecturerNote = z.object({
-  /** Doporučený čas, např. "15 minut". */
-  time: z.string().optional(),
+  /** Doporučený čas, např. "15 minut" (z časů zastávek se počítá délka workshopu). */
+  time: z
+    .string()
+    .regex(/^\d+\s*minut/, 'Čas zapište jako „15 minut“.')
+    .optional(),
   /** Cíl aktivity / zastávky. */
   goal: z.string().optional(),
   /** Otázka do společné diskuse. */
@@ -50,7 +53,7 @@ const optionId = z.string().regex(/^[a-z0-9-]+$/, 'Id možnosti smí obsahovat j
 // Aktivity
 // ---------------------------------------------------------------------------
 
-/** Několik situací se stejnými možnostmi (např. ANO / NE / NEJSEM SI JISTÝ/Á). */
+/** Několik situací se stejnými možnostmi (např. Ano / Ne / Nejsem si jistý/á). */
 const choicesActivity = z
   .object({
     type: z.literal('choices'),
@@ -66,6 +69,8 @@ const choicesActivity = z
           message: message.optional(),
           /** Možnosti, které jsou vhodné (zobrazí se ✓). Ostatní dostanou „K zamyšlení“. */
           recommended: z.array(optionId).optional(),
+          /** Možnosti, které jsou riskantní (zobrazí se „Pozor, riziko“), např. podvod označený jako „V pořádku“. */
+          avoid: z.array(optionId).optional(),
           /** Vysvětlení zobrazené po jakékoli volbě. */
           explanation: z.string(),
           /** Volitelná odpověď na konkrétní volbu (zobrazí se před vysvětlením). */
@@ -80,9 +85,14 @@ const choicesActivity = z
       if (!item.text && !item.message) {
         ctx.addIssue({ code: 'custom', path: ['items', i], message: 'Situace musí mít "text" nebo "message".' });
       }
-      for (const id of [...(item.recommended ?? []), ...Object.keys(item.responses ?? {})]) {
+      for (const id of [...(item.recommended ?? []), ...(item.avoid ?? []), ...Object.keys(item.responses ?? {})]) {
         if (!ids.has(id)) {
           ctx.addIssue({ code: 'custom', path: ['items', i], message: `Možnost "${id}" není uvedena v "options".` });
+        }
+      }
+      for (const id of item.avoid ?? []) {
+        if (item.recommended?.includes(id)) {
+          ctx.addIssue({ code: 'custom', path: ['items', i, 'avoid'], message: `Možnost "${id}" nemůže být zároveň v "recommended" i v "avoid".` });
         }
       }
     });
@@ -319,7 +329,8 @@ const workshops = defineCollection({
     annotation: z.array(z.string()).min(1),
     order: z.number().int(),
     icon: z.string().optional(),
-    duration: z.string().default('přibližně 90 minut'),
+    /** Délka workshopu, např. "přibližně 90 minut". Když chybí, sečtou se časy zastávek (lecturer.time). */
+    duration: z.string().optional(),
   }),
 });
 

@@ -44,6 +44,8 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 - V textech obrazovek lze psát `**tučně**`, `[text odkazu](https://…)` (klikací odkaz, otevře se v novém okně) a `{{adresa.test}}` (neklikací ukázková adresa v simulacích).
 - Obrazovka může mít pole `figures` s nejvýš dvěma ilustracemi (`illustration`, `alt`, `caption`). Dostupné ilustrace jsou v `src/components/illustrations/` a jejich seznam v `ILLUSTRATIONS` v `src/content.config.ts`.
 - Typy aktivit (pole `activity.type`) a jejich pole popisuje `src/content.config.ts`. Patří mezi ně např. `choices`, `scenarios`, `signals`, `guide`, `passphrase`, `dice` (kostková metoda s virtuálními kostkami a tabulkou 36 slov) a `settings` (proklikání nastavení účtu nanečisto).
+- U aktivity `choices` označí `recommended` vhodné možnosti (✓ Vhodná možnost) a `avoid` riskantní (⚠ Pozor, riziko). Ostatní možnosti dostanou „K zamyšlení“.
+- Délka workshopu na úvodní stránce a na přehledu modulu se počítá ze součtu časů zastávek (`lecturer.time`, např. „15 minut“). Pevnou hodnotu lze zadat polem `duration` v souboru workshopu.
 - `src/content/resources/*.md`: tematické návody, odkazy a materiály ke stažení.
 - `public/soubory/<téma>/`: PDF a jiné soubory ke stažení. **Soubory ukládejte pod odpovídající téma**, aby se při zamčení vynechaly ze sestavení.
 - `src/lib/presentation.ts`: barvy jednotlivých témat.

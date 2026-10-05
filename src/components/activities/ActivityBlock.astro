@@ -1,6 +1,7 @@
 ---
 /** Vybere komponentu podle typu aktivity (pole "type" v obsahu). */
 import type { Activity } from '../../content.config';
+import { choiceTone } from '../../lib/activities';
 import ChoiceSequence, { type SequenceItem } from './ChoiceSequence.astro';
 import DeviceSelector from './DeviceSelector.astro';
 import DiceRoller from './DiceRoller.astro';
@@ -28,11 +29,7 @@ if (activity.type === 'choices') {
     message: item.message,
     question: activity.question,
     explanation: item.explanation,
-    options: activity.options.map((o) => {
-      const response = item.responses?.[o.id];
-      const recommended = item.recommended?.includes(o.id);
-      return { id: o.id, label: o.label, tone: response?.tone ?? (recommended ? 'ok' : 'info'), response: response?.text };
-    }),
+    options: activity.options.map((o) => ({ id: o.id, label: o.label, tone: choiceTone(item, o.id), response: item.responses?.[o.id]?.text })),
   }));
 } else if (activity.type === 'scenarios') {
   sequence = activity.items.map((item) => ({

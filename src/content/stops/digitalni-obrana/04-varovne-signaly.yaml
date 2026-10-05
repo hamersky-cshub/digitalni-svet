@@ -217,6 +217,9 @@ screens:
               - 'Vaše zásilka čeká na doplacení cla 52 Kč. Jinak bude vrácena odesílateli: {{celni-platby.zasilky-cz.test}}'
           recommended:
             - podvod
+            - overim
+          avoid:
+            - v-poradku
           explanation: '**Podvod.** Malý poplatek, krátká lhůta a odkaz na podivnou adresu. Clo se neplatí přes odkaz v SMS od neznámého čísla.'
         - message:
             medium: sms
@@ -236,6 +239,9 @@ screens:
               - Byli jste vylosováni jako výherce nového telefonu. Pro převzetí výhry vyplňte své údaje a číslo karty do 2 hodin.
           recommended:
             - podvod
+            - overim
+          avoid:
+            - v-poradku
           explanation: '**Podvod.** Výhra v soutěži, do které jste se nepřihlásili, a k tomu číslo karty a krátká lhůta. Skutečná výhra nikdy nevyžaduje údaje z platební karty.'
         - message:
             medium: chat
@@ -245,6 +251,7 @@ screens:
               - Mami, v neděli přijedeme na oběd kolem dvanácté, jestli to platí 🙂
           recommended:
             - v-poradku
+            - overim
           explanation: '**V pořádku.** Zpráva přišla od uloženého kontaktu, který znáte, a nic po vás nechce. Takové zprávy jsou většina toho, co dostáváme.'
         - message:
             medium: chat
@@ -254,6 +261,9 @@ screens:
               - Ahoj, tady Petra, mám nové číslo. Omylem jsem poslala ověřovací kód na tvůj telefon. Můžeš mi ho prosím přeposlat?
           recommended:
             - podvod
+            - overim
+          avoid:
+            - v-poradku
           explanation: '**Podvod.** Kód z SMS je klíč k vašemu účtu – třeba k chatu. Kdo ho získá, může váš účet ovládnout a psát vaším jménem dalším lidem. Kód nikomu neposílejte.'
         - message:
             medium: sms
@@ -282,6 +292,9 @@ screens:
               - 'Máte nárok na vrácení přeplatku 2 380 Kč. Pro vyplacení zadejte číslo své platební karty: {{pojistovna-vratky.test}}'
           recommended:
             - podvod
+            - overim
+          avoid:
+            - v-poradku
           explanation: '**Podvod.** K tomu, abyste peníze dostali, nikdy nepotřebujete zadávat číslo karty. Pojišťovna vás v takovém případě kontaktuje dopisem nebo přes svůj oficiální portál.'
         - message:
             medium: popup
@@ -290,6 +303,9 @@ screens:
               - 'Váš prohlížeč je zastaralý a nebezpečný! Klepněte sem a ihned stáhněte aktualizaci.'
           recommended:
             - podvod
+            - overim
+          avoid:
+            - v-poradku
           explanation: '**Podvod.** Aktualizace se stahují přes Nastavení nebo obchod s aplikacemi, ne přes vyskakovací okno na webu. Okno zavřete, a když to nejde, zavřete celý prohlížeč.'
         - message:
             medium: email
@@ -308,8 +324,11 @@ screens:
               - Dobrý den, tady kriminální policie. Váš účet je předmětem vyšetřování. Abyste o peníze nepřišli, musíte je dnes převést na zabezpečený účet.
           recommended:
             - podvod
+            - overim
+          avoid:
+            - v-poradku
           explanation: '**Podvod.** Policie ani banka nikdy nechtějí, abyste převáděli peníze na „zabezpečený“ účet. Hovor ukončete. Pokud máte obavy, zavolejte na linku **158** sami.'
     lecturer:
       tips:
-        - 'Šest zpráv je podvodných, pět je nejspíš v pořádku a jednu je dobré ověřit (zásilka). U zpráv „v pořádku“ je volba „ověřím si to“ vždy také správná. Cílem je, aby účastníci neviděli podvod úplně všude: většina zpráv, které dostávají, je v pořádku.'
+        - 'Šest zpráv je podvodných, pět je nejspíš v pořádku a jednu je dobré ověřit (zásilka). Volba „ověřím si to“ je vždy v pořádku – i u podvodů. Riskantní je jen označit podvod jako „v pořádku“ (zobrazí se „Pozor, riziko“). Cílem je, aby účastníci neviděli podvod úplně všude: většina zpráv, které dostávají, je v pořádku.'
         - Pokud nestíháte, projděte společně jen část zpráv a zbytek nechte na doma.

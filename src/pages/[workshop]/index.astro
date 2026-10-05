@@ -5,7 +5,7 @@ import ModuleIcon from '../../components/ModuleIcon.astro';
 import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResourceCard from '../../components/ResourceCard.astro';
-import { buildSteps, getStops, getAvailableWorkshops } from '../../lib/content';
+import { buildSteps, getStops, getAvailableWorkshops, workshopDuration } from '../../lib/content';
 import { formatText, plural } from '../../lib/text';
 import { stepHref, withBase } from '../../lib/url';
 
@@ -18,6 +18,7 @@ const { workshop } = Astro.props;
 const stops = await getStops(workshop.id);
 const steps = buildSteps(workshop, stops);
 const tasks = steps.filter(step => step.screen.kind === 'prakticky');
+const duration = workshopDuration(workshop, stops);
 const theme = moduleStyles[workshop.id] ?? defaultModuleStyle;
 const resources = (await getCollection('resources', (r) => r.data.workshop.id === workshop.id)).sort((a, b) =>
   a.data.title.localeCompare(b.data.title, 'cs'),
@@ -36,7 +37,7 @@ const offlineUrls = [Astro.url.pathname, ...steps.map((s) => s.href)];
     <h1>{workshop.data.title}</h1>
     <p class="workshop-header__subtitle">{workshop.data.subtitle}</p>
     <p class="lead">{workshop.data.cardText}</p>
-    <div class="workshop-meta"><span class="pill">{stops.length} zastávek</span><span class="pill">{tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</span><span>{workshop.data.duration}</span></div>
+    <div class="workshop-meta"><span class="pill">{stops.length} {plural(stops.length, ['zastávka', 'zastávky', 'zastávek'])}</span><span class="pill">{tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</span>{duration && <span>{duration}</span>}</div>
     <div class="workshop-actions"><a class="button" href={steps[0].href}>Začít od první zastávky <ModuleIcon name="arrow" size={22} /></a><a class="button button--secondary" href="#prakticke-ukoly">Přejít na praktické úkoly</a></div>
     <details class="disclosure"><summary>Co se v tomto modulu naučíte</summary><div class="disclosure__body"><p set:html={formatText(firstParagraph)} />{moreParagraphs.map(p => <p set:html={formatText(p)} />)}</div></details>
   </header>

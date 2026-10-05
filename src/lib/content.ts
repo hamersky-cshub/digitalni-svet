@@ -1,6 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Screen } from '../content.config';
 import { isWorkshopUnlocked } from './access';
+import { plural } from './text';
 import { stepHref, workshopHref } from './url';
 
 /** Adresy, které nesmí být použity jako id workshopu (kolidovaly by s jinými stránkami). */
@@ -28,6 +29,19 @@ export async function getAvailableWorkshops(): Promise<Workshop[]> {
 export async function getStops(workshopId: string): Promise<Stop[]> {
   const stops = await getCollection('stops', (s) => s.data.workshop.id === workshopId);
   return stops.sort((a, b) => a.data.order - b.data.order);
+}
+
+/** Počet minut z textu jako "15 minut" (bez čísla → 0). */
+export function parseMinutes(time?: string): number {
+  const match = time?.match(/\d+/);
+  return match ? Number(match[0]) : 0;
+}
+
+/** Délka workshopu: hodnota "duration" z obsahu, jinak součet doporučených časů zastávek. */
+export function workshopDuration(workshop: Workshop, stops: Stop[]): string | undefined {
+  if (workshop.data.duration) return workshop.data.duration;
+  const minutes = stops.reduce((sum, stop) => sum + parseMinutes(stop.data.lecturer?.time), 0);
+  return minutes > 0 ? `přibližně ${minutes} ${plural(minutes, ['minuta', 'minuty', 'minut'])}` : undefined;
 }
 
 export interface StepLink {
