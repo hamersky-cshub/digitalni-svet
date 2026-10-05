@@ -48,21 +48,21 @@ const arcs = (x: number, y: number) => [
 
     <!-- Skutečná síť kavárny -->
     <text x="120" y="282" font-size="22" fill="#1b1f23">Kavarna_U_Lipy</text>
-    <text x="120" y="304" font-size="14" fill="#5b6475">🔒 Zabezpečená heslem</text>
+    <text x="120" y="305" font-size="18" fill="#4a5568">🔒 Zabezpečená heslem</text>
     {arcs(660, 290).map((d) => <path d={d} fill="none" stroke="#1b1f23" stroke-width="4" stroke-linecap="round" />)}
     <circle cx="660" cy="296" r="4" fill="#1b1f23"></circle>
     <rect x="96" y="312" width="608" height="1.5" fill="#e3e6ec"></rect>
 
     <!-- Podvodná síť -->
     <text x="120" y="354" font-size="22" font-weight="700" fill="#1b1f23">Kavarna_Zdarma</text>
-    <text x="120" y="376" font-size="14" fill="#5b6475">Otevřená síť – bez hesla</text>
+    <text x="120" y="377" font-size="18" fill="#4a5568">Otevřená síť – bez hesla</text>
     {arcs(660, 362).map((d) => <path d={d} fill="none" stroke="#1b1f23" stroke-width="4" stroke-linecap="round" />)}
     <circle cx="660" cy="368" r="4" fill="#1b1f23"></circle>
     <rect x="96" y="384" width="608" height="1.5" fill="#e3e6ec"></rect>
 
     <!-- Další síť v okolí -->
     <text x="120" y="426" font-size="22" fill="#1b1f23">Byt_Novakovi</text>
-    <text x="120" y="446" font-size="14" fill="#5b6475">🔒 Zabezpečená heslem</text>
+    <text x="120" y="447" font-size="18" fill="#4a5568">🔒 Zabezpečená heslem</text>
     <path d={arcs(660, 434)[1]} fill="none" stroke="#9aa3b1" stroke-width="4" stroke-linecap="round"></path>
     <circle cx="660" cy="440" r="4" fill="#9aa3b1"></circle>
 

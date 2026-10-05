@@ -60,7 +60,7 @@ pattern.forEach((row, r) => [...row].forEach((c, col) => c === '1' && cells.push
   <circle cx="320" cy="210" r="13" fill="#e9eef4"></circle>
   <circle cx="356" cy="210" r="13" fill="#e9eef4"></circle>
   <rect x="404" y="198" width="96" height="26" rx="6" fill="#1f2a36"></rect>
-  <text x="452" y="216" font-size="12" text-anchor="middle" fill="#cbd5e1">KARTA</text>
+  <text x="452" y="217" font-size="15" text-anchor="middle" fill="#e2e8f0">KARTA</text>
 
   <!-- Původní nápis s oficiální aplikací (částečně přelepený) -->
   <rect x="292" y="246" width="216" height="150" rx="10" fill="#ffffff"></rect>
@@ -71,7 +71,7 @@ pattern.forEach((row, r) => [...row].forEach((c, col) => c === '1' && cells.push
   <g transform="rotate(-4 400 330)" filter="url(#qr-sticker-shadow)">
     <rect x="316" y="262" width="168" height="150" rx="6" fill="#fff6c9" stroke="#e0b93b" stroke-width="2"></rect>
     <text x="400" y="286" font-size="15" font-weight="700" text-anchor="middle" fill="#7a2e0e">PLAŤTE RYCHLE</text>
-    <text x="400" y="304" font-size="13" text-anchor="middle" fill="#7a2e0e">bez drobných – naskenujte</text>
+    <text x="400" y="305" font-size="15" text-anchor="middle" fill="#7a2e0e">bez drobných!</text>
     <g transform="translate(358 314)">
       <rect x="-6" y="-6" width="96" height="96" fill="#ffffff"></rect>
       {cells.map((c) => <rect x={c.x * 12} y={c.y * 12} width="12" height="12" fill="#1b1f23" />)}

@@ -4,7 +4,7 @@
  * – rychle se načtou, fungují offline a všechny údaje v nich jsou smyšlené.
  */
 import type { IllustrationName } from '../content.config';
-import { formatText } from '../lib/text';
+import { formatText, plainText } from '../lib/text';
 import CookieBanner from './illustrations/CookieBanner.astro';
 import FlashlightPermission from './illustrations/FlashlightPermission.astro';
 import PhotoSafe from './illustrations/PhotoSafe.astro';
@@ -36,16 +36,27 @@ const { figures } = Astro.props;
     figures.map((figure) => {
       const Illustration = COMPONENTS[figure.illustration];
       return (
-        <figure class:list={['screen-figure', { 'screen-figure--narrow': NARROW.has(figure.illustration) }]}>
-          <div class="screen-figure__image" role="img" aria-label={figure.alt}>
-            <Illustration />
-          </div>
-          {figure.caption && <figcaption set:html={formatText(figure.caption)} />}
-        </figure>
+        <image-zoom data-label={figure.alt}>
+          <figure class:list={['screen-figure', { 'screen-figure--narrow': NARROW.has(figure.illustration) }]}>
+            <div class="screen-figure__image" role="img" aria-label={figure.alt}>
+              <Illustration />
+            </div>
+            {figure.caption && <figcaption set:html={formatText(figure.caption)} />}
+          </figure>
+          <p class="zoom-row">
+            <button type="button" class="button button--secondary" data-zoom-open hidden>
+              Zvětšit obrázek{figures.length > 1 && <span class="visually-hidden">: {plainText(figure.caption ?? figure.alt)}</span>}
+            </button>
+          </p>
+        </image-zoom>
       );
     })
   }
 </div>
+
+<script>
+  import '../scripts/zoom';
+</script>
 
 <style>
   .screen-figures {

@@ -22,9 +22,10 @@ const uid = stableId('hs', spots);
 
 <spot-explorer class="hotspots" data-total={spots.length} data-noun="místa">
   <p class="hotspots__instruction"><strong>{instruction}</strong></p>
+  <image-zoom data-label={alt}>
   <figure class="hotspots__figure">
     <div class="hotspots__image">
-      <HolidayScene />
+      <div class="hotspots__frame"><HolidayScene /></div>
       {
         spots.map((spot, i) => (
           <button
@@ -42,6 +43,8 @@ const uid = stableId('hs', spots);
     </div>
     <figcaption class="visually-hidden">{alt}</figcaption>
   </figure>
+  <p class="zoom-row"><button type="button" class="button button--secondary" data-zoom-open hidden>Zvětšit obrázek</button></p>
+  </image-zoom>
 
   <p class="spot-status" data-status role="status" hidden><span class="visually-hidden" data-status-detail></span><span data-status-count></span></p>
 
@@ -62,6 +65,7 @@ const uid = stableId('hs', spots);
 
 <script>
   import './spot-explorer';
+  import '../../scripts/zoom';
 </script>
 
 <style>
@@ -74,12 +78,17 @@ const uid = stableId('hs', spots);
     margin: 0 0 var(--space-2);
   }
 
+  /* Rám ořezává jen obrázek; klepací místa u okraje se neořežou. */
   .hotspots__image {
     position: relative;
+    container-type: inline-size;
+    line-height: 0;
+  }
+
+  .hotspots__frame {
+    overflow: hidden;
     border: 3px solid var(--color-border);
     border-radius: var(--radius);
-    overflow: hidden;
-    line-height: 0;
   }
 
   .hotspots__image :global(.scene) {
@@ -91,14 +100,18 @@ const uid = stableId('hs', spots);
     position: absolute;
     display: grid;
     place-items: center;
-    width: 3.25rem;
-    height: 3.25rem;
+    /* Velikost podle šířky obrázku (aspoň 44 px), neroste s větším písmem. */
+    width: 3rem;
+    height: 3rem;
+    width: clamp(44px, 10cqi, 60px);
+    height: clamp(44px, 10cqi, 60px);
     transform: translate(-50%, -50%);
     border: 4px solid var(--color-primary-dark);
     border-radius: 50%;
     background: var(--color-focus);
     color: var(--color-focus-text);
     font-size: 1.1rem;
+    font-size: clamp(16px, 3.6cqi, 22px);
     font-weight: 700;
     line-height: 1;
     box-shadow: 0 0 0 3px #ffffff;
@@ -108,14 +121,5 @@ const uid = stableId('hs', spots);
     background: var(--color-primary-dark);
     color: #ffffff;
     box-shadow: 0 0 0 4px var(--color-focus);
-  }
-
-  @media (max-width: 40rem) {
-    .hotspot {
-      width: 2.75rem;
-      height: 2.75rem;
-      font-size: 1rem;
-      border-width: 3px;
-    }
   }
 </style>
