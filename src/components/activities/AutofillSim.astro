@@ -1,0 +1,320 @@
+---
+/**
+ * AutofillSim – správce hesel (method: password) nebo přístupový klíč (method: passkey) nanečisto.
+ * Na pravé adrese správce heslo vyplní / zařízení nabídne přihlášení otiskem prstu,
+ * na napodobené adrese ne. Nic se nikam nezadává ani neukládá.
+ * Bez JavaScriptu se u každé adresy rovnou ukáže, co by se stalo.
+ */
+import { formatText } from '../../lib/text';
+import { stableId } from '../../lib/id';
+import Icon from '../Icon.astro';
+import ToneLabel from '../ToneLabel.astro';
+
+interface Props {
+  method: 'password' | 'passkey';
+  service: string;
+  task: string;
+  sites: { address: string; genuine: boolean; result: string }[];
+}
+
+const { method, service, task, sites } = Astro.props;
+const uid = stableId('af', { method, sites });
+const actionLabel = method === 'password' ? 'Vyplnit heslo ze správce hesel' : 'Přihlásit se přístupovým klíčem';
+---
+
+<autofill-sim class="af" data-method={method}>
+  <p class="af__task"><strong set:html={formatText(task)} /></p>
+
+  <div class="af__pick" data-pick hidden>
+    <p class="af__pick-label" id={`${uid}-pick`}>Kterou stránku otevřete?</p>
+    <ul class="choice-list" aria-labelledby={`${uid}-pick`}>
+      {
+        sites.map((site, i) => (
+          <li>
+            <button type="button" class="choice-card af__site-button" data-open={i} aria-pressed="false">
+              <span>
+                <Icon name="globe" /> <span class="af__mono">{site.address}</span>
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {
+    sites.map((site, i) => (
+      <section class="af__window" data-site={i} aria-label={`Stránka ${site.address}`}>
+        <p class="af__bar">
+          <Icon name="lock" /> <span class="af__mono">{site.address}</span>
+        </p>
+        <div class="af__page">
+          <p class="af__service">{service}</p>
+          <p class="af__heading">Přihlášení</p>
+          <p class="af__field-label">Uživatel</p>
+          <p class="af__field">jana.ukazkova</p>
+          {method === 'password' && (
+            <>
+              <p class="af__field-label">Heslo</p>
+              <p class="af__field af__field--password" data-password>
+                <span class="visually-hidden">prázdné</span>
+              </p>
+            </>
+          )}
+          <p>
+            <button type="button" class="button af__action" data-action hidden>
+              <Icon name={method === 'password' ? 'key' : 'fingerprint'} /> {actionLabel}
+            </button>
+          </p>
+          {method === 'passkey' && site.genuine && (
+            <div class="af__sheet" data-sheet hidden>
+              <p class="af__sheet-title">Přihlásit se do: {site.address}</p>
+              <button type="button" class="af__finger" data-finger>
+                <Icon name="fingerprint" />
+                <span>Přiložte prst</span>
+              </button>
+            </div>
+          )}
+          {!site.genuine && (
+            <p class="af__popup" data-popup hidden>
+              <Icon name="warning" />
+              {method === 'password' ? 'Pro tuto adresu nemám uložené heslo.' : 'Pro tuto stránku nemáte přístupový klíč.'}
+            </p>
+          )}
+          {site.genuine && (
+            <p class="af__success" data-success hidden>
+              <Icon name="check-circle" /> {method === 'password' ? 'Heslo vyplněno' : 'Přihlášeno'}
+            </p>
+          )}
+        </div>
+        <div class:list={['feedback', site.genuine ? 'feedback--ok' : 'feedback--risk']} data-result>
+          <ToneLabel tone={site.genuine ? 'ok' : 'risk'} />
+          <p>
+            <strong class="af__mono">{site.address}:</strong> <span set:html={formatText(site.result)} />
+          </p>
+        </div>
+      </section>
+    ))
+  }
+  <p class="visually-hidden" role="status" data-status></p>
+</autofill-sim>
+
+<script>
+  import { reveal } from '../../scripts/reveal';
+
+  class AutofillSim extends HTMLElement {
+    connectedCallback() {
+      const method = this.dataset.method;
+      const windows = Array.from(this.querySelectorAll<HTMLElement>('[data-site]'));
+      const openButtons = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-open]'));
+      const status = this.querySelector<HTMLElement>('[data-status]')!;
+      const announce = (text: string) => {
+        status.textContent = '';
+        requestAnimationFrame(() => (status.textContent = text));
+      };
+
+      const reset = (win: HTMLElement) => {
+        win.querySelectorAll<HTMLElement>('[data-result], [data-popup], [data-success], [data-sheet]').forEach((el) => (el.hidden = true));
+        const action = win.querySelector<HTMLButtonElement>('[data-action]')!;
+        action.hidden = false;
+        action.disabled = false;
+        const pw = win.querySelector<HTMLElement>('[data-password]');
+        if (pw) pw.innerHTML = '<span class="visually-hidden">prázdné</span>';
+      };
+
+      const finish = (win: HTMLElement) => {
+        const result = win.querySelector<HTMLElement>('[data-result]')!;
+        result.hidden = false;
+        announce(result.textContent?.replace(/\s+/g, ' ').trim() ?? '');
+        reveal(win.querySelector('.af__page')!, result);
+      };
+
+      windows.forEach((win, i) => {
+        const action = win.querySelector<HTMLButtonElement>('[data-action]')!;
+        const genuine = Boolean(win.querySelector('[data-success]'));
+        action.addEventListener('click', () => {
+          action.disabled = true;
+          if (!genuine) {
+            win.querySelector<HTMLElement>('[data-popup]')!.hidden = false;
+            finish(win);
+          } else if (method === 'password') {
+            win.querySelector<HTMLElement>('[data-password]')!.innerHTML = '<span aria-hidden="true">••••••••••</span><span class="visually-hidden">vyplněno</span>';
+            win.querySelector<HTMLElement>('[data-success]')!.hidden = false;
+            finish(win);
+          } else {
+            const sheet = win.querySelector<HTMLElement>('[data-sheet]')!;
+            sheet.hidden = false;
+            sheet.querySelector<HTMLButtonElement>('[data-finger]')!.focus();
+            announce('Zařízení žádá o otisk prstu. Klepněte na „Přiložte prst“.');
+          }
+        });
+        win.querySelector('[data-finger]')?.addEventListener('click', () => {
+          win.querySelector<HTMLElement>('[data-sheet]')!.hidden = true;
+          action.hidden = true;
+          win.querySelector<HTMLElement>('[data-success]')!.hidden = false;
+          finish(win);
+        });
+        openButtons[i].addEventListener('click', () => {
+          openButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === openButtons[i])));
+          windows.forEach((w) => (w.hidden = w !== win));
+          reset(win);
+          reveal(win);
+        });
+      });
+
+      this.querySelector<HTMLElement>('[data-pick]')!.hidden = false;
+      windows.forEach((w) => {
+        reset(w);
+        w.hidden = true;
+      });
+    }
+  }
+  customElements.define('autofill-sim', AutofillSim);
+</script>
+
+<style>
+  .af {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .af__pick-label {
+    margin-bottom: var(--space-1);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .af__mono {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    overflow-wrap: anywhere;
+  }
+
+  .af__window {
+    max-width: 32rem;
+    margin: var(--space-2) 0;
+  }
+
+  .af__window + .af__window {
+    margin-top: var(--space-3);
+  }
+
+  .af__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--color-border);
+    border-bottom: 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: #e9ecf1;
+    max-width: none;
+  }
+
+  .af__page {
+    position: relative;
+    padding: var(--space-2);
+    border: 2px solid var(--color-border);
+    border-radius: 0 0 var(--radius) var(--radius);
+    background: var(--color-surface);
+  }
+
+  .af__page p {
+    max-width: none;
+  }
+
+  .af__service {
+    margin: 0;
+    color: #1d4f91;
+    font-weight: 700;
+  }
+
+  .af__heading {
+    margin: 0 0 var(--space-1);
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .af__field-label {
+    margin: var(--space-1) 0 0.2rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .af__field {
+    min-height: 2.75rem;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: 0.4rem;
+    background: var(--color-surface-alt);
+    letter-spacing: 0.1em;
+  }
+
+  .af__action {
+    margin-top: var(--space-2);
+  }
+
+  .af__sheet {
+    margin-top: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--radius);
+    background: #1f2430;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .af__sheet-title {
+    margin: 0 0 var(--space-1);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .af__finger {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 9rem;
+    padding: var(--space-2);
+    border: 3px solid #ffd76a;
+    border-radius: 1rem;
+    background: #2c3340;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .af__finger :global(.icon) {
+    width: 3.5rem;
+    height: 3.5rem;
+    color: #ffd76a;
+  }
+
+  .af__popup,
+  .af__success {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: var(--space-2) 0 0;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+  }
+
+  .af__popup {
+    background: var(--color-risk-bg);
+    color: var(--color-risk);
+  }
+
+  .af__success {
+    background: var(--color-ok-bg);
+    color: var(--color-ok);
+  }
+
+  .af__window [data-result] {
+    margin-top: var(--space-2);
+  }
+</style>

@@ -72,6 +72,8 @@ function answerKey(activity: Screen['activity']): AnswerKey | undefined {
           .filter((x, i, a) => a.indexOf(x) === i),
         note: 'Vhodné odpovědi (ostatní vedou k riziku nebo k zamyšlení):',
       };
+    case 'autofill':
+      return { list: activity.sites.map((x) => `${x.address}: ${x.genuine ? 'pravá – funguje' : 'napodobená – nefunguje'}`), note: 'Adresy:' };
     case 'permissions':
       return {
         list: activity.apps.map(

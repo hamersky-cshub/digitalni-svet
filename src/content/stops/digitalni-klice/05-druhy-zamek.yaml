@@ -8,7 +8,7 @@ summary: Dvoufázové ověření a novější způsoby přihlašování.
 goal: Vyzkoušíte si druhý zámek – dvoufázové ověření.
 icon: lock
 lecturer:
-  time: 25 minut
+  time: 30 minut
   goal: Vysvětlit dvoufázové ověření a zásadu nepotvrzovat přihlášení, které jsem sám/sama nezahájil(a). Krátce zmínit přístupové klíče (passkeys).
   discussion: Potvrzujete už něco v telefonu, třeba platby v bankovnictví?
   transition: Shrňme si čtyři návyky, které vaše účty ochrání.
@@ -126,7 +126,7 @@ screens:
               tone: info
               feedback: Je to lepší než potvrdit. Jistější je ale žádost odmítnout a změnit heslo – útočník to může zkoušet znovu.
           lesson: '**Nikdy nepotvrzujte přihlášení, které jste sami nezahájili.**'
-  - kind: vyklad
+  - kind: aktivita
     title: Přihlášení bez hesla
     text:
       - Novější služby někdy umožňují přihlášení **otiskem prstu, obličejem nebo PINem zařízení** místo klasického hesla. Říká se tomu **přístupový klíč** (anglicky passkey).
@@ -138,6 +138,18 @@ screens:
       - illustration: pristupovy-klic
         alt: 'Místo hesla tři způsoby potvrzení: otisk prstu, obličej a PIN zařízení. Uprostřed telefon s přihlášením do služby Moje pošta a výzvou „Přiložte prst“. Vpravo falešná stránka posta-login.test s přeškrtnutým rybářským háčkem a nápisem „Falešná stránka nemá co vylákat“.'
         caption: '**Přístupový klíč zůstává ve vašem zařízení.** Nikam ho neopisujete, a tak ho nikdo nevyláká.'
+    activity:
+      type: autofill
+      method: passkey
+      service: Moje pošta
+      task: Vyzkoušejte si přihlášení přístupovým klíčem. Otevřete jednu stránku a pak druhou.
+      sites:
+        - address: mojeposta.test
+          genuine: true
+          result: Zařízení se zeptalo jen na otisk prstu a jste přihlášeni. Žádné heslo, které by šlo vylákat.
+        - address: mojeposta-prihlaseni.test
+          genuine: false
+          result: Přístupový klíč patří jen k pravé adrese, a tak ho zařízení na napodobené stránce vůbec nenabídne. Podvodník nemá co vylákat.
   - kind: prakticky
     title: Najděte druhé ověření – nanečisto
     text:

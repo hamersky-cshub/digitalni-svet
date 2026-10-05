@@ -8,7 +8,7 @@ summary: Proč je riskantní mít jeden klíč ke všem dveřím.
 goal: Uvidíte, proč nepoužívat jedno heslo všude, a poznáte správce hesel.
 icon: keys
 lecturer:
-  time: 15 minut
+  time: 20 minut
   goal: Pochopit řetězovou reakci při úniku hesla a představit správce hesel jako pomůcku.
   discussion: Kde by vám únik hesla vadil nejvíc?
   transition: Co když heslo přece jen unikne? Pomůže druhý zámek.
@@ -49,7 +49,7 @@ screens:
     title: Jak si zapamatovat víc hesel?
     text:
       - Nikdo si nepamatuje desítky hesel. Pomůže **správce hesel** – aplikace, která hesla bezpečně uloží, sama vytvoří silná hesla a při přihlášení je vyplní. Vy si pamatujete jen **jedno hlavní heslo**.
-      - Doporučujeme samostatného správce hesel, například **Bitwarden** (je i v češtině), Proton Pass nebo KeePassXC. Jednodušším začátkem může být funkce „Hesla“ přímo v tabletu nebo telefonu.
+      - Vyzkoušet můžete například **Bitwarden** (je i v češtině). Jednodušším začátkem je funkce „Hesla“ přímo v tabletu nebo telefonu.
     points:
       - 🛡️ Správce **pozná falešnou stránku** – na podvodné adrese heslo nevyplní.
       - 🔔 Upozorní, když máte **stejné heslo** na více místech nebo když heslo **uniklo**.
@@ -63,6 +63,24 @@ screens:
       tips:
         - Podklady doporučují neukládat hesla jen do prohlížeče a používat samostatného správce hesel.
         - 'Při výběru správce: poskytovatel nemá přístup k heslům (zero-knowledge), silné šifrování, veřejné bezpečnostní audity, podpora dvoufázového ověření.'
+  - kind: aktivita
+    title: Správce hesel nanečisto
+    text:
+      - Vyzkoušejte si, jak správce hesel pozná napodobenou stránku. Obě adresy jsou smyšlené.
+    activity:
+      type: autofill
+      method: password
+      service: Modrá banka
+      task: Otevřete jednu stránku a nechte správce vyplnit heslo. Pak zkuste druhou.
+      sites:
+        - address: modrabanka.test
+          genuine: true
+          result: Adresa přesně odpovídá té, ke které jste heslo uložili – správce ho vyplnil. Nemuseli jste si ho pamatovat ani opisovat.
+        - address: modrabanka-overeni.test
+          genuine: false
+          result: Správce heslo nevyplnil, protože adresa je jiná, než ke které heslo patří. Je to varování – **heslo nevyplňujte ani ručně** a stránku zavřete.
+    lecturer:
+      goal: Ukázat, že správce hesel chrání i před falešnou stránkou. Když heslo nevyplní, je to signál zpozornět.
   - kind: prakticky
     title: Udělejte si přehled důležitých účtů
     text:

@@ -13,6 +13,7 @@ import PassphraseBuilder from './PassphraseBuilder.astro';
 import PermissionsSim from './PermissionsSim.astro';
 import AddressAnatomy from './AddressAnatomy.astro';
 import DialogueSim from './DialogueSim.astro';
+import AutofillSim from './AutofillSim.astro';
 import Reflection from './Reflection.astro';
 import Rules from './Rules.astro';
 import SettingsSim from './SettingsSim.astro';
@@ -62,3 +63,4 @@ if (activity.type === 'choices') {
 {activity.type === 'permissions' && <PermissionsSim {...activity} />}
 {activity.type === 'address' && <AddressAnatomy {...activity} />}
 {activity.type === 'dialogue' && <DialogueSim {...activity} />}
+{activity.type === 'autofill' && <AutofillSim {...activity} />}

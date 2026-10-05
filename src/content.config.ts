@@ -334,6 +334,18 @@ const dialogueActivity = z
     }
   });
 
+/** Správce hesel nebo přístupový klíč nanečisto: na pravé adrese funguje, na napodobené ne. */
+const autofillActivity = z
+  .object({
+    type: z.literal('autofill'),
+    method: z.enum(['password', 'passkey']),
+    /** Název služby na přihlašovací stránce, např. „Modrá banka“. */
+    service: z.string(),
+    task: z.string(),
+    sites: z.array(z.object({ address: z.string(), genuine: z.boolean(), result: z.string() })).min(2).max(3),
+  })
+  .refine((a) => a.sites.some((s) => s.genuine) && a.sites.some((s) => !s.genuine), { message: 'Aspoň jedna adresa musí být pravá a jedna napodobená.' });
+
 const activity = z.discriminatedUnion('type', [
   choicesActivity,
   scenariosActivity,
@@ -351,6 +363,7 @@ const activity = z.discriminatedUnion('type', [
   permissionsActivity,
   addressActivity,
   dialogueActivity,
+  autofillActivity,
 ]);
 export type Activity = z.infer<typeof activity>;
 
