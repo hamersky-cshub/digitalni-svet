@@ -8,6 +8,8 @@ export default defineConfig({
   site: 'https://hamersky-cshub.github.io',
   base: '/digitalni-svet',
   trailingSlash: 'always',
+  // Předem načte jen stránky označené data-astro-prefetch (další krok workshopu).
+  prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   // Keep dependency transforms on this project's config, even with a parent tsconfig.
   integrations: [workshopAccess()],
   vite: { tsconfig: './tsconfig.json', plugins: [workshopAccessDev()] },

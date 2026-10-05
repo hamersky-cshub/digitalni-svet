@@ -28,6 +28,9 @@ const FONTS = [
     <meta name="theme-color" content="#2563eb" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <link rel="manifest" href={withBase('manifest.webmanifest')} />
+    <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
+    <meta name="apple-mobile-web-app-title" content="Digitální svět" />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
     <meta property="og:title" content={fullTitle} /><meta property="og:description" content={description} /><meta property="og:locale" content="cs_CZ" />
     {FONTS.filter((font) => font.preload).map((font) => <link rel="preload" href={withBase(`fonts/${font.file}.woff2`)} as="font" type="font/woff2" crossorigin />)}

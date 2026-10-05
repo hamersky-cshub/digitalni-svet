@@ -85,6 +85,9 @@ self.addEventListener('fetch', (event) => {
     navigate(event, url);
   } else if (url.pathname.startsWith(abs('_astro/')) || /\.(woff2|webp|png|svg|ico|webmanifest)$/.test(url.pathname)) {
     event.respondWith(fromCacheFirst(event, url));
+  } else if (url.pathname.endsWith('/')) {
+    // Stránka načítaná předem (další krok): stačí uložená kopie, jinak síť.
+    event.respondWith(caches.open(CACHE).then((cache) => cache.match(keyOf(url))).then((cached) => cached || fetch(request)));
   }
 });
 

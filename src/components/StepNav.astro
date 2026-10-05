@@ -18,7 +18,7 @@ const { prev, next, workshopId } = Astro.props;
       <span aria-hidden="true">←</span>
       {prev.label}
     </a>
-    <a class="button button--large step-nav__next" href={next.href}>
+    <a class="button button--large step-nav__next" href={next.href} data-astro-prefetch="load">
       {next.label}
       <span aria-hidden="true">→</span>
     </a>

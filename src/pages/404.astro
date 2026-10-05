@@ -3,10 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/url';
 ---
 
-<BaseLayout title="Stránka nenalezena">
+<BaseLayout title="Stránka nenalezena" noindex>
   <div class="prose page-intro">
-    <h1>Toto téma zatím není dostupné</h1>
-    <p class="lead">Vraťte se k přehledu témat a otevřete dostupný workshop.</p>
+    <h1>Stránka nenalezena</h1>
+    <p class="lead">Tato adresa neexistuje, nebo téma zatím není otevřené.</p>
     <p>
       <a class="button button--large" href={withBase()}>Zpět na témata</a>
     </p>
