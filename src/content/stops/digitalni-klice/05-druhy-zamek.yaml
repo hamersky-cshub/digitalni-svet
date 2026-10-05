@@ -150,6 +150,8 @@ screens:
         - address: mojeposta-prihlaseni.test
           genuine: false
           result: Přístupový klíč patří jen k pravé adrese, a tak ho zařízení na napodobené stránce vůbec nenabídne. Podvodník nemá co vylákat.
+    lecturer:
+      goal: Zažít, že přihlášení přístupovým klíčem je jednoduché a na falešné stránce nefunguje. Nastavovat ho dnes nemusíme.
   - kind: prakticky
     title: Najděte druhé ověření – nanečisto
     text:

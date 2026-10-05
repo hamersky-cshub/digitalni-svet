@@ -59,6 +59,13 @@ Lokální adresa: `http://localhost:4321/digitalni-svet/`. Základní cesta a do
 - `src/content/glossary.yaml`: slovníček pojmů (stránka `/slovnicek/`). Pole `workshop` je téma, kde se pojem vysvětluje; pojem se zobrazí, když je téma otevřené nebo když ho používá text otevřeného tématu. Neznámý pojem v textu zastaví sestavení.
 - Obrazovka může mít pole `figures` s nejvýš dvěma ilustracemi (`illustration`, `alt`, `caption`). Dostupné ilustrace jsou v `src/components/illustrations/` a jejich seznam v `ILLUSTRATIONS` v `src/content.config.ts`.
 - Typy aktivit (pole `activity.type`) a jejich pole popisuje `src/content.config.ts`. Patří mezi ně např. `choices`, `scenarios`, `signals`, `guide`, `passphrase`, `dice` (kostková metoda s virtuálními kostkami a tabulkou 36 slov) a `settings` (proklikání nastavení účtu nanečisto).
+- Další typy aktivit (vše nanečisto, nic se nikam neodesílá):
+  - `permissions` – přepínače oprávnění aplikací (`apps` s `permissions`: `needed` říká, zda je aplikace potřebuje, `why` je vysvětlení);
+  - `address` – internetová adresa rozložená na části (`parts`, část s `key: true` je doména, která rozhoduje);
+  - `dialogue` – větvený rozhovor (telefonát `call` nebo chat `chat`): `nodes` s větami protistrany (`lines`) a volbami (`choices` s `next` a `tone`), nebo závěrem (`end`). Schéma ověří, že každá volba vede na existující uzel. Bez JavaScriptu funguje jako „gamebook“ s odkazy;
+  - `autofill` – správce hesel (`method: password`) nebo přístupový klíč (`passkey`) na pravé a napodobené adrese (`sites` s `genuine`).
+- Klepací místa (`hotspots`) mají dvě scény: `dovolena` a `eshop` (falešný obchod). Souřadnice jsou v procentech; na telefonu se místa nesmějí překrývat.
+- Zastávka může mít `goal` (cíl pro účastníky, zobrazí se na jejím prvním kroku), workshop `outcomes` („Po workshopu budete umět“ na přehledu modulu). Na konci řady situací (`choices`, `scenarios`) se ukáže krátké shrnutí voleb – jen v paměti stránky.
 - U aktivity `choices` označí `recommended` vhodné možnosti (✓ Vhodná možnost) a `avoid` riskantní (⚠ Pozor, riziko). Ostatní možnosti dostanou „K zamyšlení“.
 - Délka workshopu na úvodní stránce a na přehledu modulu se počítá ze součtu časů zastávek (`lecturer.time`, např. „15 minut“). Pevnou hodnotu lze zadat polem `duration` v souboru workshopu.
 - `src/content/resources/*.md`: tematické návody, odkazy a materiály ke stažení.
