@@ -338,7 +338,7 @@ const screen = z.object({
   /** Postava, o které text obrazovky mluví (avatar vedle textu), např. jana. */
   persona: z.enum(PERSONAS).optional(),
   points: z.array(z.string()).optional(),
-  /** Nejvýš dva obrázky; zobrazí se pod textem, na širší obrazovce vedle sebe. */
+  /** Nejvýš dva obrázky; zobrazí se pod textem, v plné šířce pod sebou. */
   figures: z.array(figure).max(2).optional(),
   activity: activity.optional(),
   lecturer: lecturerNote.optional(),

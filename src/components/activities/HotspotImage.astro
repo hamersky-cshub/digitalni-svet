@@ -22,7 +22,6 @@ const uid = stableId('hs', spots);
 
 <spot-explorer class="hotspots" data-total={spots.length} data-noun="místa">
   <p class="hotspots__instruction"><strong>{instruction}</strong></p>
-  <image-zoom data-label={alt}>
   <figure class="hotspots__figure">
     <div class="hotspots__image">
       <div class="hotspots__frame"><HolidayScene /></div>
@@ -43,8 +42,6 @@ const uid = stableId('hs', spots);
     </div>
     <figcaption class="visually-hidden">{alt}</figcaption>
   </figure>
-  <p class="zoom-row"><button type="button" class="button button--secondary" data-zoom-open hidden>Zvětšit obrázek</button></p>
-  </image-zoom>
 
   <p class="spot-status" data-status role="status" hidden><span class="visually-hidden" data-status-detail></span><span data-status-count></span></p>
 
@@ -65,7 +62,6 @@ const uid = stableId('hs', spots);
 
 <script>
   import './spot-explorer';
-  import '../../scripts/zoom';
 </script>
 
 <style>

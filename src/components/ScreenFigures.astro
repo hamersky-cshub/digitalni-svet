@@ -4,7 +4,7 @@
  * – rychle se načtou, fungují offline a všechny údaje v nich jsou smyšlené.
  */
 import type { IllustrationName } from '../content.config';
-import { formatText, plainText } from '../lib/text';
+import { formatText } from '../lib/text';
 import CookieBanner from './illustrations/CookieBanner.astro';
 import FastSlow from './illustrations/FastSlow.astro';
 import FlashlightPermission from './illustrations/FlashlightPermission.astro';
@@ -55,44 +55,27 @@ const NARROW = new Set<IllustrationName>(['svitilna-poloha']);
 const { figures } = Astro.props;
 ---
 
-<div class:list={['screen-figures', { 'screen-figures--pair': figures.length > 1 }]}>
+<div class="screen-figures">
   {
     figures.map((figure) => {
       const Illustration = COMPONENTS[figure.illustration];
       return (
-        <image-zoom data-label={figure.alt}>
-          <figure class:list={['screen-figure', { 'screen-figure--narrow': NARROW.has(figure.illustration) }]}>
-            <div class="screen-figure__image" role="img" aria-label={figure.alt}>
-              <Illustration />
-            </div>
-            {figure.caption && <figcaption set:html={formatText(figure.caption)} />}
-          </figure>
-          <p class="zoom-row">
-            <button type="button" class="button button--secondary" data-zoom-open hidden>
-              Zvětšit obrázek{figures.length > 1 && <span class="visually-hidden">: {plainText(figure.caption ?? figure.alt)}</span>}
-            </button>
-          </p>
-        </image-zoom>
+        <figure class:list={['screen-figure', { 'screen-figure--narrow': NARROW.has(figure.illustration) }]}>
+          <div class="screen-figure__image" role="img" aria-label={figure.alt}>
+            <Illustration />
+          </div>
+          {figure.caption && <figcaption set:html={formatText(figure.caption)} />}
+        </figure>
       );
     })
   }
 </div>
-
-<script>
-  import '../scripts/zoom';
-</script>
 
 <style>
   .screen-figures {
     display: grid;
     gap: var(--space-3);
     margin: var(--space-3) 0;
-  }
-
-  @media (min-width: 46rem) {
-    .screen-figures--pair {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 
   .screen-figure {

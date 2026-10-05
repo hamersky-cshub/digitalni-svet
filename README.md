@@ -91,8 +91,8 @@ Pravidla pro ikony, ilustrace a další grafiku, aby web působil jednotně a z�
 
 - Vlastní SVG komponenty v `src/components/illustrations/`, vložené přímo do stránky (fungují offline a nic se nestahuje). Nové ilustraci přidejte název do `ILLUSTRATIONS` v `src/content.config.ts` a komponentu do `ScreenFigures.astro`.
 - Šířka 800 jednotek (`viewBox` 800 × 450 nebo 800 × 560), písmo Atkinson Hyperlegible Next. **Text v ilustraci má aspoň 18 jednotek**, důležité údaje 20–24 – na tabletu je pak čitelný bez zvětšení.
-- Jedna ilustrace na obrazovku je čitelnější než dvě vedle sebe. U dvojice jsou obě poloviční a text je drobný (pomůže tlačítko „Zvětšit obrázek“).
-- ID gradientů, filtrů a ořezů začínají zkratkou ilustrace (např. `cb-shadow`). Zvětšené kopii je přejmenuje `src/scripts/zoom.ts`.
+- Obrázky se zobrazují v plné šířce; dva obrázky u jedné obrazovky jsou pod sebou.
+- ID gradientů, filtrů a ořezů začínají zkratkou ilustrace (např. `cb-shadow`), aby se na stránce neopakovala.
 - Všechny údaje jsou smyšlené: adresy s doménou `.test`, jména jako Jana Ukázková, Vzorová 12, žádné skutečné značky ani loga.
 - Každý obrázek má v obsahu `alt`: co je na obrázku vidět, včetně všech textů v něm, a co z toho plyne. Popisek `caption` je jedna věta s tučným začátkem.
 
