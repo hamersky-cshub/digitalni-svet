@@ -61,6 +61,15 @@ function answerKey(activity: Screen['activity']): AnswerKey | undefined {
       return { list: signalOrder(activity).map((id) => activity.signals[id]?.label ?? id), ordered: true, note: 'Varovné signály ve zprávě:' };
     case 'hotspots':
       return { list: activity.spots.map((spot) => spot.label), ordered: true, note: 'Místa v obrázku (podle čísel):' };
+    case 'permissions':
+      return {
+        list: activity.apps.map(
+          (app) =>
+            `${app.name}: vypnout ${app.permissions.filter((x) => !x.needed).map((x) => x.name.toLocaleLowerCase('cs')).join(', ') || '–'}` +
+            (app.permissions.some((x) => x.needed) ? `; nechat ${app.permissions.filter((x) => x.needed).map((x) => x.name.toLocaleLowerCase('cs')).join(', ')}` : ''),
+        ),
+        note: 'Co vypnout a co nechat:',
+      };
     case 'settings':
       return { list: [[...activity.screens.map((s) => plainText(s.correct)), plainText(activity.final.label)].join(' → ')], note: 'Správná cesta:' };
     default:
@@ -137,6 +146,12 @@ function answerKey(activity: Screen['activity']): AnswerKey | undefined {
                           <li>{x}</li>
                         ))}
                       </ol>
+                    ) : key.list.length > 1 ? (
+                      <ul>
+                        {key.list.map((x) => (
+                          <li>{x}</li>
+                        ))}
+                      </ul>
                     ) : (
                       <p>{key.list[0]}</p>
                     )}
@@ -228,7 +243,8 @@ function answerKey(activity: Screen['activity']): AnswerKey | undefined {
     font-weight: 700;
   }
 
-  .answer-list ol {
+  .answer-list ol,
+  .answer-list ul {
     margin: 0;
     padding-left: 1.4rem;
   }

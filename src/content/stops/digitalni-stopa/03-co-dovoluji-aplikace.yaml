@@ -8,7 +8,7 @@ summary: Kde zkontrolovat, co smějí aplikace v mobilu nebo tabletu používat.
 goal: Najdete v zařízení, co smějí aplikace používat.
 icon: apps
 lecturer:
-  time: 20 minut
+  time: 25 minut
   goal: Účastníci vědí, kde v zařízení najdou oprávnění aplikací. Cílem není všechno zakázat.
   discussion: Používá některá vaše aplikace polohu? Potřebuje ji?
   transition: Informace o nás neprozrazují jen aplikace, ale i fotografie, které sdílíme.
@@ -37,6 +37,63 @@ screens:
       - illustration: svitilna-poloha
         alt: Telefon s otevřeným dialogem „Povolit aplikaci Svítilna přístup k poloze tohoto zařízení?“ a možnostmi Při používání aplikace, Pouze tentokrát a Nepovolovat. Možnost Nepovolovat je zvýrazněná zeleně a označená fajfkou.
         caption: 'Takto se aplikace ptá na oprávnění. **Svítilna potřebuje jen světlo, ne vaši polohu** – zvolte **Nepovolovat** a bude fungovat dál. Na iPhonu a iPadu se možnost jmenuje **Nepovolit**. Naopak navigace polohu potřebuje.'
+  - kind: aktivita
+    title: Vyzkoušejte si to nanečisto
+    text:
+      - Než se podíváte do svého zařízení, vyzkoušejte si to na ukázce. Nic se tím ve vašem tabletu nezmění.
+    activity:
+      type: permissions
+      task: Vypněte oprávnění, která aplikace ke svému fungování nepotřebují. Ta potřebná nechte zapnutá.
+      apps:
+        - name: Svítilna
+          icon: bulb
+          permissions:
+            - name: Poloha
+              icon: location
+              needed: false
+              why: Svítilna jen rozsvítí světlo. Kde jste, vědět nemusí.
+            - name: Kontakty
+              icon: people
+              needed: false
+              why: Ke svícení nepotřebuje znát vaše známé.
+        - name: Navigace
+          icon: location
+          permissions:
+            - name: Poloha
+              icon: location
+              needed: true
+              why: Bez polohy navigace neví, kde jste, a nemůže vás vést. Tohle oprávnění nechte zapnuté.
+            - name: Mikrofon
+              icon: mic
+              needed: false
+              why: Mikrofon je potřeba jen tehdy, když chcete navigaci ovládat hlasem. Bez něj funguje dál.
+        - name: Fotoaparát
+          icon: camera
+          permissions:
+            - name: Fotoaparát
+              icon: camera
+              needed: true
+              why: Aplikace na focení fotoaparát potřebuje. Tohle oprávnění nechte zapnuté.
+            - name: Poloha
+              icon: location
+              needed: false
+              why: S polohou se do každé fotografie uloží, kde vznikla. Pro focení ji nepotřebujete.
+        - name: Karty – hra
+          icon: dice
+          permissions:
+            - name: Poloha
+              icon: location
+              needed: false
+              why: Hra s kartami funguje kdekoli. Poloha slouží hlavně reklamě.
+            - name: Mikrofon
+              icon: mic
+              needed: false
+              why: Ke hře není potřeba poslouchat, co se kolem vás říká.
+      done: Hotovo. Každá aplikace má jen to, co ke své práci opravdu potřebuje – a všechny fungují dál.
+    lecturer:
+      goal: Procvičit si otázku „potřebuje to aplikace?“ bez strachu, že se něco pokazí.
+      tips:
+        - Když někdo vypne polohu navigaci, ukáže se vysvětlení. Je to dobrá příležitost říct, že vypnuté oprávnění jde kdykoli zapnout znovu.
   - kind: prakticky
     title: Kontrola mého mobilu/tabletu
     text:

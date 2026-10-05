@@ -275,6 +275,26 @@ const rulesActivity = z.object({
   items: z.array(z.object({ key: z.string().optional(), title: z.string(), text: z.string().optional() })).min(1),
 });
 
+/** Přepínače oprávnění aplikací nanečisto: vypnout, co aplikace nepotřebují. */
+const iconName = z.enum(ICON_NAMES as [IconName, ...IconName[]]);
+const permissionsActivity = z
+  .object({
+    type: z.literal('permissions'),
+    task: z.string(),
+    apps: z
+      .array(
+        z.object({
+          name: z.string(),
+          icon: iconName,
+          permissions: z.array(z.object({ name: z.string(), icon: iconName, on: z.boolean().default(true), needed: z.boolean(), why: z.string() })).min(1),
+        }),
+      )
+      .min(1),
+    /** Text po vypnutí všech zbytečných oprávnění. */
+    done: z.string(),
+  })
+  .refine((a) => a.apps.some((app) => app.permissions.some((p) => !p.needed)), { message: 'Aspoň jedno oprávnění musí být zbytečné (needed: false).' });
+
 const activity = z.discriminatedUnion('type', [
   choicesActivity,
   scenariosActivity,
@@ -289,6 +309,7 @@ const activity = z.discriminatedUnion('type', [
   keyReuseActivity,
   loginActivity,
   rulesActivity,
+  permissionsActivity,
 ]);
 export type Activity = z.infer<typeof activity>;
 

@@ -1,0 +1,304 @@
+---
+/**
+ * PermissionsSim – přepínače oprávnění aplikací nanečisto. Účastník vypíná oprávnění,
+ * která aplikace nepotřebují; po každém přepnutí se ukáže proč. Nic se neukládá.
+ * Bez JavaScriptu se zobrazí přehled: co aplikace potřebuje a co ne, s vysvětlením.
+ */
+import { formatText, plural } from '../../lib/text';
+import type { IconName } from '../../lib/icons';
+import { stableId } from '../../lib/id';
+import Icon from '../Icon.astro';
+import ToneLabel from '../ToneLabel.astro';
+
+interface Props {
+  task: string;
+  apps: { name: string; icon: IconName; permissions: { name: string; icon: IconName; on: boolean; needed: boolean; why: string }[] }[];
+  done: string;
+}
+
+const { task, apps, done } = Astro.props;
+const uid = stableId('perm', apps);
+const unneeded = apps.flatMap((a) => a.permissions).filter((p) => !p.needed).length;
+---
+
+<permissions-sim class="perm" data-unneeded={unneeded} data-noun={plural(unneeded, ['zbytečného oprávnění', 'zbytečných oprávnění', 'zbytečných oprávnění'])}>
+  <p class="perm__task"><strong set:html={formatText(task)} /></p>
+  <p class="perm__count" data-count hidden></p>
+
+  <ul class="perm__apps">
+    {
+      apps.map((app, ai) => (
+        <li class="perm__app">
+          <p class="perm__app-name" id={`${uid}-${ai}`}>
+            <span class="perm__app-icon">
+              <Icon name={app.icon} />
+            </span>
+            {app.name}
+          </p>
+          <ul class="perm__list" aria-labelledby={`${uid}-${ai}`}>
+            {app.permissions.map((p) => (
+              <li class="perm__row" data-row data-needed={p.needed ? 'true' : 'false'} data-on={p.on ? 'true' : 'false'}>
+                <div class="perm__line">
+                  <span class="perm__label">
+                    <Icon name={p.icon} /> {p.name}
+                  </span>
+                  <button type="button" class="perm__switch" role="switch" aria-checked={p.on ? 'true' : 'false'} data-switch hidden>
+                    <span class="visually-hidden">
+                      {app.name}: {p.name}
+                    </span>
+                    <span class="perm__track" aria-hidden="true">
+                      <span class="perm__thumb" />
+                    </span>
+                    <span class="perm__state" aria-hidden="true" data-state>
+                      {p.on ? 'Zapnuto' : 'Vypnuto'}
+                    </span>
+                  </button>
+                </div>
+                <p class:list={['perm__why', p.needed ? 'perm__why--needed' : 'perm__why--not']} data-why>
+                  <strong data-verdict>{p.needed ? 'Potřebuje.' : 'Nepotřebuje.'}</strong> <span set:html={formatText(p.why)} />
+                </p>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="visually-hidden" role="status" data-status></p>
+  <div class="feedback feedback--ok" data-finished hidden>
+    <ToneLabel tone="ok" />
+    <p set:html={formatText(done)} />
+  </div>
+  <p data-restart hidden>
+    <button type="button" class="button button--secondary">Začít znovu</button>
+  </p>
+</permissions-sim>
+
+<script>
+  import { reveal } from '../../scripts/reveal';
+  import { zOrZe } from '../../lib/text';
+
+  class PermissionsSim extends HTMLElement {
+    connectedCallback() {
+      const rows = Array.from(this.querySelectorAll<HTMLElement>('[data-row]'));
+      const count = this.querySelector<HTMLElement>('[data-count]')!;
+      const status = this.querySelector<HTMLElement>('[data-status]')!;
+      const finished = this.querySelector<HTMLElement>('[data-finished]')!;
+      const restart = this.querySelector<HTMLElement>('[data-restart]')!;
+      const total = Number(this.dataset.unneeded);
+      const noun = this.dataset.noun ?? '';
+
+      const announce = (text: string) => {
+        status.textContent = '';
+        requestAnimationFrame(() => (status.textContent = text));
+      };
+
+      const update = () => {
+        const off = rows.filter((r) => r.dataset.needed === 'false' && r.dataset.on === 'false').length;
+        const neededOff = rows.some((r) => r.dataset.needed === 'true' && r.dataset.on === 'false');
+        count.textContent = `Vypnuto ${off} ${zOrZe(total)} ${total} ${noun}.`;
+        const complete = off === total && !neededOff;
+        finished.hidden = !complete;
+        restart.hidden = !complete;
+        return complete;
+      };
+
+      const set = (row: HTMLElement, on: boolean) => {
+        row.dataset.on = String(on);
+        const button = row.querySelector<HTMLElement>('[data-switch]')!;
+        button.setAttribute('aria-checked', String(on));
+        row.querySelector('[data-state]')!.textContent = on ? 'Zapnuto' : 'Vypnuto';
+      };
+
+      const reset = () => {
+        rows.forEach((row) => {
+          set(row, true);
+          row.querySelector<HTMLElement>('[data-why]')!.hidden = true;
+          row.classList.remove('is-good', 'is-warning');
+        });
+        update();
+      };
+
+      rows.forEach((row) => {
+        const button = row.querySelector<HTMLButtonElement>('[data-switch]')!;
+        const why = row.querySelector<HTMLElement>('[data-why]')!;
+        const verdict = why.querySelector<HTMLElement>('[data-verdict]')!;
+        button.hidden = false;
+        button.addEventListener('click', () => {
+          const on = row.dataset.on !== 'true';
+          set(row, on);
+          const needed = row.dataset.needed === 'true';
+          // Zpětná vazba jen po vypnutí; po zapnutí se vysvětlení schová.
+          why.hidden = on;
+          row.classList.toggle('is-good', !on && !needed);
+          row.classList.toggle('is-warning', !on && needed);
+          verdict.textContent = needed ? 'Pozor, tohle aplikace potřebuje.' : 'Správně, tohle aplikace nepotřebuje.';
+          const complete = update();
+          if (!on) announce(`${verdict.textContent} ${why.querySelector('span')?.textContent?.trim() ?? ''}`);
+          if (complete) {
+            announce(finished.querySelector('p')?.textContent?.trim() ?? '');
+            reveal(finished, restart);
+          } else if (!on) {
+            reveal(why);
+          }
+        });
+      });
+
+      restart.querySelector('button')!.addEventListener('click', () => {
+        reset();
+        rows[0].querySelector<HTMLButtonElement>('[data-switch]')!.focus();
+      });
+
+      count.hidden = false;
+      reset();
+    }
+  }
+  customElements.define('permissions-sim', PermissionsSim);
+</script>
+
+<style>
+  .perm {
+    display: block;
+    margin: var(--space-3) 0;
+  }
+
+  .perm__count {
+    font-weight: 700;
+    color: var(--module-text, var(--color-primary));
+  }
+
+  .perm__apps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-2);
+    max-width: none;
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .perm__app {
+    margin: 0;
+    padding: var(--space-2);
+    border: 2px solid var(--color-border-light);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .perm__app-name {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 var(--space-1);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .perm__app-icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.6rem;
+    background: var(--module-soft, var(--color-accent-soft));
+    color: var(--module-text, var(--color-primary));
+  }
+
+  .perm__list {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .perm__row {
+    margin: 0;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .perm__line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .perm__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+  }
+
+  .perm__switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: var(--tap-size);
+    padding: 0 0.25rem;
+    border: 0;
+    background: none;
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .perm__track {
+    position: relative;
+    display: inline-block;
+    width: 3.4rem;
+    height: 1.9rem;
+    border: 2px solid var(--color-border);
+    border-radius: 1rem;
+    background: #e3e7ee;
+    transition: background-color 0.2s;
+  }
+
+  .perm__thumb {
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+    transition: transform 0.2s;
+  }
+
+  .perm__switch[aria-checked='true'] .perm__track {
+    border-color: var(--color-ok);
+    background: #2e8b57;
+  }
+
+  .perm__switch[aria-checked='true'] .perm__thumb {
+    transform: translateX(1.5rem);
+  }
+
+  .perm__state {
+    min-width: 4.5rem;
+    font-weight: 700;
+  }
+
+  .perm__why {
+    margin: 0.4rem 0 0;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.4rem;
+    background: var(--color-surface-alt);
+    font-size: 0.95rem;
+  }
+
+  .perm__row.is-good .perm__why {
+    background: var(--color-ok-bg);
+    color: var(--color-ok);
+  }
+
+  .perm__row.is-warning .perm__why {
+    background: var(--color-risk-bg);
+    color: var(--color-risk);
+  }
+</style>

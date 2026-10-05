@@ -10,6 +10,7 @@ import KeyReuse from './KeyReuse.astro';
 import LoginSimulation from './LoginSimulation.astro';
 import MessageSignals from './MessageSignals.astro';
 import PassphraseBuilder from './PassphraseBuilder.astro';
+import PermissionsSim from './PermissionsSim.astro';
 import Reflection from './Reflection.astro';
 import Rules from './Rules.astro';
 import SettingsSim from './SettingsSim.astro';
@@ -56,3 +57,4 @@ if (activity.type === 'choices') {
 {activity.type === 'keyReuse' && <KeyReuse {...activity} />}
 {activity.type === 'login' && <LoginSimulation {...activity} />}
 {activity.type === 'rules' && <Rules {...activity} />}
+{activity.type === 'permissions' && <PermissionsSim {...activity} />}

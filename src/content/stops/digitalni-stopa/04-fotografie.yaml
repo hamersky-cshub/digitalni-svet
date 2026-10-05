@@ -57,6 +57,7 @@ screens:
     activity:
       type: reflection
       question: Co uděláte příště, než fotografii pošlete nebo zveřejníte?
+      hint: Třeba si fotografii přiblížíte a projdete rohy i pozadí. Adresu, doklady nebo SPZ oříznete nebo zakryjete.
       ideas:
         - Prohlédnu si celou fotografii, nejen to hlavní.
         - Doklady, adresy a SPZ zakryji nebo ořežu.
