@@ -5,6 +5,7 @@ workshop: digitalni-klice
 order: 4
 title: Jedno heslo všude
 summary: Proč je riskantní mít jeden klíč ke všem dveřím.
+goal: Uvidíte, proč nepoužívat jedno heslo všude, a poznáte správce hesel.
 icon: keys
 lecturer:
   time: 15 minut

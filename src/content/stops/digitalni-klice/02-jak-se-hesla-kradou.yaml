@@ -5,6 +5,7 @@ workshop: digitalni-klice
 order: 2
 title: Jak se hesla kradou
 summary: Proč se běžná hesla uhodnou za pár vteřin.
+goal: Zjistíte, jak se útočníci k heslům dostávají.
 icon: hook
 lecturer:
   time: 20 minut

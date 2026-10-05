@@ -5,6 +5,7 @@ workshop: digitalni-stopa
 order: 3
 title: Co dovolují aplikace
 summary: Kde zkontrolovat, co smějí aplikace v mobilu nebo tabletu používat.
+goal: Najdete v zařízení, co smějí aplikace používat.
 icon: apps
 lecturer:
   time: 20 minut

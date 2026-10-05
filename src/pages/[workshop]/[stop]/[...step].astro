@@ -58,6 +58,7 @@ const termsJson = JSON.stringify(terms).replace(/</g, '\\u003c');
     stopCount={stopCount}
     stepNumber={stepNumber}
     stepCount={stepCount}
+    goal={stepNumber === 1 ? stop.data.goal : undefined}
   />
 
   <article class="screen">

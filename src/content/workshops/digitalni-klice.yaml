@@ -5,6 +5,11 @@ subtitle: Jak ochránit své účty
 cardText: Chraňte své účty s větší jistotou. Vyzkoušejte si heslovou frázi a najděte, kde se zapíná druhé ověření.
 order: 3
 icon: 🔑
+outcomes:
+  - Vytvoříte si dlouhou heslovou frázi.
+  - Pochopíte, proč mít pro každý účet jiné heslo.
+  - Budete vědět, k čemu je správce hesel a přístupový klíč.
+  - Najdete, kde se zapíná dvoufázové ověření.
 annotation:
   - E-mail, internetové bankovnictví nebo sociální sítě dnes používá téměř každý. Přístup chrání hesla, která jsou často jedinou překážkou mezi osobními údaji a útočníky.
   - Několik jednoduchých návyků ale může bezpečnost výrazně zvýšit.

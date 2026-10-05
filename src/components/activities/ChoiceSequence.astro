@@ -32,6 +32,18 @@ interface Props {
 const { items, itemLabel, nextLabel } = Astro.props;
 const count = items.length;
 const labelLower = itemLabel.toLocaleLowerCase('cs');
+/** 2. pád množného čísla pro shrnutí „Prošli jste 12 ze 14 zpráv“. */
+const GENITIVE_PLURAL: Record<string, string> = {
+  situace: 'situací',
+  zpráva: 'zpráv',
+  adresa: 'adres',
+  heslo: 'hesel',
+  informace: 'informací',
+  položka: 'položek',
+  porovnání: 'porovnání',
+  'část hovoru': 'částí hovoru',
+};
+const summaryNoun = GENITIVE_PLURAL[labelLower] ?? 'položek';
 const uid = stableId('seq', items);
 // Dvě krátké možnosti vedle sebe, jinak velká tlačítka pod sebou (přehlednější).
 const rowLayout = (item: SequenceItem) => item.options.length === 2 && item.options.every((o) => o.label.length <= 24);
@@ -103,9 +115,10 @@ import Icon from '../Icon.astro';
             </button>
           ) : (
             count > 1 && (
-              <p class="sequence__done" data-done hidden>
-                To byla poslední {labelLower}. Až budete připraveni, pokračujte tlačítkem „{nextLabel}“ dole.
-              </p>
+              <div class="sequence__done" data-done hidden>
+                <p class="sequence__summary" data-summary data-noun={summaryNoun} />
+                <p>To byla poslední {labelLower}. Až budete připraveni, pokračujte tlačítkem „{nextLabel}“ dole.</p>
+              </div>
             )
           )}
           {i > 0 && (
@@ -121,6 +134,14 @@ import Icon from '../Icon.astro';
 
 <script>
   import { reveal } from '../../scripts/reveal';
+  import { zOrZe } from '../../lib/text';
+
+  /** „3×“ s popiskem tónu; nulové tóny se vynechají. */
+  const TONES: [string, string][] = [
+    ['ok', 'vhodnou možnost'],
+    ['info', 'možnost k zamyšlení'],
+    ['risk', 'riskantní možnost'],
+  ];
 
   class ChoiceSequence extends HTMLElement {
     items: HTMLElement[] = [];
@@ -170,10 +191,31 @@ import Icon from '../Icon.astro';
       const next = item.querySelector<HTMLElement>('[data-next]');
       const done = item.querySelector<HTMLElement>('[data-done]');
       if (next) next.hidden = false;
-      if (done) done.hidden = false;
+      if (done) {
+        done.hidden = false;
+        this.summarize(done.querySelector<HTMLElement>('[data-summary]'));
+      }
       // Zpětná vazba a tlačítko „Další“ bývají na tabletu pod okrajem – posuneme je do zorného pole.
       // Zaměření zůstává na zvoleném tlačítku; obsah přečte čtečka díky role="status".
       if (shown) reveal(shown, item.querySelector('[data-controls]') ?? shown);
+    }
+
+    /** Krátké shrnutí na konci řady (jen v paměti stránky, nic se neukládá ani nehodnotí). */
+    summarize(target: HTMLElement | null) {
+      if (!target) return;
+      const tones = this.items
+        .map((item) => item.querySelector<HTMLElement>('[data-feedback]:not([hidden])'))
+        .map((panel) => TONES.find(([tone]) => panel?.classList.contains(`feedback--${tone}`))?.[0])
+        .filter(Boolean) as string[];
+      const total = this.items.length;
+      const parts = TONES.map(([tone, label]) => [tones.filter((t) => t === tone).length, label] as const)
+        .filter(([n]) => n > 0)
+        .map(([n, label]) => `${label} ${n}×`);
+      const noun = target.dataset.noun ?? 'položek';
+      let text = tones.length === total ? `Prošli jste všech ${total} ${noun}.` : `Prošli jste ${tones.length} ${zOrZe(total)} ${total} ${noun}.`;
+      // Počty tónů jen tam, kde aktivita rozlišuje vhodné a riskantní možnosti.
+      if (tones.some((t) => t !== 'info')) text += ` Zvolili jste ${parts.join(', ')}.`;
+      target.textContent = text;
     }
 
     show(index: number, moveFocus: boolean) {
@@ -254,6 +296,18 @@ import Icon from '../Icon.astro';
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
+  }
+
+  .sequence__summary {
+    margin: 0 0 var(--space-1);
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+    background: var(--module-soft, var(--color-accent-soft));
+    font-weight: 700;
+  }
+
+  .sequence__done p:last-child {
+    margin: 0;
   }
 
   .sequence__done {

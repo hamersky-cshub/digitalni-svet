@@ -358,6 +358,8 @@ const workshops = defineCollection({
     icon: z.string().optional(),
     /** Délka workshopu, např. "přibližně 90 minut". Když chybí, sečtou se časy zastávek (lecturer.time). */
     duration: z.string().optional(),
+    /** „Po workshopu budete umět…“ – 3–5 bodů na přehledu modulu. */
+    outcomes: z.array(z.string()).min(1).max(5).optional(),
     /** Tahák na doma (/<téma>/tahak/): řádky a políčka k vyplnění rukou. Pravidla se doplní z aktivit „rules“. */
     takeaway: z
       .object({
@@ -383,6 +385,8 @@ const stops = defineCollection({
     title: z.string(),
     /** Jedna věta na kartu zastávky. */
     summary: z.string(),
+    /** Cíl zastávky pro účastníky (zobrazí se na jejím prvním kroku); cíl pro lektora je v lecturer.goal. */
+    goal: z.string().optional(),
     /** Ikona na kartě zastávky (název ze sady v src/lib/icons.ts, např. camera). */
     icon: z.enum(ICON_NAMES as [IconName, ...IconName[]]).optional(),
     lecturer: lecturerNote.optional(),

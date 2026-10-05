@@ -41,8 +41,20 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
     <p class="workshop-header__subtitle">{workshop.data.subtitle}</p>
     <p class="lead">{workshop.data.cardText}</p>
     <div class="workshop-meta"><span class="pill">{stops.length} {plural(stops.length, ['zastávka', 'zastávky', 'zastávek'])}</span><span class="pill">{tasks.length} {plural(tasks.length, ['praktický úkol', 'praktické úkoly', 'praktických úkolů'])}</span>{duration && <span>{duration}</span>}</div>
+    {workshop.data.outcomes && (
+      <div class="outcomes">
+        <p class="outcomes__title">Po workshopu budete umět:</p>
+        <ul class="outcomes__list">
+          {workshop.data.outcomes.map((o) => (
+            <li>
+              <Icon name="check-circle" /> <span set:html={formatText(o)} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
     <div class="workshop-actions"><a class="button" href={steps[0].href}>Začít od první zastávky <ModuleIcon name="arrow" size={22} /></a><a class="button button--secondary" href="#prakticke-ukoly">Přejít na praktické úkoly</a></div>
-    <details class="disclosure"><summary>Co se v tomto modulu naučíte</summary><div class="disclosure__body"><p set:html={formatText(firstParagraph)} />{moreParagraphs.map(p => <p set:html={formatText(p)} />)}</div></details>
+    <details class="disclosure"><summary>Více o workshopu</summary><div class="disclosure__body"><p set:html={formatText(firstParagraph)} />{moreParagraphs.map(p => <p set:html={formatText(p)} />)}</div></details>
   </header>
 
   <section aria-labelledby="zastavky">
@@ -167,6 +179,11 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
   @media(max-width:650px){ .workshop-art{display:none} }
   .workshop-icon { display:inline-grid;place-items:center;padding:1rem;border-radius:.65rem;background:var(--module-soft);color:var(--module-text, var(--module-color));margin-bottom:.5rem; }
   .workshop-meta { display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:1.5rem;color:var(--color-text-muted);font-size:.9rem; }
+  .outcomes { clear:both; margin:0 0 1.5rem; padding:var(--space-2) var(--space-3); border-radius:var(--radius); background:var(--module-soft); }
+  .outcomes__title { margin:0 0 .5rem; font-weight:700; }
+  .outcomes__list { max-width:none; margin:0; padding:0; list-style:none; }
+  .outcomes__list li { display:flex; gap:.6rem; align-items:flex-start; margin:0 0 .4rem; }
+  .outcomes__list :global(.icon) { margin-top:.2em; color:var(--module-text, var(--module-color)); }
   .workshop-actions { display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem; }
   .module-practice { padding:2rem 0; }
   .module-practice h2 { margin-top:0; }

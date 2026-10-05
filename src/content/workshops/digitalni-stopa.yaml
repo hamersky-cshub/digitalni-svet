@@ -5,6 +5,11 @@ subtitle: Co vše o nás internet ví
 cardText: Zjistěte, co o vás internet prozrazuje. Projděte si nastavení soukromí a vyzkoušejte bezpečnější sdílení fotografií.
 order: 1
 icon: 👣
+outcomes:
+  - Poznáte, kdy po vás na internetu zůstává stopa.
+  - Zkontrolujete, co smějí aplikace v telefonu nebo tabletu.
+  - Před sdílením fotografie zakryjete, co by vás mohlo prozradit.
+  - Zjistíte, zda váš e-mail neunikl.
 annotation:
   - Internet si pamatuje víc, než si většina lidí uvědomuje. Každé hledání, každý klik, každá fotografie nebo návštěva webové stránky za sebou zanechává digitální stopu.
   - Některé informace sdílíme vědomě, jiné vznikají zcela automaticky a často ani netušíme, kdo k nim může mít přístup a jak jsou využívány.

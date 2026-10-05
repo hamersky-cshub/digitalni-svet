@@ -2,6 +2,7 @@
 /** „Zastávka 2 z 5 · Co sdílím“ a „Krok 1 ze 3“ – bez procent a skóre. */
 import { workshopHref } from '../lib/url';
 import { zOrZe } from '../lib/text';
+import Icon from './Icon.astro';
 
 interface Props {
   workshopId: string;
@@ -11,9 +12,11 @@ interface Props {
   stopCount: number;
   stepNumber: number;
   stepCount: number;
+  /** Cíl zastávky (jen na prvním kroku). */
+  goal?: string;
 }
 
-const { workshopId, workshopTitle, stopTitle, stopNumber, stopCount, stepNumber, stepCount } = Astro.props;
+const { workshopId, workshopTitle, stopTitle, stopNumber, stopCount, stepNumber, stepCount, goal } = Astro.props;
 const stopDots = Array.from({ length: stopCount }, (_, i) => i + 1);
 ---
 
@@ -34,6 +37,16 @@ const stopDots = Array.from({ length: stopCount }, (_, i) => i + 1);
     }
   </ol>
   {stepCount > 1 && <p class="progress__step">Krok {stepNumber} {zOrZe(stepCount)} {stepCount}</p>}
+  {
+    goal && (
+      <p class="progress__goal">
+        <Icon name="target" />
+        <span>
+          <strong>Cíl zastávky:</strong> {goal}
+        </span>
+      </p>
+    )
+  }
 </nav>
 
 <style>
@@ -119,6 +132,21 @@ const stopDots = Array.from({ length: stopCount }, (_, i) => i + 1);
   .progress__step {
     color: var(--color-text-muted);
     font-weight: 600;
+  }
+
+  .progress__goal {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: var(--space-1) !important;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+    background: var(--module-soft, var(--color-accent-soft));
+  }
+
+  .progress__goal :global(.icon) {
+    margin-top: 0.15em;
+    color: var(--module-text, var(--color-primary));
   }
 
   @media (max-width: 40rem) {

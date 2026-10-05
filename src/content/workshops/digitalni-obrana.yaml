@@ -5,6 +5,11 @@ subtitle: Jak se nenechat nachytat
 cardText: Poznejte podezřelé zprávy a hovory. Nacvičte si, jak se zastavit, ověřit situaci a požádat o pomoc.
 order: 2
 icon: 🛡️
+outcomes:
+  - Rozpoznáte varovné signály v e-mailu, SMS i telefonátu.
+  - Poznáte podvodnou internetovou adresu.
+  - Nacvičíte si, jak podezřelý hovor ukončit.
+  - Budete mít připravený kontakt pro pomoc.
 annotation:
   - Internetoví podvodníci jsou stále vynalézavější. Dokážou napodobit banku, poštu, státní úřad i známého člověka tak věrohodně, že jejich zprávám snadno uvěří i zkušení uživatelé.
   - Stačí chvilka nepozornosti a následky mohou být nepříjemné.
