@@ -19,8 +19,7 @@ interface Props {
 }
 
 const { instruction, medium, sender, subject, time, body, attachment, signals, note } = Astro.props;
-const labels = Object.fromEntries(Object.entries(signals).map(([id, s]) => [id, s.label]));
-const fmt = (t: string) => formatSignals(t, labels);
+const fmt = (t: string) => formatSignals(t);
 // Pořadí vysvětlení podle výskytu v textu.
 const order = [...[sender, subject ?? '', ...body, attachment ?? ''].join('\n').matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)].map((m) => m[1]);
 const ids = [...new Set(order)];

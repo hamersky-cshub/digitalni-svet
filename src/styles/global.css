@@ -131,9 +131,12 @@ a {
   text-underline-offset: 0.2em;
 }
 
-a:hover {
-  color: var(--color-primary-dark);
-  text-decoration-thickness: 0.2em;
+/* Hover jen u zařízení s myší – na dotykové obrazovce by „přilepený“ hover vypadal jako výběr. */
+@media (hover: hover) {
+  a:hover {
+    color: var(--color-primary-dark);
+    text-decoration-thickness: 0.2em;
+  }
 }
 
 /* Výrazné zaměření klávesnicí (žluté pozadí, černý rámeček). */
@@ -176,6 +179,7 @@ button {
 
 .visually-hidden {
   position: absolute !important;
+  left: 0;
   width: 1px;
   height: 1px;
   padding: 0;
@@ -213,11 +217,13 @@ button {
   text-decoration: none;
 }
 
-.button:hover {
-  background: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
-  color: var(--color-on-primary);
-  text-decoration: none;
+@media (hover: hover) {
+  .button:hover {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: var(--color-on-primary);
+    text-decoration: none;
+  }
 }
 
 .button--secondary {
@@ -225,9 +231,11 @@ button {
   color: var(--color-primary);
 }
 
-.button--secondary:hover {
-  background: var(--color-surface-alt);
-  color: var(--color-primary-dark);
+@media (hover: hover) {
+  .button--secondary:hover {
+    background: var(--color-surface-alt);
+    color: var(--color-primary-dark);
+  }
 }
 
 .button--large {
@@ -283,9 +291,25 @@ button {
   text-align: left;
 }
 
-.choice-card:hover {
-  border-color: var(--color-primary);
-  background: var(--color-surface-alt);
+@media (hover: hover) {
+  .choice-card:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface-alt);
+  }
+}
+
+/* Odezva na klepnutí: tlačítko se na okamžik „promáčkne“. */
+.button:active,
+.choice-card:active,
+.hotspot:active,
+.signal:active,
+.settings__item:active,
+.step-guide__done:active,
+.passphrase__swap:active,
+.text-size:active,
+.task-links a:active {
+  transform: translateY(1px);
+  filter: brightness(0.94);
 }
 
 .choice-card[aria-pressed='true'] {
@@ -451,6 +475,18 @@ button {
   padding-left: 2rem;
 }
 
+.points li.points__item--icon::before {
+  content: none;
+}
+
+/* Bod začínající emoji: emoji slouží jako odrážka (čtečka ho nečte). */
+.points li.points__item--icon > .emoji:first-child {
+  position: absolute;
+  left: 0;
+  width: 1.7rem;
+  text-align: center;
+}
+
 .points li::before {
   content: '';
   position: absolute;
@@ -490,11 +526,13 @@ details.disclosure > summary::-webkit-details-marker {
 
 details.disclosure > summary::before {
   content: '▸';
+  content: '▸' / '';
   font-size: 1.2rem;
 }
 
 details.disclosure[open] > summary::before {
   content: '▾';
+  content: '▾' / '';
 }
 
 details.disclosure > .disclosure__body {
@@ -590,6 +628,7 @@ details.disclosure > .disclosure__body {
 /* Podezřelé místo ve zprávě – je to tlačítko, ale čte se jako součást textu. */
 .signal {
   display: inline;
+  overflow-wrap: anywhere;
   margin: 0;
   padding: 0.1em 0.15em;
   border: 0;
@@ -604,8 +643,10 @@ details.disclosure > .disclosure__body {
   box-decoration-break: clone;
 }
 
-.signal:hover {
-  background: var(--color-risk-bg);
+@media (hover: hover) {
+  .signal:hover {
+    background: var(--color-risk-bg);
+  }
 }
 
 .signal[aria-pressed='true'] {
@@ -615,6 +656,7 @@ details.disclosure > .disclosure__body {
 
 .signal[aria-pressed='true']::before {
   content: '⚠ ';
+  content: '⚠ ' / '';
   color: var(--color-risk);
 }
 
@@ -635,12 +677,12 @@ details.disclosure > .disclosure__body {
 
 /* Shared page composition, inspired by KidCy's module pages. */
 html[data-large-text] { font-size: 150%; }
-.eyebrow { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:.9rem; color:var(--module-color, var(--color-primary)); margin-bottom:1rem; }
+.eyebrow { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:.9rem; color:var(--module-text, var(--module-color, var(--color-primary))); margin-bottom:1rem; }
 .eyebrow::before { content:''; width:1.5rem; height:3px; background:currentColor; }
 .section-heading { margin-bottom:2rem; }
 .section-heading h2 { margin:0 0 .7rem; }
 .section-heading p { color:var(--color-text-muted); }
-.pill { display:inline-flex; align-items:center; gap:.4rem; padding:.25rem .65rem; border-radius:.35rem; background:var(--module-soft, #edf3ff); color:var(--module-color, var(--color-primary)); font-weight:700; font-size:.85rem; }
+.pill { display:inline-flex; align-items:center; gap:.4rem; padding:.25rem .65rem; border-radius:.35rem; background:var(--module-soft, #edf3ff); color:var(--module-text, var(--module-color, var(--color-primary))); font-weight:700; font-size:.85rem; }
 .page-intro { padding:2.5rem 0 1.5rem; }
 .page-intro h1 { margin:.5rem 0 1rem; }
 .page-section { padding-block:2.5rem; }
@@ -652,4 +694,13 @@ body[data-workshop] main { background:#f6f8fc; }
 body[data-workshop] .progress { background:white; border:1px solid var(--color-border-light); }
 .resource-card { box-shadow:0 3px 14px #1c355407; }
 @media(max-width:40rem){ .screen{padding:1.25rem .85rem;} .page-intro{padding-top:1.5rem;} }
+
+/* Úzké obrazovky a zvětšení na 200 %: menší mezery, dlouhá slova se zalomí. */
+body { overflow-wrap: break-word; }
+@media (max-width: 40rem) {
+  :root { --space-3: 1rem; --space-4: 1.5rem; }
+  h1, h2, h3, .choice-card, .button { overflow-wrap: anywhere; -webkit-hyphens: auto; hyphens: auto; }
+  a { overflow-wrap: anywhere; }
+  .feedback { border-left-width: 6px; }
+}
 @media print { .screen{border:0;box-shadow:none;} html[data-large-text]{font-size:125%;} }

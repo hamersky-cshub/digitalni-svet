@@ -24,13 +24,13 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
     <li>
       <button type="button" class="choice-card" data-mode="same" aria-pressed="true">
         <span><span aria-hidden="true">🔑</span> {sameKey.label}</span>
-        <span class="choice-card__mark">✓ Vybráno</span>
+        <span class="choice-card__mark"><span aria-hidden="true">✓</span> Vybráno</span>
       </button>
     </li>
     <li>
       <button type="button" class="choice-card" data-mode="unique" aria-pressed="false">
         <span><span aria-hidden="true">🗝️</span> {uniqueKeys.label}</span>
-        <span class="choice-card__mark">✓ Vybráno</span>
+        <span class="choice-card__mark"><span aria-hidden="true">✓</span> Vybráno</span>
       </button>
     </li>
   </ul>
@@ -139,7 +139,7 @@ const keyNames = ['A', 'B', 'C', 'D', 'E', 'F'];
 
   .keys__doors {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
     gap: var(--space-2);
     margin: 0 0 var(--space-3);
     padding: 0;

@@ -6,7 +6,7 @@ import { moduleStyles, defaultModuleStyle } from '../../lib/presentation';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResourceCard from '../../components/ResourceCard.astro';
 import { buildSteps, getStops, getAvailableWorkshops, workshopDuration } from '../../lib/content';
-import { formatText, plural } from '../../lib/text';
+import { formatText, ordinalWord, plural } from '../../lib/text';
 import { stepHref, withBase } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
@@ -27,10 +27,10 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
 ---
 
 <BaseLayout title={workshop.data.title} description={workshop.data.cardText} moduleId={workshop.id}>
-  <p class="back-link"><a href={withBase()}>← Úvodní stránka</a></p>
+  <p class="back-link"><a href={withBase()}><span aria-hidden="true">←</span> Úvodní stránka</a></p>
 
   <header class="workshop-header">
-    <p class="eyebrow">Modul 0{workshop.data.order} · {theme.topic}</p>
+    <p class="eyebrow">{ordinalWord(workshop.data.order)} modul · {theme.topic}</p>
     <picture class="workshop-art">
       <source media="(max-width: 650px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
       <img src={withBase(`images/modules/${workshop.id}.webp`)} alt="" width="640" height="640" decoding="async" />
@@ -97,9 +97,9 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
 
   <section class="restart" data-restart-box hidden aria-labelledby="znovu">
     <h2 id="znovu">Projít téma znovu</h2>
-
+    <p>Označení „Navštíveno“ si pamatuje jen tento prohlížeč. Před dalším kurzem ho můžete smazat.</p>
     <p>
-      <button type="button" class="button button--secondary" data-restart={workshop.id}>Začít od první zastávky</button>
+      <button type="button" class="button button--secondary" data-restart={workshop.id}>Smazat označení Navštíveno</button>
     </p>
     <p class="restart__done" data-restart-done role="status"></p>
   </section>
@@ -126,7 +126,7 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
     document.querySelector('[data-restart]')!.addEventListener('click', () => {
       progress.reset(workshop);
       render();
-      document.querySelector('[data-restart-done]')!.textContent = 'Hotovo. Workshop můžete začít od první zastávky.';
+      document.querySelector('[data-restart-done]')!.textContent = 'Označení „Navštíveno“ je smazané.';
     });
     render();
   }
@@ -150,7 +150,7 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
   .workshop-art img { display:block;width:100%;height:100%;object-fit:contain; }
   .workshop-header .disclosure { clear:both; }
   @media(max-width:650px){ .workshop-art{display:none} }
-  .workshop-icon { display:inline-grid;place-items:center;padding:1rem;border-radius:.65rem;background:var(--module-soft);color:var(--module-color);margin-bottom:.5rem; }
+  .workshop-icon { display:inline-grid;place-items:center;padding:1rem;border-radius:.65rem;background:var(--module-soft);color:var(--module-text, var(--module-color));margin-bottom:.5rem; }
   .workshop-meta { display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:1.5rem;color:var(--color-text-muted);font-size:.9rem; }
   .workshop-actions { display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem; }
   .module-practice { padding:2rem 0; }
@@ -159,9 +159,9 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
   .task-links li { margin:0; }
   .task-links li+li { border-top:1px solid var(--color-border-light); }
   .task-links a { display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 1.25rem;min-height:3.5rem;text-decoration:none;color:var(--color-text); }
-  .task-links a:hover { background:var(--module-soft);text-decoration:underline; }
-  .task-links svg { color:var(--module-color);flex:none; }
-  .task-location { display:block;font-size:.85rem;color:var(--module-color);margin-bottom:.2rem; }
+  @media (hover: hover) { .task-links a:hover { background:var(--module-soft);text-decoration:underline; } }
+  .task-links svg { color:var(--module-text, var(--module-color));flex:none; }
+  .task-location { display:block;font-size:.85rem;color:var(--module-text, var(--module-color));margin-bottom:.2rem; }
   .workshop-header__icon {
     margin: var(--space-1) 0 0;
     font-size: 3rem;
@@ -175,7 +175,7 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
 
   .workshop-header__subtitle {
     margin-bottom: var(--space-2);
-    color: var(--module-color);
+    color:var(--module-text, var(--module-color));
     font-size: 1.3rem;
     font-weight: 700;
   }
@@ -238,8 +238,10 @@ const [firstParagraph, ...moreParagraphs] = workshop.data.annotation;
     background: var(--color-surface);
   }
 
-  .route__body:hover {
-    border-color: var(--color-primary);
+  @media (hover: hover) {
+    .route__body:hover {
+      border-color: var(--color-primary);
+    }
   }
 
   .route__title {

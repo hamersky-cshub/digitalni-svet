@@ -1,6 +1,6 @@
 ---
 /** Reflection – otázka k osobnímu zamyšlení. Nic se nepíše, neukládá ani neodesílá. */
-import { formatText } from '../../lib/text';
+import { formatText, startsWithEmoji } from '../../lib/text';
 
 interface Props {
   question: string;
@@ -21,7 +21,7 @@ const { question, hint, ideas } = Astro.props;
         <div class="disclosure__body">
           <ul class="points">
             {ideas.map((idea) => (
-              <li set:html={formatText(idea)} />
+              <li class:list={[{ 'points__item--icon': startsWithEmoji(idea) }]} set:html={formatText(idea)} />
             ))}
           </ul>
         </div>

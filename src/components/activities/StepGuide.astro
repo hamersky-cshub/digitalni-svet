@@ -87,6 +87,11 @@ const { intro, steps, outro } = Astro.props;
     max-width: var(--text-width);
   }
 
+  .step-guide__content {
+    flex: 1;
+    min-width: 0;
+  }
+
   .step-guide__step {
     display: flex;
     gap: var(--space-2);

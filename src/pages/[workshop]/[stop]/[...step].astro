@@ -8,7 +8,7 @@ import ScreenKind from '../../../components/ScreenKind.astro';
 import StepNav from '../../../components/StepNav.astro';
 import { buildSteps, getStops, getAvailableWorkshops } from '../../../lib/content';
 import { withBase } from '../../../lib/url';
-import { formatText, plainText } from '../../../lib/text';
+import { formatText, plainText, startsWithEmoji } from '../../../lib/text';
 
 export const getStaticPaths = (async () => {
   const workshops = await getAvailableWorkshops();
@@ -34,7 +34,7 @@ const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, pr
 ---
 
 <BaseLayout
-  title={`${plainText(screen.title)} – ${workshop.data.title}`}
+  title={`Zastávka ${stopNumber}${stepCount > 1 ? `, krok ${stepNumber}` : ''}: ${plainText(screen.title)} – ${workshop.data.title}`}
   description={stop.data.summary}
   workshop={workshop.id}
   stop={stopNumber}
@@ -51,7 +51,7 @@ const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, pr
   />
 
   <article class="screen">
-    <div class="screen-heading"><ScreenKind kind={screen.kind} />{screen.kind === 'prakticky' && <a class="all-tasks" href={withBase('prakticke-ukoly/')}>Všechny praktické úkoly →</a>}</div>
+    <div class="screen-heading"><ScreenKind kind={screen.kind} />{screen.kind === 'prakticky' && <a class="all-tasks" href={withBase('prakticke-ukoly/')}>Všechny praktické úkoly <span aria-hidden="true">→</span></a>}</div>
     <h1 set:html={formatText(screen.title)} />
     {
       screen.text.length > 0 && (
@@ -66,7 +66,7 @@ const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, pr
       screen.points && (
         <ul class="points screen__points">
           {screen.points.map((point) => (
-            <li set:html={formatText(point)} />
+            <li class:list={[{ 'points__item--icon': startsWithEmoji(point) }]} set:html={formatText(point)} />
           ))}
         </ul>
       )

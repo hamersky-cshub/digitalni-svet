@@ -103,6 +103,7 @@ const { service, password, request, done, denied } = Astro.props;
 
   .login__stages {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-3);
     margin: 0 0 var(--space-2);
     padding: 0;
@@ -150,6 +151,7 @@ const { service, password, request, done, denied } = Astro.props;
   }
 
   .login__field {
+    word-break: break-all;
     padding: 0.6rem 0.9rem;
     border: 2px solid var(--color-border);
     border-radius: var(--radius-small);

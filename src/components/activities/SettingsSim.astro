@@ -32,7 +32,7 @@ const { task, screens, final } = Astro.props;
               {screen.items.map((item) => (
                 <li>
                   <button type="button" class:list={['settings__item', { 'is-correct': item === screen.correct }]} data-item data-correct={item === screen.correct ? 'true' : undefined}>
-                    <span>{item}</span>
+                    <span set:html={formatText(item)} />
                     <span class="settings__chevron" aria-hidden="true">›</span>
                   </button>
                 </li>
@@ -188,8 +188,10 @@ const { task, screens, final } = Astro.props;
     cursor: pointer;
   }
 
-  .settings__item:hover {
-    background: var(--color-info-bg);
+  @media (hover: hover) {
+    .settings__item:hover {
+      background: var(--color-info-bg);
+    }
   }
 
   .settings__chevron {

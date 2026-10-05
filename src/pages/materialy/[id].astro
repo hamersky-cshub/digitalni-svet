@@ -21,7 +21,7 @@ const backHref = workshopHref(workshop.id);
 ---
 
 <BaseLayout title={title} description={description}>
-  <p class="back"><a href={backHref}>← Zpět na workshop {workshop.data.title}</a></p>
+  <p class="back"><a href={backHref}><span aria-hidden="true">←</span> Zpět na workshop {workshop.data.title}</a></p>
 
   <article>
     <p class="meta">
@@ -69,7 +69,7 @@ const backHref = workshopHref(workshop.id);
   </article>
 
   <p class="back">
-    <a href={backHref}>← Zpět na workshop {workshop.data.title}</a>
+    <a href={backHref}><span aria-hidden="true">←</span> Zpět na workshop {workshop.data.title}</a>
   </p>
 </BaseLayout>
 

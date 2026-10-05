@@ -22,14 +22,11 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
 
 /* Čitelnější písmo: nastavení se pamatuje jen v tomto prohlížeči. */
 const textSize = document.querySelector<HTMLButtonElement>('[data-text-size]');
+// Popisek zůstává „Větší písmo“, stav (zapnuto/vypnuto) sděluje aria-pressed.
 function renderTextSize() {
-  if (!textSize) return;
-  const large = document.documentElement.hasAttribute('data-large-text');
-  textSize.setAttribute('aria-pressed', String(large));
-  textSize.querySelector('[data-text-size-label]')!.textContent = large ? 'Běžné písmo' : 'Větší písmo';
+  textSize?.setAttribute('aria-pressed', String(document.documentElement.hasAttribute('data-large-text')));
 }
 if (textSize) {
-  textSize.hidden = false;
   renderTextSize();
   textSize.addEventListener('click', () => {
     const large = document.documentElement.toggleAttribute('data-large-text');
@@ -37,3 +34,6 @@ if (textSize) {
     renderTextSize();
   });
 }
+
+/* iOS jinak nezobrazí stav :active (odezvu na klepnutí). */
+document.addEventListener('touchstart', () => {}, { passive: true });
