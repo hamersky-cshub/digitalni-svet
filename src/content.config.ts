@@ -4,6 +4,7 @@ import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { ICON_NAMES, type IconName } from './lib/icons';
+import { PERSONAS } from './lib/personas';
 
 /*
  * Pravidla pro obsah webu. Při sestavení se každý soubor zkontroluje;
@@ -68,6 +69,8 @@ const choicesActivity = z
         z.object({
           text: z.string().optional(),
           message: message.optional(),
+          /** Postava ze situace (avatar vedle textu), např. marie. */
+          persona: z.enum(PERSONAS).optional(),
           /** Možnosti, které jsou vhodné (zobrazí se ✓). Ostatní dostanou „K zamyšlení“. */
           recommended: z.array(optionId).optional(),
           /** Možnosti, které jsou riskantní (zobrazí se „Pozor, riziko“), např. podvod označený jako „V pořádku“. */
@@ -109,6 +112,8 @@ const scenariosActivity = z.object({
         .object({
           text: z.string().optional(),
           message: message.optional(),
+          /** Postava ze situace (avatar vedle textu), např. marie. */
+          persona: z.enum(PERSONAS).optional(),
           question: z.string(),
           options: z.array(z.object({ label: z.string(), tone, feedback: z.string() })).min(2).max(5),
           /** Shrnutí zobrazené po jakékoli volbě. */
@@ -330,6 +335,8 @@ const screen = z.object({
   kind: z.enum(SCREEN_KINDS).default('vyklad'),
   title: z.string(),
   text: z.array(z.string()).default([]),
+  /** Postava, o které text obrazovky mluví (avatar vedle textu), např. jana. */
+  persona: z.enum(PERSONAS).optional(),
   points: z.array(z.string()).optional(),
   /** Nejvýš dva obrázky; zobrazí se pod textem, na širší obrazovce vedle sebe. */
   figures: z.array(figure).max(2).optional(),

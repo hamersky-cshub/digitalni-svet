@@ -21,6 +21,7 @@ screens:
       itemLabel: Porovnání
       items:
         - text: Paní Marie si vybírá heslo k e-mailu.
+          persona: marie
           question: Který způsob je bezpečnější?
           options:
             - label: Krátké známé slovo, například „kocicka“.
@@ -30,6 +31,7 @@ screens:
               tone: ok
               feedback: Ano. Čtyři nesouvisející slova dohromady jsou dlouhá a pro počítač velmi těžko uhodnutelná – a přitom se dají zapamatovat.
         - text: Pan Josef chce heslo, které nezapomene.
+          persona: josef
           question: Co byste mu doporučili?
           options:
             - label: Jméno vnučky a rok jejího narození.
@@ -39,6 +41,7 @@ screens:
               tone: ok
               feedback: Ano. Náhodná slova jsou dlouhá a nesouvisejí s ničím, co se dá dohledat. Zapamatovat si je pomůže krátký příběh, který si k nim vymyslíte.
         - text: Paní Věra má jedno dobré a dlouhé heslo. Používá ho všude – k e-mailu, bance i do obchodu.
+          persona: vera
           question: Je to dobrý nápad?
           options:
             - label: Ano, když je heslo silné, může být všude stejné.

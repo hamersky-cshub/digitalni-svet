@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ActivityBlock from '../../../components/activities/ActivityBlock.astro';
+import Avatar from '../../../components/Avatar.astro';
 import Progress from '../../../components/Progress.astro';
 import ScreenFigures from '../../../components/ScreenFigures.astro';
 import ScreenKind from '../../../components/ScreenKind.astro';
@@ -54,13 +55,23 @@ const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, pr
     <div class="screen-heading"><ScreenKind kind={screen.kind} />{screen.kind === 'prakticky' && <a class="all-tasks" href={withBase('prakticke-ukoly/')}>Všechny praktické úkoly <span aria-hidden="true">→</span></a>}</div>
     <h1 set:html={formatText(screen.title)} />
     {
-      screen.text.length > 0 && (
-        <div class="prose screen__text">
-          {screen.text.map((p) => (
-            <p set:html={formatText(p)} />
-          ))}
-        </div>
-      )
+      screen.text.length > 0 &&
+        (screen.persona ? (
+          <div class="screen__persona">
+            <Avatar name={screen.persona} />
+            <div class="prose screen__text">
+              {screen.text.map((p) => (
+                <p set:html={formatText(p)} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div class="prose screen__text">
+            {screen.text.map((p) => (
+              <p set:html={formatText(p)} />
+            ))}
+          </div>
+        ))
     }
     {
       screen.points && (
@@ -88,6 +99,18 @@ const { workshop, stop, screen, stopNumber, stopCount, stepNumber, stepCount, pr
 
   .screen__text {
     font-size: 1.1rem;
+  }
+
+  /* Text o postavě: avatar vlevo od textu. */
+  .screen__persona {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .screen__persona .screen__text :last-child {
+    margin-bottom: 0;
   }
 
   .screen__points {

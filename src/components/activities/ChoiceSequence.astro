@@ -6,6 +6,8 @@
  * Bez JavaScriptu se zobrazí všechny situace a vysvětlení v rozbalovacích částech.
  */
 import type { MEDIA, TONES } from '../../content.config';
+import type { PersonaName } from '../../lib/personas';
+import Avatar from '../Avatar.astro';
 import { formatText, zOrZe } from '../../lib/text';
 import { stableId } from '../../lib/id';
 import ToneLabel from '../ToneLabel.astro';
@@ -14,6 +16,7 @@ import MessageMock from './MessageMock.astro';
 export interface SequenceItem {
   text?: string;
   message?: { medium: (typeof MEDIA)[number]; sender: string; subject?: string; time?: string; lines: string[] };
+  persona?: PersonaName;
   question: string;
   options: { id: string; label: string; tone: (typeof TONES)[number]; response?: string }[];
   explanation?: string;
@@ -44,7 +47,15 @@ import Icon from '../Icon.astro';
             {itemLabel} {i + 1} {zOrZe(count)} {count}
           </p>
         )}
-        {item.text && <p class="sequence__text" set:html={formatText(item.text)} />}
+        {item.text &&
+          (item.persona ? (
+            <div class="sequence__persona">
+              <Avatar name={item.persona} />
+              <p class="sequence__text" set:html={formatText(item.text)} />
+            </div>
+          ) : (
+            <p class="sequence__text" set:html={formatText(item.text)} />
+          ))}
         {item.message && <MessageMock {...item.message} />}
         <p class="sequence__question" id={`${uid}-${i}-q`}>
           {item.question}
@@ -209,6 +220,18 @@ import Icon from '../Icon.astro';
   .sequence__text {
     font-size: 1.25rem;
     font-weight: 600;
+  }
+
+  /* Situace s postavou: avatar vlevo od textu. */
+  .sequence__persona {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .sequence__persona .sequence__text {
+    margin: 0;
   }
 
   .sequence__question {

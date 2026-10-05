@@ -1,0 +1,86 @@
+---
+/**
+ * Avatar postavy (paní Marie, pan Josef, paní Věra, Jana) – kreslený portrét v kruhu.
+ * Je dekorativní (aria-hidden): jméno postavy je vždy v textu vedle. viewBox 64 × 64.
+ */
+import type { PersonaName } from '../lib/personas';
+
+interface Props {
+  name: PersonaName;
+}
+
+const { name } = Astro.props;
+
+// Společné tvary: ramena po spodní okraj kruhu, krk, hlava, uši, oči, úsměv.
+const SHOULDERS = 'M8.8 54 C13 47.5 22 45 32 45 C42 45 51 47.5 55.2 54 A32 32 0 0 1 8.8 54 Z';
+
+const P: Record<PersonaName, { bg: string; skin: string; cloth: string; back?: string; front: string; extra?: string }> = {
+  // Paní Marie: krátké vlnité šedé vlasy a kulaté brýle.
+  marie: {
+    bg: '#fde3dc',
+    skin: '#f1c7a8',
+    cloth: '#b5546c',
+    back: '<ellipse cx="32" cy="25" rx="15.5" ry="13.5" fill="#bfc4cc"/><circle cx="18.5" cy="29" r="4" fill="#bfc4cc"/><circle cx="45.5" cy="29" r="4" fill="#bfc4cc"/>',
+    front:
+      '<path d="M19.6 28 C19 18 25.5 14.5 32 14.5 C38.5 14.5 45 18 44.4 28 C42.5 22.5 39.5 20.5 36 20 C34.5 22 29.5 22 28 20 C24.5 20.5 21.5 22.5 19.6 28 Z" fill="#bfc4cc"/>',
+    extra:
+      '<g fill="none" stroke="#5b4636" stroke-width="1.6"><circle cx="27.3" cy="29.5" r="4.2"/><circle cx="36.7" cy="29.5" r="4.2"/><path d="M31.5 29.3 h1"/></g>',
+  },
+  // Pan Josef: pleš s šedými vlasy po stranách a knír.
+  josef: {
+    bg: '#e1ebf8',
+    skin: '#e8b893',
+    cloth: '#4a6a8f',
+    front:
+      '<path d="M19.4 33 C18.6 26 20 21.5 23.4 19.6 L24.2 29 Z M44.6 33 C45.4 26 44 21.5 40.6 19.6 L39.8 29 Z" fill="#d4d7dc"/><ellipse cx="27.5" cy="19.5" rx="3.5" ry="2" fill="#ffffff" opacity="0.35"/>',
+    extra:
+      '<path d="M25 26.2 h4.4 M34.6 26.2 h4.4" stroke="#9aa0a8" stroke-width="1.6" stroke-linecap="round"/><path d="M26.6 34.6 Q32 31.4 37.4 34.6 Q32 36.6 26.6 34.6 Z" fill="#c9ccd2"/><path d="M27.5 46.5 L32 51 L36.5 46.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>',
+  },
+  // Paní Věra: bílé vlasy stažené do drdolu a náušnice.
+  vera: {
+    bg: '#e3f2e7',
+    skin: '#f3d0b5',
+    cloth: '#7a5ca8',
+    back: '<circle cx="32" cy="12.5" r="6.5" fill="#eceff3" stroke="#cfd4db" stroke-width="1"/>',
+    front:
+      '<path d="M19.8 28 C19.2 18.5 25 14.6 32 14.6 C39 14.6 44.8 18.5 44.2 28 C42.4 21.5 38.4 19.4 32 19.4 C25.6 19.4 21.6 21.5 19.8 28 Z" fill="#eceff3" stroke="#cfd4db" stroke-width="1"/>',
+    extra: '<circle cx="20.2" cy="35.5" r="1.8" fill="#e3b23c"/><circle cx="43.8" cy="35.5" r="1.8" fill="#e3b23c"/>',
+  },
+  // Jana: kaštanové vlasy po ramena.
+  jana: {
+    bg: '#fff0d2',
+    skin: '#eabf9b',
+    cloth: '#2f7d73',
+    back: '<path d="M18 41 C15 28 18 14 32 13 C46 14 49 28 46 41 C44 43.5 41 43 40 41 L40 27 L24 27 L24 41 C23 43 20 43.5 18 41 Z" fill="#9a4f2c"/>',
+    front:
+      '<path d="M19.8 28 C20.6 18.5 26.5 15 33 15 C40 15 44.4 20 44.2 28 C40.5 21.5 34.5 20.4 29.5 22.2 C25.5 23.5 22.4 25.5 19.8 28 Z" fill="#9a4f2c"/>',
+  },
+};
+const p = P[name];
+---
+
+<svg class="avatar" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+  <circle cx="32" cy="32" r="32" fill={p.bg}></circle>
+  <Fragment set:html={p.back ?? ''} />
+  <path d={SHOULDERS} fill={p.cloth}></path>
+  <rect x="27" y="38" width="10" height="9" rx="3" fill={p.skin}></rect>
+  <circle cx="20.3" cy="30.5" r="3" fill={p.skin}></circle>
+  <circle cx="43.7" cy="30.5" r="3" fill={p.skin}></circle>
+  <ellipse cx="32" cy="29.5" rx="12" ry="13.5" fill={p.skin}></ellipse>
+  <Fragment set:html={p.front} />
+  <circle cx="27.3" cy="29.6" r="1.6" fill="#2b2f36"></circle>
+  <circle cx="36.7" cy="29.6" r="1.6" fill="#2b2f36"></circle>
+  <circle cx="24.6" cy="34" r="2.2" fill="#f0a39a" opacity="0.5"></circle>
+  <circle cx="39.4" cy="34" r="2.2" fill="#f0a39a" opacity="0.5"></circle>
+  <path d="M28.4 37.2 q3.6 2.8 7.2 0" fill="none" stroke="#8a4b3a" stroke-width="1.6" stroke-linecap="round"></path>
+  <Fragment set:html={p.extra ?? ''} />
+</svg>
+
+<style>
+  .avatar {
+    display: block;
+    flex: none;
+    width: 4rem;
+    height: 4rem;
+  }
+</style>

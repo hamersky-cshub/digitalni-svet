@@ -16,6 +16,7 @@ screens:
     title: Prohlédněte si fotografii
     text:
       - Jana se balí na dovolenou. Chce fotografii stolu poslat přátelům a dát ji na sociální síť.
+    persona: jana
     activity:
       type: hotspots
       scene: dovolena

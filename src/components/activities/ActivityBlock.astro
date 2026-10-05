@@ -27,6 +27,7 @@ if (activity.type === 'choices') {
   sequence = activity.items.map((item) => ({
     text: item.text,
     message: item.message,
+    persona: item.persona,
     question: activity.question,
     explanation: item.explanation,
     options: activity.options.map((o) => ({ id: o.id, label: o.label, tone: choiceTone(item, o.id), response: item.responses?.[o.id]?.text })),
@@ -35,6 +36,7 @@ if (activity.type === 'choices') {
   sequence = activity.items.map((item) => ({
     text: item.text,
     message: item.message,
+    persona: item.persona,
     question: item.question,
     explanation: item.lesson,
     options: item.options.map((o, i) => ({ id: `moznost-${i + 1}`, label: o.label, tone: o.tone, response: o.feedback })),
